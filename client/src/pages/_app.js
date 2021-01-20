@@ -1,7 +1,7 @@
-import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react";
-import PropTypes from "prop-types";
+import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 
-import theme from "../theme";
+import theme from '../theme';
 
 function MyApp({ Component, pageProps }) {
   return (
