@@ -4,8 +4,7 @@ import { Container } from 'inversify';
 import TYPES from './constants/types';
 
 // Config package binds the config/default.js file
-import config from 'config';
-import { IConfig } from 'config';
+import config, { IConfig } from 'config';
 
 // Controllers import autobinds them to the application
 import './controllers/Home';
@@ -30,9 +29,6 @@ const container = new Container();
 container.bind<IConfig>(TYPES.config).toConstantValue(config);
 container.bind<Logger>(TYPES.logger).toConstantValue(logger);
 
-container
-  .bind<HomeService>(TYPES.HomeService)
-  .to(HomeService)
-  .inSingletonScope();
+container.bind<HomeService>(TYPES.HomeService).to(HomeService).inSingletonScope();
 
 export { container };

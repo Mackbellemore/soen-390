@@ -1,3 +1,6 @@
+interface CompoundMember {
+  id: string;
+}
 export class HomeModel {
   constructor(homeModel: HomeModel) {
     this.name = homeModel.name;
@@ -5,8 +8,4 @@ export class HomeModel {
 
   public name: string;
   public compoundMember: CompoundMember;
-}
-
-interface CompoundMember {
-  id: string;
 }

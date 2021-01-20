@@ -1,3 +1,4 @@
+/* eslint-disable promise/always-return */
 import { App } from './app';
 const app = new App();
 
@@ -24,11 +25,10 @@ const gracefulClose = () => {
 process.on('uncaughtException', uncaughtException);
 
 process.on('unhandledRejection', (reason: string, p: Promise<unknown>) => {
-  console.error(
-    `Unhandled Rejection at: Promise', ${p}, reason: ${reason}`,
-    null,
-    ['unhandled', 'rejection']
-  );
+  console.error(`Unhandled Rejection at: Promise', ${p}, reason: ${reason}`, null, [
+    'unhandled',
+    'rejection',
+  ]);
 });
 
 process.on('SIGTERM', gracefulClose);

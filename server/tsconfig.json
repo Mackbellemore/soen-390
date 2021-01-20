@@ -1,5 +1,16 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
+    "moduleResolution": "node",
+    "checkJs": true,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
     "target": "ES2018",
     "module": "commonjs",
     "outDir": "./build/",
@@ -12,11 +23,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "allowJs": true,
-    "lib": [
-      "esnext",
-      "dom",
-      "es2018"
-    ],
+    "lib": ["esnext", "dom", "es2018"]
   },
-  "include": ["app/**/*.ts"],
+  "include": ["app/**/*.ts"]
 }
