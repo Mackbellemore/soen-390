@@ -5,12 +5,10 @@ import TYPES from '../constants/types';
 
 @controller('/')
 export class HomeController {
-	constructor(
-		@inject(TYPES.HomeService) private homeService: HomeService
-	) {}
+  constructor(@inject(TYPES.HomeService) private homeService: HomeService) {}
 
   @httpGet('/')
-	public get(): string {
-		return this.homeService.exampleFunction();
-	}
+  public get(): string {
+    return this.homeService.exampleFunction();
+  }
 }
