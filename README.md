@@ -8,7 +8,7 @@ Clone the GitHub repository and create your own branch using the auto-generated 
 
 Husky is set up at the root of the project.
 
-Husky will run Prettier before ever commit (pre-commit hook). This will ensure that we have consistent code style across all developers.
+Husky will run Prettier before every commit (pre-commit hook). This will ensure that we have consistent code style across all developers.
 
 Husky only currently runs in the `client` directory.
 
