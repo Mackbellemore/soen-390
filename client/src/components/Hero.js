@@ -1,4 +1,5 @@
 import { Flex, Heading } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
 export const Hero = ({ title }) => (
   <Flex justifyContent="center" alignItems="center" height="100vh">
@@ -8,4 +9,8 @@ export const Hero = ({ title }) => (
 
 Hero.defaultProps = {
   title: "with-chakra-ui",
+};
+
+Hero.propTypes = {
+  title: PropTypes.string,
 };
