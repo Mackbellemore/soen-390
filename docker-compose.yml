@@ -6,15 +6,13 @@ services:
     restart: always
     build:
       context: ./client
-      dockerfile: Dockerfile.dev
+      target: develop
     ports:
       - "3000:3000"
     volumes:
-      - "./client/.next/:/app/.next/"
-      - "./client/node_modules/:/app/node_modules/"
-      - "./client:/app"
-      # - "/app/.next"
-      # - "/app/node_modules"
+      - ./client:/app
+      - /app/.next
+      - /app/node_modules
 
   server:
     build:

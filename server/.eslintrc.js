@@ -13,6 +13,7 @@ module.exports = {
     'prettier',
     'prettier/@typescript-eslint',
     'prettier/prettier',
+    'plugin:prettier/recommended',
     'prettier/standard',
     'plugin:import/warnings',
     'plugin:import/errors',
@@ -23,8 +24,9 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['@typescript-eslint', 'promise'],
+  plugins: ['@typescript-eslint', 'promise', 'prettier'],
   rules: {
+    'prettier/prettier': 'error',
     'node/no-unsupported-features/es-syntax': ['error', { ignores: ['modules'] }],
     'node/no-missing-import': [
       'error',
