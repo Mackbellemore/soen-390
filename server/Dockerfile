@@ -8,7 +8,7 @@ COPY package*.json /code/
 
 FROM base as develop
 RUN npm install
-COPY . ./code
+COPY . .
 
 EXPOSE 9090
 CMD ["npm", "run", "dev"]

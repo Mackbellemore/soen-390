@@ -21,4 +21,5 @@ services:
     ports:
       - "9090:9090"
     volumes:
+      - ./server:/code
       - /code/node_modules
