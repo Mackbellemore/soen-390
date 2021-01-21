@@ -1,5 +1,5 @@
 /* eslint-disable promise/always-return */
-import { App } from './app';
+import { App } from './App';
 const app = new App();
 
 const uncaughtException = (err: Error): void => {

@@ -8,6 +8,7 @@ import config, { IConfig } from 'config';
 
 // Controllers import autobinds them to the application
 import './controllers/Home';
+import './controllers/Test';
 
 // Services
 import { HomeService } from './services/HomeService';
@@ -30,5 +31,4 @@ container.bind<IConfig>(TYPES.config).toConstantValue(config);
 container.bind<Logger>(TYPES.logger).toConstantValue(logger);
 
 container.bind<HomeService>(TYPES.HomeService).to(HomeService).inSingletonScope();
-
 export { container };

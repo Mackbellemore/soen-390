@@ -3,3 +3,6 @@
 
 cd client
 npm run format
+
+cd ../server
+npm run format
