@@ -36,7 +36,7 @@ export class App {
           expressWinston.logger({
             transports: [new winston.transports.Console()],
             meta: false,
-            expressFormat: false,
+            expressFormat: true,
             statusLevels: true,
           })
         );
