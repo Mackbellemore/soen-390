@@ -9,7 +9,6 @@ export const Hero = ({ title }) => {
       const baseUrl = process.env.NEXT_PUBLIC_API_URL;
       fetch(baseUrl).then((data) => {
         setSubtitle(`Request to backend :9090 status: ${data.status}`);
-        console.log(data);
       });
     };
     fetchData();
