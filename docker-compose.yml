@@ -1,0 +1,26 @@
+version: "3.8"
+services:
+  client:
+    stdin_open: true
+    container_name: client
+    restart: always
+    build:
+      context: ./client
+      target: develop
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/.next
+      - /app/node_modules
+
+  server:
+    container_name: server
+    build:
+      context: ./server
+      target: develop
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./server:/code
+      - /code/node_modules
