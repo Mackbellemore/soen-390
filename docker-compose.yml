@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3.8"
 services:
   client:
     stdin_open: true
@@ -15,6 +15,7 @@ services:
       - /app/node_modules
 
   server:
+    container_name: server
     build:
       context: ./server
       target: develop
