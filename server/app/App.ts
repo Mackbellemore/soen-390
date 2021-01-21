@@ -1,5 +1,6 @@
-import { Logger } from 'winston';
 import 'reflect-metadata';
+import winston, { Logger } from 'winston';
+import expressWinston from 'express-winston';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { container } from './registry';
 import { Application } from 'express';
@@ -31,6 +32,14 @@ export class App {
           })
         );
         server.use(bodyParser.json());
+        server.use(
+          expressWinston.logger({
+            transports: [new winston.transports.Console()],
+            meta: false,
+            expressFormat: false,
+            statusLevels: true,
+          })
+        );
       });
 
       this.app = appBuilder.build();

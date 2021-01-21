@@ -8,7 +8,6 @@ import config, { IConfig } from 'config';
 
 // Controllers import autobinds them to the application
 import './controllers/Home';
-import './controllers/Test';
 
 // Services
 import { HomeService } from './services/HomeService';

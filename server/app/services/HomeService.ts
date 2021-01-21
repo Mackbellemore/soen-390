@@ -7,7 +7,7 @@ export class HomeService {
   @inject(TYPES.logger) private logger: Logger;
 
   public exampleFunction(): string {
-    this.logger.info('hello world');
+    this.logger.info('Logging from Home Service');
     return 'From the Home Service Class';
   }
 }

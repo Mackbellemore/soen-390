@@ -38,6 +38,7 @@
     "config": "^3.3.3",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-winston": "^4.0.5",
     "inversify": "^5.0.5",
     "inversify-express-utils": "^6.3.2",
     "inversify-logger-middleware": "^3.1.0",

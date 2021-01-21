@@ -1,3 +1,5 @@
+SERVER_IMAGE_TAG ?= server
+CLIENT_IMAGE_TAG ?= client
 .DEFAULT_GOAL := help
 .PHONY: help run run-client run-server
 
@@ -12,3 +14,12 @@ run-client: ## Start up client container
 
 run-server: ## Start up server container
 	docker-compose up --build server
+
+server-sh:
+	docker-compose exec $(SERVER_IMAGE_TAG) sh
+
+client-sh:
+	docker-compose exec $(CLIENT_IMAGE_TAG) sh
+
+down:
+	docker-compose down
