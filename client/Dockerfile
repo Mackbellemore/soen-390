@@ -5,6 +5,7 @@ WORKDIR /app
 COPY package*.json ./
 
 FROM base as develop
+ENV NEXT_PUBLIC_API_URL="http://localhost:9090"
 RUN npm install
 COPY . .
 RUN npm run build
