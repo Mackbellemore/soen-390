@@ -8,6 +8,7 @@ import { IConfig } from 'config';
 import * as bodyParser from 'body-parser';
 import { Server } from 'http';
 import TYPES from './constants/types';
+import cors from 'cors';
 
 export class App {
   private config: IConfig;
@@ -26,6 +27,7 @@ export class App {
 
       appBuilder.setConfig((server: Application) => {
         // middlewares
+        server.use(cors());
         server.use(
           bodyParser.urlencoded({
             extended: true,
