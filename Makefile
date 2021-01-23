@@ -28,7 +28,7 @@ server-sh: ## Open shell in server container
 client-sh: ## Open shell in client container
 	$(CMD_DOCKER_EXEC) $(CLIENT_IMAGE_TAG) sh
 
-test: ## Remove unused images and prune volumes
+test-server: ## run server unit tests
 	$(CMD_DOCKER_EXEC) $(SERVER_IMAGE_TAG) npm run test
 
 down: ## Take down containers
