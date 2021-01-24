@@ -1,4 +1,7 @@
-node_modules
-build
-.vs_code
 .env
+.vs_code
+.vscode
+.nyc_output
+build
+coverage
+node_modules

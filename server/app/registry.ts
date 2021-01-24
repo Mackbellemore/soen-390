@@ -1,5 +1,4 @@
 // Inversify stuff
-import 'reflect-metadata';
 import { Container } from 'inversify';
 import TYPES from './constants/types';
 
