@@ -16,7 +16,9 @@
     "test:ci": "nyc npm run test",
     "test:html": "nyc npm run test --reporter=html && open ./coverage/index.html",
     "format": "prettier --ignore-path .gitignore --write . ",
-    "lint": "eslint --ignore-path .gitignore --fix ."
+    "format:ci": "prettier --ignore-path .gitignore --check .",
+    "lint": "eslint --ignore-path .gitignore --fix .",
+    "lint:ci": "eslint --ignore-path .gitignore ."
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",

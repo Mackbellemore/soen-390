@@ -1,6 +1,10 @@
 name: Build
 
 on:
+  push:
+    branches-ignore:
+      - "main"
+      - "develop"
   pull_request:
 
 jobs:
@@ -10,7 +14,7 @@ jobs:
 
     strategy:
       matrix:
-        project: ["client"]
+        project: ["client", "server"]
 
     steps:
       - name: Check out Git repository

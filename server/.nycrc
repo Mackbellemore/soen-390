@@ -1,7 +1,7 @@
 {
   "extends": "@istanbuljs/nyc-config-typescript",
   "extension": [
-    ".ts",
+    ".ts"
   ],
   "include": [
     "app/controllers/**"

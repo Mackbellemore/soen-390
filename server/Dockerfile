@@ -11,4 +11,5 @@ RUN npm install
 COPY . .
 
 EXPOSE 9090
-CMD ["npm", "run", "dev"]
+ENTRYPOINT ["npm", "run"]
+CMD ["dev"]

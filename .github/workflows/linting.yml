@@ -1,7 +1,10 @@
-name: Formatting and Linting
+name: Linting
 
 on:
   push:
+    branches-ignore:
+      - "main"
+      - "develop"
   pull_request:
 
 jobs:
@@ -10,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        project: ["client"]
+        project: ["client", "server"]
 
     steps:
       - name: Check out Git repository
