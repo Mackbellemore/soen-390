@@ -10,9 +10,9 @@ export class HomeController extends BaseHttpController {
   }
 
   @httpGet('/')
-  public get(): results.JsonResult {
+  public async get(): Promise<results.JsonResult> {
     try {
-      const serviceString: string = this.homeService.exampleFunction();
+      const serviceString: string = await this.homeService.exampleFunction();
       return this.json(JSON.stringify(serviceString));
     } catch (err) {
       return this.json(err.message, 400);
