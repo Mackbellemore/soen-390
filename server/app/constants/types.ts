@@ -1,5 +1,4 @@
 const TYPES = {
-  HomeService: Symbol.for('HomeService'),
   BikeService: Symbol.for('BikeService'),
   config: Symbol.for('config'),
   logger: Symbol.for('logger'),
