@@ -12,6 +12,12 @@ module.exports = {
     'prettier/react',
     'prettier/prettier',
     'prettier/babel',
+    'eslint:recommended',
+    'plugin:import/warnings',
+    'plugin:import/errors',
+    'plugin:react-hooks/recommended',
+    'plugin:promise/recommended',
+    'plugin:prettier/recommended',
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -20,7 +26,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react', '@babel', 'prettier'],
+  plugins: ['react', '@babel', 'prettier', 'promise'],
   rules: {
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',

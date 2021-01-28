@@ -9,7 +9,9 @@
     "preexport": "npm run build",
     "export": "next export",
     "format": "prettier --ignore-path .gitignore --write . ",
-    "lint": "eslint --ignore-path .gitignore --fix ."
+    "format:ci": "prettier --ignore-path .gitignore --check .",
+    "lint": "eslint --ignore-path .gitignore --fix .",
+    "lint:ci": "eslint --ignore-path .gitignore ."
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.3",
@@ -19,6 +21,7 @@
     "@emotion/styled": "^11.0.0",
     "framer-motion": "^3.2.1",
     "next": "^10.0.5",
+    "prop-types": "^15.7.2",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   },

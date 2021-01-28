@@ -309,4 +309,9 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+node_modules
+build
+.vs_code
+.env
 all-collections.archive
