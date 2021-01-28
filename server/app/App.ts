@@ -26,7 +26,7 @@ export class App {
     try {
       const appBuilder = new InversifyExpressServer(container);
 
-      MongoConnection.initConnection()
+      MongoConnection.initConnection(this.config)
         .then(() => {
           return MongoConnection.setAutoReconnect();
         })

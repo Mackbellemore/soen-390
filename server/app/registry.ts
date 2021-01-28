@@ -7,9 +7,14 @@ import config, { IConfig } from 'config';
 
 // Controllers import autobinds them to the application
 import './controllers/Home';
+import './controllers/BikeController';
 
 // Services
 import { HomeService } from './services/HomeService';
+import { BikeService } from './services/BikeService';
+
+// repositories
+import { BikeRespository } from './repository/BikeRepository';
 
 // logger (this is temporary, I created a ticket to actually setup proper logging)
 import winston, { Logger } from 'winston';
@@ -29,4 +34,6 @@ container.bind<IConfig>(TYPES.config).toConstantValue(config);
 container.bind<Logger>(TYPES.logger).toConstantValue(logger);
 
 container.bind<HomeService>(TYPES.HomeService).to(HomeService).inSingletonScope();
+container.bind<BikeService>(TYPES.BikeService).to(BikeService).inSingletonScope();
+container.bind<BikeRespository>(TYPES.BikeRespository).to(BikeRespository).inSingletonScope();
 export { container };

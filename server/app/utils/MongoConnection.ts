@@ -1,8 +1,18 @@
+import { IConfig } from 'config';
 import mongoose from 'mongoose';
 
 export class MongoConnection {
-  public static async initConnection(): Promise<void> {
-    const connectionString = 'mongodb://root:example@mongo:27017/app_db?authSource=admin';
+  private static connectionStr: string;
+
+  public static async initConnection(config: IConfig): Promise<void> {
+    const host = config.get<string>('mongo.host');
+    const pass = config.get<string>('mongo.pass');
+    const port = config.get<number>('mongo.port');
+    const user = config.get<string>('mongo.user');
+    const dbName = config.get<string>('mongo.db');
+
+    const connectionString = `mongodb://${user}:${pass}@${host}:${port}/${dbName}?authSource=admin`;
+    this.connectionStr = connectionString;
     await MongoConnection.connect(connectionString);
   }
 
@@ -16,9 +26,10 @@ export class MongoConnection {
   }
 
   public static setAutoReconnect(): void {
-    mongoose.connection.on('disconnected', () =>
-      MongoConnection.connect('mongodb://root:example@mongo:27017/app_db?authSource=admin')
-    );
+    mongoose.connection.on('disconnected', () => {
+      if (!this.connectionStr) return;
+      MongoConnection.connect(this.connectionStr);
+    });
   }
 
   public static async disconnect(): Promise<void> {
