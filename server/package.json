@@ -12,6 +12,7 @@
     "build": "rm -rf build && tsc",
     "start": "node ./build/index.js",
     "dev": "ts-node-dev app/index.ts",
+    "debug": "ts-node-dev --inspect=0.0.0.0:9229 app/index.ts",
     "test": "mocha -r ts-node/register tests/**/*.test.ts",
     "test:ci": "nyc npm run test",
     "test:html": "nyc npm run test --reporter=html && open ./coverage/index.html",
@@ -61,6 +62,7 @@
     "inversify": "^5.0.5",
     "inversify-express-utils": "^6.3.2",
     "inversify-logger-middleware": "^3.1.0",
+    "mongoose": "^5.11.13",
     "path": "^0.12.7",
     "winston": "^3.3.3"
   }

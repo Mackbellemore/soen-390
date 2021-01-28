@@ -1,3 +1,4 @@
+import { MongoConnection } from './utils/MongoConnection';
 import 'reflect-metadata';
 import winston, { Logger } from 'winston';
 import expressWinston from 'express-winston';
@@ -24,6 +25,14 @@ export class App {
   public init(): void {
     try {
       const appBuilder = new InversifyExpressServer(container);
+
+      MongoConnection.initConnection(this.config)
+        .then(() => {
+          return MongoConnection.setAutoReconnect();
+        })
+        .catch((e) => {
+          throw e;
+        });
 
       appBuilder.setConfig((server: Application) => {
         // middlewares

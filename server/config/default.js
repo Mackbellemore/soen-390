@@ -10,4 +10,11 @@ module.exports = {
     port: process.env.PORT || 9091,
   },
   env: process.env.NODE_ENV || 'development',
+  mongo: {
+    port: process.env.MONGO_PORT || 27017,
+    host: process.env.MONGO_HOST || 'mongo',
+    user: process.env.MONGO_USER || 'root',
+    pass: process.env.MONGO_PASS || 'example',
+    db: process.env.MONGO_DB_NAME || 'app_db',
+  },
 };
