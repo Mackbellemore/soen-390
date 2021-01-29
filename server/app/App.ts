@@ -22,17 +22,13 @@ export class App {
     this.logger = container.get<Logger>(TYPES.logger);
   }
 
-  public init(): void {
+  public async init(): Promise<void> {
     try {
       const appBuilder = new InversifyExpressServer(container);
 
-      MongoConnection.initConnection(this.config)
-        .then(() => {
-          return MongoConnection.setAutoReconnect();
-        })
-        .catch((e) => {
-          throw e;
-        });
+      await MongoConnection.initConnection(this.config);
+      MongoConnection.setAutoReconnect();
+      this.logger.info('mongoDB connection initialized');
 
       appBuilder.setConfig((server: Application) => {
         // middlewares
@@ -78,6 +74,7 @@ export class App {
 
   public async close(): Promise<void> {
     try {
+      MongoConnection.disconnect();
       this.listener.close();
     } catch ({ message }) {
       this.logger.error(message);
