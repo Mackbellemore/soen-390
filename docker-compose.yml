@@ -22,11 +22,13 @@ services:
       target: develop
     ports:
       - "9090:9090"
+      - "9229:9229"
     volumes:
       - ./server:/code
       - /code/node_modules
     depends_on:
       - mongo
+    # command: debug
 
   mongo:
     container_name: mongo

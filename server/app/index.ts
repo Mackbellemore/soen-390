@@ -34,5 +34,9 @@ process.on('unhandledRejection', (reason: string, p: Promise<unknown>) => {
 process.on('SIGTERM', gracefulClose);
 process.on('SIGINT', gracefulClose);
 
-app.init();
-app.start().catch(uncaughtException);
+app
+  .init()
+  .then(() => {
+    return app.start();
+  })
+  .catch(uncaughtException);
