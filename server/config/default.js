@@ -17,4 +17,5 @@ module.exports = {
     pass: process.env.MONGO_PASS || 'example',
     db: process.env.MONGO_DB_NAME || 'app_db',
   },
+  salt: process.env.SALT || 10,
 };
