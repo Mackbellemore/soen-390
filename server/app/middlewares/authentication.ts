@@ -4,36 +4,31 @@ import jwt from 'jsonwebtoken';
 import config from 'config';
 import { NON_AUTH_PATHS } from '../constants/common';
 
-export const authenticateJWT = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-): NextFunction | void => {
+export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
   if (NON_AUTH_PATHS.includes(req.path)) return next();
 
   const jwtCookie = req.cookies.jwt;
-  if (jwtCookie) {
-    jwt.verify(jwtCookie, config.get<string>('jwt.secret'), function (
-      err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      decoded: any | IUserEntity
-    ) {
-      if (err) {
-        return res.sendStatus(403);
-      }
 
-      if (!decoded.username || !decoded.email || !decoded.id) res.sendStatus(403);
-      delete decoded.exp;
-      delete decoded.iat;
+  if (!jwtCookie) res.status(403);
 
-      const newAccessToken = generateToken(decoded);
-      res.cookie('jwt', newAccessToken, { httpOnly: true });
+  jwt.verify(jwtCookie, config.get<string>('jwt.secret'), function (
+    err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    decoded: any | IUserEntity
+  ) {
+    if (err) {
+      return res.sendStatus(403);
+    }
 
-      return next();
-    });
-  } else {
-    res.sendStatus(403);
-  }
+    if (!decoded.username || !decoded.email || !decoded.id) res.sendStatus(403);
+    delete decoded.exp;
+    delete decoded.iat;
+
+    const newAccessToken = generateToken(decoded);
+    res.cookie('jwt', newAccessToken, { httpOnly: true });
+
+    return next();
+  });
 };
 
 export function generateToken(user: IUserEntity): string {
