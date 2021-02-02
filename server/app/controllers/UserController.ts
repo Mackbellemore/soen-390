@@ -5,12 +5,10 @@ import { Request, Response } from 'express';
 import { inject } from 'inversify';
 import { controller, BaseHttpController, results, httpPost } from 'inversify-express-utils';
 import TYPES from '../constants/types';
-import { IConfig } from 'config';
+import config from 'config';
 
 @controller('/user')
 export class UserController extends BaseHttpController {
-  @inject(TYPES.config) private config: IConfig;
-
   constructor(@inject(TYPES.UserService) private userService: UserService) {
     super();
   }
@@ -30,7 +28,7 @@ export class UserController extends BaseHttpController {
     try {
       const user: IUserEntity = await this.userService.loginUser(req.body);
 
-      if (this.config.get<boolean>('server.authEnabled')) {
+      if (config.get<boolean>('server.authEnabled')) {
         const accessToken = generateToken(user);
         res.cookie('jwt', accessToken, { httpOnly: true });
       }
