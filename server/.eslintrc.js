@@ -27,7 +27,12 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'promise', 'prettier'],
   rules: {
-    'prettier/prettier': 'error',
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto',
+      },
+    ],
     'node/no-unsupported-features/es-syntax': ['error', { ignores: ['modules'] }],
     'node/no-missing-import': [
       'error',
