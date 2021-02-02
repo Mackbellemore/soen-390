@@ -1,15 +1,9 @@
 {
   "extends": "@istanbuljs/nyc-config-typescript",
   "all": true,
-  "extension": [
-    ".ts"
-  ],
-  "include": [
-    "app/controllers/**"
-  ],
-  "exclude": [
-    "**/*.d.ts"
-  ],
+  "extension": [".ts"],
+  "include": ["app/controllers/**"],
+  "exclude": ["**/*.d.ts"],
   "check-coverage": true,
   "per-file": true,
   "branches": 50,
