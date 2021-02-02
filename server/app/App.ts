@@ -50,7 +50,9 @@ export class App {
             statusLevels: true,
           })
         );
-        server.all('*', authenticateJWT);
+        if (this.config.get<boolean>('server.authEnabled')) {
+          server.all('*', authenticateJWT);
+        }
       });
 
       this.app = appBuilder.build();
