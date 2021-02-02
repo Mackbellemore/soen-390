@@ -1,6 +1,7 @@
 import { IUserEntity } from './../entities/User';
 import { UserService } from './../services/UserService';
-import { Request } from 'express';
+import { generateToken } from '../middlewares/authentication';
+import { Request, Response } from 'express';
 import { inject } from 'inversify';
 import { controller, BaseHttpController, results, httpPost } from 'inversify-express-utils';
 import TYPES from '../constants/types';
@@ -22,10 +23,15 @@ export class UserController extends BaseHttpController {
   }
 
   @httpPost('/login')
-  public async login(req: Request): Promise<results.JsonResult> {
+  public async login(req: Request, res: Response): Promise<results.JsonResult> {
     try {
       const user: IUserEntity = await this.userService.loginUser(req.body);
-      return this.json(user);
+
+      const accessToken = generateToken(user);
+      res.cookie('jwt', accessToken, { httpOnly: true });
+      return this.json({
+        user,
+      });
     } catch (err) {
       return this.json(err.message, 400);
     }

@@ -1,3 +1,4 @@
+import { authenticateJWT } from './middlewares/authentication';
 import 'reflect-metadata';
 import winston, { Logger } from 'winston';
 import expressWinston from 'express-winston';
@@ -11,6 +12,7 @@ import TYPES from './constants/types';
 import { BikeRepository } from './repository/BikeRepository';
 import { UserRepository } from './repository/UserRepository';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 export class App {
   private config: IConfig;
@@ -33,6 +35,7 @@ export class App {
       appBuilder.setConfig((server: Application) => {
         // middlewares
         server.use(cors());
+        server.use(cookieParser());
         server.use(
           bodyParser.urlencoded({
             extended: true,
@@ -47,6 +50,7 @@ export class App {
             statusLevels: true,
           })
         );
+        server.all('*', authenticateJWT);
       });
 
       this.app = appBuilder.build();

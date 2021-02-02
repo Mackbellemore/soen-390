@@ -1,5 +1,3 @@
-import { UserService } from './services/UserService';
-import { UserRepository } from './repository/UserRepository';
 // Inversify stuff
 import { Container } from 'inversify';
 import TYPES from './constants/types';
@@ -13,9 +11,11 @@ import './controllers/UserController';
 
 // Services
 import { BikeService } from './services/BikeService';
+import { UserService } from './services/UserService';
 
 // repositories
 import { BikeRepository } from './repository/BikeRepository';
+import { UserRepository } from './repository/UserRepository';
 
 // utils
 import winston, { Logger } from 'winston';

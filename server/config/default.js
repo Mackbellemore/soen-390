@@ -18,4 +18,8 @@ module.exports = {
     db: process.env.MONGO_DB_NAME || 'app_db',
   },
   salt: process.env.SALT || 10,
+  jwt: {
+    secret: process.env.JWT_SECRET || 'addadasjfghKEU10dawadrfgh!e29sosafelol',
+    expiry: process.env.JWT_EXPIRY || '30m',
+  },
 };
