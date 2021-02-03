@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { useContext } from 'react';
+import React, { useContext } from 'react';
 import HamburgerMenu from 'react-hamburger-menu';
-import { RootStoreContext } from '../stores/stores.js';
+import { RootStoreContext } from '../stores/stores';
 
 export const styles = {
   bmMenuWrap: {

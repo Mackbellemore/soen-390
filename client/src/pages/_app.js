@@ -1,7 +1,8 @@
 import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import RootStore from '../stores/stores.js';
+import React from 'react';
+import RootStore from '../stores/stores';
 import theme from '../theme';
 
 function MyApp({ Component, pageProps }) {

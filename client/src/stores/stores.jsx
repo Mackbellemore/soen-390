@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { createContext } from 'react';
+import React, { createContext } from 'react';
 import BikesStore from './BikesStore';
 import UIStore from './UIStore';
 
-export const RootStoreContext = createContext();
+export const RootStoreContext = createContext(null);
 
 const RootStore = ({ children }) => {
   return (

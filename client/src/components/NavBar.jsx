@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import Link from 'next/link';
 import React from 'react';
-import { HamburgerButton } from '../common/Sidebar.jsx';
+import { HamburgerButton } from '../common/Sidebar';
 
 const NavBar = () => {
   return (
