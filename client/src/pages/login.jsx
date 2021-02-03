@@ -1,18 +1,47 @@
-import {
-  Flex, Spacer, Text, FormControl,
-  FormLabel,
-  FormErrorMessage,
-  FormHelperText,
-  Input,
-  Button,
-  Box,
-  Icon
-} from "@chakra-ui/react";
-import { EmailIcon, LockIcon } from "@chakra-ui/icons";
-import styled from "@emotion/styled";
-import { GrMailOption, GrLock } from "react-icons/gr";
+import { Button, Flex, FormLabel, Icon, Input, Text, useToast } from '@chakra-ui/react';
+import styled from '@emotion/styled';
+import axios from 'axios';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import { GrLock, GrMailOption } from 'react-icons/gr';
 
 function Login() {
+  const passwordRef = useRef('');
+  const emailRef = useRef('');
+  const router = useRouter();
+  const toast = useToast();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const options = {
+      method: 'post',
+      url: 'http://localhost:9090/user/login',
+      data: {
+        email: emailRef.current.value,
+        password: passwordRef.current.value,
+      },
+      withCredentials: true,
+    };
+
+    try {
+      const response = await axios(options);
+      if (response.status === 200) {
+        router.push('/main');
+      }
+    } catch {
+      toast({
+        position: 'top',
+        title: 'An error occurred.',
+        description: 'Unable to log in',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+      emailRef.current.value = '';
+      passwordRef.current.value = '';
+    }
+  };
 
   const Container = styled.div`
     width: 100%;
@@ -24,7 +53,7 @@ function Login() {
     left: 50%;
     align-items: center;
     transform: translate(-50%, -50%);
-    background-color: #FFFCFC;
+    background-color: #fffcfc;
     padding: 10px;
     max-width: 560px;
   `;
@@ -42,7 +71,7 @@ function Login() {
   const InputContainer = styled(Flex)`
     flex-direction: row;
     background-color: white;
-    border: 1px solid #D5D5D5;
+    border: 1px solid #d5d5d5;
     border-radius: 4px;
     width: 100%;
     max-width: 380px;
@@ -69,7 +98,7 @@ function Login() {
           </Flex>
           <Flex direction="column">
             <FormLabel>Email address</FormLabel>
-            <UnstyledInput type="email" focusBorderColor={{}} />
+            <UnstyledInput type="email" focusBorderColor={{}} ref={emailRef} />
           </Flex>
         </InputContainer>
         <InputContainer>
@@ -78,7 +107,7 @@ function Login() {
           </Flex>
           <Flex direction="column">
             <FormLabel>Password</FormLabel>
-            <UnstyledInput type="password" focusBorderColor={{}} />
+            <UnstyledInput type="password" focusBorderColor={{}} ref={passwordRef} />
           </Flex>
         </InputContainer>
         <Flex direction="row" width="100%" maxWidth="380px">
@@ -89,6 +118,9 @@ function Login() {
             type="submit"
             width="100%"
             maxWidth="380px"
+            onClick={(e) => {
+              handleSubmit(e);
+            }}
           >
             Login
           </Button>
