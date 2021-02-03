@@ -1,4 +1,4 @@
-import { MongoConnection } from './utils/MongoConnection';
+import { authenticateJWT } from './middlewares/authentication';
 import 'reflect-metadata';
 import winston, { Logger } from 'winston';
 import expressWinston from 'express-winston';
@@ -9,7 +9,10 @@ import { IConfig } from 'config';
 import * as bodyParser from 'body-parser';
 import { Server } from 'http';
 import TYPES from './constants/types';
+import { BikeRepository } from './repository/BikeRepository';
+import { UserRepository } from './repository/UserRepository';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 export class App {
   private config: IConfig;
@@ -26,13 +29,13 @@ export class App {
     try {
       const appBuilder = new InversifyExpressServer(container);
 
-      await MongoConnection.initConnection(this.config);
-      MongoConnection.setAutoReconnect();
+      await this.initRepositories();
       this.logger.info('mongoDB connection initialized');
 
       appBuilder.setConfig((server: Application) => {
         // middlewares
-        server.use(cors());
+        server.use(cors({ credentials: true, origin: this.config.get<string>('origin') }));
+        server.use(cookieParser());
         server.use(
           bodyParser.urlencoded({
             extended: true,
@@ -47,6 +50,9 @@ export class App {
             statusLevels: true,
           })
         );
+        if (this.config.get<boolean>('server.authEnabled')) {
+          server.all('*', authenticateJWT);
+        }
       });
 
       this.app = appBuilder.build();
@@ -74,11 +80,16 @@ export class App {
 
   public async close(): Promise<void> {
     try {
-      MongoConnection.disconnect();
       this.listener.close();
     } catch ({ message }) {
       this.logger.error(message);
       process.exit(1);
     }
+  }
+
+  private async initRepositories(): Promise<void> {
+    this.logger.info('Initializing repositories');
+    await container.get<UserRepository>(TYPES.UserRepository).initialize();
+    await container.get<BikeRepository>(TYPES.BikeRepository).initialize();
   }
 }

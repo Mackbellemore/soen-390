@@ -1,38 +1,61 @@
-import { IConfig } from 'config';
 import mongoose from 'mongoose';
+import { IConfig } from 'config';
 
 export class MongoConnection {
-  private static connectionStr: string;
+  private connectionString: string;
+  private connected = false;
+  private connecting = false;
 
-  public static async initConnection(config: IConfig): Promise<void> {
+  protected database: string;
+  protected options: Record<string, unknown>;
+
+  constructor(config: IConfig) {
     const host = config.get<string>('mongo.host');
     const pass = config.get<string>('mongo.pass');
     const port = config.get<number>('mongo.port');
     const user = config.get<string>('mongo.user');
     const dbName = config.get<string>('mongo.db');
 
-    const connectionString = `mongodb://${user}:${pass}@${host}:${port}/${dbName}?authSource=admin`;
-    this.connectionStr = connectionString;
-    await MongoConnection.connect(connectionString);
-  }
-
-  public static async connect(connStr: string): Promise<typeof mongoose> {
-    const connection = await mongoose.connect(connStr, {
+    this.options = {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-    });
+      useCreateIndex: true,
+    };
 
-    return connection;
+    this.connectionString = `mongodb://${user}:${pass}@${host}:${port}/${dbName}?authSource=admin`;
   }
 
-  public static setAutoReconnect(): void {
-    mongoose.connection.on('disconnected', () => {
-      if (!this.connectionStr) return;
-      MongoConnection.connect(this.connectionStr);
-    });
+  public async connect(): Promise<void> {
+    if (!this.connected && !this.connecting) {
+      this.connecting = true;
+      try {
+        await mongoose.connect(this.connectionString, this.options);
+        this.connected = true;
+      } catch (err) {
+        console.log(err);
+        mongoose.disconnect().catch(() => null);
+        throw err;
+      } finally {
+        this.connecting = false;
+      }
+    }
   }
 
-  public static async disconnect(): Promise<void> {
-    await mongoose.connection.close();
+  public async disconnect(): Promise<void> {
+    if (this.connected) {
+      await mongoose.disconnect();
+      this.connected = false;
+    }
+  }
+
+  public async getModel<T extends mongoose.Document>(
+    name: string,
+    schema: mongoose.Schema
+  ): Promise<mongoose.Model<T>> {
+    if (!this.connected && !this.connecting) {
+      await this.connect();
+    }
+
+    return mongoose.model<T>(name, schema);
   }
 }

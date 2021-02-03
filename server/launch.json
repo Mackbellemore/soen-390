@@ -1,0 +1,29 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Docker: Attach to Node server",
+      "port": 9229,
+      "remoteRoot": "/code/",
+      "localRoot": "${workspaceFolder}/",
+      "sourceMapPathOverrides": {
+        "/code/*": "${workspaceRoot}/*"
+      },
+      "skipFiles": [
+        "*node_internals*/**/*.js",
+        "node_modules",
+        "loader.js",
+        "async_hooks.js",
+        "bootstrap.js",
+        "**/async_hooks.js",
+        "**/webpack/bootstrap",
+        "**/internal/**/*",
+        "**/domain.js",
+        "**/events.js"
+      ],
+      "smartStep": true
+    }
+  ]
+}
