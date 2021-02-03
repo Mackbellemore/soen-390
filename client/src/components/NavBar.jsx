@@ -1,15 +1,9 @@
 import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import Link from 'next/link';
-import React, { useState } from 'react';
-import HamburgerMenu from 'react-hamburger-menu';
+import React from 'react';
+import { HamburgerButton } from '../common/Sidebar.jsx';
 
 const NavBar = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  const handleClick = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
   return (
     <Box
       bg="#fdfdfd"
@@ -21,17 +15,7 @@ const NavBar = () => {
       paddingY="2rem"
     >
       <Flex alignItems="center">
-        <HamburgerMenu
-          isOpen={sidebarOpen}
-          menuClicked={handleClick}
-          width={36}
-          height={30}
-          strokeWidth={4}
-          rotate={0}
-          color="black"
-          borderRadius={5}
-          animationDuration={0.3}
-        />
+        <HamburgerButton />
       </Flex>
       <Heading>Enterprise Resource Planning</Heading>
       <Flex>

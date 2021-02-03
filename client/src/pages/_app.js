@@ -1,6 +1,7 @@
 import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
+import RootStore from '../stores/stores.js';
 import theme from '../theme';
 
 function MyApp({ Component, pageProps }) {
@@ -15,15 +16,17 @@ function MyApp({ Component, pageProps }) {
         <link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet" />
         <title>ERP</title>
       </Head>
-      <ChakraProvider resetCSS theme={theme}>
-        <ColorModeProvider
-          options={{
-            useSystemColorMode: true,
-          }}
-        >
-          <Component {...pageProps} />
-        </ColorModeProvider>
-      </ChakraProvider>
+      <RootStore {...pageProps}>
+        <ChakraProvider resetCSS theme={theme}>
+          <ColorModeProvider
+            options={{
+              useSystemColorMode: true,
+            }}
+          >
+            <Component {...pageProps} />
+          </ColorModeProvider>
+        </ChakraProvider>
+      </RootStore>
     </>
   );
 }

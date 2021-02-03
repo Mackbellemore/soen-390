@@ -19,12 +19,14 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:prettier/recommended',
   ],
+  parser: '@babel/eslint-parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 12,
     sourceType: 'module',
+    requireConfigFile: false,
   },
   plugins: ['react', '@babel', 'prettier', 'promise'],
   rules: {
