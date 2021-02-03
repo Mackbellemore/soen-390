@@ -1,9 +1,12 @@
 import { Box, Button, Flex, Heading } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import React from 'react';
 import { HamburgerButton } from '../common/Sidebar';
 
 const NavBar = () => {
+  const router = useRouter();
+
   return (
     <Box
       bg="#fdfdfd"
@@ -14,9 +17,7 @@ const NavBar = () => {
       paddingX="3rem"
       paddingY="2rem"
     >
-      <Flex alignItems="center">
-        <HamburgerButton />
-      </Flex>
+      <Flex alignItems="center">{router.pathname === '/' ? <></> : <HamburgerButton />}</Flex>
       <Heading>Enterprise Resource Planning</Heading>
       <Flex>
         <Link href="/login">
