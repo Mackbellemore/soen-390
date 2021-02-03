@@ -91,7 +91,7 @@ A local MongoDB container is used for development purposes. For convenience, mon
 | Gordon Pham-Nguyen | 40018402 |
 | Naasir Jusab       | 40057665 |
 | Mackenzie Bellemore| 40062494 |
-|                    |          |
+| Sujan Saravanamuthu| 40044870 |
 |                    |          |
 |                    |          |
 |                    |          |
