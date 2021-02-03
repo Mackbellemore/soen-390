@@ -23,4 +23,5 @@ module.exports = {
     secret: process.env.JWT_SECRET || 'addadasjfghKEU10dawadrfgh!e29sosafelol',
     expiry: process.env.JWT_EXPIRY || '30m',
   },
+  origin: process.env.ORIGIN || 'http://localhost:3000',
 };

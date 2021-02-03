@@ -34,7 +34,7 @@ export class App {
 
       appBuilder.setConfig((server: Application) => {
         // middlewares
-        server.use(cors());
+        server.use(cors({ credentials: true, origin: this.config.get<string>('origin') }));
         server.use(cookieParser());
         server.use(
           bodyParser.urlencoded({
