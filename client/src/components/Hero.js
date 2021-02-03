@@ -9,7 +9,7 @@ export const Hero = ({ title }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+      const baseUrl = `${process.env.NEXT_PUBLIC_API_URL}/bikes`;
       fetch(baseUrl).then((data) => {
         setSubtitle(`Request to backend :9090 status: ${data.status}`);
       });
