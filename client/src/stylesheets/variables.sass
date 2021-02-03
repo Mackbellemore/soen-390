@@ -1,0 +1,40 @@
+/*Colors*/
+$grey: #FFFCFC
+$secondary-grey: #D5D5D5
+$secondary-text-color: #9C9C9C
+$blue: #007AFF
+$green: #6FCF97
+
+/*Fonts*/
+$font-primary: 'Montserrat'
+
+/*Font Families*/
+@mixin h1
+  font-family: $font-primary
+  font-size: 24px
+  font-weight: 900
+  font-style: normal
+
+@mixin button-text
+  font-family: $font-primary
+  font-style: normal
+  font-weight: normal
+  font-size: 14px
+  line-height: 17px
+  letter-spacing: 0.75px
+  color: white
+
+@mixin subtext
+  font-family: $font-primary
+  font-style: normal
+  font-weight: normal
+  font-size: 12px
+  line-height: 16px
+  color: $secondary-text-color
+
+/*Breakpoints*/
+@mixin breakpoint($breakpoint)
+  @if $breakpoint == "mobile"
+    @media (min-width: 360px)
+      @content
+
