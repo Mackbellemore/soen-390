@@ -1,26 +1,10 @@
 import { injectable } from 'inversify';
-import { Error } from 'mongoose';
-import BikeModel, { IBike } from '../models/BikeModel';
+import { Schema } from 'mongoose';
+import { IBike, BikeSchema } from '../models/BikeModel';
+import { BaseRepository } from './BaseRepository';
 
 @injectable()
-export class BikeRespository {
-  public async get(): Promise<IBike[]> {
-    return BikeModel.find()
-      .then((data: IBike[]) => {
-        return data;
-      })
-      .catch((error: Error) => {
-        throw error;
-      });
-  }
-
-  public async create(bike: IBike): Promise<IBike> {
-    return BikeModel.create(bike)
-      .then((data: IBike) => {
-        return data;
-      })
-      .catch((error: Error) => {
-        throw error;
-      });
-  }
+export class BikeRepository extends BaseRepository<IBike> {
+  protected readonly collectionName: string = 'bikes';
+  protected readonly schema: Schema = BikeSchema;
 }

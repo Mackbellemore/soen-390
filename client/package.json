@@ -1,18 +1,4 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "preexport": "npm run build",
-    "export": "next export",
-    "format": "prettier --ignore-path .gitignore --write . ",
-    "format:ci": "prettier --ignore-path .gitignore --check .",
-    "lint": "eslint --ignore-path .gitignore --fix .",
-    "lint:ci": "eslint --ignore-path .gitignore ."
-  },
   "dependencies": {
     "@chakra-ui/icons": "^1.0.3",
     "@chakra-ui/react": "^1.1.5",
@@ -28,9 +14,9 @@
     "react": "^17.0.1",
     "react-burger-menu": "^3.0.3",
     "react-dom": "^17.0.1",
-    "react-hamburger-menu": "^1.2.1"
+    "react-hamburger-menu": "^1.2.1",
+    "react-icons": "^4.1.0"
   },
-  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/eslint-parser": "^7.12.1",
@@ -50,8 +36,23 @@
     "prettier": "2.2.1"
   },
   "engines": {
+    "node": ">=15.4",
     "npm": ">=6.14",
-    "yarn": "please-use-npm",
-    "node": ">=15.4"
-  }
+    "yarn": "please-use-npm"
+  },
+  "license": "MIT",
+  "name": "client",
+  "private": true,
+  "scripts": {
+    "build": "next build",
+    "dev": "next dev",
+    "export": "next export",
+    "format": "prettier --ignore-path .gitignore --write . ",
+    "format:ci": "prettier --ignore-path .gitignore --check .",
+    "lint": "eslint --ignore-path .gitignore --fix .",
+    "lint:ci": "eslint --ignore-path .gitignore .",
+    "preexport": "npm run build",
+    "start": "next start"
+  },
+  "version": "0.1.0"
 }

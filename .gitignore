@@ -178,7 +178,7 @@ sketch
 .ionide
 
 ### vscode ###
-# !.vscode/settings.json
+.vscode/settings.json
 !.vscode/extensions.json
 
 ### WebStorm ###
@@ -314,3 +314,4 @@ node_modules
 build
 .env
 all-collections.archive
+.idea
