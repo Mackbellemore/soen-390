@@ -92,7 +92,13 @@ A local MongoDB container is used for development purposes. For convenience, mon
 | Naasir Jusab       | 40057665 |
 | Mackenzie Bellemore| 40062494 |
 | Sujan Saravanamuthu| 40044870 |
+|David Liang         | 40092433 |
 |                    |          |
 |                    |          |
 |                    |          |
-|                    |          |
+
+
+## Reports 
+### Software Architecture Document
+
+Click [here](https://docs.google.com/document/d/1D4yb6h4DZ2qTMCr9RecRtVzJNTVRHoonweeUNTTA46A/edit?usp=sharing) to view the software architecture document.
