@@ -4,7 +4,11 @@
 
 ### Software Architecture Document
 
-[Click here to view the software architecture document for Sprint 1.](https://docs.google.com/document/d/1D4yb6h4DZ2qTMCr9RecRtVzJNTVRHoonweeUNTTA46A/edit?usp=sharing)
+[Click here to view our Software Architecture Document for Sprint 1.](https://docs.google.com/document/d/1D4yb6h4DZ2qTMCr9RecRtVzJNTVRHoonweeUNTTA46A/edit?usp=sharing)
+
+### Risk Management Plan 
+[Click here to view our Risk Management Plan for Sprint 1.](https://drive.google.com/file/d/1SSLI9FVIIRFAPGkrq3m0takPgY2Tl0WD/view?usp=sharing)
+
 
 ## Getting started with development
 
@@ -100,6 +104,6 @@ A local MongoDB container is used for development purposes. For convenience, mon
 | Mackenzie Bellemore | 40062494 |
 | Sujan Saravanamuthu | 40044870 |
 | David Liang         | 40092433 |
-|                     |          |
+| Tiffany Zeng        | 40063115 |
 |                     |          |
 |                     |          |
