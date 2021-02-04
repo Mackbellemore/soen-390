@@ -3,7 +3,6 @@ services:
   client:
     stdin_open: true
     container_name: client
-    restart: always
     build:
       context: ./client
       target: develop

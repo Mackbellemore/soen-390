@@ -1,33 +1,35 @@
-import { Button, Flex, FormLabel, Icon, Input, Text, useToast } from '@chakra-ui/react';
+import { Button, Flex, FormLabel, Icon, Input, useToast } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { GrLock, GrMailOption } from 'react-icons/gr';
+import { Heading } from '../components/common/Typography';
+import NavBar from '../components/NavBar';
+import { RootStoreContext } from '../stores/stores';
+import { makeRequest } from '../utils/api';
 
-function Login() {
+const Login = () => {
+  const { uiStore } = useContext(RootStoreContext);
+  const [isLoading, setIsLoading] = useState(false);
   const passwordRef = useRef('');
   const emailRef = useRef('');
   const router = useRouter();
   const toast = useToast();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const options = {
-      method: 'post',
-      url: 'http://localhost:9090/user/login',
-      data: {
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    try {
+      const response = await makeRequest('post', 'user/login', {
         email: emailRef.current.value,
         password: passwordRef.current.value,
-      },
-      withCredentials: true,
-    };
+      });
 
-    try {
-      const response = await axios(options);
       if (response.status === 200) {
+        console.log(`userLoggedIn: ${uiStore.userLoggedIn}`);
+        uiStore.userLogIn();
+        console.log(`userLoggedIn: ${uiStore.userLoggedIn}`);
         router.push('/main');
+        console.log(`userLoggedIn: ${uiStore.userLoggedIn}`);
       }
     } catch {
       toast({
@@ -41,6 +43,7 @@ function Login() {
       emailRef.current.value = '';
       passwordRef.current.value = '';
     }
+    setIsLoading(false);
   };
 
   const Container = styled.div`
@@ -56,16 +59,6 @@ function Login() {
     background-color: #fffcfc;
     padding: 10px;
     max-width: 560px;
-  `;
-
-  const TextStyled = styled(Text)`
-    font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
-    font-weight: 900;
-    font-style: normal;
-    text-align: left;
-    width: 100%;
-    max-width: 380px;
   `;
 
   const InputContainer = styled(Flex)`
@@ -90,15 +83,18 @@ function Login() {
 
   return (
     <>
+      <NavBar />
       <Container>
-        <TextStyled>Log in</TextStyled>
+        <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
+          Log in
+        </Heading>
         <InputContainer>
           <Flex alignItems="center">
             <InputIcon as={GrMailOption} />
           </Flex>
           <Flex direction="column">
             <FormLabel>Email address</FormLabel>
-            <UnstyledInput type="email" focusBorderColor={{}} ref={emailRef} />
+            <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
           </Flex>
         </InputContainer>
         <InputContainer>
@@ -107,20 +103,18 @@ function Login() {
           </Flex>
           <Flex direction="column">
             <FormLabel>Password</FormLabel>
-            <UnstyledInput type="password" focusBorderColor={{}} ref={passwordRef} />
+            <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
           </Flex>
         </InputContainer>
         <Flex direction="row" width="100%" maxWidth="380px">
           <Button
             mt={4}
-            colorScheme="teal"
-            isLoading={false}
+            colorScheme="blue"
+            isLoading={isLoading}
             type="submit"
             width="100%"
             maxWidth="380px"
-            onClick={(e) => {
-              handleSubmit(e);
-            }}
+            onClick={handleSubmit}
           >
             Login
           </Button>
@@ -128,6 +122,6 @@ function Login() {
       </Container>
     </>
   );
-}
+};
 
 export default Login;
