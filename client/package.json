@@ -47,9 +47,10 @@
     "build": "next build",
     "dev": "next dev",
     "export": "next export",
-    "format": "prettier --ignore-path .gitignore --write . ",
-    "format:ci": "prettier --ignore-path .gitignore --check .",
-    "lint": "eslint --ignore-path .gitignore --fix .",
+    "format": "npm run format:base -- --write .",
+    "format:base": "prettier --ignore-path .gitignore",
+    "format:ci": "npm run format:base -- --check .",
+    "lint": "npm run lint:ci -- --fix",
     "lint:ci": "eslint --ignore-path .gitignore .",
     "preexport": "npm run build",
     "start": "next start"
