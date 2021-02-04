@@ -12,6 +12,9 @@
 ### Risk Management Plan 
 [Click here to view our Risk Management Plan for Sprint 1.](https://drive.google.com/file/d/1SSLI9FVIIRFAPGkrq3m0takPgY2Tl0WD/view?usp=sharing)
 
+### Software Testing Plan
+[Click here to view the Software Testing Plan Document for Sprint 1.](https://github.com/Mackbellemore/soen-390-team07/blob/develop/docs/testing_plan.md#soen-390-testing-plan)
+
 
 ## Getting started with development
 
@@ -63,34 +66,7 @@ volumes:
 
 3. Start by opening the the server folder in its on VS Code window.
 
-4. In VS code on the debug tab click on "create launch.json" or click on the gear icon. Add the following to `"configurations:"` :
-
-```json
-{
-  "type": "node",
-  "request": "attach",
-  "name": "Docker: Attach to Node server",
-  "port": 9229,
-  "remoteRoot": "/code/",
-  "localRoot": "${workspaceFolder}/",
-  "sourceMapPathOverrides": {
-    "/code/*": "${workspaceRoot}/*"
-  },
-  "skipFiles": [
-    "*node_internals*/**/*.js",
-    "node_modules",
-    "loader.js",
-    "async_hooks.js",
-    "bootstrap.js",
-    "**/async_hooks.js",
-    "**/webpack/bootstrap",
-    "**/internal/**/*",
-    "**/domain.js",
-    "**/events.js"
-  ],
-  "smartStep": true
-}
-```
+4. In VS code on the debug tab click on "create launch.json" or click on the gear icon. Replace the contents with the contents of `launch.json` at the root of this project.
 
 3. Hit F5 or run the `Docker: Attach to Node server` configuration debugger, you should now be able to set breakpoints.
 
