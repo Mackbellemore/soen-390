@@ -1,5 +1,8 @@
 # Software Engineering Team Design Project
 
+## Protoype
+[Click here to view Figma prototype](https://www.figma.com/file/1NeYMymzl5OYosLV0D24rM/PROTOTYPE)
+
 ## Reports
 
 ### Software Architecture Document
