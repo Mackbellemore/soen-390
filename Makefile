@@ -14,7 +14,7 @@ help: ## Show this help
 	@egrep -h '\s##\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[33m%-20s\033[0m %s\n", $$1, $$2}'
 
 run: ## Start up both client and server containers
-	$(CMD_DOCKER_BUILD) --force-recreate
+	$(CMD_DOCKER_BUILD)
 
 run-client: ## Start up client container
 	$(CMD_DOCKER_BUILD) $(CLIENT_IMAGE_TAG)
@@ -22,10 +22,10 @@ run-client: ## Start up client container
 run-server: ## Start up server container
 	$(CMD_DOCKER_BUILD) $(SERVER_IMAGE_TAG)
 
-server-sh: ## Open shell in server container
+sh-server: ## Open shell in server container
 	$(CMD_DOCKER_EXEC) $(SERVER_IMAGE_TAG) sh
 
-client-sh: ## Open shell in client container
+sh-client: ## Open shell in client container
 	$(CMD_DOCKER_EXEC) $(CLIENT_IMAGE_TAG) sh
 
 test-server: ## Run server unit tests
