@@ -1,7 +1,7 @@
 # Software Engineering Team Design Project
 ## Reports
 
-[Link to Sprint 1 Report](https://github.com/Mackbellemore/soen-390-team07/blob/develop/docs/sprint1_report.md)
+[Link to Sprint 1 Report](docs/sprint1_report.md)
 
 ## Getting started with development
 
