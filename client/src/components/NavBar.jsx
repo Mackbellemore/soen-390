@@ -20,7 +20,7 @@ const NavBar = observer(() => {
   const location = useLocation();
   const history = useHistory();
   const { uiStore } = useContext(RootStoreContext);
-  const [, setCookie] = useCookies(['jwt']);
+  const [, setCookie] = useCookies(['userLoggedIn']);
   const toast = useToast();
 
   const onLogin = location.pathname === '/login';
@@ -29,7 +29,7 @@ const NavBar = observer(() => {
 
   const handleLogOut = () => {
     uiStore.userLogOut();
-    setCookie('jwt', '', { path: '/' });
+    setCookie('userLoggedIn', false, { path: '/' });
     history.push('/');
     toast({
       position: 'top',

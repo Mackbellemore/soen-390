@@ -2,6 +2,7 @@ import { Button, Flex, FormLabel, Icon, Input, useToast } from '@chakra-ui/react
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import React, { useContext, useRef, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { GrLock, GrMailOption } from 'react-icons/gr';
 import { useHistory } from 'react-router-dom';
 import { RootStoreContext } from '../stores/stores';
@@ -15,6 +16,7 @@ const Login = () => {
   const emailRef = useRef('');
   const history = useHistory();
   const toast = useToast();
+  const [, setCookie] = useCookies(['userLoggedIn']);
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -25,6 +27,7 @@ const Login = () => {
       });
 
       if (response.status === 200) {
+        setCookie('userLoggedIn', true, { path: '/' });
         uiStore.userLogIn();
         history.push('/main');
       }
