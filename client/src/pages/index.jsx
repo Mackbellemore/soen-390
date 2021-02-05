@@ -1,16 +1,17 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { push as Menu } from 'react-burger-menu';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import Login from '../components/Login.jsx';
-import Main from '../components/Main.jsx';
+import MainDashboard from '../components/MainDashboard.jsx';
 import NavBar from '../components/NavBar.jsx';
+import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import { styles } from '../components/Sidebar.jsx';
 import { RootStoreContext } from '../stores/stores';
 
 const MenuItems = () => (
   <>
-    <a>Link 1</a>
+    <Link to="/main">Dashboard</Link>
   </>
 );
 
@@ -36,9 +37,9 @@ const Index = observer(() => {
             <Route path="/login">
               <Login />
             </Route>
-            <Route path="/main">
-              <Main />
-            </Route>
+            <ProtectedRoute path="/main">
+              <MainDashboard />
+            </ProtectedRoute>
           </Switch>
         </main>
       </BrowserRouter>

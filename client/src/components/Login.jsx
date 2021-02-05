@@ -1,8 +1,9 @@
 import { Button, Flex, FormLabel, Icon, Input, useToast } from '@chakra-ui/react';
 import styled from '@emotion/styled';
+import Head from 'next/head';
 import React, { useContext, useRef, useState } from 'react';
 import { GrLock, GrMailOption } from 'react-icons/gr';
-import { BrowserRouter, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { RootStoreContext } from '../stores/stores';
 import { makeRequest } from '../utils/api';
 import { Heading } from './common/Typography';
@@ -79,44 +80,45 @@ const Login = () => {
 
   return (
     <>
-      <BrowserRouter>
-        <Container>
-          <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
-            Log in
-          </Heading>
-          <InputContainer>
-            <Flex alignItems="center">
-              <InputIcon as={GrMailOption} />
-            </Flex>
-            <Flex direction="column">
-              <FormLabel>Email address</FormLabel>
-              <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
-            </Flex>
-          </InputContainer>
-          <InputContainer>
-            <Flex alignItems="center">
-              <InputIcon as={GrLock} />
-            </Flex>
-            <Flex direction="column">
-              <FormLabel>Password</FormLabel>
-              <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
-            </Flex>
-          </InputContainer>
-          <Flex direction="row" width="100%" maxWidth="380px">
-            <Button
-              mt={4}
-              colorScheme="blue"
-              isLoading={isLoading}
-              type="submit"
-              width="100%"
-              maxWidth="380px"
-              onClick={handleSubmit}
-            >
-              Login
-            </Button>
+      <Head>
+        <title>ERP - Login</title>
+      </Head>
+      <Container>
+        <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
+          Log in
+        </Heading>
+        <InputContainer>
+          <Flex alignItems="center">
+            <InputIcon as={GrMailOption} />
           </Flex>
-        </Container>
-      </BrowserRouter>
+          <Flex direction="column">
+            <FormLabel>Email address</FormLabel>
+            <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
+          </Flex>
+        </InputContainer>
+        <InputContainer>
+          <Flex alignItems="center">
+            <InputIcon as={GrLock} />
+          </Flex>
+          <Flex direction="column">
+            <FormLabel>Password</FormLabel>
+            <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
+          </Flex>
+        </InputContainer>
+        <Flex direction="row" width="100%" maxWidth="380px">
+          <Button
+            mt={4}
+            colorScheme="blue"
+            isLoading={isLoading}
+            type="submit"
+            width="100%"
+            maxWidth="380px"
+            onClick={handleSubmit}
+          >
+            Login
+          </Button>
+        </Flex>
+      </Container>
     </>
   );
 };

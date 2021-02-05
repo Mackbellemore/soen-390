@@ -2,6 +2,7 @@ import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { CookiesProvider } from 'react-cookie';
 import RootStore from '../stores/stores';
 import theme from '../theme';
 
@@ -27,9 +28,11 @@ function MyApp({ Component, pageProps }) {
               useSystemColorMode: true,
             }}
           >
-            <div suppressHydrationWarning>
-              {typeof window === 'undefined' ? null : <Component {...pageProps} />}
-            </div>
+            <CookiesProvider>
+              <div suppressHydrationWarning>
+                {typeof window === 'undefined' ? null : <Component {...pageProps} />}
+              </div>
+            </CookiesProvider>
           </ColorModeProvider>
         </ChakraProvider>
       </RootStore>

@@ -1,14 +1,45 @@
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button as ChakraButton, Flex, useToast } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
+import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useCookies } from 'react-cookie';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { RootStoreContext } from '../stores/stores';
 import { Heading } from './common/Typography';
 import { HamburgerButton } from './Sidebar';
 
+const Button = ({ path, text }) => (
+  <Link to={path}>
+    <ChakraButton _focus={{}} colorScheme="blue" variant="solid">
+      {text}
+    </ChakraButton>
+  </Link>
+);
+
 const NavBar = observer(() => {
   const location = useLocation();
+  const history = useHistory();
   const { uiStore } = useContext(RootStoreContext);
+  const [, setCookie] = useCookies(['jwt']);
+  const toast = useToast();
+
+  const onLogin = location.pathname === '/login';
+  const onHome = location.pathname === '/';
+  const onOther = !(onLogin || onHome);
+
+  const handleLogOut = () => {
+    uiStore.userLogOut();
+    setCookie('jwt', '', { path: '/' });
+    history.push('/');
+    toast({
+      position: 'top',
+      title: 'Logged out',
+      description: 'You have logged out successfully',
+      status: 'success',
+      duration: 2000,
+      isClosable: true,
+    });
+  };
 
   return (
     <Box
@@ -23,22 +54,21 @@ const NavBar = observer(() => {
       <Flex alignItems="center">{uiStore.userLoggedIn ? <HamburgerButton /> : <></>}</Flex>
       <Heading>Enterprise Resource Planning</Heading>
       <Flex>
-        {location.pathname === '/login' ? (
-          <Link to="/">
-            <Button _focus={{}} colorScheme="blue" variant="solid">
-              Home
-            </Button>
-          </Link>
-        ) : (
-          <Link to="/login">
-            <Button _focus={{}} colorScheme="blue" variant="solid">
-              Log in
-            </Button>
-          </Link>
+        {onLogin && <Button path="/" text="Home" />}
+        {onHome && <Button path="/login" text="Log In" />}
+        {onOther && (
+          <ChakraButton _focus={{}} onClick={handleLogOut}>
+            Log Out
+          </ChakraButton>
         )}
       </Flex>
     </Box>
   );
 });
+
+Button.propTypes = {
+  path: PropTypes.string,
+  text: PropTypes.string,
+};
 
 export default NavBar;
