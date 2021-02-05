@@ -2,11 +2,11 @@ import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { push as Menu } from 'react-burger-menu';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
-import Login from '../components/Login.jsx';
-import MainDashboard from '../components/MainDashboard.jsx';
 import NavBar from '../components/NavBar.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import { styles } from '../components/Sidebar.jsx';
+import Login from '../components/views/Login.jsx';
+import MainDashboard from '../components/views/MainDashboard.jsx';
 import { RootStoreContext } from '../stores/stores';
 
 const MenuItems = () => (

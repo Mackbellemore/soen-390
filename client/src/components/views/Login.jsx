@@ -5,9 +5,44 @@ import React, { useContext, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { GrLock, GrMailOption } from 'react-icons/gr';
 import { useHistory } from 'react-router-dom';
-import { RootStoreContext } from '../stores/stores';
-import { makeRequest } from '../utils/api';
-import { Heading } from './common/Typography';
+import { RootStoreContext } from '../../stores/stores';
+import { makeRequest } from '../../utils/api';
+import { Heading } from '../common/Typography';
+
+const Container = styled.div`
+  width: 100%;
+  height: 456px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  align-items: center;
+  transform: translate(-50%, -50%);
+  background-color: #fffcfc;
+  padding: 10px;
+  max-width: 560px;
+`;
+
+const InputContainer = styled(Flex)`
+  flex-direction: row;
+  background-color: white;
+  border: 1px solid #d5d5d5;
+  border-radius: 4px;
+  width: 100%;
+  max-width: 380px;
+  margin: 5px 0;
+`;
+
+const UnstyledInput = styled(Input)`
+  border: none;
+`;
+
+const InputIcon = styled(Icon)`
+  width: 30px;
+  height: 30px;
+  margin: 15px;
+`;
 
 const Login = () => {
   const { uiStore } = useContext(RootStoreContext);
@@ -21,16 +56,14 @@ const Login = () => {
   const handleSubmit = async () => {
     setIsLoading(true);
     try {
-      const response = await makeRequest('post', 'user/login', {
+      await makeRequest('post', 'user/login', {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });
 
-      if (response.status === 200) {
-        setCookie('userLoggedIn', true, { path: '/' });
-        uiStore.userLogIn();
-        history.push('/main');
-      }
+      setCookie('userLoggedIn', true, { path: '/' });
+      uiStore.userLogIn();
+      history.push('/main');
     } catch {
       toast({
         position: 'top',
@@ -40,46 +73,12 @@ const Login = () => {
         duration: 2000,
         isClosable: true,
       });
+
       emailRef.current.value = '';
       passwordRef.current.value = '';
       setIsLoading(false);
     }
   };
-
-  const Container = styled.div`
-    width: 100%;
-    height: 456px;
-    display: flex;
-    flex-direction: column;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    align-items: center;
-    transform: translate(-50%, -50%);
-    background-color: #fffcfc;
-    padding: 10px;
-    max-width: 560px;
-  `;
-
-  const InputContainer = styled(Flex)`
-    flex-direction: row;
-    background-color: white;
-    border: 1px solid #d5d5d5;
-    border-radius: 4px;
-    width: 100%;
-    max-width: 380px;
-    margin: 5px 0;
-  `;
-
-  const UnstyledInput = styled(Input)`
-    border: none;
-  `;
-
-  const InputIcon = styled(Icon)`
-    width: 30px;
-    height: 30px;
-    margin: 15px;
-  `;
 
   return (
     <>

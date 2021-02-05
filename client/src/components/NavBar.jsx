@@ -1,11 +1,11 @@
-import { Box, Button as ChakraButton, Flex, useToast } from '@chakra-ui/react';
+import { Box, Button as ChakraButton, Flex } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
-import { useCookies } from 'react-cookie';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { RootStoreContext } from '../stores/stores';
 import { Heading } from './common/Typography';
+import LogOutButton from './LogOutButton';
 import { HamburgerButton } from './Sidebar';
 
 const Button = ({ path, text }) => (
@@ -18,28 +18,11 @@ const Button = ({ path, text }) => (
 
 const NavBar = observer(() => {
   const location = useLocation();
-  const history = useHistory();
   const { uiStore } = useContext(RootStoreContext);
-  const [, setCookie] = useCookies(['userLoggedIn']);
-  const toast = useToast();
 
   const onLogin = location.pathname === '/login';
   const onHome = location.pathname === '/';
   const onOther = !(onLogin || onHome);
-
-  const handleLogOut = () => {
-    uiStore.userLogOut();
-    setCookie('userLoggedIn', false, { path: '/' });
-    history.push('/');
-    toast({
-      position: 'top',
-      title: 'Logged out',
-      description: 'You have logged out successfully',
-      status: 'success',
-      duration: 2000,
-      isClosable: true,
-    });
-  };
 
   return (
     <Box
@@ -56,11 +39,7 @@ const NavBar = observer(() => {
       <Flex>
         {onLogin && <Button path="/" text="Home" />}
         {onHome && <Button path="/login" text="Log In" />}
-        {onOther && (
-          <ChakraButton _focus={{}} onClick={handleLogOut}>
-            Log Out
-          </ChakraButton>
-        )}
+        {onOther && <LogOutButton />}
       </Flex>
     </Box>
   );
