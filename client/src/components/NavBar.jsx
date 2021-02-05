@@ -1,14 +1,13 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React, { useContext } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { RootStoreContext } from '../stores/stores';
 import { Heading } from './common/Typography';
 import { HamburgerButton } from './Sidebar';
 
 const NavBar = observer(() => {
-  const router = useRouter();
+  const location = useLocation();
   const { uiStore } = useContext(RootStoreContext);
 
   return (
@@ -24,14 +23,14 @@ const NavBar = observer(() => {
       <Flex alignItems="center">{uiStore.userLoggedIn ? <HamburgerButton /> : <></>}</Flex>
       <Heading>Enterprise Resource Planning</Heading>
       <Flex>
-        {router.pathname === '/login' ? (
-          <Link href="/">
+        {location.pathname === '/login' ? (
+          <Link to="/">
             <Button _focus={{}} colorScheme="blue" variant="solid">
               Home
             </Button>
           </Link>
         ) : (
-          <Link href="/login">
+          <Link to="/login">
             <Button _focus={{}} colorScheme="blue" variant="solid">
               Log in
             </Button>

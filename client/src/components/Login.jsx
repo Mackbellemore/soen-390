@@ -1,19 +1,18 @@
 import { Button, Flex, FormLabel, Icon, Input, useToast } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { useRouter } from 'next/router';
 import React, { useContext, useRef, useState } from 'react';
 import { GrLock, GrMailOption } from 'react-icons/gr';
-import { Heading } from '../components/common/Typography';
-import NavBar from '../components/NavBar';
+import { BrowserRouter, useHistory } from 'react-router-dom';
 import { RootStoreContext } from '../stores/stores';
 import { makeRequest } from '../utils/api';
+import { Heading } from './common/Typography';
 
 const Login = () => {
   const { uiStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
   const passwordRef = useRef('');
   const emailRef = useRef('');
-  const router = useRouter();
+  const history = useHistory();
   const toast = useToast();
 
   const handleSubmit = async () => {
@@ -25,11 +24,8 @@ const Login = () => {
       });
 
       if (response.status === 200) {
-        console.log(`userLoggedIn: ${uiStore.userLoggedIn}`);
         uiStore.userLogIn();
-        console.log(`userLoggedIn: ${uiStore.userLoggedIn}`);
-        router.push('/main');
-        console.log(`userLoggedIn: ${uiStore.userLoggedIn}`);
+        history.push('/main');
       }
     } catch {
       toast({
@@ -42,8 +38,8 @@ const Login = () => {
       });
       emailRef.current.value = '';
       passwordRef.current.value = '';
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
 
   const Container = styled.div`
@@ -83,43 +79,44 @@ const Login = () => {
 
   return (
     <>
-      <NavBar />
-      <Container>
-        <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
-          Log in
-        </Heading>
-        <InputContainer>
-          <Flex alignItems="center">
-            <InputIcon as={GrMailOption} />
+      <BrowserRouter>
+        <Container>
+          <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
+            Log in
+          </Heading>
+          <InputContainer>
+            <Flex alignItems="center">
+              <InputIcon as={GrMailOption} />
+            </Flex>
+            <Flex direction="column">
+              <FormLabel>Email address</FormLabel>
+              <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
+            </Flex>
+          </InputContainer>
+          <InputContainer>
+            <Flex alignItems="center">
+              <InputIcon as={GrLock} />
+            </Flex>
+            <Flex direction="column">
+              <FormLabel>Password</FormLabel>
+              <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
+            </Flex>
+          </InputContainer>
+          <Flex direction="row" width="100%" maxWidth="380px">
+            <Button
+              mt={4}
+              colorScheme="blue"
+              isLoading={isLoading}
+              type="submit"
+              width="100%"
+              maxWidth="380px"
+              onClick={handleSubmit}
+            >
+              Login
+            </Button>
           </Flex>
-          <Flex direction="column">
-            <FormLabel>Email address</FormLabel>
-            <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
-          </Flex>
-        </InputContainer>
-        <InputContainer>
-          <Flex alignItems="center">
-            <InputIcon as={GrLock} />
-          </Flex>
-          <Flex direction="column">
-            <FormLabel>Password</FormLabel>
-            <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
-          </Flex>
-        </InputContainer>
-        <Flex direction="row" width="100%" maxWidth="380px">
-          <Button
-            mt={4}
-            colorScheme="blue"
-            isLoading={isLoading}
-            type="submit"
-            width="100%"
-            maxWidth="380px"
-            onClick={handleSubmit}
-          >
-            Login
-          </Button>
-        </Flex>
-      </Container>
+        </Container>
+      </BrowserRouter>
     </>
   );
 };

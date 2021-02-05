@@ -27,7 +27,9 @@ function MyApp({ Component, pageProps }) {
               useSystemColorMode: true,
             }}
           >
-            <Component {...pageProps} />
+            <div suppressHydrationWarning>
+              {typeof window === 'undefined' ? null : <Component {...pageProps} />}
+            </div>
           </ColorModeProvider>
         </ChakraProvider>
       </RootStore>

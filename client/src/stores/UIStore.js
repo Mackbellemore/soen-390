@@ -24,7 +24,6 @@ class UIStore {
 
   userLogIn = () => {
     this.userLoggedIn = true;
-    console.log('user logged in');
   };
 }
 
