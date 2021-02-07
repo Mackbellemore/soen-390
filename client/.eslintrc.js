@@ -28,7 +28,7 @@ module.exports = {
     sourceType: 'module',
     requireConfigFile: false,
   },
-  plugins: ['react', '@babel', 'prettier', 'promise'],
+  plugins: ['react', 'react-hooks', '@babel', 'prettier', 'promise'],
   rules: {
     'prettier/prettier': [
       'error',

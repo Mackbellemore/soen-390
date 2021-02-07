@@ -1,10 +1,10 @@
 import { Button, Flex, FormLabel, Icon, Input, useToast } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { GrLock, GrMailOption } from 'react-icons/gr';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { RootStoreContext } from '../../stores/stores';
 import { makeRequest } from '../../utils/api';
 import { Heading } from '../common/Typography';
@@ -51,7 +51,18 @@ const Login = () => {
   const emailRef = useRef('');
   const history = useHistory();
   const toast = useToast();
-  const [, setCookie] = useCookies(['userLoggedIn']);
+  const [cookies, setCookie] = useCookies(['userLoggedIn']);
+  const location = useLocation();
+
+  useEffect(() => {
+    const userAlreadyLoggedIn = () => {
+      if (cookies.userLoggedIn === 'true' && location.pathname === '/login') {
+        history.push('/main');
+      }
+    };
+
+    userAlreadyLoggedIn();
+  }, [cookies.userLoggedIn, history, location.pathname]);
 
   const handleSubmit = async () => {
     setIsLoading(true);
