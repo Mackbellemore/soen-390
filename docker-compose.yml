@@ -11,6 +11,8 @@ services:
     volumes:
       - ./client:/app
       - /app/node_modules
+    depends_on:
+      - server
 
   server:
     container_name: server

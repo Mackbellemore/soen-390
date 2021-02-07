@@ -64,7 +64,8 @@ const Login = () => {
     userAlreadyLoggedIn();
   }, [cookies.userLoggedIn, history, location.pathname]);
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setIsLoading(true);
     try {
       await makeRequest('post', 'user/login', {
@@ -96,42 +97,43 @@ const Login = () => {
       <Head>
         <title>ERP - Login</title>
       </Head>
-      <Container>
-        <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
-          Log in
-        </Heading>
-        <InputContainer>
-          <Flex alignItems="center">
-            <InputIcon as={GrMailOption} />
+      <form onSubmit={handleSubmit}>
+        <Container>
+          <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
+            Log in
+          </Heading>
+          <InputContainer>
+            <Flex alignItems="center">
+              <InputIcon as={GrMailOption} />
+            </Flex>
+            <Flex direction="column">
+              <FormLabel>Email address</FormLabel>
+              <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
+            </Flex>
+          </InputContainer>
+          <InputContainer>
+            <Flex alignItems="center">
+              <InputIcon as={GrLock} />
+            </Flex>
+            <Flex direction="column">
+              <FormLabel>Password</FormLabel>
+              <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
+            </Flex>
+          </InputContainer>
+          <Flex direction="row" width="100%" maxWidth="380px">
+            <Button
+              mt={4}
+              colorScheme="blue"
+              isLoading={isLoading}
+              type="submit"
+              width="100%"
+              maxWidth="380px"
+            >
+              Login
+            </Button>
           </Flex>
-          <Flex direction="column">
-            <FormLabel>Email address</FormLabel>
-            <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
-          </Flex>
-        </InputContainer>
-        <InputContainer>
-          <Flex alignItems="center">
-            <InputIcon as={GrLock} />
-          </Flex>
-          <Flex direction="column">
-            <FormLabel>Password</FormLabel>
-            <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
-          </Flex>
-        </InputContainer>
-        <Flex direction="row" width="100%" maxWidth="380px">
-          <Button
-            mt={4}
-            colorScheme="blue"
-            isLoading={isLoading}
-            type="submit"
-            width="100%"
-            maxWidth="380px"
-            onClick={handleSubmit}
-          >
-            Login
-          </Button>
-        </Flex>
-      </Container>
+        </Container>
+      </form>
     </>
   );
 };
