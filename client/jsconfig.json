@@ -5,7 +5,9 @@
       "@/src/*": ["src/*"]
     },
     "checkJs": true,
-    "jsx": "react"
+    "jsx": "react",
+    "target": "esnext",
+    "moduleResolution": "node"
   },
   "exclude": ["node_modules", "**/node_modules/*", ".next"]
 }
