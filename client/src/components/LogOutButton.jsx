@@ -11,21 +11,30 @@ const LogOutButton = () => {
   const [, setCookie] = useCookies(['userLoggedIn']);
   const toast = useToast();
 
+  const logOutSuccess = () => {
+    uiStore.userLogOut();
+    setCookie('userLoggedIn', false, { path: '/' });
+    history.push('/');
+    toast({
+      position: 'top',
+      title: 'Logged out',
+      description: 'You have logged out successfully',
+      status: 'success',
+      duration: 2000,
+      isClosable: true,
+    });
+  };
+
   const handleLogOut = async () => {
     try {
       await makeRequest('post', 'user/logout');
-      uiStore.userLogOut();
-      setCookie('userLoggedIn', false, { path: '/' });
-      history.push('/');
-      toast({
-        position: 'top',
-        title: 'Logged out',
-        description: 'You have logged out successfully',
-        status: 'success',
-        duration: 2000,
-        isClosable: true,
-      });
-    } catch {
+
+      logOutSuccess();
+    } catch (err) {
+      if (err.response.status === 403) {
+        logOutSuccess();
+        return;
+      }
       toast({
         position: 'top',
         title: 'An error occurred.',
