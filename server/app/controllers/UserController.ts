@@ -40,4 +40,15 @@ export class UserController extends BaseHttpController {
       return this.json(err.message, 400);
     }
   }
+
+  @httpPost('/email')
+  public async email(req: Request, res: Response): Promise<results.JsonResult>{
+    try {
+      
+      return this.json("hey");
+    }catch (err) {
+      return this.json(err.message, 400);
+
+    }
+  }
 }

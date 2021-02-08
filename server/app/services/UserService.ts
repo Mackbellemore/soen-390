@@ -1,10 +1,11 @@
 import { IUserEntity, UserEntity } from './../entities/User';
-import { IUser } from './../models/UserModel';
+import { IUser, IEmail } from './../models/UserModel';
 import { UserRepository } from './../repository/UserRepository';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
 import bcrypt from 'bcryptjs';
 import { IConfig } from 'config';
+import nodemailer from 'nodemailer'
 
 @injectable()
 export class UserService {
@@ -34,5 +35,37 @@ export class UserService {
     }
 
     return UserEntity.buildUser(user);
+  }
+
+  public async sendEmail(body:IEmail): Promise<void>{
+
+    const emailList = body.to.join(", ")
+
+    //initialize transporter once (refactor)
+    // put credentials in .env file
+    const transport = {
+      service: 'gmail',
+      auth:{
+        user: 'soen390.team07@gmail.com',
+        pass: 'ERP_Soen390-team07'
+      }
+    }
+    const transporter = nodemailer.createTransport(transport)
+
+    const emailDetails ={
+      from: 'no-reply@ERPSystem TEAM07',
+      to: emailList,
+      subject: body.subject,
+      text: body.emailBody
+    }
+
+    transporter.sendMail(emailDetails, (err, data)=>{
+      if(err){
+        console.log(err)
+      }
+      else{
+        console.log("email sent "+data)
+      }
+    })
   }
 }

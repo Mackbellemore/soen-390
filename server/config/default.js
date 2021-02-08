@@ -8,7 +8,7 @@ module.exports = {
   server: {
     host: process.env.HOST || '0.0.0.0',
     port: process.env.PORT || 9091,
-    authEnabled: process.env.AUTH_ENABLED || true,
+    authEnabled: process.env.AUTH_ENABLED || false,
   },
   env: process.env.NODE_ENV || 'development',
   mongo: {
