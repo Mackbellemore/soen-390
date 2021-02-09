@@ -19,7 +19,7 @@ import { UserService } from './services/UserService';
 import { MongoConnection } from './utils/MongoConnection';
 
 const logger: Logger = winston.createLogger({});
-// just for dev purposes now
+// Just for dev purposes now
 logger.add(
   new winston.transports.Console({
     format: winston.format.simple(),
