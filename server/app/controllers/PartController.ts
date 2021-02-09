@@ -15,7 +15,6 @@ import { Request } from 'express';
 export class PartController extends BaseHttpController {
   constructor(@inject(TYPES.PartService) private partService: PartService) {
     super();
-    console.log('test aaa');
   }
 
   @httpPost('/')

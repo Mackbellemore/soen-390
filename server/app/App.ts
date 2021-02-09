@@ -1,18 +1,21 @@
-import { authenticateJWT } from './middlewares/authentication';
 import 'reflect-metadata';
-import winston, { Logger } from 'winston';
-import expressWinston from 'express-winston';
-import { InversifyExpressServer } from 'inversify-express-utils';
-import { container } from './registry';
-import { Application } from 'express';
-import { IConfig } from 'config';
 import * as bodyParser from 'body-parser';
-import { Server } from 'http';
-import TYPES from './constants/types';
-import { BikeRepository } from './repository/BikeRepository';
-import { UserRepository } from './repository/UserRepository';
-import cors from 'cors';
+import { IConfig } from 'config';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import { Application } from 'express';
+import expressWinston from 'express-winston';
+import { Server } from 'http';
+import { InversifyExpressServer } from 'inversify-express-utils';
+import winston, { Logger } from 'winston';
+import TYPES from './constants/types';
+import { authenticateJWT } from './middlewares/authentication';
+import { container } from './registry';
+
+// Repository
+import { BikeRepository } from './repository/BikeRepository';
+import { PartRepository } from './repository/PartRepository';
+import { UserRepository } from './repository/UserRepository';
 
 export class App {
   private config: IConfig;
@@ -91,5 +94,6 @@ export class App {
     this.logger.info('Initializing repositories');
     await container.get<UserRepository>(TYPES.UserRepository).initialize();
     await container.get<BikeRepository>(TYPES.BikeRepository).initialize();
+    await container.get<PartRepository>(TYPES.PartRepository).initialize();
   }
 }

@@ -1,27 +1,21 @@
-// Inversify stuff
-import { Container } from 'inversify';
-import TYPES from './constants/types';
-
 // Config package binds the config/default.js file
 import config, { IConfig } from 'config';
-
+import { Container } from 'inversify';
+// Utils
+import winston, { Logger } from 'winston';
+import TYPES from './constants/types';
 // Controllers import autobinds them to the application
 import './controllers/BikeController';
-import './controllers/UserController';
 import './controllers/PartController';
-
+import './controllers/UserController';
+// Repositories
+import { BikeRepository } from './repository/BikeRepository';
+import { PartRepository } from './repository/PartRepository';
+import { UserRepository } from './repository/UserRepository';
 // Services
 import { BikeService } from './services/BikeService';
-import { UserService } from './services/UserService';
 import { PartService } from './services/PartService';
-
-// repositories
-import { BikeRepository } from './repository/BikeRepository';
-import { UserRepository } from './repository/UserRepository';
-import { PartRepository } from './repository/PartRepository';
-
-// utils
-import winston, { Logger } from 'winston';
+import { UserService } from './services/UserService';
 import { MongoConnection } from './utils/MongoConnection';
 
 const logger: Logger = winston.createLogger({});

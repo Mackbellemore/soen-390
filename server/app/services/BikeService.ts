@@ -1,7 +1,7 @@
-import { IBike } from './../models/BikeModel';
-import { BikeRepository } from './../repository/BikeRepository';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
+import { IBike } from './../models/BikeModel';
+import { BikeRepository } from './../repository/BikeRepository';
 
 @injectable()
 export class BikeService {
