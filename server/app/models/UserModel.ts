@@ -5,6 +5,7 @@ export interface IUser extends Document {
   email: string;
   password: string;
   username: string;
+  role: string;
 }
 export const UserSchema: Schema = new Schema({
   email: {
@@ -22,5 +23,11 @@ export const UserSchema: Schema = new Schema({
     type: Schema.Types.String,
     required: true,
     unique: true,
+  },
+
+  role: {
+    type: Schema.Types.String,
+    enum: ['General', 'Admin'],
+    default: 'General',
   },
 });
