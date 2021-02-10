@@ -1,3 +1,4 @@
+import { MaterialRepository } from './repository/MaterialRepository';
 import { authenticateJWT } from './middlewares/authentication';
 import 'reflect-metadata';
 import winston, { Logger } from 'winston';
@@ -91,5 +92,6 @@ export class App {
     this.logger.info('Initializing repositories');
     await container.get<UserRepository>(TYPES.UserRepository).initialize();
     await container.get<BikeRepository>(TYPES.BikeRepository).initialize();
+    await container.get<MaterialRepository>(TYPES.MaterialRepository).initialize();
   }
 }
