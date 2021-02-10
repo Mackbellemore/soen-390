@@ -2,7 +2,7 @@ import { IUserEntity } from './../entities/User';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from 'config';
-import { NON_AUTH_PATHS, NON_GENERAL_PATHS } from '../constants/common';
+import { NON_AUTH_PATHS, PATHS_FORBIDDEN_TO_GENERAL_ROLE } from '../constants/common';
 
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
   if (NON_AUTH_PATHS.includes(req.path)) return next();
@@ -20,11 +20,11 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
       return res.sendStatus(403);
     }
 
-    if (decoded.role === 'General' && NON_GENERAL_PATHS.includes(req.path)) {
+    if (decoded.role === 'General' && PATHS_FORBIDDEN_TO_GENERAL_ROLE.includes(req.path)) {
       res.sendStatus(403);
     }
 
-    if (!decoded.username || !decoded.email || !decoded.id || !decoded.role) res.sendStatus(403);
+    if (!(decoded.username && decoded.email && decoded.id && decoded.role)) res.sendStatus(403);
     delete decoded.exp;
     delete decoded.iat;
 

@@ -1,5 +1,5 @@
 const NON_AUTH_PATHS: string[] = ['/user/login', '/user/register'];
 
-const NON_GENERAL_PATHS: string[] = ['/user'];
+const PATHS_FORBIDDEN_TO_GENERAL_ROLE: string[] = ['/user'];
 
-export { NON_AUTH_PATHS, NON_GENERAL_PATHS };
+export { NON_AUTH_PATHS, PATHS_FORBIDDEN_TO_GENERAL_ROLE };
