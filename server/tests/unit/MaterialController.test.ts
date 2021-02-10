@@ -5,8 +5,14 @@ import { results } from 'inversify-express-utils';
 import { Request } from 'express';
 import { SinonSandbox } from 'sinon';
 import { expect } from 'chai';
+import { BadRequestError, NotFoundError } from '../../app/errors';
 
-const materialService: any = { getMaterialList: Function, createMaterial: Function };
+const materialService: any = {
+  getMaterialList: Function,
+  createMaterial: Function,
+  updateMaterial: Function,
+  findMaterial: Function,
+};
 const mockMaterial = {
   description: 'test',
   name: 'green',
@@ -53,7 +59,7 @@ describe('Material Controller', () => {
       });
     });
 
-    it('Should return a 400 when the service layer throws an error', async () => {
+    it('Should return a 500 when the service layer throws an error', async () => {
       const mockRequest = {
         body: mockMaterial,
       } as Request;
@@ -66,7 +72,7 @@ describe('Material Controller', () => {
 
       expect(res).to.be.an.instanceof(results.JsonResult);
       expect(materialServiceStub.calledOnceWith(mockMaterial)).to.equal(true);
-      expect(res.statusCode).to.equal(400);
+      expect(res.statusCode).to.equal(500);
       expect(res.json).to.deep.equal('Random material failure gang');
     });
   });
@@ -93,7 +99,7 @@ describe('Material Controller', () => {
     });
   });
 
-  it('Should return a 400 when the service layer throws an error', async () => {
+  it('Should return a 500 when the service layer throws an error', async () => {
     const materialServiceStub = sandbox
       .stub(materialService, 'getMaterialList')
       .throws(new Error('Random material failure gang'));
@@ -102,7 +108,61 @@ describe('Material Controller', () => {
 
     expect(res).to.be.an.instanceof(results.JsonResult);
     expect(materialServiceStub.calledOnceWith()).to.equal(true);
-    expect(res.statusCode).to.equal(400);
+    expect(res.statusCode).to.equal(500);
     expect(res.json).to.deep.equal('Random material failure gang');
+  });
+
+  it('Should return a 400 when the service layer throws a BadRequestError', async () => {
+    const materialServiceStub = sandbox
+      .stub(materialService, 'getMaterialList')
+      .throws(new BadRequestError('Bad Request failure gang'));
+
+    const res = await controller.getList();
+
+    expect(res).to.be.an.instanceof(results.JsonResult);
+    expect(materialServiceStub.calledOnceWith()).to.equal(true);
+    expect(res.statusCode).to.equal(400);
+    expect(res.json).to.deep.equal('Bad Request failure gang');
+  });
+
+  describe('Patch Request', () => {
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const mockRequest = {
+        body: mockMaterial,
+        params: {
+          name: 'some not found name',
+        },
+      } as Request | any;
+
+      sandbox
+        .stub(materialService, 'updateMaterial')
+        .throws(new NotFoundError('Not found error gang'));
+
+      const res = await controller.updateByName(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(404);
+      expect(res.json).to.deep.equal('Not found error gang');
+    });
+  });
+
+  describe('Get by name Request', () => {
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const mockRequest = {
+        params: {
+          name: 'some not found name',
+        },
+      } as Request | any;
+
+      sandbox
+        .stub(materialService, 'findMaterial')
+        .throws(new NotFoundError('Not found error gang'));
+
+      const res = await controller.getByName(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(404);
+      expect(res.json).to.deep.equal('Not found error gang');
+    });
   });
 });
