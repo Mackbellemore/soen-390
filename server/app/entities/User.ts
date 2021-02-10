@@ -15,4 +15,18 @@ export class UserEntity {
       role: userModel.role,
     };
   }
+
+  public static buildUsers(userModels: IUser[]): IUserEntity[] {
+    const builtUsers: IUserEntity[] = [];
+    userModels.forEach((userModel) => {
+      builtUsers.push({
+        username: userModel.username,
+        email: userModel.email,
+        id: userModel._id,
+        role: userModel.role,
+      });
+    });
+
+    return builtUsers;
+  }
 }

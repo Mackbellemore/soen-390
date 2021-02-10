@@ -35,4 +35,9 @@ export class UserService {
 
     return UserEntity.buildUser(user);
   }
+
+  public async getUsers(): Promise<IUserEntity[]> {
+    const users: IUser[] = await this.userRepo.getList();
+    return await UserEntity.buildUsers(users);
+  }
 }

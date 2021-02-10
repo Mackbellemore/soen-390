@@ -65,4 +65,14 @@ export class UserController extends BaseHttpController {
   public async checkAuth(): Promise<results.JsonResult> {
     return this.json(200);
   }
+
+  @httpGet('/')
+  public async get(): Promise<results.JsonResult> {
+    try {
+      const users: IUserEntity[] = await this.userService.getUsers();
+      return this.json(users);
+    } catch (err) {
+      return this.json(err.message, 400);
+    }
+  }
 }
