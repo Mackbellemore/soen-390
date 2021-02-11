@@ -24,7 +24,7 @@ export interface IPart extends Document {
 }
 
 export const PartSchema: Schema = new Schema({
-  name: { type: Schema.Types.String, required: true },
+  name: { type: Schema.Types.String, required: true, unique: true, immutable: true },
   quality: { type: Schema.Types.String, required: true },
   description: { type: Schema.Types.String, required: false },
   type: { type: Schema.Types.String, required: true },

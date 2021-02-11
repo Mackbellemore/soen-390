@@ -10,7 +10,7 @@ import { BadRequestError, NotFoundError } from '../../app/errors';
 
 const partService: any = {
   getPartList: Function,
-  getPartByName: Function,
+  getName: Function,
   createPart: Function,
   updatePart: Function,
   deletePart: Function,
@@ -103,7 +103,7 @@ describe('Part Controller', () => {
         },
       } as Request | any;
 
-      const partServiceStub = sandbox.stub(partService, 'getPartByName').returns(mockPart);
+      const partServiceStub = sandbox.stub(partService, 'getName').returns(mockPart);
 
       const res = await controller.getName(mockRequest);
 
@@ -129,7 +129,7 @@ describe('Part Controller', () => {
         },
       } as Request | any;
 
-      sandbox.stub(partService, 'getPartByName').throws(new NotFoundError('Not found error'));
+      sandbox.stub(partService, 'getName').throws(new NotFoundError('Not found error'));
 
       const res = await controller.getName(mockRequest);
 
@@ -170,14 +170,14 @@ describe('Part Controller', () => {
         body: mockPart,
       } as Request;
 
-      const materialServiceStub = sandbox
+      const partServiceStub = sandbox
         .stub(partService, 'createPart')
         .throws(new Error('Random Part failure!!'));
 
       const res = await controller.post(mockRequest);
 
       expect(res).to.be.an.instanceof(results.JsonResult);
-      expect(materialServiceStub.calledOnceWith(mockPart)).to.equal(true);
+      expect(partServiceStub.calledOnceWith(mockPart)).to.equal(true);
       expect(res.statusCode).to.equal(500);
       expect(res.json).to.deep.equal('Random Part failure!!');
     });
@@ -185,7 +185,7 @@ describe('Part Controller', () => {
 
   // PATCH
   describe('Patch Request', () => {
-    it('Should return a 200 with updated material', async () => {
+    it('Should return a 200 with updated part', async () => {
       const mockRequest = {
         body: mockPart,
         params: {
@@ -228,5 +228,30 @@ describe('Part Controller', () => {
       expect(res.json).to.deep.equal('Not found error');
     });
   });
+
   // DELETE
+  describe('Delete Reuqest', async () => {
+    it('Should return a 200 with delete part', async () => {
+      const mockRequest = {
+        params: {
+          name: 'some not found name',
+        },
+      } as Request | any;
+      sandbox.stub(partService, 'deletePart').returns(mockPart);
+      const res = await controller.delete(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(200);
+      expect(res.json).to.deep.equal({
+        name: 'wheel',
+        quality: 'high-quality',
+        description: 'Circular frame of hard material that is solid',
+        type: 'round',
+        color: 'color',
+        finish: 'glossy',
+        grade: 'aluminum',
+        detail: '18inch',
+      });
+    });
+  });
 });

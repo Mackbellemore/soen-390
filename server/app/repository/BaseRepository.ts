@@ -58,7 +58,7 @@ export abstract class BaseRepository<T extends Document> {
     }
   }
 
-  public async delete(name: string): Promise<T> {
+  public async delete(name: string): Promise<T | null> {
     try {
       return await this.model.deleteOne({ name: name });
     } catch (e) {

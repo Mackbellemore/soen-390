@@ -13,11 +13,11 @@ export class PartService {
   }
 
   public async getName(name: string): Promise<IPart> {
-    const material = await this.partRepo.getByName(name);
-    if (!material) {
+    const part = await this.partRepo.getByName(name);
+    if (!part) {
       throw new NotFoundError(`Part with name ${name} was not found`);
     }
-    return material;
+    return part;
   }
 
   public async createPart(body: IPart): Promise<IPart> {
@@ -32,7 +32,7 @@ export class PartService {
     return updatedPart;
   }
 
-  public async deletePart(name: string): Promise<IPart> {
+  public async deletePart(name: string): Promise<IPart | null> {
     return await this.partRepo.delete(name);
   }
 }
