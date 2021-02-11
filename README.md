@@ -24,6 +24,7 @@ Husky will run Prettier before every commit (pre-commit hook). This will ensure 
 
 - Node.js v15+
 - Docker v20+
+- Docker-Compose v1.27+
 
 ### Docker
 
@@ -62,7 +63,7 @@ volumes:
 
 4. In VS code on the debug tab click on "create launch.json" or click on the gear icon. Replace the contents with the contents of `launch.json` at the root of this project.
 
-3. Hit F5 or run the `Docker: Attach to Node server` configuration debugger, you should now be able to set breakpoints.
+5. Hit F5 or run the `Docker: Attach to Node server` configuration debugger, you should now be able to set breakpoints.
 
 ### MongoDB
 
