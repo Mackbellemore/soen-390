@@ -8,9 +8,9 @@ export interface IUser extends Document {
 }
 
 export interface IEmail {
-  to: string[],
-  subject: string,
-  emailBody: string,
+  to: string[];
+  subject: string;
+  emailBody: string;
 }
 
 export const UserSchema: Schema = new Schema({

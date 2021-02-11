@@ -4,13 +4,23 @@ import { UserRepository } from './../repository/UserRepository';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
 import bcrypt from 'bcryptjs';
-import { IConfig } from 'config';
-import nodemailer from 'nodemailer'
+import config, { IConfig } from 'config';
+import nodemailer, { SentMessageInfo } from 'nodemailer';
+import Mail from 'nodemailer/lib/mailer';
 
 @injectable()
 export class UserService {
+  private transporter: Mail;
   @inject(TYPES.config) private config: IConfig;
-  constructor(@inject(TYPES.UserRepository) private userRepo: UserRepository) {}
+  constructor(@inject(TYPES.UserRepository) private userRepo: UserRepository) {
+    this.transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'soen390.team07@gmail.com',
+        pass: config.get<string>('mail'),
+      },
+    });
+  }
 
   public async registerUser(body: IUser): Promise<IUserEntity> {
     if (!body.password) {
@@ -37,35 +47,15 @@ export class UserService {
     return UserEntity.buildUser(user);
   }
 
-  public async sendEmail(body:IEmail): Promise<void>{
+  public async sendEmail(body: IEmail): Promise<SentMessageInfo> {
+    const emailList = body.to.join(', ');
 
-    const emailList = body.to.join(", ")
-
-    //initialize transporter once (refactor)
-    // put credentials in .env file
-    const transport = {
-      service: 'gmail',
-      auth:{
-        user: 'soen390.team07@gmail.com',
-        pass: 'ERP_Soen390-team07'
-      }
-    }
-    const transporter = nodemailer.createTransport(transport)
-
-    const emailDetails ={
-      from: 'no-reply@ERPSystem TEAM07',
+    const emailDetails = {
+      from: 'no-reply@ERPSystem TEAM07 <soen390.team07@gmail.com>',
       to: emailList,
       subject: body.subject,
-      text: body.emailBody
-    }
-
-    transporter.sendMail(emailDetails, (err, data)=>{
-      if(err){
-        console.log(err)
-      }
-      else{
-        console.log("email sent "+data)
-      }
-    })
+      text: body.emailBody,
+    };
+    return await this.transporter.sendMail(emailDetails);
   }
 }
