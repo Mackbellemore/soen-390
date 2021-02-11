@@ -7,6 +7,8 @@ import {
   httpPost,
   results,
   httpGet,
+  httpDelete,
+  httpPatch,
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import { Request } from 'express';
@@ -18,7 +20,7 @@ export class PartController extends BaseHttpController {
   }
 
   // @desc        Get all part
-  // @route       GET /parts/
+  // @route       GET /parts
   // @access      Public
   @httpGet('/')
   public async getList(): Promise<results.JsonResult> {
@@ -30,31 +32,18 @@ export class PartController extends BaseHttpController {
     }
   }
 
-  // @desc        Get by ID
-  // @route       GET /parts/:id
-  // @access      Public
-  // @httpGet('/:id')
-  // public async getId(): Promise<results.JsonResult> {
-  //   try {
-  //     const part = await this.partService.get();
-  //     return this.json(part);
-  //   } catch (err) {
-  //     return this.json(err.message, 400);
-  //   }
-  // }
-
   // @desc        Get by Name
   // @route       GET /parts/:name
   // @access      Public
-  // @httpGet('/:name')
-  // public async getName(): Promise<results.JsonResult> {
-  //   try {
-  //     const part = await this.partService.get();
-  //     return this.json(part);
-  //   } catch (err) {
-  //     return this.json(err.message, 400);
-  //   }
-  // }
+  @httpGet('/:name')
+  public async getName(req: Request): Promise<results.JsonResult> {
+    try {
+      const part = await this.partService.getName(req.params.name);
+      return this.json(part);
+    } catch (err) {
+      return this.json(err.message, 400);
+    }
+  }
 
   // @desc        Create new part
   // @route       POST /parts
@@ -63,6 +52,32 @@ export class PartController extends BaseHttpController {
   public async post(req: Request): Promise<results.JsonResult> {
     try {
       const part = await this.partService.createPart(req.body);
+      return this.json(part);
+    } catch (err) {
+      return this.json(err.message, 400);
+    }
+  }
+
+  // @desc        Update part
+  // @route       PATCH /parts/:name
+  // @access      Public
+  @httpPatch('/:name')
+  public async patch(req: Request): Promise<results.JsonResult> {
+    try {
+      const part = await this.partService.updatePart(req.params.name, req.body);
+      return this.json(part);
+    } catch (err) {
+      return this.json(err.message, 400);
+    }
+  }
+
+  // @desc        Delete part
+  // @route       DELETE /parts/:name
+  // @access      Public
+  @httpDelete('/:name')
+  public async delete(req: Request): Promise<results.JsonResult> {
+    try {
+      const part = await this.partService.deletePart(req.params.name);
       return this.json(part);
     } catch (err) {
       return this.json(err.message, 400);
