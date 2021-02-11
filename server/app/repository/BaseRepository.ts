@@ -35,7 +35,7 @@ export abstract class BaseRepository<T extends Document> {
 
   public async getList(): Promise<T[]> {
     try {
-      return await this.model.find();
+      return await this.model.find().exec();
     } catch (e) {
       this.manageRepositoryError(e);
     }
@@ -51,7 +51,7 @@ export abstract class BaseRepository<T extends Document> {
 
   public async findById(id: string): Promise<T | null> {
     try {
-      return await this.model.findById(id);
+      return await this.model.findById(id).exec();
     } catch (e) {
       this.manageRepositoryError(e);
     }
