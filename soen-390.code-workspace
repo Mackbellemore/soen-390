@@ -21,7 +21,7 @@
       "source.addMissingImports": true,
       "source.fixAll": true,
       "source.fixAll.eslint": true,
-      "source.organizeImports": false
+      "source.organizeImports": false,
     },
     "editor.formatOnPaste": true,
     "editor.formatOnSave": false,

@@ -30,6 +30,7 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks', '@babel', 'prettier', 'promise'],
   rules: {
+    'no-console': 'error',
     'prettier/prettier': [
       'error',
       {

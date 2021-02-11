@@ -9,11 +9,11 @@ export class MaterialService {
   constructor(@inject(TYPES.MaterialRepository) private materialRepo: MaterialRepository) {}
 
   public async createMaterial(body: IMaterial): Promise<IMaterial> {
-    return await this.materialRepo.create(body);
+    return this.materialRepo.create(body);
   }
 
   public async getMaterialList(): Promise<IMaterial[]> {
-    return await this.materialRepo.getList();
+    return this.materialRepo.getList();
   }
 
   public async updateMaterial(name: string, body: IMaterial): Promise<IMaterial> {

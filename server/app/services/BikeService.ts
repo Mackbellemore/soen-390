@@ -9,11 +9,11 @@ export class BikeService {
   constructor(@inject(TYPES.BikeRepository) private bikeRepo: BikeRepository) {}
 
   public async getBikes(): Promise<IBike[]> {
-    return await this.bikeRepo.getList();
+    return this.bikeRepo.getList();
   }
 
   public async createBike(body: IBike): Promise<IBike> {
-    return await this.bikeRepo.create(body);
+    return this.bikeRepo.create(body);
   }
 
   public async updateBike(id: string, body: IBike): Promise<IBike> {
