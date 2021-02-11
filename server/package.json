@@ -74,7 +74,7 @@
     "format:ci": "npm run format:base -- --check .",
     "lint": "npm run lint:ci -- --fix",
     "lint:ci": "eslint --ignore-path .gitignore .",
-    "start": "node ./build/index.js",
+    "start": "node build/index.js",
     "test": "mocha -r ts-node/register tests/**/*.test.ts",
     "test:ci": "nyc npm run test",
     "test:html": "nyc npm run test --reporter=html && open ./coverage/index.html"
