@@ -1,4 +1,4 @@
-import c from "config";
+import c from 'config';
 
 export default class NotFoundError extends Error {
   constructor(message: string) {
@@ -6,4 +6,4 @@ export default class NotFoundError extends Error {
     this.message = message;
   }
 }
-c
+c;

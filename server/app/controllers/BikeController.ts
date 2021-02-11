@@ -36,7 +36,6 @@ export class BikeController extends BaseController {
       return this.json(bike);
     } catch (err) {
       return this.handleError(err);
-
     }
   }
 
@@ -58,7 +57,6 @@ export class BikeController extends BaseController {
       return this.json(bike);
     } catch (err) {
       return this.handleError(err);
-
     }
   }
 
@@ -69,7 +67,6 @@ export class BikeController extends BaseController {
       return this.json(bike);
     } catch (err) {
       return this.handleError(err);
-
     }
   }
 }

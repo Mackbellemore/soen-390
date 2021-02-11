@@ -7,7 +7,13 @@ import { SinonSandbox } from 'sinon';
 import { BikeController } from './../../app/controllers/BikeController';
 import { NotFoundError } from '../../app/errors';
 
-const bikeService: any = { getBikes: Function, createBike: Function, deleteBike: Function, updateBike: Function, findById: Function };
+const bikeService: any = {
+  getBikes: Function,
+  createBike: Function,
+  deleteBike: Function,
+  updateBike: Function,
+  findById: Function,
+};
 const mockBike = {
   description: 'test',
   color: 'green',
@@ -136,7 +142,6 @@ describe('BikeController', () => {
 
       sinon.assert.calledOnce(bikeServiceStub);
 
-
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(bikeServiceStub.calledOnceWith()).to.equal(true);
       expect(response.statusCode).to.equal(200);
@@ -144,7 +149,7 @@ describe('BikeController', () => {
         description: 'test',
         color: 'green',
         weightAmount: 69,
-        id: "12312313",
+        id: '12312313',
       });
     });
 
@@ -192,7 +197,7 @@ describe('BikeController', () => {
       const mockRequest = {
         body: mockBike,
         params: {
-          id: "12312313",
+          id: '12312313',
         },
       } as Request | any;
 
@@ -206,7 +211,7 @@ describe('BikeController', () => {
         description: 'test',
         color: 'green',
         weightAmount: 69,
-        id: "12312313",
+        id: '12312313',
       });
     });
 
@@ -214,42 +219,36 @@ describe('BikeController', () => {
       const mockRequest = {
         body: mockBike,
         params: {
-          id: "12312313",
+          id: '12312313',
         },
       } as Request | any;
 
       const expectedErrorMsg = 'Cannot find';
-      sandbox
-        .stub(bikeService, 'updateBike')
-        .throws(new NotFoundError(expectedErrorMsg));
+      sandbox.stub(bikeService, 'updateBike').throws(new NotFoundError(expectedErrorMsg));
 
       const response = await controller.update(mockRequest);
 
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(404);
       expect(response.json).to.equal(expectedErrorMsg);
-
     });
 
     it('returns 500 if an unexpected error occurs', async () => {
       const mockRequest = {
         body: mockBike,
         params: {
-          id: "12312313",
+          id: '12312313',
         },
       } as Request | any;
 
       const expectedErrorMsg = 'Some test error';
-      sandbox
-        .stub(bikeService, 'updateBike')
-        .throws(new Error(expectedErrorMsg));
+      sandbox.stub(bikeService, 'updateBike').throws(new Error(expectedErrorMsg));
 
       const response = await controller.update(mockRequest);
 
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(500);
       expect(response.json).to.equal(expectedErrorMsg);
-
     });
   });
 
@@ -257,7 +256,7 @@ describe('BikeController', () => {
     it('get a bike with requested id', async () => {
       const mockRequest = {
         params: {
-          id: "12312313",
+          id: '12312313',
         },
       } as Request | any;
 
@@ -280,12 +279,15 @@ describe('BikeController', () => {
     it('Should throw a 404 when service throws a NotFoundError', async () => {
       const mockRequest = {
         params: {
-          id: "12312313",
+          id: '12312313',
         },
       } as Request | any;
 
-      const expectedErrorMsg = 'Not found error gang'
-      const bikeServiceStub = sandbox.stub(bikeService, 'findById').returns(mockBike).throws(new NotFoundError(expectedErrorMsg));;
+      const expectedErrorMsg = 'Not found error gang';
+      const bikeServiceStub = sandbox
+        .stub(bikeService, 'findById')
+        .returns(mockBike)
+        .throws(new NotFoundError(expectedErrorMsg));
 
       const response = await controller.getById(mockRequest);
 
@@ -299,12 +301,15 @@ describe('BikeController', () => {
     it('Should throw a 500 when service throws an error', async () => {
       const mockRequest = {
         params: {
-          id: "12312313",
+          id: '12312313',
         },
       } as Request | any;
 
-      const expectedErrorMsg = 'Some random error'
-      const bikeServiceStub = sandbox.stub(bikeService, 'findById').returns(mockBike).throws(new Error(expectedErrorMsg));;
+      const expectedErrorMsg = 'Some random error';
+      const bikeServiceStub = sandbox
+        .stub(bikeService, 'findById')
+        .returns(mockBike)
+        .throws(new Error(expectedErrorMsg));
 
       const response = await controller.getById(mockRequest);
 
@@ -314,6 +319,5 @@ describe('BikeController', () => {
       expect(response.statusCode).to.equal(500);
       expect(response.json).to.equal(expectedErrorMsg);
     });
-
   });
 });
