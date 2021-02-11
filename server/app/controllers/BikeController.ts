@@ -36,4 +36,14 @@ export class BikeController extends BaseHttpController {
       return this.json(err.message, 400);
     }
   }
+
+//   @httpDelete('/')
+//   public async delete(request: Request): Promise<results.JsonResult> {
+//     try {
+//       const bike: IBike = await this.bikeService.deleteBike(request.body);
+//       return this.json(bike);
+//     } catch (err) {
+//       return this.json(err.message, 400);
+//     }
+//   }
 }

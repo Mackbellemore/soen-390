@@ -14,4 +14,18 @@ export class BikeService {
   public async createBike(body: IBike): Promise<IBike> {
     return await this.bikeRepo.create(body);
   }
+
+  // public async updateBike(body: IBike): Promise<IBike> {
+
+  //   const updatedBike = await this.bikeRepo.updateByName(name, body);
+  //   if (!updatedBike) {
+  //     throw new NotFoundError(`Bike with name ${name} was not found`);
+  //   }
+
+  //   return updatedMaterial;
+  // }
+
+  // public async deleteBike(body: IBike): Promise<IBike> {
+  //   return await this.bikeRepo.delete(body);
+  // }
 }
