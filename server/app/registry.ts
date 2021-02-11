@@ -9,15 +9,18 @@ import config, { IConfig } from 'config';
 import './controllers/BikeController';
 import './controllers/UserController';
 import './controllers/SystemController';
+import './controllers/MaterialController';
 
-// Services
+// Services (make sure to bind it to a singleton)
 import { BikeService } from './services/BikeService';
 import { UserService } from './services/UserService';
 import { SystemService } from './services/SystemService';
+import { MaterialService } from './services/MaterialService';
 
 // repositories
 import { BikeRepository } from './repository/BikeRepository';
 import { UserRepository } from './repository/UserRepository';
+import { MaterialRepository } from './repository/MaterialRepository';
 
 // utils
 import winston, { Logger } from 'winston';
@@ -56,5 +59,9 @@ container.bind<BikeRepository>(TYPES.BikeRepository).to(BikeRepository).inSingle
 container.bind<UserService>(TYPES.UserService).to(UserService).inSingletonScope();
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
 container.bind<SystemService>(TYPES.SystemService).to(SystemService).inSingletonScope();
-
+container.bind<MaterialService>(TYPES.MaterialService).to(MaterialService).inSingletonScope();
+container
+  .bind<MaterialRepository>(TYPES.MaterialRepository)
+  .to(MaterialRepository)
+  .inSingletonScope();
 export { container };

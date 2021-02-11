@@ -3,7 +3,13 @@ import { UserService } from './../services/UserService';
 import { generateToken } from '../middlewares/authentication';
 import { Request, Response } from 'express';
 import { inject } from 'inversify';
-import { controller, BaseHttpController, results, httpPost } from 'inversify-express-utils';
+import {
+  controller,
+  BaseHttpController,
+  results,
+  httpPost,
+  httpGet,
+} from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import config from 'config';
 
@@ -39,5 +45,24 @@ export class UserController extends BaseHttpController {
     } catch (err) {
       return this.json(err.message, 400);
     }
+  }
+
+  @httpPost('/logout')
+  public async logout(_req: Request, res: Response): Promise<results.JsonResult> {
+    try {
+      if (config.get<boolean>('server.authEnabled')) {
+        res.cookie('jwt', '', { httpOnly: true });
+      }
+
+      return this.json(200);
+    } catch (err) {
+      console.log(err);
+      return this.json(err.message, 400);
+    }
+  }
+
+  @httpGet('/authCheck')
+  public async checkAuth(): Promise<results.JsonResult> {
+    return this.json(200);
   }
 }

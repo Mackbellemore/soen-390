@@ -5,9 +5,11 @@ const TYPES = {
   logger: Symbol.for('logger'),
   BikeRepository: Symbol.for('BikeRepository'),
   UserRepository: Symbol.for('UserRepository'),
+  MaterialRepository: Symbol.for('MaterialRepository'),
   MongoConnection: Symbol.for('MongoConnection'),
   SystemService: Symbol.for('SystemService'),
   Mail: Symbol.for('Mail'),
+  MaterialService: Symbol.for('MaterialService'),
 };
 
 export default TYPES;

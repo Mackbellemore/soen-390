@@ -3,7 +3,6 @@ services:
   client:
     stdin_open: true
     container_name: client
-    restart: always
     build:
       context: ./client
       target: develop
@@ -13,7 +12,7 @@ services:
       - ./client:/app
       - /app/node_modules
     depends_on:
-      - mongo
+      - server
 
   server:
     container_name: server
