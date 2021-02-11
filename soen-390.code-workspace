@@ -21,10 +21,10 @@
       "source.addMissingImports": true,
       "source.fixAll": true,
       "source.fixAll.eslint": true,
-      "source.organizeImports": true
+      "source.organizeImports": false
     },
     "editor.formatOnPaste": true,
-    "editor.formatOnSave": true,
+    "editor.formatOnSave": false,
     "editor.linkedEditing": true,
     "files.autoSave": "onFocusChange",
     "files.insertFinalNewline": true,

@@ -4,7 +4,6 @@ import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
 import { NotFoundError } from '../errors';
 
-
 @injectable()
 export class BikeService {
   constructor(@inject(TYPES.BikeRepository) private bikeRepo: BikeRepository) {}
@@ -18,7 +17,6 @@ export class BikeService {
   }
 
   public async updateBike(id: string, body: IBike): Promise<IBike> {
-
     const updatedBike = await this.bikeRepo.update(id, body);
     if (!updatedBike) {
       throw new NotFoundError(`Bike with id ${id} was not found`);
@@ -27,14 +25,21 @@ export class BikeService {
     return updatedBike;
   }
 
-  public async deleteBike(body: IBike): Promise<IBike| null> {
+  public async deleteBike(body: IBike): Promise<IBike | null> {
     const deletedBike = await this.bikeRepo.delete(body.id);
     if (!deletedBike) {
       throw new NotFoundError(`Bike with id ${body.id} was not found`);
-      
     }
 
-    return deletedBike
-    
+    return deletedBike;
+  }
+
+  public async findById(id: string): Promise<IBike> {
+    const bike = await this.bikeRepo.findById(id);
+    if (!bike) {
+      throw new NotFoundError(`Material with name ${name} was not found`);
+    }
+
+    return bike;
   }
 }
