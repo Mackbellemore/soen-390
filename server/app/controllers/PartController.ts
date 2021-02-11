@@ -3,7 +3,6 @@ import { PartService } from '../services/PartService';
 import { inject } from 'inversify';
 import {
   controller,
-  BaseHttpController,
   httpPost,
   results,
   httpGet,
@@ -12,9 +11,10 @@ import {
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import { Request } from 'express';
+import { BaseController } from './BaseController';
 
 @controller('/parts')
-export class PartController extends BaseHttpController {
+export class PartController extends BaseController {
   constructor(@inject(TYPES.PartService) private partService: PartService) {
     super();
   }
@@ -28,7 +28,7 @@ export class PartController extends BaseHttpController {
       const partList: IPart[] = await this.partService.getPartList();
       return this.json(partList);
     } catch (err) {
-      return this.json(err.message, 400);
+      return this.handleError(err);
     }
   }
 
@@ -41,7 +41,7 @@ export class PartController extends BaseHttpController {
       const part = await this.partService.getName(req.params.name);
       return this.json(part);
     } catch (err) {
-      return this.json(err.message, 400);
+      return this.handleError(err);
     }
   }
 
@@ -54,7 +54,7 @@ export class PartController extends BaseHttpController {
       const part = await this.partService.createPart(req.body);
       return this.json(part);
     } catch (err) {
-      return this.json(err.message, 400);
+      return this.handleError(err);
     }
   }
 
@@ -67,7 +67,7 @@ export class PartController extends BaseHttpController {
       const part = await this.partService.updatePart(req.params.name, req.body);
       return this.json(part);
     } catch (err) {
-      return this.json(err.message, 400);
+      return this.handleError(err);
     }
   }
 
@@ -80,7 +80,7 @@ export class PartController extends BaseHttpController {
       const part = await this.partService.deletePart(req.params.name);
       return this.json(part);
     } catch (err) {
-      return this.json(err.message, 400);
+      return this.handleError(err);
     }
   }
 }
