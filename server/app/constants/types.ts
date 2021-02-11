@@ -6,13 +6,15 @@ const TYPES = {
   BikeService: Symbol.for('BikeService'),
   UserService: Symbol.for('UserService'),
   PartService: Symbol.for('PartService'),
+  MaterialService: Symbol.for('MaterialService'),
 
   // Repository
-  BikeRepository: Symbol.for('BikeRepository'),
   UserRepository: Symbol.for('UserRepository'),
   PartRepository: Symbol.for('PartRepository'),
+  MaterialRepository: Symbol.for('MaterialRepository'),
+  BikeRepository: Symbol.for('BikeRepository'),
 
-  // MongoDB
+  // Mongo
   MongoConnection: Symbol.for('MongoConnection'),
 };
 

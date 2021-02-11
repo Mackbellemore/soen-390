@@ -16,6 +16,7 @@ import { container } from './registry';
 import { BikeRepository } from './repository/BikeRepository';
 import { PartRepository } from './repository/PartRepository';
 import { UserRepository } from './repository/UserRepository';
+import { MaterialRepository } from './repository/MaterialRepository';
 
 export class App {
   private config: IConfig;
@@ -95,5 +96,6 @@ export class App {
     await container.get<UserRepository>(TYPES.UserRepository).initialize();
     await container.get<BikeRepository>(TYPES.BikeRepository).initialize();
     await container.get<PartRepository>(TYPES.PartRepository).initialize();
+    await container.get<MaterialRepository>(TYPES.MaterialRepository).initialize();
   }
 }
