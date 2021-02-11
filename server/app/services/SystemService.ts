@@ -18,6 +18,6 @@ export class SystemService {
       subject: body.subject,
       text: body.emailBody,
     };
-    return await this.transporter.sendMail(emailDetails);
+    return this.transporter.sendMail(emailDetails);
   }
 }
