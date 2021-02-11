@@ -1,8 +1,15 @@
 #!/bin/sh
 . "$(dirname $0)/_/husky.sh"
 
-cd client
-npm run format
+format() {
+  FILES=$(git diff --cached --name-only --diff-filter=ACMR "*.js" "*.ts" "*.jsx" "*.json" | sed 's| |\\ |g')
+  [ -z "$FILES" ] && return
 
-cd ../server
-npm run format
+  # Prettify all selected files
+  echo "$FILES" | xargs ./client/node_modules/.bin/prettier --ignore-path .gitignore --write
+
+  # Add back the modified/prettified files to staging
+  echo "$FILES" | xargs git add
+}
+
+format
