@@ -4,9 +4,6 @@ import TYPES from '../constants/types';
 import config from 'config';
 import { SentMessageInfo } from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
-import dotenv from 'dotenv';
-
-dotenv.config();
 
 @injectable()
 export class SystemService {
@@ -16,7 +13,7 @@ export class SystemService {
     const emailList = body.to.join(', ');
 
     const emailDetails = {
-      from: `no-reply@ERPSystem TEAM07 <${config.get<string>('email')}>`,
+      from: `no-reply@ERPSystem TEAM07 <${config.get<string>('email.user')}>`,
       to: emailList,
       subject: body.subject,
       text: body.emailBody,

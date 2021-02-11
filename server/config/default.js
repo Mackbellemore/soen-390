@@ -23,6 +23,9 @@ module.exports = {
     secret: process.env.JWT_SECRET || 'addadasjfghKEU10dawadrfgh!e29sosafelol',
     expiry: process.env.JWT_EXPIRY || '30m',
   },
-  email: 'soen390.team07@gmail.com',
+  email: {
+    user: 'soen390.team07@gmail.com',
+    pass: process.env.EMAIL_PASS,
+  },
   origin: process.env.ORIGIN || 'http://localhost:3000',
 };

@@ -39,8 +39,8 @@ logger.add(
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: config.get<string>('email'),
-    pass: process.env.EMAIL_PASS,
+    user: config.get<string>('email.user'),
+    pass: config.get<string>('email.pass'),
   },
 });
 
