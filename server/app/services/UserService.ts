@@ -1,26 +1,15 @@
 import { IUserEntity, UserEntity } from './../entities/User';
-import { IUser, IEmail } from './../models/UserModel';
+import { IUser } from './../models/UserModel';
 import { UserRepository } from './../repository/UserRepository';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
 import bcrypt from 'bcryptjs';
-import config, { IConfig } from 'config';
-import nodemailer, { SentMessageInfo } from 'nodemailer';
-import Mail from 'nodemailer/lib/mailer';
+import { IConfig } from 'config';
 
 @injectable()
 export class UserService {
-  private transporter: Mail;
   @inject(TYPES.config) private config: IConfig;
-  constructor(@inject(TYPES.UserRepository) private userRepo: UserRepository) {
-    this.transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'soen390.team07@gmail.com',
-        pass: config.get<string>('mail'),
-      },
-    });
-  }
+  constructor(@inject(TYPES.UserRepository) private userRepo: UserRepository) {}
 
   public async registerUser(body: IUser): Promise<IUserEntity> {
     if (!body.password) {
@@ -45,17 +34,5 @@ export class UserService {
     }
 
     return UserEntity.buildUser(user);
-  }
-
-  public async sendEmail(body: IEmail): Promise<SentMessageInfo> {
-    const emailList = body.to.join(', ');
-
-    const emailDetails = {
-      from: 'no-reply@ERPSystem TEAM07 <soen390.team07@gmail.com>',
-      to: emailList,
-      subject: body.subject,
-      text: body.emailBody,
-    };
-    return await this.transporter.sendMail(emailDetails);
   }
 }

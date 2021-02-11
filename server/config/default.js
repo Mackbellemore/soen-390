@@ -23,6 +23,6 @@ module.exports = {
     secret: process.env.JWT_SECRET || 'addadasjfghKEU10dawadrfgh!e29sosafelol',
     expiry: process.env.JWT_EXPIRY || '30m',
   },
-  mail: 'ERP_Soen390-team07',
+  email: 'soen390.team07@gmail.com',
   origin: process.env.ORIGIN || 'http://localhost:3000',
 };

@@ -6,7 +6,6 @@ import { inject } from 'inversify';
 import { controller, BaseHttpController, results, httpPost } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import config from 'config';
-import { SentMessageInfo } from 'nodemailer';
 
 @controller('/user')
 export class UserController extends BaseHttpController {
@@ -37,16 +36,6 @@ export class UserController extends BaseHttpController {
       return this.json({
         user,
       });
-    } catch (err) {
-      return this.json(err.message, 400);
-    }
-  }
-
-  @httpPost('/email')
-  public async email(req: Request): Promise<results.JsonResult> {
-    try {
-      const info: SentMessageInfo = await this.userService.sendEmail(req.body);
-      return this.json(info);
     } catch (err) {
       return this.json(err.message, 400);
     }

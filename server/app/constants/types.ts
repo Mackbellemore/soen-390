@@ -6,6 +6,8 @@ const TYPES = {
   BikeRepository: Symbol.for('BikeRepository'),
   UserRepository: Symbol.for('UserRepository'),
   MongoConnection: Symbol.for('MongoConnection'),
+  SystemService: Symbol.for('SystemService'),
+  Mail: Symbol.for('Mail'),
 };
 
 export default TYPES;
