@@ -1,0 +1,49 @@
+name: Linting
+
+on:
+  push:
+    branches-ignore:
+      - "main"
+      - "develop"
+  pull_request:
+
+jobs:
+  linting:
+    name: Run linters
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        project: ["client", "server"]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 15
+
+      - name: Cache node modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install Node.js dependencies
+        working-directory: ${{ matrix.project }}
+        run: npm install
+
+      - name: Run Prettier
+        working-directory: ${{ matrix.project }}
+        run: npm run format:ci
+
+      - name: Run ESLint
+        working-directory: ${{ matrix.project }}
+        run: npm run lint:ci
