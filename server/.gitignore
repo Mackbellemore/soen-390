@@ -1,7 +1,0 @@
-.env
-.nyc_output
-.vscode/*
-!.vscode/launch.json
-build
-coverage
-node_modules
