@@ -5,6 +5,8 @@ import { inject } from 'inversify';
 import {
   controller,
   httpGet,
+  httpPatch,
+  httpDelete,
   BaseHttpController,
   results,
   httpPost,
@@ -34,16 +36,29 @@ export class BikeController extends BaseHttpController {
       return this.json(bike);
     } catch (err) {
       return this.json(err.message, 400);
+      
     }
   }
 
-//   @httpDelete('/')
-//   public async delete(request: Request): Promise<results.JsonResult> {
-//     try {
-//       const bike: IBike = await this.bikeService.deleteBike(request.body);
-//       return this.json(bike);
-//     } catch (err) {
-//       return this.json(err.message, 400);
-//     }
-//   }
+  @httpDelete('/')
+  public async delete(request: Request): Promise<results.JsonResult> {
+    try {
+      const bike: IBike | null = await this.bikeService.deleteBike(request.body);
+
+      return this.json(bike);
+    } catch (err) {
+      return this.json(err.message, 404);
+    }
+  }
+
+  @httpPatch('/:id')
+  public async update(request: Request): Promise<results.JsonResult> {
+    try {
+      const bike: IBike | null = await this.bikeService.updateBike(request.params.id, request.body);
+      return this.json(bike);
+    } catch (err) {
+      return this.json(err.message, 404);
+      
+    }
+  }
 }

@@ -8,26 +8,16 @@ export class BikeRepository extends BaseRepository<IBike> {
   protected readonly collectionName: string = 'bikes';
   protected readonly schema: Schema = BikeSchema;
 
-  // public async updateByName(name: string, body: IMaterial): Promise<IMaterial | null> {
-  //   try {
-  //     return await this.model.findOneAndUpdate({ name }, body, {
-  //       returnOriginal: false,
-  //       runValidators: true,
-  //     });
-  //   } catch (err) {
-  //     return this.manageRepositoryError(err);
-  //   }
-  // }
-    
-  // public async deleteSerialNumber(serialNumber: string, body: IMaterial): Promise<IMaterial | null> {
-  //   try {
-  //       await this.model.findOneAndRemove( { serialNumber }, body, {
-  //         returnOriginal: false,
-  //         runValidators: true,
-  //       });
-  //   } catch (err) {
-  //     return this.manageRepositoryError(err);
-  //   }
-  // }
+  public async update(id: string, model: IBike) : Promise<IBike | null> {    
+    try {
+      return await this.model.findByIdAndUpdate( id, model, {
+        returnOriginal: false,
+        runValidators: true,
+      });
+      
+    } catch (e) {
+      this.manageRepositoryError(e);
+    }
+  }
 
 }

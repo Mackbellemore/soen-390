@@ -2,6 +2,8 @@ import { IBike } from './../models/BikeModel';
 import { BikeRepository } from './../repository/BikeRepository';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
+import { NotFoundError } from '../errors';
+
 
 @injectable()
 export class BikeService {
@@ -15,17 +17,24 @@ export class BikeService {
     return await this.bikeRepo.create(body);
   }
 
-  // public async updateBike(body: IBike): Promise<IBike> {
+  public async updateBike(id: string, body: IBike): Promise<IBike> {
 
-  //   const updatedBike = await this.bikeRepo.updateByName(name, body);
-  //   if (!updatedBike) {
-  //     throw new NotFoundError(`Bike with name ${name} was not found`);
-  //   }
+    const updatedBike = await this.bikeRepo.update(id, body);
+    if (!updatedBike) {
+      throw new NotFoundError(`Bike with id ${id} was not found`);
+    }
 
-  //   return updatedMaterial;
-  // }
+    return updatedBike;
+  }
 
-  // public async deleteBike(body: IBike): Promise<IBike> {
-  //   return await this.bikeRepo.delete(body);
-  // }
+  public async deleteBike(body: IBike): Promise<IBike| null> {
+    const deletedBike = await this.bikeRepo.delete(body.id);
+    if (!deletedBike) {
+      throw new NotFoundError(`Bike with id ${body.id} was not found`);
+      
+    }
+
+    return deletedBike
+    
+  }
 }

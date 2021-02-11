@@ -47,12 +47,21 @@ export abstract class BaseRepository<T extends Document> {
       return await this.model.create(model);
     } catch (e) {
       this.manageRepositoryError(e);
+      
     }
   }
 
   public async findById(id: string): Promise<T | null> {
     try {
       return await this.model.findById(id);
+    } catch (e) {
+      this.manageRepositoryError(e);
+    }
+  }
+
+  public async delete(id: string) : Promise<T | null> {
+    try {
+      return await this.model.findByIdAndRemove(id);
     } catch (e) {
       this.manageRepositoryError(e);
     }

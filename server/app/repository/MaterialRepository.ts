@@ -6,6 +6,7 @@ import { BaseRepository } from './BaseRepository';
 @injectable()
 export class MaterialRepository extends BaseRepository<IMaterial> {
   protected readonly collectionName: string = 'materials';
+  
   protected readonly schema: Schema = MaterialSchema;
 
   public async updateByName(name: string, body: IMaterial): Promise<IMaterial | null> {
