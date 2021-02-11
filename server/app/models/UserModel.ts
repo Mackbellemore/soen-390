@@ -7,6 +7,13 @@ export interface IUser extends Document {
   username: string;
   role: string;
 }
+
+export interface IEmail {
+  to: string[];
+  subject: string;
+  emailBody: string;
+}
+
 export const UserSchema: Schema = new Schema({
   email: {
     type: Schema.Types.String,

@@ -8,7 +8,7 @@ import { expect } from 'chai';
 import * as authMiddleWare from '../../app/middlewares/authentication';
 import config from 'config';
 
-const userService: any = { registerUser: Function, loginUser: Function, getUsers: Function };
+const userService: any = { registerUser: Function, loginUser: Function, sendEmail: Function };
 
 const mockUser = {
   username: 'test',

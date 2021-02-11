@@ -3,6 +3,7 @@ import { MongoConnection } from '../utils/MongoConnection';
 import mongoose, { Model, Document, Schema } from 'mongoose';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
+import { BadRequestError } from '../errors';
 
 @injectable()
 export abstract class BaseRepository<T extends Document> {
@@ -24,7 +25,7 @@ export abstract class BaseRepository<T extends Document> {
   protected manageRepositoryError(e: Error): never {
     // eventually do something here
     this.logger.warn(e.message);
-    throw e;
+    throw new BadRequestError(e.message);
   }
 
   get model(): Model<T> {
