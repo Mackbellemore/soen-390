@@ -1,16 +1,24 @@
 import 'reflect-metadata';
-import { BikeController } from './../../app/controllers/BikeController';
-import * as sinon from 'sinon';
-import { results } from 'inversify-express-utils';
-import { Request } from 'express';
-import { SinonSandbox } from 'sinon';
 import { expect } from 'chai';
+import { Request } from 'express';
+import { results } from 'inversify-express-utils';
+import * as sinon from 'sinon';
+import { SinonSandbox } from 'sinon';
+import { BikeController } from './../../app/controllers/BikeController';
+import { NotFoundError } from '../../app/errors';
 
-const bikeService: any = { getBikes: Function, createBike: Function };
+const bikeService: any = {
+  getBikes: Function,
+  createBike: Function,
+  deleteBike: Function,
+  updateBike: Function,
+  findById: Function,
+};
 const mockBike = {
   description: 'test',
   color: 'green',
-  weight: 69,
+  weightAmount: 69,
+  id: '12312313',
 };
 
 let sandbox: SinonSandbox;
@@ -29,7 +37,7 @@ describe('BikeController', () => {
     sandbox.restore();
   });
 
-  describe('Get Endpoint', () => {
+  describe('Get All Endpoint', () => {
     it('returns an empty array with a 200 status when service layer returns empty array', async () => {
       const bikeServiceStub = sandbox.stub(bikeService, 'getBikes').returns([]);
 
@@ -47,7 +55,8 @@ describe('BikeController', () => {
         {
           description: 'test',
           color: 'test',
-          weight: 3,
+          weightAmount: 3,
+          id: '12312313',
         },
       ];
       const bikeServiceStub = sandbox.stub(bikeService, 'getBikes').returns(bikeArr);
@@ -61,13 +70,14 @@ describe('BikeController', () => {
         {
           description: 'test',
           color: 'test',
-          weight: 3,
+          weightAmount: 3,
+          id: '12312313',
         },
       ]);
       expect(response.statusCode).to.equal(200);
     });
 
-    it('returns 400 if an unexpected error occurs', async () => {
+    it('returns 500 if an unexpected error occurs', async () => {
       const expectedErrorMsg = 'Some bs error';
       const bikeServiceStub = sandbox
         .stub(bikeService, 'getBikes')
@@ -79,7 +89,7 @@ describe('BikeController', () => {
 
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.json).to.equal(expectedErrorMsg);
-      expect(response.statusCode).to.equal(400);
+      expect(response.statusCode).to.equal(500);
     });
   });
 
@@ -100,7 +110,7 @@ describe('BikeController', () => {
       expect(response.statusCode).to.equal(200);
     });
 
-    it('returns 400 if an unexpected error occurs', async () => {
+    it('returns 500 if an unexpected error occurs', async () => {
       const mockRequest = {
         body: mockBike,
       } as Request;
@@ -116,7 +126,198 @@ describe('BikeController', () => {
 
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.json).to.equal(expectedErrorMsg);
-      expect(response.statusCode).to.equal(400);
+      expect(response.statusCode).to.equal(500);
+    });
+  });
+
+  describe('Delete Endpoint', () => {
+    it('delete a bike with requested body', async () => {
+      const mockRequest = {
+        body: mockBike,
+      } as Request;
+
+      const bikeServiceStub = sandbox.stub(bikeService, 'deleteBike').returns(mockBike);
+
+      const response = await controller.delete(mockRequest);
+
+      sinon.assert.calledOnce(bikeServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(bikeServiceStub.calledOnceWith()).to.equal(true);
+      expect(response.statusCode).to.equal(200);
+      expect(response.json).to.deep.equal({
+        description: 'test',
+        color: 'green',
+        weightAmount: 69,
+        id: '12312313',
+      });
+    });
+
+    it('returns 500 if an unexpected error occurs', async () => {
+      const mockRequest = {
+        body: mockBike,
+      } as Request;
+
+      const expectedErrorMsg = 'Some test error';
+      const bikeServiceStub = sandbox
+        .stub(bikeService, 'deleteBike')
+        .throws(new Error(expectedErrorMsg));
+
+      const response = await controller.delete(mockRequest);
+
+      sinon.assert.calledOnce(bikeServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.equal(expectedErrorMsg);
+      expect(response.statusCode).to.equal(500);
+    });
+
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const mockRequest = {
+        body: mockBike,
+      } as Request;
+
+      const expectedErrorMsg = 'Not found error gang';
+      const bikeServiceStub = sandbox
+        .stub(bikeService, 'deleteBike')
+        .throws(new NotFoundError(expectedErrorMsg));
+
+      const res = await controller.delete(mockRequest);
+
+      sinon.assert.calledOnce(bikeServiceStub);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(404);
+      expect(res.json).to.equal(expectedErrorMsg);
+    });
+  });
+
+  describe('Update Endpoint', () => {
+    it('update a bike with requested body', async () => {
+      const mockRequest = {
+        body: mockBike,
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      sandbox.stub(bikeService, 'updateBike').returns(mockBike);
+
+      const response = await controller.update(mockRequest);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(200);
+      expect(response.json).to.deep.equal({
+        description: 'test',
+        color: 'green',
+        weightAmount: 69,
+        id: '12312313',
+      });
+    });
+
+    it('returns 404 if an unexpected error occurs', async () => {
+      const mockRequest = {
+        body: mockBike,
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      const expectedErrorMsg = 'Cannot find';
+      sandbox.stub(bikeService, 'updateBike').throws(new NotFoundError(expectedErrorMsg));
+
+      const response = await controller.update(mockRequest);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(404);
+      expect(response.json).to.equal(expectedErrorMsg);
+    });
+
+    it('returns 500 if an unexpected error occurs', async () => {
+      const mockRequest = {
+        body: mockBike,
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      const expectedErrorMsg = 'Some test error';
+      sandbox.stub(bikeService, 'updateBike').throws(new Error(expectedErrorMsg));
+
+      const response = await controller.update(mockRequest);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(500);
+      expect(response.json).to.equal(expectedErrorMsg);
+    });
+  });
+
+  describe('Update Endpoint', () => {
+    it('get a bike with requested id', async () => {
+      const mockRequest = {
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      const bikeServiceStub = sandbox.stub(bikeService, 'findById').returns(mockBike);
+
+      const response = await controller.getById(mockRequest);
+
+      sinon.assert.calledOnce(bikeServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(200);
+      expect(response.json).to.deep.equal({
+        description: 'test',
+        color: 'green',
+        weightAmount: 69,
+        id: '12312313',
+      });
+    });
+
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const mockRequest = {
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      const expectedErrorMsg = 'Not found error gang';
+      const bikeServiceStub = sandbox
+        .stub(bikeService, 'findById')
+        .returns(mockBike)
+        .throws(new NotFoundError(expectedErrorMsg));
+
+      const response = await controller.getById(mockRequest);
+
+      sinon.assert.calledOnce(bikeServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(404);
+      expect(response.json).to.equal(expectedErrorMsg);
+    });
+
+    it('Should throw a 500 when service throws an error', async () => {
+      const mockRequest = {
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      const expectedErrorMsg = 'Some random error';
+      const bikeServiceStub = sandbox
+        .stub(bikeService, 'findById')
+        .returns(mockBike)
+        .throws(new Error(expectedErrorMsg));
+
+      const response = await controller.getById(mockRequest);
+
+      sinon.assert.calledOnce(bikeServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(500);
+      expect(response.json).to.equal(expectedErrorMsg);
     });
   });
 });

@@ -57,4 +57,12 @@ export abstract class BaseRepository<T extends Document> {
       this.manageRepositoryError(e);
     }
   }
+
+  public async delete(id: string): Promise<T | null> {
+    try {
+      return await this.model.findByIdAndRemove(id);
+    } catch (e) {
+      this.manageRepositoryError(e);
+    }
+  }
 }
