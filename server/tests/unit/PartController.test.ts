@@ -253,5 +253,37 @@ describe('Part Controller', () => {
         detail: '18inch',
       });
     });
+
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const mockRequest = {
+        params: {
+          name: 'some not found name',
+        },
+      } as Request | any;
+
+      sandbox.stub(partService, 'deletePart').throws(new NotFoundError('Not found error'));
+
+      const res = await controller.delete(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(404);
+      expect(res.json).to.deep.equal('Not found error');
+    });
+
+    it('Should throw a 500 when service throws an error', async () => {
+      const mockRequest = {
+        params: {
+          name: 'some not found name',
+        },
+      } as Request | any;
+
+      sandbox.stub(partService, 'deletePart').throws(new Error('Random Part failure!!'));
+
+      const res = await controller.delete(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(500);
+      expect(res.json).to.deep.equal('Random Part failure!!');
+    });
   });
 });
