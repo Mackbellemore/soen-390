@@ -1,3 +1,4 @@
+// eslint-disable-next-line
 require('dotenv').config({ path: './.env' });
 
 // place all config related things here and inject it anywhere in app
