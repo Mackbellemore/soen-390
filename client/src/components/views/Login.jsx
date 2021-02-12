@@ -15,13 +15,16 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 50%;
+  top: 66%;
   left: 50%;
   align-items: center;
   transform: translate(-50%, -50%);
   background-color: #fffcfc;
   padding: 10px;
   max-width: 560px;
+  @media (min-width: 420px) and (min-height: 700px) {
+    top: 50%;
+  }
 `;
 
 const InputContainer = styled(Flex)`
@@ -43,7 +46,10 @@ const InputIcon = styled(Icon)`
   height: 30px;
   margin: 15px;
 `;
-
+const StyledFormLabel = styled(FormLabel)`
+  padding: 0 1rem;
+  margin-top: 5px;
+`;
 const Login = () => {
   const { uiStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -107,7 +113,7 @@ const Login = () => {
               <InputIcon as={GrMailOption} />
             </Flex>
             <Flex direction="column">
-              <FormLabel>Email address</FormLabel>
+              <StyledFormLabel padding="0 1rem">Email address</StyledFormLabel>
               <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
             </Flex>
           </InputContainer>
@@ -116,7 +122,7 @@ const Login = () => {
               <InputIcon as={GrLock} />
             </Flex>
             <Flex direction="column">
-              <FormLabel>Password</FormLabel>
+              <StyledFormLabel>Password</StyledFormLabel>
               <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
             </Flex>
           </InputContainer>
