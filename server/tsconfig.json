@@ -14,7 +14,7 @@
     "target": "ES2018",
     "module": "commonjs",
     "outDir": "./build/",
-    "types": ["reflect-metadata", "mocha"],
+    "types": ["reflect-metadata", "mocha", "nodemailer"],
     "sourceMap": false,
     "noImplicitAny": true,
     "noImplicitReturns": true,

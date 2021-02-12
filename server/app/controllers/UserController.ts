@@ -12,6 +12,7 @@ import {
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import config from 'config';
+import { checkAdminRole } from '../middlewares/authorization';
 
 @controller('/user')
 export class UserController extends BaseHttpController {
@@ -64,5 +65,15 @@ export class UserController extends BaseHttpController {
   @httpGet('/authCheck')
   public async checkAuth(): Promise<results.JsonResult> {
     return this.json(200);
+  }
+
+  @httpGet('/', checkAdminRole)
+  public async get(): Promise<results.JsonResult> {
+    try {
+      const users: IUserEntity[] = await this.userService.getUsers();
+      return this.json(users);
+    } catch (err) {
+      return this.json(err.message, 400);
+    }
   }
 }
