@@ -23,7 +23,13 @@ export class MongoConnection {
       useFindAndModify: false,
     };
 
-    this.connectionString = `mongodb://${user}:${pass}@${host}:${port}/${dbName}?authSource=admin`;
+    if (config.get<string>('env') === 'development') {
+      this.connectionString = `mongodb://${user}:${pass}@${host}:${port}/${dbName}?authSource=admin`;
+      return;
+    }
+
+    // connection string for prod and staging cloud mongo cluster
+    this.connectionString = `mongodb+srv://${user}:${pass}@${host}/${dbName}?retryWrites=true&w=majority`;
   }
 
   public async connect(): Promise<void> {
