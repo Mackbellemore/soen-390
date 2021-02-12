@@ -1,4 +1,4 @@
-import { Button, Flex, FormLabel, Icon, Input, useToast } from '@chakra-ui/react';
+import { Button, Flex, FormLabel, Icon, Input, Box, useToast } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
@@ -9,22 +9,18 @@ import { RootStoreContext } from '../../stores/stores';
 import { makeRequest } from '../../utils/api';
 import { Heading } from '../common/Typography';
 
-const Container = styled.div`
+const Container = styled(Box)`
   width: 100%;
   height: 456px;
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 66%;
   left: 50%;
   align-items: center;
   transform: translate(-50%, -50%);
   background-color: #fffcfc;
   padding: 10px;
   max-width: 560px;
-  @media (min-width: 420px) and (min-height: 700px) {
-    top: 50%;
-  }
 `;
 
 const InputContainer = styled(Flex)`
@@ -104,7 +100,7 @@ const Login = () => {
         <title>ERP - Login</title>
       </Head>
       <form onSubmit={handleSubmit}>
-        <Container>
+        <Container top={{ base: '66%', sm: '50%' }}>
           <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
             Log in
           </Heading>
