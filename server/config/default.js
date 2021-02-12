@@ -9,12 +9,14 @@ module.exports = {
     authEnabled: process.env.AUTH_ENABLED || false,
   },
   env: process.env.NODE_ENV || 'development',
+  zeetEnv: process.env.ZEET_ENVIRONMENT || '',
   mongo: {
     port: process.env.MONGO_PORT || 27017,
     host: process.env.MONGO_HOST || 'mongo',
     user: process.env.MONGO_USER || 'root',
     pass: process.env.MONGO_PASS || 'example',
     db: process.env.MONGO_DB_NAME || 'app_db',
+    dbStaging: process.env.MONGO_DB_NAME_STAGING || 'app_db',
   },
   salt: process.env.SALT || 10,
   jwt: {
