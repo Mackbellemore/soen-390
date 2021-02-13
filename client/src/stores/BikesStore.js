@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
-import { makeRequest } from '../utils/api';
+import { makeRequest } from '../utils/api.js';
 
 class BikesStore {
   bikes = [];
