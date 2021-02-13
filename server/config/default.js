@@ -27,5 +27,4 @@ module.exports = {
     user: 'soen390.team07@gmail.com',
     pass: process.env.EMAIL_PASS || '',
   },
-  origin: process.env.ORIGIN || 'http://localhost:3000',
 };

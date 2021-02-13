@@ -36,7 +36,10 @@ export class App {
       appBuilder.setConfig((server: Application) => {
         // middlewares
         server.use(
-          cors({ credentials: true, origin: ['http://localhost:3000', /\.netlify\.app$/] })
+          cors({
+            credentials: true,
+            origin: ['http://localhost:3000', /soen-390-team-07\.netlify\.app$/],
+          })
         );
         server.use(cookieParser());
         server.use(
