@@ -15,6 +15,7 @@ export class MongoConnection {
     const port = config.get<number>('mongo.port');
     const user = config.get<string>('mongo.user');
     const dbName = config.get<string>('mongo.db');
+    const stagingDbName = config.get<string>('mongo.dbStaging');
 
     this.options = {
       useNewUrlParser: true,
@@ -28,8 +29,9 @@ export class MongoConnection {
       return;
     }
 
-    // connection string for prod and staging cloud mongo cluster
-    this.connectionString = `mongodb+srv://${user}:${pass}@${host}/${dbName}?retryWrites=true&w=majority`;
+    // only use prod db if deploying main branch
+    const cloudDbName = config.get<string>('zeetEnv') === 'main' ? dbName : stagingDbName;
+    this.connectionString = `mongodb+srv://${user}:${pass}@${host}/${cloudDbName}?retryWrites=true&w=majority`;
   }
 
   public async connect(): Promise<void> {

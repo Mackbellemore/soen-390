@@ -10,7 +10,12 @@ import { HamburgerButton } from './Sidebar';
 
 const Button = ({ path, text }) => (
   <Link to={path}>
-    <ChakraButton _focus={{}} colorScheme="blue" variant="solid">
+    <ChakraButton
+      _focus={{}}
+      colorScheme="blue"
+      variant="solid"
+      marginRight={{ base: '10px', sm: '36px' }}
+    >
       {text}
     </ChakraButton>
   </Link>
@@ -31,11 +36,13 @@ const NavBar = observer(() => {
       display="flex"
       flexDirection="row"
       justifyContent="space-between"
-      paddingX="3rem"
+      paddingX={{ md: '3rem' }}
       paddingY="2rem"
     >
       <Flex alignItems="center">{uiStore.userLoggedIn ? <HamburgerButton /> : <></>}</Flex>
-      <Heading>Enterprise Resource Planning</Heading>
+      <Heading fontSize={{ base: '14px', sm: '36px' }} lineHeight={{ base: '40px', sm: '1.5' }}>
+        Enterprise Resource Planning
+      </Heading>
       <Flex>
         {onLogin && <Button path="/" text="Home" />}
         {onHome && <Button path="/login" text="Log In" />}
