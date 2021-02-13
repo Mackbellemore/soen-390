@@ -13,9 +13,12 @@ import {
 import TYPES from '../constants/types';
 import config from 'config';
 import { checkAdminRole } from '../middlewares/authorization';
+import { Logger } from 'winston';
 
 @controller('/user')
 export class UserController extends BaseHttpController {
+  @inject(TYPES.logger) protected logger: Logger;
+
   constructor(@inject(TYPES.UserService) private userService: UserService) {
     super();
   }
@@ -40,6 +43,7 @@ export class UserController extends BaseHttpController {
         res.cookie('jwt', accessToken, { httpOnly: true });
       }
 
+      this.logger.info(JSON.stringify({ meta: { data: 'more info' } }));
       return this.json({
         user,
       });

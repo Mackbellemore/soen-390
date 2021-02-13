@@ -9,7 +9,7 @@ module.exports = {
     authEnabled: process.env.AUTH_ENABLED || false,
   },
   env: process.env.NODE_ENV || 'development',
-  zeetEnv: process.env.ZEET_ENVIRONMENT || '',
+  zeetEnv: process.env.ZEET_ENVIRONMENT || 'local',
   mongo: {
     port: process.env.MONGO_PORT || 27017,
     host: process.env.MONGO_HOST || 'mongo',
@@ -28,4 +28,5 @@ module.exports = {
     pass: process.env.EMAIL_PASS || '',
   },
   origin: process.env.ORIGIN || 'http://localhost:3000',
+  logdna: process.env.LOGDNA || '',
 };
