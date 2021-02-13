@@ -10,4 +10,5 @@
   NEXT_PUBLIC_API_URL = "https://mackbellemore-mackbellemore-soen-390-team07-develop.zeet.app"
 [[redirects]]
   from = "/*"
-  to = "/:splat"
+  to = "/index.html"
+  status = 200
