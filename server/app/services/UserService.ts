@@ -4,6 +4,8 @@ import { UserRepository } from './../repository/UserRepository';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
 import bcrypt from 'bcryptjs';
+import validator from 'validator';
+import { BadRequestError } from '../errors';
 import { IConfig } from 'config';
 
 @injectable()
@@ -13,7 +15,13 @@ export class UserService {
 
   public async registerUser(body: IUser): Promise<IUserEntity> {
     if (!body.password) {
-      throw new Error('Password missing in body');
+      throw new BadRequestError('Password missing in body');
+    }
+
+    if (!validator.isStrongPassword(body.password)) {
+      throw new BadRequestError(
+        'Password must contain a capital, a lower case, a number and a symbol.'
+      );
     }
 
     const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
@@ -30,7 +38,7 @@ export class UserService {
 
     const passwordMatch = await bcrypt.compare(body.password, user.password);
     if (!passwordMatch) {
-      throw Error('Username or password is invalid');
+      throw new BadRequestError('Username or password is invalid');
     }
 
     return UserEntity.buildUser(user);
