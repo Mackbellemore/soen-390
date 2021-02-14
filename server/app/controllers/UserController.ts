@@ -43,7 +43,10 @@ export class UserController extends BaseHttpController {
         res.cookie('jwt', accessToken, { httpOnly: true, secure: true });
       }
 
-      this.logger.info(JSON.stringify({ meta: { data: 'more info' } }));
+      this.logger.log({
+        level: 'info',
+        message: 'hey',
+      });
       return this.json({
         user,
       });

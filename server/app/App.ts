@@ -43,11 +43,11 @@ export class App {
           format: winston.format.prettyPrint({ colorize: true }),
         },
         logdna: {
+          key: this.config.get<string>('logdna'),
           app: 'backend service',
           env: this.config.get<string>('zeetEnv'),
           handleExceptions: true,
-          indexMeta: true,
-          key: this.config.get<string>('logdna'),
+          // indexMeta: true,
           level: 'info',
         },
       };
@@ -73,9 +73,9 @@ export class App {
               new winston.transports.Console(options.console),
               new LogdnaWinston(options.logdna),
             ],
-            meta: false,
-            expressFormat: true,
-            statusLevels: true,
+            // meta: false,
+            // expressFormat: true,
+            // statusLevels: true,
           })
         );
         if (this.config.get<boolean>('server.authEnabled')) {
