@@ -38,6 +38,8 @@ export function generateToken(user: IUserEntity): string {
 }
 
 export function sendAuthCookie(res: Response, accessToken: string): void {
-  const cookieSameSite = config.get<boolean>('server.sameSite') ? 'lax' : 'none';
-  res.cookie('jwt', accessToken, { httpOnly: true, secure: true, sameSite: cookieSameSite });
+  const sameSite = config.get<string>('env') === 'development' ? 'lax' : 'none';
+  const secure = config.get<boolean>('server.secure');
+
+  res.cookie('jwt', accessToken, { httpOnly: true, secure, sameSite });
 }

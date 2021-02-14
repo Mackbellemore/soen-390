@@ -51,7 +51,9 @@ export class UserController extends BaseHttpController {
   @httpPost('/logout')
   public async logout(_req: Request, res: Response): Promise<results.JsonResult> {
     try {
-      sendAuthCookie(res, '');
+      if (config.get<boolean>('server.authEnabled')) {
+        sendAuthCookie(res, '');
+      }
 
       return this.json(200);
     } catch (err) {
