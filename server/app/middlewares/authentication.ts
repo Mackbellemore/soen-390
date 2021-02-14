@@ -25,7 +25,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
     delete decoded.iat;
 
     const newAccessToken = generateToken(decoded);
-    res.cookie('jwt', newAccessToken, { httpOnly: true, secure: true, sameSite: 'none' });
+    sendAuthCookie(res, newAccessToken);
 
     return next();
   });
@@ -35,4 +35,9 @@ export function generateToken(user: IUserEntity): string {
   return jwt.sign(user, config.get<string>('jwt.secret'), {
     expiresIn: config.get<string>('jwt.expiry'),
   });
+}
+
+export function sendAuthCookie(res: Response, accessToken: string): void {
+  const cookieSameSite = config.get<boolean>('server.sameSite') ? 'lax' : 'none';
+  res.cookie('jwt', accessToken, { httpOnly: true, secure: true, sameSite: cookieSameSite });
 }
