@@ -1,12 +1,20 @@
 import { Document, Schema } from 'mongoose';
 
 export interface IBike extends Document {
+  name: string;
   description: string;
-  weight: number;
+  weightAmount: number;
+  weightType: string;
+  sellingPrice: number;
+  costPrice: number;
   color: string;
 }
 export const BikeSchema: Schema = new Schema({
-  description: { type: Schema.Types.String, required: true },
-  weight: { type: Schema.Types.Number, required: true },
+  name: { type: Schema.Types.String, required: true },
+  description: { type: Schema.Types.String },
+  weightAmount: { type: Schema.Types.Number, required: true, min: 1 },
+  weightType: { type: Schema.Types.String, required: true, enum: ['kg', 'lb'] },
+  sellingPrice: { type: Schema.Types.Number, required: true, min: 1 },
+  costPrice: { type: Schema.Types.Number, required: true, min: 1 },
   color: { type: Schema.Types.String, required: true },
 });

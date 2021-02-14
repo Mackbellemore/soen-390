@@ -30,6 +30,8 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks', '@babel', 'prettier', 'promise'],
   rules: {
+    'import/extensions': ['error', 'ignorePackages'],
+    'no-console': 'error',
     'prettier/prettier': [
       'error',
       {

@@ -1,11 +1,10 @@
-import { IUserEntity } from './../entities/User';
 import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from 'config';
-import { NON_AUTH_PATHS } from '../constants/common';
+import { IUserEntity } from './../entities/User';
 
-export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
-  if (NON_AUTH_PATHS.includes(req.path)) return next();
+export const checkAdminRole = (req: Request, res: Response, next: NextFunction): void => {
+  if (!config.get<boolean>('server.authEnabled')) return next();
 
   const jwtCookie = req.cookies.jwt;
 
@@ -21,18 +20,11 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
     }
 
     if (!(decoded.username && decoded.email && decoded.id && decoded.role)) res.sendStatus(403);
-    delete decoded.exp;
-    delete decoded.iat;
 
-    const newAccessToken = generateToken(decoded);
-    res.cookie('jwt', newAccessToken, { httpOnly: true, secure: true, sameSite: 'none' });
+    if (decoded.role !== 'Admin') {
+      return res.sendStatus(403);
+    }
 
     return next();
   });
 };
-
-export function generateToken(user: IUserEntity): string {
-  return jwt.sign(user, config.get<string>('jwt.secret'), {
-    expiresIn: config.get<string>('jwt.expiry'),
-  });
-}

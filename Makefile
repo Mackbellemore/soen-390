@@ -46,4 +46,4 @@ dbuild-server: ## Build Docker server image
 	docker build ./server
 
 prune: ## Remove unused images and prune volumes
-	docker system prune -a --volumes
+	docker system prune --all --volumes --force
