@@ -24,7 +24,7 @@
       "source.organizeImports": false,
     },
     "editor.formatOnPaste": true,
-    "editor.formatOnSave": false,
+    "editor.formatOnSave": true,
     "editor.linkedEditing": true,
     "files.autoSave": "onFocusChange",
     "files.insertFinalNewline": true,

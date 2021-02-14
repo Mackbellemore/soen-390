@@ -4,6 +4,8 @@ import config from 'config';
 import { IUserEntity } from './../entities/User';
 
 export const checkAdminRole = (req: Request, res: Response, next: NextFunction): void => {
+  if (!config.get<boolean>('server.authEnabled')) return next();
+
   const jwtCookie = req.cookies.jwt;
 
   if (!jwtCookie) res.status(403);
