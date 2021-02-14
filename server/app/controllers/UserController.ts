@@ -36,7 +36,7 @@ export class UserController extends BaseHttpController {
 
       if (config.get<boolean>('server.authEnabled')) {
         const accessToken = generateToken(user);
-        res.cookie('jwt', accessToken, { httpOnly: true });
+        res.cookie('jwt', accessToken, { httpOnly: true, sameSite: 'none' });
       }
 
       return this.json({
@@ -51,7 +51,7 @@ export class UserController extends BaseHttpController {
   public async logout(_req: Request, res: Response): Promise<results.JsonResult> {
     try {
       if (config.get<boolean>('server.authEnabled')) {
-        res.cookie('jwt', '', { httpOnly: true });
+        res.cookie('jwt', '', { httpOnly: true, sameSite: 'none' });
       }
 
       return this.json(200);

@@ -25,7 +25,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
     delete decoded.iat;
 
     const newAccessToken = generateToken(decoded);
-    res.cookie('jwt', newAccessToken, { httpOnly: true });
+    res.cookie('jwt', newAccessToken, { httpOnly: true, sameSite: 'none' });
 
     return next();
   });
