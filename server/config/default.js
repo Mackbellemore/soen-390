@@ -28,5 +28,4 @@ module.exports = {
     pass: process.env.EMAIL_PASS || '',
   },
   logdna: process.env.LOGDNA || '',
-
 };

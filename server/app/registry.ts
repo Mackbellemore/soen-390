@@ -27,6 +27,9 @@ import winston, { Logger } from 'winston';
 import { MongoConnection } from './utils/MongoConnection';
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore because types don't exist for this library
+import LogdnaWinston from 'logdna-winston';
 
 const logger: Logger = winston.createLogger({});
 // just for dev purposes now
@@ -35,6 +38,18 @@ logger.add(
     format: winston.format.simple(),
   })
 );
+
+if (config.get<string>('zeetEnv').toLowerCase().includes('prod')) {
+  logger.add(
+    new LogdnaWinston({
+      key: config.get<string>('logdna'),
+      app: 'backend service',
+      env: config.get<string>('zeetEnv'),
+      handleExceptions: true,
+      level: 'info',
+    })
+  );
+}
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',

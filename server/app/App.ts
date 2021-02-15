@@ -9,7 +9,7 @@ import LogdnaWinston from 'logdna-winston';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { container } from './registry';
 import { Application } from 'express';
-import { IConfig } from 'config';
+import config, { IConfig } from 'config';
 import * as bodyParser from 'body-parser';
 import { Server } from 'http';
 import TYPES from './constants/types';
@@ -47,10 +47,15 @@ export class App {
           app: 'backend service',
           env: this.config.get<string>('zeetEnv'),
           handleExceptions: true,
-          // indexMeta: true,
           level: 'info',
         },
       };
+
+      const loggerTransports = [new winston.transports.Console(options.console)];
+
+      if (config.get<string>('zeetEnv').toLowerCase().includes('prod')) {
+        loggerTransports.push(new LogdnaWinston(options.logdna));
+      }
 
       appBuilder.setConfig((server: Application) => {
         // middlewares
@@ -69,13 +74,7 @@ export class App {
         server.use(bodyParser.json());
         server.use(
           expressWinston.logger({
-            transports: [
-              new winston.transports.Console(options.console),
-              new LogdnaWinston(options.logdna),
-            ],
-            // meta: false,
-            // expressFormat: true,
-            // statusLevels: true,
+            transports: loggerTransports,
           })
         );
         if (this.config.get<boolean>('server.authEnabled')) {
