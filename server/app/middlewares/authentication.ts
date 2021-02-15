@@ -42,5 +42,5 @@ export function sendAuthCookie(res: Response, accessToken: string): void {
   // const secure = config.get<boolean>('server.secure');
   console.log(sameSite);
 
-  res.cookie('jwt', accessToken, { httpOnly: true, secure: true, sameSite });
+  res.cookie('jwt', accessToken, { httpOnly: true, secure: true, sameSite: false });
 }
