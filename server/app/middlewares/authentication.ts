@@ -39,8 +39,7 @@ export function generateToken(user: IUserEntity): string {
 
 export function sendAuthCookie(res: Response, accessToken: string): void {
   const sameSite = config.get<string>('env') === 'development' ? 'lax' : 'none';
-  // const secure = config.get<boolean>('server.secure');
-  console.log(sameSite);
+  const secure = config.get<boolean>('server.secure');
 
-  res.cookie('jwt', accessToken, { httpOnly: true, secure: true, sameSite: false });
+  res.cookie('jwt', accessToken, { httpOnly: true, secure, sameSite });
 }

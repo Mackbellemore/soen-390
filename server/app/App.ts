@@ -34,11 +34,12 @@ export class App {
       this.logger.info('mongoDB connection initialized');
 
       appBuilder.setConfig((server: Application) => {
+        server.set('trust proxy', 1);
         // middlewares
         server.use(
           cors({
             credentials: true,
-            origin: ['http://localhost:3000', /soen-390-team-07\.netlify\.app$/],
+            origin: [/localhost/, /soen-390-team-07\.netlify\.app$/],
           })
         );
         server.use(cookieParser());
