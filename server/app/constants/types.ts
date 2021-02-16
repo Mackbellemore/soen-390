@@ -7,6 +7,8 @@ const TYPES = {
   UserRepository: Symbol.for('UserRepository'),
   MaterialRepository: Symbol.for('MaterialRepository'),
   MongoConnection: Symbol.for('MongoConnection'),
+  SystemService: Symbol.for('SystemService'),
+  Mail: Symbol.for('Mail'),
   MaterialService: Symbol.for('MaterialService'),
 };
 

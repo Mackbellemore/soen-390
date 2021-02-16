@@ -3,8 +3,8 @@ import Head from 'next/head';
 import PropTypes from 'prop-types';
 import React, { useEffect } from 'react';
 import { CookiesProvider } from 'react-cookie';
-import RootStore from '../stores/stores';
-import theme from '../theme';
+import RootStore from '../stores/stores.jsx';
+import theme from '../theme.js';
 
 function MyApp({ Component, pageProps }) {
   useEffect(() => {

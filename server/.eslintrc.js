@@ -27,6 +27,7 @@ module.exports = {
   },
   plugins: ['@typescript-eslint', 'promise', 'prettier'],
   rules: {
+    'no-return-await': 'error',
     'prettier/prettier': [
       'error',
       {

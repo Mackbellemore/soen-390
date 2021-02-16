@@ -5,14 +5,16 @@ import { inject } from 'inversify';
 import {
   controller,
   httpGet,
-  BaseHttpController,
+  httpPatch,
+  httpDelete,
   results,
   httpPost,
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
+import { BaseController } from './BaseController';
 
 @controller('/bikes')
-export class BikeController extends BaseHttpController {
+export class BikeController extends BaseController {
   constructor(@inject(TYPES.BikeService) private bikeService: BikeService) {
     super();
   }
@@ -23,7 +25,7 @@ export class BikeController extends BaseHttpController {
       const bikes: IBike[] = await this.bikeService.getBikes();
       return this.json(bikes);
     } catch (err) {
-      return this.json(err.message, 400);
+      return this.handleError(err);
     }
   }
 
@@ -33,7 +35,38 @@ export class BikeController extends BaseHttpController {
       const bike: IBike = await this.bikeService.createBike(request.body);
       return this.json(bike);
     } catch (err) {
-      return this.json(err.message, 400);
+      return this.handleError(err);
+    }
+  }
+
+  @httpDelete('/')
+  public async delete(request: Request): Promise<results.JsonResult> {
+    try {
+      const bike: IBike | null = await this.bikeService.deleteBike(request.body);
+
+      return this.json(bike);
+    } catch (err) {
+      return this.handleError(err);
+    }
+  }
+
+  @httpPatch('/:id')
+  public async update(request: Request): Promise<results.JsonResult> {
+    try {
+      const bike: IBike | null = await this.bikeService.updateBike(request.params.id, request.body);
+      return this.json(bike);
+    } catch (err) {
+      return this.handleError(err);
+    }
+  }
+
+  @httpGet('/:id')
+  public async getById(request: Request): Promise<results.JsonResult> {
+    try {
+      const bike: IBike = await this.bikeService.findById(request.params.id);
+      return this.json(bike);
+    } catch (err) {
+      return this.handleError(err);
     }
   }
 }

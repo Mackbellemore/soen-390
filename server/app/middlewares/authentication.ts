@@ -26,7 +26,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
       res.status(403).send('Invalid token');
     }
 
-    if (!decoded.username || !decoded.email || !decoded.id) res.sendStatus(403);
+    if (!(decoded.username && decoded.email && decoded.id && decoded.role)) res.sendStatus(403);
     delete decoded.exp;
     delete decoded.iat;
 

@@ -1,4 +1,4 @@
-import { Button, Flex, FormLabel, Icon, Input, useToast } from '@chakra-ui/react';
+import { Button, Flex, FormLabel, Icon, Input, Box, useToast } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
@@ -9,13 +9,12 @@ import { RootStoreContext } from '../../stores/stores';
 import { makeRequest } from '../../utils/api';
 import { Heading } from '../common/Typography';
 
-const Container = styled.div`
+const Container = styled(Box)`
   width: 100%;
   height: 456px;
   display: flex;
   flex-direction: column;
   position: fixed;
-  top: 50%;
   left: 50%;
   align-items: center;
   transform: translate(-50%, -50%);
@@ -43,7 +42,10 @@ const InputIcon = styled(Icon)`
   height: 30px;
   margin: 15px;
 `;
-
+const StyledFormLabel = styled(FormLabel)`
+  padding: 0 1rem;
+  margin-top: 5px;
+`;
 const Login = () => {
   const { uiStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -105,7 +107,7 @@ const Login = () => {
         <title>ERP - Login</title>
       </Head>
       <form onSubmit={handleSubmit}>
-        <Container>
+        <Container top={{ base: '66%', sm: '50%' }}>
           <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
             Log in
           </Heading>
@@ -114,7 +116,7 @@ const Login = () => {
               <InputIcon as={GrMailOption} />
             </Flex>
             <Flex direction="column">
-              <FormLabel>Email address</FormLabel>
+              <StyledFormLabel padding="0 1rem">Email address</StyledFormLabel>
               <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
             </Flex>
           </InputContainer>
@@ -123,7 +125,7 @@ const Login = () => {
               <InputIcon as={GrLock} />
             </Flex>
             <Flex direction="column">
-              <FormLabel>Password</FormLabel>
+              <StyledFormLabel>Password</StyledFormLabel>
               <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
             </Flex>
           </InputContainer>

@@ -1,13 +1,14 @@
 {
-  "extends": "@istanbuljs/nyc-config-typescript",
   "all": true,
-  "extension": [".ts"],
-  "include": ["app/controllers/**"],
-  "exclude": ["**/*.d.ts"],
-  "check-coverage": true,
-  "per-file": true,
   "branches": 50,
-  "lines": 50,
+  "check-coverage": true,
+  "exclude": ["**/*.d.ts"],
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "extension": [".ts"],
   "functions": 50,
+  "include": ["app/controllers/**/*.ts"],
+  "lines": 50,
+  "per-file": true,
+  "require": ["ts-node/register"],
   "statements": 50
 }
