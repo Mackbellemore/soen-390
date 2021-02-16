@@ -1,12 +1,28 @@
 import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import RootStore from '../stores/stores';
 import theme from '../theme';
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        navigator.serviceWorker.register('/authServiceWorker.js').then(
+          function (registration) {
+            console.log(registration);
+            console.log('ServiceWorker registration succesful!');
+          },
+          function (err) {
+            console.log('ServiceWorker registration failed: ', err);
+          }
+        );
+      });
+    }
+  }, []);
+
   return (
     <>
       <Head>

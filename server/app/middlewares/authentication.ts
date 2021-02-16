@@ -10,14 +10,12 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
   const bearerHeader = req.headers.authorization;
 
   if (!bearerHeader) res.status(403).send('invalid bearer header');
-
   const token = bearerHeader?.split(' ')[1];
 
   if (!token) {
-    res.status(403).send('invalid bearer header');
+    res.status(403);
     return;
   }
-  console.log(token);
 
   jwt.verify(token, config.get<string>('jwt.secret'), function (
     err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,

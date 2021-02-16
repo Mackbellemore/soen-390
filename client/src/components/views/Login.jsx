@@ -73,12 +73,17 @@ const Login = () => {
         password: passwordRef.current.value,
       });
 
-      localStorage.setItem('jwt', res.data.jwt);
+      console.log(navigator.serviceWorker.controller.state, 'test');
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SET_TOKEN',
+        token: res.data.jwt,
+      });
 
       setCookie('userLoggedIn', true, { path: '/' });
       uiStore.userLogIn();
       history.push('/main');
-    } catch {
+    } catch (err){
+      console.log(err);
       toast({
         position: 'top',
         title: 'An error occurred.',
