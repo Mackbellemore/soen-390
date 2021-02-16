@@ -2,8 +2,8 @@
 module.exports = {
   server: {
     host: process.env.HOST || '0.0.0.0',
-    port: process.env.PORT || 9091,
-    authEnabled: process.env.AUTH_ENABLED || true,
+    port: process.env.PORT || 9090,
+    authEnabled: process.env.AUTH_ENABLED || false,
   },
   env: process.env.NODE_ENV || 'development',
   mongo: {
@@ -16,7 +16,7 @@ module.exports = {
   salt: process.env.SALT || 10,
   jwt: {
     secret: process.env.JWT_SECRET || 'addadasjfghKEU10dawadrfgh!e29sosafelol',
-    expiry: process.env.JWT_EXPIRY || '30m',
+    expiry: process.env.JWT_EXPIRY || '7d',
   },
   origin: process.env.ORIGIN || 'http://localhost:3000',
 };

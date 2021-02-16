@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { UserController } from './../../app/controllers/UserController';
 import * as sinon from 'sinon';
 import { results } from 'inversify-express-utils';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { SinonSandbox } from 'sinon';
 import { expect } from 'chai';
 import * as authMiddleWare from '../../app/middlewares/authentication';
@@ -71,17 +71,16 @@ describe('UserController', () => {
       const mockRequest = {
         body: mockUser,
       } as Request;
-      const mockResponse = {} as Response;
 
       const configStub = sandbox.stub(config, 'get').returns(false);
       const userServiceStub = sandbox.stub(userService, 'loginUser').returns(mockUser);
 
-      const response = await controller.login(mockRequest, mockResponse);
+      const response = await controller.login(mockRequest);
       sinon.assert.calledOnce(userServiceStub);
       sinon.assert.calledOnce(configStub);
 
       expect(response).to.be.an.instanceof(results.JsonResult);
-      expect(response.json).to.deep.equal({ user: mockUser });
+      expect(response.json).to.deep.equal({ user: mockUser, jwt: '' });
       expect(response.statusCode).to.equal(200);
     });
 
@@ -89,13 +88,12 @@ describe('UserController', () => {
       const mockRequest = {
         body: mockUser,
       } as Request;
-      const mockResponse = {} as Response;
 
       const userServiceStub = sandbox
         .stub(userService, 'loginUser')
         .throws(new Error('some bs error'));
 
-      const response = await controller.login(mockRequest, mockResponse);
+      const response = await controller.login(mockRequest);
       sinon.assert.calledOnce(userServiceStub);
 
       expect(response).to.be.an.instanceof(results.JsonResult);
@@ -103,11 +101,10 @@ describe('UserController', () => {
       expect(response.statusCode).to.equal(400);
     });
 
-    it('returns returns cookie with a token when auth is enabled', async () => {
+    it('returns json with user and jwt', async () => {
       const mockRequest = {
         body: mockUser,
       } as Request;
-      const mockResponse = { cookie: sinon.spy() } as any;
 
       sandbox.stub(config, 'get').returns(true);
       const userServiceStub = sandbox.stub(userService, 'loginUser').returns(mockUser);
@@ -115,12 +112,11 @@ describe('UserController', () => {
 
       sandbox.stub(authMiddleWare, 'generateToken').returns(dummyToken);
 
-      const response = await controller.login(mockRequest, mockResponse);
+      const response = await controller.login(mockRequest);
       sinon.assert.calledOnce(userServiceStub);
 
-      expect(mockResponse.cookie.calledWith('jwt', dummyToken, { httpOnly: true }));
       expect(response).to.be.an.instanceof(results.JsonResult);
-      expect(response.json).to.deep.equal({ user: mockUser });
+      expect(response.json).to.deep.equal({ user: mockUser, jwt: dummyToken });
       expect(response.statusCode).to.equal(200);
     });
   });

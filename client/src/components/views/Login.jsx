@@ -68,10 +68,12 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await makeRequest('post', 'user/login', {
+      const res = await makeRequest('post', 'user/login', {
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });
+
+      localStorage.setItem('jwt', res.data.jwt);
 
       setCookie('userLoggedIn', true, { path: '/' });
       uiStore.userLogIn();

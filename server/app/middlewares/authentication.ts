@@ -7,25 +7,32 @@ import { NON_AUTH_PATHS } from '../constants/common';
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
   if (NON_AUTH_PATHS.includes(req.path)) return next();
 
-  const jwtCookie = req.cookies.jwt;
+  const bearerHeader = req.headers.authorization;
 
-  if (!jwtCookie) res.status(403);
+  if (!bearerHeader) res.status(403).send('invalid bearer header');
 
-  jwt.verify(jwtCookie, config.get<string>('jwt.secret'), function (
+  const token = bearerHeader?.split(' ')[1];
+
+  if (!token) {
+    res.status(403).send('invalid bearer header');
+    return;
+  }
+  console.log(token);
+
+  jwt.verify(token, config.get<string>('jwt.secret'), function (
     err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     decoded: any | IUserEntity
   ) {
     if (err) {
-      return res.sendStatus(403);
+      res.status(403).send('Invalid token');
     }
 
     if (!decoded.username || !decoded.email || !decoded.id) res.sendStatus(403);
     delete decoded.exp;
     delete decoded.iat;
 
-    const newAccessToken = generateToken(decoded);
-    res.cookie('jwt', newAccessToken, { httpOnly: true });
+    res.locals.user = decoded;
 
     return next();
   });
