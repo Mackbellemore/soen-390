@@ -75,7 +75,6 @@ const Login = () => {
         password: passwordRef.current.value,
       });
 
-      console.log(navigator.serviceWorker.controller.state, 'test');
       navigator.serviceWorker.controller.postMessage({
         type: 'SET_TOKEN',
         token: res.data.jwt,
@@ -84,8 +83,7 @@ const Login = () => {
       setCookie('userLoggedIn', true, { path: '/' });
       uiStore.userLogIn();
       history.push('/main');
-    } catch (err){
-      console.log(err);
+    } catch {
       toast({
         position: 'top',
         title: 'An error occurred.',

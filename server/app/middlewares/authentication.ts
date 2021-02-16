@@ -9,11 +9,14 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
 
   const bearerHeader = req.headers.authorization;
 
-  if (!bearerHeader) res.status(403).send('invalid bearer header');
+  if (!bearerHeader) {
+    res.status(403).send('you are missing an Authorization Header along with the bearer token');
+    return;
+  }
   const token = bearerHeader?.split(' ')[1];
 
   if (!token) {
-    res.status(403);
+    res.status(403).send('Token missing from header');
     return;
   }
 
@@ -22,11 +25,10 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     decoded: any | IUserEntity
   ) {
-    if (err) {
-      res.status(403).send('Invalid token');
-    }
+    if (err) return res.status(403).send('Invalid jwt token');
 
-    if (!(decoded.username && decoded.email && decoded.id && decoded.role)) res.sendStatus(403);
+    if (!(decoded.username && decoded.email && decoded.id && decoded.role))
+      return res.status(403).send('Invalid jwt token');
     delete decoded.exp;
     delete decoded.iat;
 

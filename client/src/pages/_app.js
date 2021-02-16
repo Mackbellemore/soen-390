@@ -12,8 +12,7 @@ function MyApp({ Component, pageProps }) {
       window.addEventListener('load', function () {
         navigator.serviceWorker.register('/authServiceWorker.js').then(
           function (registration) {
-            console.log(registration);
-            console.log('ServiceWorker registration succesful!');
+            console.log('ServiceWorker registration succesful');
           },
           function (err) {
             console.log('ServiceWorker registration failed: ', err);

@@ -1,11 +1,19 @@
-// add whitelist origin regex for prod, local and develop branches created by zeet
+// add whitelisted origin regex for prod, local and develop branches created by zeet
+const whitelistedOrigins = [
+  /http:\/\/localhost.*$/, // dev
+  /https:\/\/mackbellemore-mackbellemore-soen-390-team07.*$/, // prod or staging
+];
 
 // Global token variable in the service worker
-let token = 'test';
+let token = '';
 
 const addAuthHeader = function (event) {
   // adapted from https://blog.ropnop.com/storing-tokens-in-browser/
+
   const destURL = new URL(event.request.url);
+  const isMatch = whitelistedOrigins.some((whiteList) => whiteList.test(destURL.origin));
+  if (!isMatch) return;
+
   const modifiedHeaders = new Headers(event.request.headers);
   if (token) {
     modifiedHeaders.append('Authorization', `Basic ${token}`);
@@ -19,11 +27,9 @@ self.addEventListener('message', function (event) {
   switch (event?.data?.type) {
     case 'SET_TOKEN':
       token = event.data.token;
-      console.log('token set with ', token);
       break;
     case 'REVOKE_TOKEN':
       token = '';
-      console.log('token unset');
       break;
     default:
       return;
