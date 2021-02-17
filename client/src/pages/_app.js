@@ -1,12 +1,33 @@
-import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeProvider, useToast } from '@chakra-ui/react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import RootStore from '../stores/stores.jsx';
 import theme from '../theme.js';
 
 function MyApp({ Component, pageProps }) {
+  const toast = useToast();
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          await navigator.serviceWorker.register('/authServiceWorker.js');
+        } catch {
+          toast({
+            position: 'bottom',
+            title: 'An error occurred.',
+            description: 'Please contact Gordon',
+            status: 'error',
+            duration: 4000,
+            isClosable: true,
+          });
+        }
+      });
+    }
+  }, [toast]);
+
   return (
     <>
       <Head>
