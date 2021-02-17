@@ -32,17 +32,11 @@ self.addEventListener('message', function (event) {
       token = '';
       break;
     default:
-      return;
   }
 });
 
 // listen for axios fetch events
 self.addEventListener('fetch', addAuthHeader);
-
-// needed to activate the service worker on reload
-self.addEventListener('activate', (event) => {
-  event.waitUntil(clients.claim());
-});
 
 self.addEventListener('install', function (event) {
   self.skipWaiting();
