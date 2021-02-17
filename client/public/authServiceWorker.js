@@ -7,6 +7,7 @@ const whitelistedOrigins = [
 // Global token variable in the service worker
 let token = '';
 
+// Intercept all fetch requests and add the auth header
 const addAuthHeader = function (event) {
   // adapted from https://blog.ropnop.com/storing-tokens-in-browser/
 
@@ -22,7 +23,7 @@ const addAuthHeader = function (event) {
   event.respondWith((async () => fetch(authReq))());
 };
 
-// Intercept all fetch requests and add the auth header
+// listen to messages to set or remove token
 self.addEventListener('message', function (event) {
   switch (event?.data?.type) {
     case 'SET_TOKEN':
