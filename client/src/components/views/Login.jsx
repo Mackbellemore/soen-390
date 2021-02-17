@@ -89,9 +89,14 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await makeRequest('post', 'user/login', {
+      const res = await makeRequest('post', 'user/login', {
         email: emailRef.current.value,
         password: passwordRef.current.value,
+      });
+
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SET_TOKEN',
+        token: res.data.jwt,
       });
 
       setCookie('userLoggedIn', true, { path: '/' });

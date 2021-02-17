@@ -26,24 +26,10 @@ const LogOutButton = () => {
   };
 
   const handleLogOut = async () => {
-    try {
-      await makeRequest('post', 'user/logout');
-
-      logOutSuccess();
-    } catch (err) {
-      if (err.response.status === 403) {
-        logOutSuccess();
-        return;
-      }
-      toast({
-        position: 'top',
-        title: 'An error occurred.',
-        description: 'Unable to log out',
-        status: 'error',
-        duration: 2000,
-        isClosable: true,
-      });
-    }
+    navigator.serviceWorker.controller.postMessage({
+      type: 'REVOKE_TOKEN',
+    });
+    logOutSuccess();
   };
 
   return (
