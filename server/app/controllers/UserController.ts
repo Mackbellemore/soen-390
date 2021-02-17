@@ -1,7 +1,7 @@
 import { IUserEntity } from './../entities/User';
 import { UserService } from './../services/UserService';
 import { generateToken } from '../middlewares/authentication';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { inject } from 'inversify';
 import {
   controller,
@@ -31,33 +31,22 @@ export class UserController extends BaseHttpController {
   }
 
   @httpPost('/login')
-  public async login(req: Request, res: Response): Promise<results.JsonResult> {
+  public async login(req: Request): Promise<results.JsonResult> {
     try {
       const user: IUserEntity = await this.userService.loginUser(req.body);
 
+      const response = {
+        user,
+        jwt: '',
+      };
+
       if (config.get<boolean>('server.authEnabled')) {
         const accessToken = generateToken(user);
-        res.cookie('jwt', accessToken, { httpOnly: true, secure: true });
+        response.jwt = accessToken;
       }
 
-      return this.json({
-        user,
-      });
+      return this.json(response);
     } catch (err) {
-      return this.json(err.message, 400);
-    }
-  }
-
-  @httpPost('/logout')
-  public async logout(_req: Request, res: Response): Promise<results.JsonResult> {
-    try {
-      if (config.get<boolean>('server.authEnabled')) {
-        res.cookie('jwt', '', { httpOnly: true, secure: true });
-      }
-
-      return this.json(200);
-    } catch (err) {
-      console.log(err);
       return this.json(err.message, 400);
     }
   }

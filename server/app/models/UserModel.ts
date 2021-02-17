@@ -24,7 +24,6 @@ export const UserSchema: Schema = new Schema({
   password: {
     type: Schema.Types.String,
     required: true,
-    validate: [validator.isStrongPassword, 'Password must contain a capital, symbol and a number.'],
   },
   username: {
     type: Schema.Types.String,
