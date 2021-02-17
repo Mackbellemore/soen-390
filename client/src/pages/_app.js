@@ -10,23 +10,27 @@ function MyApp({ Component, pageProps }) {
   const toast = useToast();
 
   useEffect(() => {
+    const registerWorker = async () => {
+      try {
+        await navigator.serviceWorker.register('/authServiceWorker.js');
+      } catch {
+        toast({
+          position: 'bottom',
+          title: 'An error occurred.',
+          description: 'Please contact Gordon',
+          status: 'error',
+          duration: 4000,
+          isClosable: true,
+        });
+      }
+    };
+
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', async () => {
-        try {
-          await navigator.serviceWorker.register('/authServiceWorker.js');
-        } catch {
-          toast({
-            position: 'bottom',
-            title: 'An error occurred.',
-            description: 'Please contact Gordon',
-            status: 'error',
-            duration: 4000,
-            isClosable: true,
-          });
-        }
-      });
+      window.addEventListener('load', registerWorker);
     }
-  }, [toast]);
+
+    return window.removeEventListener('load', registerWorker);
+  });
 
   return (
     <>
