@@ -27,5 +27,11 @@ module.exports = {
     user: 'soen390.team07@gmail.com',
     pass: process.env.EMAIL_PASS || '',
   },
-  logdna: process.env.LOGDNA || '',
+  logdna: {
+    key: process.env.LOGDNA || '',
+    app: `${process.env.ZEET_ENVIRONMENT} backend service`,
+    env: process.env.ZEET_ENVIRONMENT || 'local',
+    handleExceptions: true,
+    level: 'info',
+  },
 };

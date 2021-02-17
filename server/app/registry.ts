@@ -35,20 +35,17 @@ const logger: Logger = winston.createLogger({});
 // just for dev purposes now
 logger.add(
   new winston.transports.Console({
+    level: 'debug',
+    handleExceptions: true,
     format: winston.format.simple(),
   })
 );
 
-if (config.get<string>('zeetEnv').toLowerCase().includes('prod')) {
-  logger.add(
-    new LogdnaWinston({
-      key: config.get<string>('logdna'),
-      app: 'backend service',
-      env: config.get<string>('zeetEnv'),
-      handleExceptions: true,
-      level: 'info',
-    })
-  );
+const isDeployed =
+  config.get<string>('zeetEnv') === 'main' || config.get<string>('zeetEnv') === 'develop';
+
+if (isDeployed) {
+  logger.add(new LogdnaWinston(config.get<string>('logdna')));
 }
 
 const transporter = nodemailer.createTransport({

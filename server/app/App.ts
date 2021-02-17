@@ -4,12 +4,12 @@ import { authenticateJWT } from './middlewares/authentication';
 import winston, { Logger } from 'winston';
 import expressWinston from 'express-winston';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore because types don't exist for this library
+// @ts-ignore types don't exist for the logdna-winston library
 import LogdnaWinston from 'logdna-winston';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { container } from './registry';
 import { Application } from 'express';
-import config, { IConfig } from 'config';
+import { IConfig } from 'config';
 import * as bodyParser from 'body-parser';
 import { Server } from 'http';
 import TYPES from './constants/types';
@@ -42,18 +42,16 @@ export class App {
           handleExceptions: true,
           format: winston.format.prettyPrint({ colorize: true }),
         },
-        logdna: {
-          key: this.config.get<string>('logdna'),
-          app: 'backend service',
-          env: this.config.get<string>('zeetEnv'),
-          handleExceptions: true,
-          level: 'info',
-        },
+        logdna: this.config.get<string>('logdna'),
       };
 
       const loggerTransports = [new winston.transports.Console(options.console)];
 
-      if (config.get<string>('zeetEnv').toLowerCase().includes('prod')) {
+      const isDeployed =
+        this.config.get<string>('zeetEnv') === 'main' ||
+        this.config.get<string>('zeetEnv') === 'develop';
+
+      if (isDeployed) {
         loggerTransports.push(new LogdnaWinston(options.logdna));
       }
 
@@ -74,6 +72,8 @@ export class App {
         server.use(bodyParser.json());
         server.use(
           expressWinston.logger({
+            expressFormat: true,
+            meta: isDeployed,
             transports: loggerTransports,
           })
         );
