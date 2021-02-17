@@ -19,7 +19,6 @@ export const UserSchema: Schema = new Schema({
     type: Schema.Types.String,
     required: true,
     unique: true,
-    validate: [validator.isEmail, 'Please provide a valid email'],
   },
   password: {
     type: Schema.Types.String,
