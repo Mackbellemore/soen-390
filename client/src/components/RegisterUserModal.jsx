@@ -16,13 +16,12 @@ import { Text } from './common/Typography.jsx';
 import React, { Fragment, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { makeRequest } from '../utils/api.js';
+import { rolesAvailable } from '../constants.js';
 
 const ValidationText = styled(Text)`
   font-size: 10px;
   padding-left: 12px;
 `;
-
-const rolesAvailable = ['Admin', 'General'];
 
 const RegisterUserModal = () => {
   const usernameRef = useRef('');
@@ -57,7 +56,7 @@ const RegisterUserModal = () => {
         isClosable: true,
         onCloseComplete: onClose,
       });
-    } catch {
+    } catch (err) {
       toast({
         title: 'Error',
         description: 'Email or username already exists',
