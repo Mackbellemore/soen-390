@@ -6,7 +6,7 @@ import TYPES from '../constants/types';
 import bcrypt from 'bcryptjs';
 import { IConfig } from 'config';
 import validator from 'validator';
-import { BadRequestError } from '../errors';
+import { BadRequestError, NotApprovedError } from '../errors';
 
 @injectable()
 export class UserService {
@@ -35,6 +35,8 @@ export class UserService {
   public async loginUser(body: IUser): Promise<IUserEntity> {
     const user: IUser = await this.userRepo.findByEmail(body);
     if (!body.password) throw new BadRequestError('Password missing in body');
+
+    if (!user.approved) throw new NotApprovedError('User has not yet been approved');
 
     const passwordMatch = await bcrypt.compare(body.password, user.password);
     if (!passwordMatch) {

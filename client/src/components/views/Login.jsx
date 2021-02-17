@@ -5,10 +5,10 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { GrLock, GrMailOption } from 'react-icons/gr';
 import { useHistory, useLocation } from 'react-router-dom';
-import { RootStoreContext } from '../../stores/stores';
-import { makeRequest } from '../../utils/api';
-import { Heading, Text } from '../common/Typography';
-import RegisterUserModal from '../RegisterUserModal';
+import { RootStoreContext } from '../../stores/stores.jsx';
+import { makeRequest } from '../../utils/api.js';
+import { Heading, Text } from '../common/Typography.jsx';
+import RegisterUserModal from '../RegisterUserModal.jsx';
 
 const Container = styled(Box)`
   width: 100%;
@@ -157,7 +157,7 @@ const Login = () => {
         <Text mt={4} fontSize="12px">
           New User?
         </Text>
-        <RegisterUserModal></RegisterUserModal>
+        <RegisterUserModal />
       </Container>
     </>
   );
