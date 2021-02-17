@@ -21,7 +21,7 @@ module.exports = {
   salt: process.env.SALT || 10,
   jwt: {
     secret: process.env.JWT_SECRET || 'addadasjfghKEU10dawadrfgh!e29sosafelol',
-    expiry: process.env.JWT_EXPIRY || '30m',
+    expiry: process.env.JWT_EXPIRY || '7d',
   },
   email: {
     user: 'soen390.team07@gmail.com',
