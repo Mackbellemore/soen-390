@@ -6,6 +6,7 @@ import NavBar from '../components/NavBar.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
 import { styles } from '../components/Sidebar.jsx';
 import Login from '../components/views/Login.jsx';
+import AdminPage from '../components/views/AdminPage.jsx';
 import MainDashboard from '../components/views/MainDashboard.jsx';
 import { RootStoreContext } from '../stores/stores';
 
@@ -40,6 +41,9 @@ const Index = observer(() => {
             <ProtectedRoute path="/main">
               <MainDashboard />
             </ProtectedRoute>
+            <Route path="/AdminPage">
+              <AdminPage />
+            </Route>
           </Switch>
         </main>
       </BrowserRouter>
