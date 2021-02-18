@@ -2,8 +2,7 @@ import { Button, useToast } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router-dom';
-import { RootStoreContext } from '../stores/stores';
-import { makeRequest } from '../utils/api';
+import { RootStoreContext } from '../stores/stores.jsx';
 
 const LogOutButton = () => {
   const history = useHistory();

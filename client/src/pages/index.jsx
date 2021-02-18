@@ -8,7 +8,7 @@ import { styles } from '../components/Sidebar.jsx';
 import Login from '../components/views/Login.jsx';
 import AdminPage from '../components/views/AdminPage.jsx';
 import MainDashboard from '../components/views/MainDashboard.jsx';
-import { RootStoreContext } from '../stores/stores';
+import { RootStoreContext } from '../stores/stores.jsx';
 
 const MenuItems = () => (
   <>
@@ -41,7 +41,7 @@ const Index = observer(() => {
             <ProtectedRoute path="/main">
               <MainDashboard />
             </ProtectedRoute>
-            <Route path="/AdminPage">
+            <Route path="/admin">
               <AdminPage />
             </Route>
           </Switch>

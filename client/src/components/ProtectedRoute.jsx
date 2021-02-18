@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { Redirect, Route, useHistory } from 'react-router-dom';
-import { RootStoreContext } from '../stores/stores';
-import { makeRequest } from '../utils/api';
+import { RootStoreContext } from '../stores/stores.jsx';
+import { userAuthCheck } from '../utils/api/users/index.js';
 
 const ProtectedRoute = observer(({ children, ...rest }) => {
   const { uiStore } = useContext(RootStoreContext);
@@ -14,7 +14,7 @@ const ProtectedRoute = observer(({ children, ...rest }) => {
   useEffect(() => {
     const verifyCookie = async () => {
       try {
-        await makeRequest('get', 'user/authCheck');
+        await userAuthCheck();
         setCookie('userLoggedIn', true, { path: '/' });
         uiStore.userLogIn();
       } catch {

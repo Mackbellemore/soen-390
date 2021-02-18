@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
-import { makeRequest } from '../utils/api.js';
+import { getBikes } from '../utils/api/bikes/index.js';
 
 class BikesStore {
   bikes = [];
@@ -14,7 +14,7 @@ class BikesStore {
   }
 
   async fetchAll() {
-    const response = await makeRequest('get', `${this.endpoint}`);
+    const response = await getBikes();
     this.setBikes(response);
   }
 

@@ -1,4 +1,4 @@
-import { Button, Flex, FormLabel, Icon, Input, Box, useToast, Divider } from '@chakra-ui/react';
+import { Flex, FormLabel, Icon, Input, Box, useToast, Divider } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
@@ -6,9 +6,11 @@ import { useCookies } from 'react-cookie';
 import { GrLock, GrMailOption } from 'react-icons/gr';
 import { useHistory, useLocation } from 'react-router-dom';
 import { RootStoreContext } from '../../stores/stores.jsx';
-import { makeRequest } from '../../utils/api.js';
+import { userLogin } from '../../utils/api/users/index.js';
 import { Heading, Text } from '../common/Typography.jsx';
 import RegisterUserModal from '../RegisterUserModal.jsx';
+import { FormButton } from '../common/Button.jsx';
+import { StyledForm } from '../common/Form.jsx';
 
 const Container = styled(Box)`
   width: 100%;
@@ -44,6 +46,7 @@ const InputIcon = styled(Icon)`
   height: 30px;
   margin: 15px;
 `;
+
 const StyledFormLabel = styled(FormLabel)`
   padding: 0 1rem;
   margin-top: 10px;
@@ -52,19 +55,6 @@ const StyledFormLabel = styled(FormLabel)`
   font-size: 12px;
 `;
 
-export const StyledButton = styled(Button)`
-  width: 100%;
-  max-width: 380px;
-  font-size: 14px;
-  font-family: Montserrat;
-  font-weight: 400;
-`;
-export const StyledForm = styled.form`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
 const Login = () => {
   const { uiStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
@@ -89,7 +79,7 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const res = await makeRequest('post', 'user/login', {
+      const res = await userLogin({
         email: emailRef.current.value,
         password: passwordRef.current.value,
       });
@@ -148,9 +138,9 @@ const Login = () => {
             </Flex>
           </InputContainer>
           <Flex direction="row" width="100%" maxWidth="380px">
-            <StyledButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
+            <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
               Login
-            </StyledButton>
+            </FormButton>
           </Flex>
         </StyledForm>
         <Divider orientation="horizontal" borderColor="#D4D4D4" opacity="1" width="90%" mt={9} />

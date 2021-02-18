@@ -3,10 +3,10 @@ import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { RootStoreContext } from '../stores/stores';
-import { Heading } from './common/Typography';
-import LogOutButton from './LogOutButton';
-import { HamburgerButton } from './Sidebar';
+import { RootStoreContext } from '../stores/stores.jsx';
+import { Heading } from './common/Typography.jsx';
+import LogOutButton from './LogOutButton.jsx';
+import { HamburgerButton } from './Sidebar.jsx';
 
 const Button = ({ path, text }) => (
   <Link to={path}>
