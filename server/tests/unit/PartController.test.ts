@@ -11,6 +11,7 @@ import { BadRequestError, NotFoundError } from '../../app/errors';
 const partService: any = {
   getPartList: Function,
   getName: Function,
+  getId: Function,
   createPart: Function,
   updatePart: Function,
   deletePart: Function,
@@ -132,6 +133,51 @@ describe('Part Controller', () => {
       sandbox.stub(partService, 'getName').throws(new NotFoundError('Not found error'));
 
       const res = await controller.getName(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(404);
+      expect(res.json).to.deep.equal('Not found error');
+    });
+  });
+
+  // Get by ID
+  describe('Get by id Request', () => {
+    it('Should return a 200 with a part', async () => {
+      const mockRequest = {
+        params: {
+          id: 'some not found id',
+        },
+      } as Request | any;
+
+      const partServiceStub = sandbox.stub(partService, 'getId').returns(mockPart);
+
+      const res = await controller.getId(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(partServiceStub.calledOnceWith()).to.equal(true);
+      expect(res.statusCode).to.equal(200);
+      expect(res.json).to.deep.equal({
+        name: 'wheel',
+        quality: 'high-quality',
+        description: 'Circular frame of hard material that is solid',
+        type: 'round',
+        color: 'color',
+        finish: 'glossy',
+        grade: 'aluminum',
+        detail: '18inch',
+      });
+    });
+
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const mockRequest = {
+        params: {
+          id: 'some not found id',
+        },
+      } as Request | any;
+
+      sandbox.stub(partService, 'getId').throws(new NotFoundError('Not found error'));
+
+      const res = await controller.getId(mockRequest);
 
       expect(res).to.be.an.instanceof(results.JsonResult);
       expect(res.statusCode).to.equal(404);

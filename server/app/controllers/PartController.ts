@@ -8,6 +8,7 @@ import {
   httpGet,
   httpDelete,
   httpPatch,
+  queryParam,
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import { Request } from 'express';
@@ -32,13 +33,26 @@ export class PartController extends BaseController {
     }
   }
 
-  // @desc        Get by Name
-  // @route       GET /parts/:name
+  // @desc        Get part by Name
+  // @route       GET /parts/name?name=
   // @access      Public
-  @httpGet('/:name')
-  public async getName(req: Request): Promise<results.JsonResult> {
+  @httpGet('/name?')
+  public async getName(@queryParam('name') name: string): Promise<results.JsonResult> {
     try {
-      const part = await this.partService.getName(req.params.name);
+      const part = await this.partService.getName(name);
+      return this.json(part);
+    } catch (err) {
+      return this.handleError(err);
+    }
+  }
+
+  // @desc        Get part by id
+  // @route       GET /parts/id?id=
+  // @access      Public
+  @httpGet('/id?')
+  public async getId(@queryParam('id') id: string): Promise<results.JsonResult> {
+    try {
+      const part = await this.partService.getId(id);
       return this.json(part);
     } catch (err) {
       return this.handleError(err);
@@ -58,8 +72,8 @@ export class PartController extends BaseController {
     }
   }
 
-  // @desc        Update part
-  // @route       PATCH /parts/:name
+  // @desc        Update part by name
+  // @route       PATCH /parts/name?name=
   // @access      Public
   @httpPatch('/:name')
   public async patch(req: Request): Promise<results.JsonResult> {

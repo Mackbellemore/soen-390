@@ -20,6 +20,14 @@ export class PartService {
     return part;
   }
 
+  public async getId(id: string): Promise<IPart> {
+    const part = await this.partRepo.findById(id);
+    if (!part) {
+      throw new NotFoundError(`Part with id ${id} was not found`);
+    }
+    return part;
+  }
+
   public async createPart(body: IPart): Promise<IPart> {
     return await this.partRepo.create(body);
   }
@@ -33,6 +41,6 @@ export class PartService {
   }
 
   public async deletePart(name: string): Promise<IPart | null> {
-    return await this.partRepo.delete(name);
+    return await this.partRepo.deletePart(name);
   }
 }

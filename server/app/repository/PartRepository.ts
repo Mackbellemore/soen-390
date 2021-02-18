@@ -27,9 +27,17 @@ export class PartRepository extends BaseRepository<IPart> {
     }
   }
 
-  public async deletePart(name: string): Promise<IPart> {
+  public async deletePart(name: string): Promise<IPart | null> {
     try {
-      return await this.model.deleteOne({ name });
+      return await this.model.findOneAndDelete({ name }).then((deleteDocument) => {
+        if (deleteDocument) {
+          console.log(`Succesfully deleted document: ${deleteDocument}`);
+          return deleteDocument;
+        } else {
+          console.log(`No such document found`);
+        }
+        return deleteDocument;
+      });
     } catch (err) {
       return this.manageRepositoryError(err);
     }
