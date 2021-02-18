@@ -87,7 +87,8 @@ const RegisterUserModal = () => {
   const registerHandleEmailValidation = (e) => {
     const email = e.target.value;
     // any number of characters followed by @ followed by any number of characters followed by a . then any number of characters
-    const regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // grabbed from https://emailregex.com/
     const isOk = regex.test(email);
     if (!isOk) {
       setEmailIsValidated(true);
