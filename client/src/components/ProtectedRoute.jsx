@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { Redirect, Route, useHistory } from 'react-router-dom';
-import { RootStoreContext } from '../stores/stores.jsx';
-import { userAuthCheck } from '../utils/api/users/index.js';
+import { RootStoreContext } from 'stores/stores.jsx';
+import { userAuthCheck } from 'utils/api/users.js';
 
 const ProtectedRoute = observer(({ children, ...rest }) => {
   const { uiStore } = useContext(RootStoreContext);

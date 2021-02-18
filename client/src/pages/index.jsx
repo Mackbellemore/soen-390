@@ -4,7 +4,7 @@ import { push as Menu } from 'react-burger-menu';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import NavBar from '../components/NavBar.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
-import { styles } from '../components/Sidebar.jsx';
+import { sidebarStyles } from '../components/Sidebar.jsx';
 import Login from '../components/views/Login.jsx';
 import AdminPage from '../components/views/AdminPage.jsx';
 import MainDashboard from '../components/views/MainDashboard.jsx';
@@ -23,7 +23,7 @@ const Index = observer(() => {
     <>
       <BrowserRouter>
         <Menu
-          styles={styles}
+          styles={sidebarStyles}
           pageWrapId={'page-wrap'}
           customBurgerIcon={false}
           customCrossIcon={false}

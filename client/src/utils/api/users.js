@@ -1,4 +1,4 @@
-import { makeGetRequest, makePostRequest } from '../../api.js';
+import { makeGetRequest, makePostRequest } from './base.js';
 
 const baseEndpoint = 'user';
 

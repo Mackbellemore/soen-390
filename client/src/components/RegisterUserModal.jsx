@@ -14,7 +14,7 @@ import {
 import { Text } from './common/Typography.jsx';
 import React, { Fragment, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { userRegister } from '../utils/api/users/index.js';
+import { userRegister } from 'utils/api/users.js';
 import { rolesAvailable } from '../constants.js';
 import { FormButton } from './common/Button.jsx';
 

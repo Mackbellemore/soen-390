@@ -1,7 +1,7 @@
 import { Table, Thead, Tbody, Tr, Th, Td, TableCaption } from '@chakra-ui/react';
 import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
-import { getUsers } from '../../utils/api/users/index.js';
+import { getUsers } from 'utils/api/users.js';
 import { useQuery } from 'react-query';
 import { TableButton } from '../common/Button.jsx';
 

@@ -34,7 +34,7 @@ function MyApp({ Component, pageProps }) {
     }
 
     return window.removeEventListener('load', registerWorker);
-  });
+  }, [toast]);
 
   return (
     <>

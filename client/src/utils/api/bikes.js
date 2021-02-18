@@ -1,4 +1,4 @@
-import { makeGetRequest } from '../../api.js';
+import { makeGetRequest } from './base.js';
 
 const getBikes = async () => {
   return makeGetRequest('bikes');
