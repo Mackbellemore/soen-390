@@ -1,8 +1,11 @@
+import 'reflect-metadata';
 import { MaterialRepository } from './repository/MaterialRepository';
 import { authenticateJWT } from './middlewares/authentication';
-import 'reflect-metadata';
 import winston, { Logger } from 'winston';
 import expressWinston from 'express-winston';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore types don't exist for the logdna-winston library
+import LogdnaWinston from 'logdna-winston';
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { container } from './registry';
 import { Application } from 'express';
@@ -33,6 +36,25 @@ export class App {
       await this.initRepositories();
       this.logger.info('mongoDB connection initialized');
 
+      const options = {
+        console: {
+          level: 'debug',
+          handleExceptions: true,
+          format: winston.format.prettyPrint({ colorize: true }),
+        },
+        logdna: this.config.get<string>('logdna'),
+      };
+
+      const loggerTransports = [new winston.transports.Console(options.console)];
+
+      const isDeployed =
+        this.config.get<string>('zeetEnv') === 'main' ||
+        this.config.get<string>('zeetEnv') === 'develop';
+
+      if (isDeployed) {
+        loggerTransports.push(new LogdnaWinston(options.logdna));
+      }
+
       appBuilder.setConfig((server: Application) => {
         // middlewares
         server.use(
@@ -50,10 +72,9 @@ export class App {
         server.use(bodyParser.json());
         server.use(
           expressWinston.logger({
-            transports: [new winston.transports.Console()],
-            meta: false,
             expressFormat: true,
-            statusLevels: true,
+            meta: isDeployed,
+            transports: loggerTransports,
           })
         );
         if (this.config.get<boolean>('server.authEnabled')) {

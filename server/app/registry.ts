@@ -27,14 +27,26 @@ import winston, { Logger } from 'winston';
 import { MongoConnection } from './utils/MongoConnection';
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore because types don't exist for this library
+import LogdnaWinston from 'logdna-winston';
 
 const logger: Logger = winston.createLogger({});
 // just for dev purposes now
 logger.add(
   new winston.transports.Console({
+    level: 'debug',
+    handleExceptions: true,
     format: winston.format.simple(),
   })
 );
+
+const isDeployed =
+  config.get<string>('zeetEnv') === 'main' || config.get<string>('zeetEnv') === 'develop';
+
+if (isDeployed) {
+  logger.add(new LogdnaWinston(config.get<string>('logdna')));
+}
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
