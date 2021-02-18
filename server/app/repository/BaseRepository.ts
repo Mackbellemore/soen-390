@@ -60,7 +60,7 @@ export abstract class BaseRepository<T extends Document> {
 
   public async delete(id: string): Promise<T | null> {
     try {
-      return await this.model.findByIdAndRemove(id);
+      return await this.model.findByIdAndRemove(id).exec();
     } catch (e) {
       this.manageRepositoryError(e);
     }
