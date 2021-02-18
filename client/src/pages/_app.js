@@ -5,6 +5,10 @@ import React, { useEffect } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import RootStore from '../stores/stores.jsx';
 import theme from '../theme.js';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
   const toast = useToast();
@@ -50,14 +54,18 @@ function MyApp({ Component, pageProps }) {
         <ChakraProvider resetCSS theme={theme}>
           <ColorModeProvider
             options={{
-              useSystemColorMode: true,
+              initialColorMode: 'light',
+              useSystemColorMode: false,
             }}
           >
-            <CookiesProvider>
-              <div suppressHydrationWarning>
-                {typeof window === 'undefined' ? null : <Component {...pageProps} />}
-              </div>
-            </CookiesProvider>
+            <QueryClientProvider client={queryClient}>
+              <CookiesProvider>
+                <div suppressHydrationWarning>
+                  {typeof window === 'undefined' ? null : <Component {...pageProps} />}
+                </div>
+              </CookiesProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
           </ColorModeProvider>
         </ChakraProvider>
       </RootStore>
