@@ -21,7 +21,7 @@ const Button = ({ path, text }) => (
   </Link>
 );
 
-const NavBar = observer(() => {
+const NavBar = () => {
   const location = useLocation();
   const { uiStore } = useContext(RootStoreContext);
 
@@ -50,11 +50,11 @@ const NavBar = observer(() => {
       </Flex>
     </Box>
   );
-});
+};
 
 Button.propTypes = {
   path: PropTypes.string,
   text: PropTypes.string,
 };
 
-export default NavBar;
+export default observer(NavBar);

@@ -16,7 +16,7 @@ const MenuItems = () => (
   </>
 );
 
-const Index = observer(() => {
+const Index = () => {
   const { uiStore } = useContext(RootStoreContext);
 
   return (
@@ -49,6 +49,6 @@ const Index = observer(() => {
       </BrowserRouter>
     </>
   );
-});
+};
 
-export default Index;
+export default observer(Index);

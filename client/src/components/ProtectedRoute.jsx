@@ -6,7 +6,7 @@ import { Redirect, Route, useHistory } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userAuthCheck } from 'utils/api/users.js';
 
-const ProtectedRoute = observer(({ children, ...rest }) => {
+const ProtectedRoute = ({ children, ...rest }) => {
   const { uiStore } = useContext(RootStoreContext);
   const [cookies, setCookie] = useCookies(['userLoggedIn']);
   const history = useHistory();
@@ -36,10 +36,10 @@ const ProtectedRoute = observer(({ children, ...rest }) => {
       )}
     </>
   );
-});
+};
 
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default ProtectedRoute;
+export default observer(ProtectedRoute);
