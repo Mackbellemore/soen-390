@@ -33,12 +33,18 @@ export class App {
       await this.initRepositories();
       this.logger.info('mongoDB connection initialized');
 
+      const whitelistOrigins = ['http://localhost:3000', /soen-390-team-07\.netlify\.app$/];
+
+      if (this.config.get<string>('env') === 'development') {
+        whitelistOrigins.push(/.*\.ngrok\.io/);
+      }
+
       appBuilder.setConfig((server: Application) => {
         // middlewares
         server.use(
           cors({
             credentials: true,
-            origin: ['http://localhost:3000', /soen-390-team-07\.netlify\.app$/],
+            origin: whitelistOrigins,
           })
         );
         server.use(cookieParser());
