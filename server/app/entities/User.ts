@@ -4,6 +4,7 @@ export interface IUserEntity {
   email: string;
   id: string;
   role: string;
+  approved: boolean;
 }
 
 export class UserEntity {
@@ -13,6 +14,7 @@ export class UserEntity {
       email: userModel.email,
       id: userModel._id,
       role: userModel.role,
+      approved: userModel.approved,
     };
   }
 
@@ -24,6 +26,7 @@ export class UserEntity {
         email: userModel.email,
         id: userModel._id,
         role: userModel.role,
+        approved: userModel.approved,
       });
     });
 
