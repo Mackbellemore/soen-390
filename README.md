@@ -80,5 +80,5 @@ A local MongoDB container is used for development purposes. For convenience, mon
 | David Liang         | 40092433 |
 | Tiffany Zeng        | 40063115 |
 | Karin Kazarian      | 40098995 |
-|                     |          |
-|                     |          |
+| Siu Ye              | 40032209 |
+| TianMing Chen       | 40058543 |
