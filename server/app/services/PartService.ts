@@ -9,13 +9,13 @@ export class PartService {
   constructor(@inject(TYPES.PartRepository) private partRepo: PartRepository) {}
 
   public async get(id?: string, name?: string): Promise<IPart[] | IPart> {
-    if (id === undefined && name === undefined) {
+    if (!id && !name) {
       return this.partRepo.getList();
     }
 
     let part;
 
-    if (id !== undefined) {
+    if (id) {
       part = await this.partRepo.findById(id);
       if (!part) {
         throw new NotFoundError(`Part with id ${id} was not found`);
@@ -23,7 +23,7 @@ export class PartService {
       return part;
     }
 
-    if (name !== undefined) {
+    if (name) {
       part = await this.partRepo.getByName(name);
       if (!part) {
         throw new NotFoundError(`Part with name ${name} was not found`);
