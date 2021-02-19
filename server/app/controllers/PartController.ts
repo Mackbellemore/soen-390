@@ -29,8 +29,8 @@ export class PartController extends BaseController {
   */
   @httpGet('/')
   public async get(
-    @queryParam('id') id: string | undefined,
-    @queryParam('name') name: string | undefined
+    @queryParam('id') id?: string,
+    @queryParam('name') name?: string
   ): Promise<results.JsonResult> {
     try {
       const part: IPart[] | IPart = await this.partService.get(id, name);
