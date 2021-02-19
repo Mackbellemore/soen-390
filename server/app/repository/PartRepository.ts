@@ -10,7 +10,7 @@ export class PartRepository extends BaseRepository<IPart> {
 
   public async getByName(name: string): Promise<IPart | null> {
     try {
-      return await this.model.findOne({ name });
+      return this.model.findOne({ name }).exec();
     } catch (err) {
       return this.manageRepositoryError(err);
     }
@@ -18,10 +18,12 @@ export class PartRepository extends BaseRepository<IPart> {
 
   public async updateByName(name: string, body: IPart): Promise<IPart | null> {
     try {
-      return await this.model.findOneAndUpdate({ name }, body, {
-        returnOriginal: false,
-        runValidators: true,
-      });
+      return await this.model
+        .findOneAndUpdate({ name }, body, {
+          returnOriginal: false,
+          runValidators: true,
+        })
+        .exec();
     } catch (err) {
       return this.manageRepositoryError(err);
     }
@@ -31,7 +33,7 @@ export class PartRepository extends BaseRepository<IPart> {
     try {
       return await this.model.findOneAndDelete({ name }).then((deleteDocument) => {
         if (deleteDocument) {
-          console.log(`Succesfully deleted document: ${deleteDocument}`);
+          console.log(`Successfully deleted document: ${deleteDocument}`);
           return deleteDocument;
         } else {
           console.log(`No such document found`);

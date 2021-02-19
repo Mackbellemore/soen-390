@@ -20,39 +20,20 @@ export class PartController extends BaseController {
     super();
   }
 
-  // @desc        Get all part
-  // @route       GET /parts
-  // @access      Public
+  /*
+  @desc        Get one part or all parts
+  @route       GET /parts or /parts?name= or parts?id=
+  @access      Public
+  @param  {string} id part id
+  @param  {string} name part name
+  */
   @httpGet('/')
-  public async getList(): Promise<results.JsonResult> {
+  public async get(
+    @queryParam('id') id: string,
+    @queryParam('name') name: string
+  ): Promise<results.JsonResult> {
     try {
-      const partList: IPart[] = await this.partService.getPartList();
-      return this.json(partList);
-    } catch (err) {
-      return this.handleError(err);
-    }
-  }
-
-  // @desc        Get part by Name
-  // @route       GET /parts/name?name=
-  // @access      Public
-  @httpGet('/name?')
-  public async getName(@queryParam('name') name: string): Promise<results.JsonResult> {
-    try {
-      const part = await this.partService.getName(name);
-      return this.json(part);
-    } catch (err) {
-      return this.handleError(err);
-    }
-  }
-
-  // @desc        Get part by id
-  // @route       GET /parts/id?id=
-  // @access      Public
-  @httpGet('/id?')
-  public async getId(@queryParam('id') id: string): Promise<results.JsonResult> {
-    try {
-      const part = await this.partService.getId(id);
+      const part: IPart[] | IPart = await this.partService.get(id, name);
       return this.json(part);
     } catch (err) {
       return this.handleError(err);
@@ -73,7 +54,7 @@ export class PartController extends BaseController {
   }
 
   // @desc        Update part by name
-  // @route       PATCH /parts/name?name=
+  // @route       PATCH /parts/:name
   // @access      Public
   @httpPatch('/:name')
   public async patch(req: Request): Promise<results.JsonResult> {

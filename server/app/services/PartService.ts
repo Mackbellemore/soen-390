@@ -8,28 +8,34 @@ import { NotFoundError } from '../errors';
 export class PartService {
   constructor(@inject(TYPES.PartRepository) private partRepo: PartRepository) {}
 
-  public async getPartList(): Promise<IPart[]> {
-    return await this.partRepo.getList();
-  }
-
-  public async getName(name: string): Promise<IPart> {
-    const part = await this.partRepo.getByName(name);
-    if (!part) {
-      throw new NotFoundError(`Part with name ${name} was not found`);
+  public async get(id?: string, name?: string): Promise<IPart[] | IPart> {
+    if (id === undefined && name === undefined) {
+      return this.partRepo.getList();
     }
-    return part;
-  }
 
-  public async getId(id: string): Promise<IPart> {
-    const part = await this.partRepo.findById(id);
-    if (!part) {
-      throw new NotFoundError(`Part with id ${id} was not found`);
+    let part;
+
+    if (id !== undefined) {
+      part = await this.partRepo.findById(id);
+      if (!part) {
+        throw new NotFoundError(`Part with id ${id} was not found`);
+      }
+      return part;
     }
-    return part;
+
+    if (name !== undefined) {
+      part = await this.partRepo.getByName(name);
+      if (!part) {
+        throw new NotFoundError(`Part with name ${name} was not found`);
+      }
+      return part;
+    }
+
+    throw new NotFoundError('No part was found');
   }
 
   public async createPart(body: IPart): Promise<IPart> {
-    return await this.partRepo.create(body);
+    return this.partRepo.create(body);
   }
 
   public async updatePart(name: string, body: IPart): Promise<IPart | null> {
@@ -41,6 +47,6 @@ export class PartService {
   }
 
   public async deletePart(name: string): Promise<IPart | null> {
-    return await this.partRepo.deletePart(name);
+    return this.partRepo.deletePart(name);
   }
 }

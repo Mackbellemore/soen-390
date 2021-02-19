@@ -1,15 +1,3 @@
-// + componentID
-// + name
-// + parameters: BikePartDescription REMOVED for the moment
-// + quality
-// + description
-// + name
-// + type
-// + color
-// + finish
-// + grade
-// + detail JSON
-
 import { Document, Schema } from 'mongoose';
 
 export interface IPart extends Document {
