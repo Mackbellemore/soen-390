@@ -4,10 +4,10 @@
     "paths": {
       "@/src/*": ["src/*"]
     },
-    "checkJs": true,
+    "checkJs": false,
     "jsx": "react",
     "target": "esnext",
     "moduleResolution": "node"
   },
-  "exclude": ["node_modules", "**/node_modules/*", ".next"]
+  "exclude": ["node_modules", "**/node_modules/*", ".next", "out"]
 }

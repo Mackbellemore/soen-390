@@ -7,4 +7,17 @@ import { BaseRepository } from './BaseRepository';
 export class BikeRepository extends BaseRepository<IBike> {
   protected readonly collectionName: string = 'bikes';
   protected readonly schema: Schema = BikeSchema;
+
+  public async update(id: string, model: IBike): Promise<IBike | null> {
+    try {
+      return await this.model
+        .findByIdAndUpdate(id, model, {
+          returnOriginal: false,
+          runValidators: true,
+        })
+        .exec();
+    } catch (e) {
+      this.manageRepositoryError(e);
+    }
+  }
 }

@@ -1,4 +1,7 @@
 import 'reflect-metadata';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore types don't exist for the logdna-winston library
+import LogdnaWinston from 'logdna-winston';
 import * as bodyParser from 'body-parser';
 import { IConfig } from 'config';
 import cookieParser from 'cookie-parser';
@@ -36,9 +39,33 @@ export class App {
       await this.initRepositories();
       this.logger.info('mongoDB connection initialized');
 
+      const options = {
+        console: {
+          level: 'debug',
+          handleExceptions: true,
+          format: winston.format.prettyPrint({ colorize: true }),
+        },
+        logdna: this.config.get<string>('logdna'),
+      };
+
+      const loggerTransports = [new winston.transports.Console(options.console)];
+
+      const isDeployed =
+        this.config.get<string>('zeetEnv') === 'main' ||
+        this.config.get<string>('zeetEnv') === 'develop';
+
+      if (isDeployed) {
+        loggerTransports.push(new LogdnaWinston(options.logdna));
+      }
+
       appBuilder.setConfig((server: Application) => {
         // middlewares
-        server.use(cors({ credentials: true, origin: this.config.get<string>('origin') }));
+        server.use(
+          cors({
+            credentials: true,
+            origin: ['http://localhost:3000', /soen-390-team-07\.netlify\.app$/],
+          })
+        );
         server.use(cookieParser());
         server.use(
           bodyParser.urlencoded({
@@ -48,10 +75,9 @@ export class App {
         server.use(bodyParser.json());
         server.use(
           expressWinston.logger({
-            transports: [new winston.transports.Console()],
-            meta: false,
             expressFormat: true,
-            statusLevels: true,
+            meta: isDeployed,
+            transports: loggerTransports,
           })
         );
         if (this.config.get<boolean>('server.authEnabled')) {

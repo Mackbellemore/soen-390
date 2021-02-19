@@ -16,6 +16,10 @@ const TYPES = {
 
   // Mongo
   MongoConnection: Symbol.for('MongoConnection'),
+
+  // Mail
+  SystemService: Symbol.for('SystemService'),
+  Mail: Symbol.for('Mail'),
 };
 
 export default TYPES;
