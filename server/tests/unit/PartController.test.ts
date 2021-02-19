@@ -171,7 +171,7 @@ describe('Part Controller', () => {
       const mockRequest = {
         body: mockPart,
         params: {
-          name: 'some not found name',
+          name: 'wheel',
         },
       } as Request | any;
 
@@ -207,7 +207,7 @@ describe('Part Controller', () => {
     it('Should return a 200 with delete part', async () => {
       const mockRequest = {
         params: {
-          name: 'some not found name',
+          name: 'wheel',
         },
       } as Request | any;
       sandbox.stub(partService, 'deletePart').returns(mockPart);

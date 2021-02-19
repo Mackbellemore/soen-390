@@ -33,10 +33,10 @@ export class PartRepository extends BaseRepository<IPart> {
     try {
       return await this.model.findOneAndDelete({ name }).then((deleteDocument) => {
         if (deleteDocument) {
-          console.log(`Successfully deleted document: ${deleteDocument}`);
+          this.logger.info(`Successfully deleted document: ${deleteDocument}`);
           return deleteDocument;
         } else {
-          console.log(`No such document found`);
+          this.logger.info(`No such document found`);
         }
         return deleteDocument;
       });
