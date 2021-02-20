@@ -1,7 +1,7 @@
-import { IBike } from './../models/BikeModel';
-import { BikeRepository } from './../repository/BikeRepository';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
+import { IBike } from './../models/BikeModel';
+import { BikeRepository } from './../repository/BikeRepository';
 import { NotFoundError } from '../errors';
 
 @injectable()
@@ -37,7 +37,7 @@ export class BikeService {
   public async findById(id: string): Promise<IBike> {
     const bike = await this.bikeRepo.findById(id);
     if (!bike) {
-      throw new NotFoundError(`Material with name ${name} was not found`);
+      throw new NotFoundError(`Bike with id ${id} was not found`);
     }
 
     return bike;

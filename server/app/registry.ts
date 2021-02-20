@@ -1,38 +1,40 @@
-// Inversify stuff
-import { Container } from 'inversify';
-import TYPES from './constants/types';
-
 // Config package binds the config/default.js file
 import config, { IConfig } from 'config';
+import { Container } from 'inversify';
+
+// Utils
+import winston, { Logger } from 'winston';
+import { MongoConnection } from './utils/MongoConnection';
+import TYPES from './constants/types';
+import nodemailer from 'nodemailer';
+import Mail from 'nodemailer/lib/mailer';
 
 // Controllers import autobinds them to the application
 import './controllers/BikeController';
+import './controllers/PartController';
 import './controllers/UserController';
 import './controllers/SystemController';
 import './controllers/MaterialController';
 
 // Services (make sure to bind it to a singleton)
-import { BikeService } from './services/BikeService';
 import { UserService } from './services/UserService';
 import { SystemService } from './services/SystemService';
 import { MaterialService } from './services/MaterialService';
+import { PartService } from './services/PartService';
+import { BikeService } from './services/BikeService';
 
-// repositories
-import { BikeRepository } from './repository/BikeRepository';
+// Repositories
 import { UserRepository } from './repository/UserRepository';
 import { MaterialRepository } from './repository/MaterialRepository';
+import { PartRepository } from './repository/PartRepository';
+import { BikeRepository } from './repository/BikeRepository';
 
-// utils
-import winston, { Logger } from 'winston';
-import { MongoConnection } from './utils/MongoConnection';
-import nodemailer from 'nodemailer';
-import Mail from 'nodemailer/lib/mailer';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore because types don't exist for this library
 import LogdnaWinston from 'logdna-winston';
 
 const logger: Logger = winston.createLogger({});
-// just for dev purposes now
+// Just for dev purposes now
 logger.add(
   new winston.transports.Console({
     level: 'debug',
@@ -63,17 +65,24 @@ container.bind<IConfig>(TYPES.config).toConstantValue(config);
 container.bind<Logger>(TYPES.logger).toConstantValue(logger);
 container.bind<Mail>(TYPES.Mail).toConstantValue(transporter);
 
+// Mongo
 const mongoConnection = new MongoConnection(config);
 container.bind<MongoConnection>(TYPES.MongoConnection).toConstantValue(mongoConnection);
 
-container.bind<BikeService>(TYPES.BikeService).to(BikeService).inSingletonScope();
-container.bind<BikeRepository>(TYPES.BikeRepository).to(BikeRepository).inSingletonScope();
+// Services
 container.bind<UserService>(TYPES.UserService).to(UserService).inSingletonScope();
-container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
+container.bind<PartService>(TYPES.PartService).to(PartService).inSingletonScope();
 container.bind<SystemService>(TYPES.SystemService).to(SystemService).inSingletonScope();
 container.bind<MaterialService>(TYPES.MaterialService).to(MaterialService).inSingletonScope();
+container.bind<BikeService>(TYPES.BikeService).to(BikeService).inSingletonScope();
+
+// Repository
+container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
+container.bind<PartRepository>(TYPES.PartRepository).to(PartRepository).inSingletonScope();
 container
   .bind<MaterialRepository>(TYPES.MaterialRepository)
   .to(MaterialRepository)
   .inSingletonScope();
+container.bind<BikeRepository>(TYPES.BikeRepository).to(BikeRepository).inSingletonScope();
+
 export { container };
