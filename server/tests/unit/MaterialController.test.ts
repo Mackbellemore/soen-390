@@ -37,7 +37,7 @@ describe('Material Controller', () => {
   });
 
   describe('Post Request', () => {
-    it('Should return a material on success from the service layer', async () => {
+    it('Should return a material on successfrom the service layer', async () => {
       const mockRequest = {
         body: mockMaterial,
       } as Request;

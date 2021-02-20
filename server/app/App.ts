@@ -1,25 +1,22 @@
 import 'reflect-metadata';
+import { MaterialRepository } from './repository/MaterialRepository';
+import { authenticateJWT } from './middlewares/authentication';
+import winston, { Logger } from 'winston';
+import expressWinston from 'express-winston';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore types don't exist for the logdna-winston library
 import LogdnaWinston from 'logdna-winston';
-import * as bodyParser from 'body-parser';
-import { IConfig } from 'config';
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import { Application } from 'express';
-import expressWinston from 'express-winston';
-import { Server } from 'http';
 import { InversifyExpressServer } from 'inversify-express-utils';
-import winston, { Logger } from 'winston';
-import TYPES from './constants/types';
-import { authenticateJWT } from './middlewares/authentication';
 import { container } from './registry';
-
-// Repository
+import { Application } from 'express';
+import { IConfig } from 'config';
+import * as bodyParser from 'body-parser';
+import { Server } from 'http';
+import TYPES from './constants/types';
 import { BikeRepository } from './repository/BikeRepository';
-import { PartRepository } from './repository/PartRepository';
 import { UserRepository } from './repository/UserRepository';
-import { MaterialRepository } from './repository/MaterialRepository';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 export class App {
   private config: IConfig;
@@ -121,7 +118,6 @@ export class App {
     this.logger.info('Initializing repositories');
     await container.get<UserRepository>(TYPES.UserRepository).initialize();
     await container.get<BikeRepository>(TYPES.BikeRepository).initialize();
-    await container.get<PartRepository>(TYPES.PartRepository).initialize();
     await container.get<MaterialRepository>(TYPES.MaterialRepository).initialize();
   }
 }

@@ -1,25 +1,15 @@
 const TYPES = {
-  config: Symbol.for('config'),
-  logger: Symbol.for('logger'),
-
-  // Service
   BikeService: Symbol.for('BikeService'),
   UserService: Symbol.for('UserService'),
-  PartService: Symbol.for('PartService'),
-  MaterialService: Symbol.for('MaterialService'),
-
-  // Repository
-  UserRepository: Symbol.for('UserRepository'),
-  PartRepository: Symbol.for('PartRepository'),
-  MaterialRepository: Symbol.for('MaterialRepository'),
+  config: Symbol.for('config'),
+  logger: Symbol.for('logger'),
   BikeRepository: Symbol.for('BikeRepository'),
-
-  // Mongo
+  UserRepository: Symbol.for('UserRepository'),
+  MaterialRepository: Symbol.for('MaterialRepository'),
   MongoConnection: Symbol.for('MongoConnection'),
-
-  // Mail
   SystemService: Symbol.for('SystemService'),
   Mail: Symbol.for('Mail'),
+  MaterialService: Symbol.for('MaterialService'),
 };
 
 export default TYPES;

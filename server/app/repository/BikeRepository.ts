@@ -10,12 +10,10 @@ export class BikeRepository extends BaseRepository<IBike> {
 
   public async update(id: string, model: IBike): Promise<IBike | null> {
     try {
-      return await this.model
-        .findByIdAndUpdate(id, model, {
-          returnOriginal: false,
-          runValidators: true,
-        })
-        .exec();
+      return await this.model.findByIdAndUpdate(id, model, {
+        returnOriginal: false,
+        runValidators: true,
+      });
     } catch (e) {
       this.manageRepositoryError(e);
     }

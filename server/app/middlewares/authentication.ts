@@ -13,7 +13,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
     res.status(403).send('you are missing an Authorization Header along with the bearer token');
     return;
   }
-  const token = bearerHeader.split(' ')[1];
+  const token = bearerHeader?.split(' ')[1];
 
   if (!token) {
     res.status(403).send('Token missing from header');
