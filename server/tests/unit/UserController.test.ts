@@ -15,6 +15,7 @@ const userService: any = {
   sendEmail: Function,
   getUsers: Function,
   deleteUser: Function,
+  updateUser: Function,
 };
 
 const mockUser = {
@@ -214,6 +215,46 @@ describe('UserController', () => {
       expect(res).to.be.an.instanceof(results.JsonResult);
       expect(res.statusCode).to.equal(404);
       expect(res.json).to.equal(expectedErrorMsg);
+    });
+  });
+  describe('Patch Request', () => {
+    it('Should return a 200 with updated user', async () => {
+      const mockRequest = {
+        body: mockUser,
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      sandbox.stub(userService, 'updateUser').returns(mockUser);
+
+      const res = await controller.update(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(200);
+      expect(res.json).to.deep.equal({
+        username: 'test',
+        email: 'test@test.com',
+        id: 'test',
+        role: 'General',
+      });
+    });
+
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const mockRequest = {
+        body: mockUser,
+        params: {
+          name: 'some not found name',
+        },
+      } as Request | any;
+
+      sandbox.stub(userService, 'updateUser').throws(new NotFoundError('Not found error'));
+
+      const res = await controller.update(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(404);
+      expect(res.json).to.deep.equal('Not found error');
     });
   });
 });
