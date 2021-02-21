@@ -83,7 +83,7 @@
     "start": "node build/index.js",
     "test": "npm run test:unit",
     "test:unit": "mocha -r ts-node/register tests/unit/*.test.ts",
-    "test:func": "NODE_ENV=test mocha -r ts-node/register --timeout 30000 --bail --exit ./tests/functional/*.test.ts",
+    "test:int": "NODE_ENV=test mocha -r ts-node/register --timeout 30000 --bail --exit ./tests/integration/*.test.ts",
     "test:ci": "nyc npm run test",
     "test:html": "nyc npm run test --reporter=html && open ./coverage/index.html"
   },

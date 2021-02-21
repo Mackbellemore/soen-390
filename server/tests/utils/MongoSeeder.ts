@@ -12,7 +12,7 @@ export const seedMongo = async (): Promise<void> => {
       dropDatabase: true,
       dropCollections: true,
     });
-    const collections = seeder.readCollectionsFromPath(path.resolve('./tests/functional/seed'));
+    const collections = seeder.readCollectionsFromPath(path.resolve('./tests/integration/seed'));
     console.log('Seeding test database');
     await seeder.import(collections);
   } catch (err) {

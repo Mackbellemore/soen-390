@@ -11,8 +11,6 @@ jobs:
   tests:
     name: Run tests
     runs-on: ubuntu-latest
-    container:
-      image: node:15-alpine
     strategy:
       matrix:
         project: ["server"]
@@ -29,6 +27,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Running server tests
+      - name: Install dependencies
         working-directory: ${{ matrix.project }}
-        run: npm i && npm run test:func
+        run: docker-compose up -d server
+
+      - name: Run unit tests with coverage
+        working-directory: ${{ matrix.project }}
+        run: docker-compose run server test:ci
+
+      - name: Run integration tests
+        working-directory: ${{ matrix.project }}
+        run: docker-compose run server test:int
+
