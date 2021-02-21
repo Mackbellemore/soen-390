@@ -73,7 +73,7 @@ export class UserController extends BaseHttpController {
       const user: IUserEntity | null = await this.userService.deleteUser(request.body);
       return this.json(user);
     } catch (err) {
-      return this.json(err.message, 400);
+      return this.json(err.message, 404);
     }
   }
 }

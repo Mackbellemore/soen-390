@@ -5,6 +5,7 @@ import { results } from 'inversify-express-utils';
 import { Request } from 'express';
 import { SinonSandbox } from 'sinon';
 import { expect } from 'chai';
+import { NotFoundError } from '../../app/errors';
 import * as authMiddleWare from '../../app/middlewares/authentication';
 import config from 'config';
 
@@ -13,6 +14,7 @@ const userService: any = {
   loginUser: Function,
   sendEmail: Function,
   getUsers: Function,
+  deleteUser: Function,
 };
 
 const mockUser = {
@@ -170,6 +172,48 @@ describe('UserController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.json).to.equal(expectedErrorMsg);
       expect(response.statusCode).to.equal(400);
+    });
+  });
+  describe('Delete Endpoint', () => {
+    it('delete a user with requested body', async () => {
+      const mockRequest = {
+        body: mockUser,
+      } as Request;
+
+      const userServiceStub = sandbox.stub(userService, 'deleteUser').returns(mockUser);
+
+      const response = await controller.delete(mockRequest);
+
+      sinon.assert.calledOnce(userServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(userServiceStub.calledOnceWith()).to.equal(true);
+      expect(response.statusCode).to.equal(200);
+      expect(response.json).to.deep.equal({
+        username: 'test',
+        email: 'test@test.com',
+        id: 'test',
+        role: 'General',
+      });
+    });
+
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const mockRequest = {
+        body: mockUser,
+      } as Request;
+
+      const expectedErrorMsg = 'Not found error';
+      const userServiceStub = sandbox
+        .stub(userService, 'deleteUser')
+        .throws(new NotFoundError(expectedErrorMsg));
+
+      const res = await controller.delete(mockRequest);
+
+      sinon.assert.calledOnce(userServiceStub);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(404);
+      expect(res.json).to.equal(expectedErrorMsg);
     });
   });
 });
