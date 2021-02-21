@@ -59,10 +59,10 @@ export class UserService {
     return UserEntity.buildUser(deletedUser);
   }
 
-  public async updateUser(id: string, body: IUser): Promise<IUserEntity> {
-    const updatedUser: IUser | null = await this.userRepo.update(id, body);
+  public async updateUser(email: string, body: IUser): Promise<IUserEntity> {
+    const updatedUser: IUser | null = await this.userRepo.updateByEmail(email, body);
     if (!updatedUser) {
-      throw new NotFoundError(`User with id ${id} was not found`);
+      throw new NotFoundError(`User with email ${email} was not found`);
     }
 
     return UserEntity.buildUser(updatedUser);

@@ -22,7 +22,7 @@ const AdminPage = () => {
 
   return (
     <>
-      <Table minWidth="unset" width="100%" variant="striped" colorScheme="gray">
+      <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
         <TableCaption placement="top">List of users</TableCaption>
         <Thead>
           <Tr>

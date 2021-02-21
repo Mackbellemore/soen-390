@@ -222,7 +222,7 @@ describe('UserController', () => {
       const mockRequest = {
         body: mockUser,
         params: {
-          id: '12312313',
+          email: 'test@gmail.com',
         },
       } as Request | any;
 
@@ -244,7 +244,7 @@ describe('UserController', () => {
       const mockRequest = {
         body: mockUser,
         params: {
-          name: 'some not found name',
+          email: 'test@gmail.com',
         },
       } as Request | any;
 
