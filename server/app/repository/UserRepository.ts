@@ -17,4 +17,15 @@ export class UserRepository extends BaseRepository<IUser> {
 
     return user;
   }
+
+  public async update(id: string, model: IUser): Promise<IUser | null> {
+    try {
+      return await this.model.findByIdAndUpdate(id, model, {
+        returnOriginal: false,
+        runValidators: true,
+      });
+    } catch (e) {
+      this.manageRepositoryError(e);
+    }
+  }
 }

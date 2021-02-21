@@ -10,6 +10,7 @@ import {
   httpPost,
   httpGet,
   httpDelete,
+  httpPatch,
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import config from 'config';
@@ -71,6 +72,19 @@ export class UserController extends BaseHttpController {
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
       const user: IUserEntity | null = await this.userService.deleteUser(request.body);
+      return this.json(user);
+    } catch (err) {
+      return this.json(err.message, 404);
+    }
+  }
+
+  @httpPatch('/:id')
+  public async update(request: Request): Promise<results.JsonResult> {
+    try {
+      const user: IUserEntity | null = await this.userService.updateUser(
+        request.params.id,
+        request.body
+      );
       return this.json(user);
     } catch (err) {
       return this.json(err.message, 404);

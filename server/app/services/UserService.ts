@@ -58,4 +58,13 @@ export class UserService {
     }
     return UserEntity.buildUser(deletedUser);
   }
+
+  public async updateUser(id: string, body: IUser): Promise<IUserEntity> {
+    const updatedUser: IUser | null = await this.userRepo.update(id, body);
+    if (!updatedUser) {
+      throw new NotFoundError(`User with id ${id} was not found`);
+    }
+
+    return UserEntity.buildUser(updatedUser);
+  }
 }
