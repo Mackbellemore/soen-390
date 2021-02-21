@@ -114,7 +114,7 @@ test('adds 1 + 2 to equal 3', () => {
 
 This will be the last form of testing we will integrate into our testing flow. Component testing involves rendering a React component and asserting against the rendered React component. We will utilize Enzyme to traverse and pick out elements of the DOM to test on. This will be extremely useful to ensure that our components render with the expected behavior. We can also simulate events in these tests, for example button clicks on input changes.
 
-example taken from Enzyme docs:
+Example taken from Enzyme docs:
 
 ```js
 it('simulates click events', () => {
