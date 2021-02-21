@@ -12,7 +12,7 @@ module.exports = {
   zeetEnv: process.env.ZEET_ENVIRONMENT || 'local',
   mongo: {
     port: process.env.MONGO_PORT || 27017,
-    host: process.env.MONGO_HOST || 'mongo',
+    host: process.env.MONGO_HOST || 'localhost',
     user: process.env.MONGO_USER || 'root',
     pass: process.env.MONGO_PASS || 'example',
     db: process.env.MONGO_DB_NAME || 'app_db',
