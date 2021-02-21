@@ -1,0 +1,8 @@
+{
+  "_id": { "$oid": "602712cda4dfb1001597025a" },
+  "role": "Admin",
+  "email": "m.bellemore@hotmail.com",
+  "password": "$2a$10$pr0K9fE/WIsqHEZECa5q0OGwYq5euHHn7DP/q7IyzbmLtowIs7a/S",
+  "username": "macbellemoreTest",
+  "__v": { "$numberInt": "0" }
+}
