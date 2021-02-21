@@ -15,6 +15,15 @@ jobs:
       matrix:
         project: ["server"]
 
+    services:
+      mongo:
+        image: mongo:4
+        ports:
+          - 27017:27017
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+
     steps:
       - uses: actions/checkout@v2
 
@@ -24,7 +33,5 @@ jobs:
           mongodb-version: 4.0
 
       - name: Running server tests
-        env:
-          MONGO_HOST: localhost
         working-directory: ${{ matrix.project }}
         run: docker build -t server . && docker run server "test:func"
