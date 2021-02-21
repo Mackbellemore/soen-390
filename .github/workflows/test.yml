@@ -15,19 +15,19 @@ jobs:
       matrix:
         project: ["server"]
 
-    services:
-      mongo:
-        image: mongo:4
-        ports:
-          - 27017:27017
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
+    # services:
+    #   mongo:
+    #     image: mongo:4
+    #     ports:
+    #       - 27017:27017
+    #     env:
+    #       MONGO_INITDB_ROOT_USERNAME: root
+    #       MONGO_INITDB_ROOT_PASSWORD: example
 
     steps:
       - uses: actions/checkout@v2
 
-      - name: Install dependencies
+      - name: Bring up containers
         working-directory: ${{ matrix.project }}
         run: docker-compose up -d server
 
