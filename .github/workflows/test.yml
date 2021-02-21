@@ -24,5 +24,7 @@ jobs:
           mongodb-version: 4.0
 
       - name: Running server tests
+        env:
+          MONGO_HOST: localhost
         working-directory: ${{ matrix.project }}
-        run: docker build --build-arg MONGO_HOST=localhost -t server . && docker run server "test:func"
+        run: docker build -t server . && docker run server "test:func"
