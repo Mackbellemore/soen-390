@@ -25,4 +25,4 @@ jobs:
 
       - name: Running server tests
         working-directory: ${{ matrix.project }}
-        run: docker build -t server . && docker run server "test:func"
+        run: docker build --build-arg MONGO_HOST=localhost -t server . && docker run server "test:func"
