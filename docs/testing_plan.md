@@ -79,7 +79,7 @@ Lastly we implemented a CI pipeline using Github Actions, which protects our dev
 
 ## -- UI Testing --
 
-Moving forward we plan on implement different forms of tests for our UI.
+Moving forward we plan on implementing different forms of tests for our UI.
 
 ### Libraries
 
