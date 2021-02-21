@@ -23,13 +23,15 @@ import { MaterialRepository } from './repository/MaterialRepository';
 
 export class App {
   private config: IConfig;
-  private app: Application;
+  public server: Application;
   private listener: Server;
+  private port?: number;
   public logger: Logger;
 
-  constructor() {
+  constructor(port?: number) {
     this.config = container.get<IConfig>(TYPES.config);
     this.logger = container.get<Logger>(TYPES.logger);
+    this.port = port;
   }
 
   public async init(): Promise<void> {
@@ -85,7 +87,7 @@ export class App {
         }
       });
 
-      this.app = appBuilder.build();
+      this.server = appBuilder.build();
     } catch ({ message }) {
       this.logger.error(message);
       process.exit(1);
@@ -94,13 +96,15 @@ export class App {
 
   public async start(): Promise<void> {
     try {
-      if (!this.app) {
+      if (!this.server) {
         throw new Error('app failed to initialize');
       }
-      const port = this.config.get<number>('server.port');
 
-      this.listener = this.app.listen(port, () => {
-        this.logger.info(`Service booted on port ${port}`);
+      const configPort = this.config.get<number>('server.port');
+
+      this.port = typeof this.port !== 'undefined' ? this.port : configPort;
+      this.listener = this.server.listen(this.port, () => {
+        this.logger.info(`Service booted on port ${this.port}`);
       });
     } catch ({ message }) {
       this.logger.error(message);
@@ -111,6 +115,7 @@ export class App {
   public async close(): Promise<void> {
     try {
       this.listener.close();
+      this.logger.info(`Closing application on port ${this.port}`);
     } catch ({ message }) {
       this.logger.error(message);
       process.exit(1);
