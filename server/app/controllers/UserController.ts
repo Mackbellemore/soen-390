@@ -9,6 +9,7 @@ import {
   results,
   httpPost,
   httpGet,
+  httpDelete,
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import config from 'config';
@@ -61,6 +62,16 @@ export class UserController extends BaseHttpController {
     try {
       const users: IUserEntity[] = await this.userService.getUsers();
       return this.json(users);
+    } catch (err) {
+      return this.json(err.message, 400);
+    }
+  }
+
+  @httpDelete('/')
+  public async delete(request: Request): Promise<results.JsonResult> {
+    try {
+      const user: IUserEntity | null = await this.userService.deleteUser(request.body);
+      return this.json(user);
     } catch (err) {
       return this.json(err.message, 400);
     }
