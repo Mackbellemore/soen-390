@@ -14,17 +14,10 @@ jobs:
     strategy:
       matrix:
         project: ["server"]
-    services:
-      mongo:
-        image: mongo:3.4.23
-        ports:
-          - 27017:27017
-        environment:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Running server tests
         working-directory: ${{ matrix.project }}
-        run: docker build -t server . && docker run server "test:func"
+        run: docker build -t server . && docker run server "test:ci"
