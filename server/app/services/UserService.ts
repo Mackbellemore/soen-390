@@ -5,6 +5,8 @@ import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
 import bcrypt from 'bcryptjs';
 import { IConfig } from 'config';
+import validator from 'validator';
+import { BadRequestError, NotApprovedError } from '../errors';
 
 @injectable()
 export class UserService {
@@ -13,7 +15,13 @@ export class UserService {
 
   public async registerUser(body: IUser): Promise<IUserEntity> {
     if (!body.password) {
-      throw new Error('Password missing in body');
+      throw new BadRequestError('Password missing in body');
+    }
+
+    if (!validator.isStrongPassword(body.password)) {
+      throw new BadRequestError(
+        'Password must contain a capital, a lower case, a number and a symbol.'
+      );
     }
 
     const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
@@ -26,11 +34,13 @@ export class UserService {
 
   public async loginUser(body: IUser): Promise<IUserEntity> {
     const user: IUser = await this.userRepo.findByEmail(body);
-    if (!body.password) throw new Error('Password missing from request');
+    if (!body.password) throw new BadRequestError('Password missing in body');
+
+    if (!user.approved) throw new NotApprovedError('User has not yet been approved');
 
     const passwordMatch = await bcrypt.compare(body.password, user.password);
     if (!passwordMatch) {
-      throw Error('Username or password is invalid');
+      throw new BadRequestError('Username or password is invalid');
     }
 
     return UserEntity.buildUser(user);

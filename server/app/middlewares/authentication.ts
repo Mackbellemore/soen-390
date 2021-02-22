@@ -7,25 +7,32 @@ import { NON_AUTH_PATHS } from '../constants/common';
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
   if (NON_AUTH_PATHS.includes(req.path)) return next();
 
-  const jwtCookie = req.cookies.jwt;
+  const bearerHeader = req.headers.authorization;
 
-  if (!jwtCookie) res.status(403);
+  if (!bearerHeader) {
+    res.status(403).send('you are missing an Authorization Header along with the bearer token');
+    return;
+  }
+  const token = bearerHeader.split(' ')[1];
 
-  jwt.verify(jwtCookie, config.get<string>('jwt.secret'), function (
+  if (!token) {
+    res.status(403).send('Token missing from header');
+    return;
+  }
+
+  jwt.verify(token, config.get<string>('jwt.secret'), function (
     err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     decoded: any | IUserEntity
   ) {
-    if (err) {
-      return res.sendStatus(403);
-    }
+    if (err) return res.status(403).send('Invalid jwt token');
 
-    if (!(decoded.username && decoded.email && decoded.id && decoded.role)) res.sendStatus(403);
+    if (!(decoded.username && decoded.email && decoded.id && decoded.role))
+      return res.status(403).send('Invalid jwt token');
     delete decoded.exp;
     delete decoded.iat;
 
-    const newAccessToken = generateToken(decoded);
-    res.cookie('jwt', newAccessToken, { httpOnly: true, secure: true });
+    res.locals.user = decoded;
 
     return next();
   });

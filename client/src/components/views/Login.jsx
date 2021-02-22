@@ -1,13 +1,14 @@
-import { Button, Flex, FormLabel, Icon, Input, Box, useToast } from '@chakra-ui/react';
+import { Button, Flex, FormLabel, Icon, Input, Box, useToast, Divider } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useCookies } from 'react-cookie';
 import { GrLock, GrMailOption } from 'react-icons/gr';
 import { useHistory, useLocation } from 'react-router-dom';
-import { RootStoreContext } from '../../stores/stores';
-import { makeRequest } from '../../utils/api';
-import { Heading } from '../common/Typography';
+import { RootStoreContext } from '../../stores/stores.jsx';
+import { makeRequest } from '../../utils/api.js';
+import { Heading, Text } from '../common/Typography.jsx';
+import RegisterUserModal from '../RegisterUserModal.jsx';
 
 const Container = styled(Box)`
   width: 100%;
@@ -30,7 +31,8 @@ const InputContainer = styled(Flex)`
   border-radius: 4px;
   width: 100%;
   max-width: 380px;
-  margin: 5px 0;
+  font-family: Montserrat;
+  font-size: 14px;
 `;
 
 const UnstyledInput = styled(Input)`
@@ -44,7 +46,24 @@ const InputIcon = styled(Icon)`
 `;
 const StyledFormLabel = styled(FormLabel)`
   padding: 0 1rem;
-  margin-top: 5px;
+  margin-top: 10px;
+  margin-bottom: unset;
+  color: #9c9c9c;
+  font-size: 12px;
+`;
+
+export const StyledButton = styled(Button)`
+  width: 100%;
+  max-width: 380px;
+  font-size: 14px;
+  font-family: Montserrat;
+  font-weight: 400;
+`;
+export const StyledForm = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const Login = () => {
   const { uiStore } = useContext(RootStoreContext);
@@ -70,9 +89,14 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      await makeRequest('post', 'user/login', {
+      const res = await makeRequest('post', 'user/login', {
         email: emailRef.current.value,
         password: passwordRef.current.value,
+      });
+
+      navigator.serviceWorker.controller.postMessage({
+        type: 'SET_TOKEN',
+        token: res.data.jwt,
       });
 
       setCookie('userLoggedIn', true, { path: '/' });
@@ -99,21 +123,22 @@ const Login = () => {
       <Head>
         <title>ERP - Login</title>
       </Head>
-      <form onSubmit={handleSubmit}>
-        <Container top={{ base: '66%', sm: '50%' }}>
-          <Heading size="lg" textAlign="left" width="100%" maxWidth="380px">
-            Log in
-          </Heading>
+
+      <Container top={{ base: '66%', sm: '50%' }}>
+        <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
+          Log in
+        </Heading>
+        <StyledForm onSubmit={handleSubmit}>
           <InputContainer>
             <Flex alignItems="center">
               <InputIcon as={GrMailOption} />
             </Flex>
             <Flex direction="column">
-              <StyledFormLabel padding="0 1rem">Email address</StyledFormLabel>
+              <StyledFormLabel px={4}>Email address</StyledFormLabel>
               <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
             </Flex>
           </InputContainer>
-          <InputContainer>
+          <InputContainer mt={7}>
             <Flex alignItems="center">
               <InputIcon as={GrLock} />
             </Flex>
@@ -123,19 +148,17 @@ const Login = () => {
             </Flex>
           </InputContainer>
           <Flex direction="row" width="100%" maxWidth="380px">
-            <Button
-              mt={4}
-              colorScheme="blue"
-              isLoading={isLoading}
-              type="submit"
-              width="100%"
-              maxWidth="380px"
-            >
+            <StyledButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
               Login
-            </Button>
+            </StyledButton>
           </Flex>
-        </Container>
-      </form>
+        </StyledForm>
+        <Divider orientation="horizontal" borderColor="#D4D4D4" opacity="1" width="90%" mt={9} />
+        <Text mt={4} fontSize="12px">
+          New User?
+        </Text>
+        <RegisterUserModal />
+      </Container>
     </>
   );
 };

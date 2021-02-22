@@ -7,7 +7,6 @@ export const makeRequest = async (method, endpoint, body = {}) => {
     method: method,
     url: `${apiUrl}/${endpoint}`,
     data: body,
-    withCredentials: true,
   };
 
   const response = await axios(options);

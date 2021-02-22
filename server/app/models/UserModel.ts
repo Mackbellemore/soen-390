@@ -6,6 +6,7 @@ export interface IUser extends Document {
   password: string;
   username: string;
   role: string;
+  approved: boolean;
 }
 
 export interface IEmail {
@@ -24,17 +25,20 @@ export const UserSchema: Schema = new Schema({
   password: {
     type: Schema.Types.String,
     required: true,
-    validate: [validator.isStrongPassword, 'Password must contain a capital, symbol and a number.'],
   },
   username: {
     type: Schema.Types.String,
     required: true,
     unique: true,
   },
-
   role: {
     type: Schema.Types.String,
     enum: ['General', 'Admin'],
     default: 'General',
+  },
+  approved: {
+    type: Schema.Types.Boolean,
+    default: false,
+    required: true,
   },
 });
