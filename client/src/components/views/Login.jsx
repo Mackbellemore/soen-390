@@ -2,7 +2,6 @@ import { Flex, FormLabel, Icon, Input, Box, useToast, Divider } from '@chakra-ui
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { GrLock, GrMailOption } from 'react-icons/gr';
 import { useHistory, useLocation } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
@@ -58,22 +57,27 @@ const StyledFormLabel = styled(FormLabel)`
 const Login = () => {
   const { userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
   const passwordRef = useRef('');
   const emailRef = useRef('');
   const history = useHistory();
   const toast = useToast();
-  const [cookies, setCookie] = useCookies(['userLoggedIn']);
   const location = useLocation();
 
   useEffect(() => {
+    /*
+    when user has logged out and comes back, they are automatically logged in, they might want to use a different account
+     */
     const userAlreadyLoggedIn = () => {
-      if (cookies.userLoggedIn === 'true' && location.pathname === '/login') {
+      if (userStore.getHasLoggedOut === undefined && location.pathname === '/login') {
         history.push('/main');
+      } else {
+        setShouldRender(true);
       }
     };
 
     userAlreadyLoggedIn();
-  }, [cookies.userLoggedIn, history, location.pathname]);
+  }, [history, location.pathname, userStore.getHasLoggedOut]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,11 +98,10 @@ const Login = () => {
       userStore.setEmail(email);
       userStore.setRole(role);
 
-      setCookie('userLoggedIn', true, { path: '/' });
-
       userStore.logIn();
       history.push('/main');
-    } catch {
+    } catch (err) {
+      console.log(err);
       toast({
         position: 'top',
         title: 'An error occurred.',
@@ -108,7 +111,6 @@ const Login = () => {
         isClosable: true,
       });
 
-      emailRef.current.value = '';
       passwordRef.current.value = '';
       setIsLoading(false);
     }
@@ -116,45 +118,54 @@ const Login = () => {
 
   return (
     <>
-      <Head>
-        <title>ERP - Login</title>
-      </Head>
-
-      <Container top={{ base: '66%', sm: '50%' }}>
-        <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
-          Log in
-        </Heading>
-        <StyledForm onSubmit={handleSubmit}>
-          <InputContainer>
-            <Flex alignItems="center">
-              <InputIcon as={GrMailOption} />
-            </Flex>
-            <Flex direction="column">
-              <StyledFormLabel px={4}>Email address</StyledFormLabel>
-              <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
-            </Flex>
-          </InputContainer>
-          <InputContainer mt={7}>
-            <Flex alignItems="center">
-              <InputIcon as={GrLock} />
-            </Flex>
-            <Flex direction="column">
-              <StyledFormLabel>Password</StyledFormLabel>
-              <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
-            </Flex>
-          </InputContainer>
-          <Flex direction="row" width="100%" maxWidth="380px">
-            <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
-              Login
-            </FormButton>
-          </Flex>
-        </StyledForm>
-        <Divider orientation="horizontal" borderColor="#D4D4D4" opacity="1" width="90%" mt={9} />
-        <Text mt={4} fontSize="12px">
-          New User?
-        </Text>
-        <RegisterUserModal />
-      </Container>
+      {shouldRender && (
+        <>
+          <Head>
+            <title>ERP - Login</title>
+          </Head>
+          <Container top={{ base: '66%', sm: '50%' }}>
+            <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
+              Log in
+            </Heading>
+            <StyledForm onSubmit={handleSubmit}>
+              <InputContainer>
+                <Flex alignItems="center">
+                  <InputIcon as={GrMailOption} />
+                </Flex>
+                <Flex direction="column">
+                  <StyledFormLabel px={4}>Email address</StyledFormLabel>
+                  <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
+                </Flex>
+              </InputContainer>
+              <InputContainer mt={7}>
+                <Flex alignItems="center">
+                  <InputIcon as={GrLock} />
+                </Flex>
+                <Flex direction="column">
+                  <StyledFormLabel>Password</StyledFormLabel>
+                  <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
+                </Flex>
+              </InputContainer>
+              <Flex direction="row" width="100%" maxWidth="380px">
+                <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
+                  Login
+                </FormButton>
+              </Flex>
+            </StyledForm>
+            <Divider
+              orientation="horizontal"
+              borderColor="#D4D4D4"
+              opacity="1"
+              width="90%"
+              mt={9}
+            />
+            <Text mt={4} fontSize="12px">
+              New User?
+            </Text>
+            <RegisterUserModal />
+          </Container>
+        </>
+      )}
     </>
   );
 };

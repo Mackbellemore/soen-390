@@ -23,7 +23,7 @@ const Button = ({ path, text }) => (
 
 const NavBar = () => {
   const location = useLocation();
-  const { uiStore: userStore } = useContext(RootStoreContext);
+  const { userStore } = useContext(RootStoreContext);
 
   const onLogin = location.pathname === '/login';
   const onHome = location.pathname === '/';
