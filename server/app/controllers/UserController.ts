@@ -78,11 +78,11 @@ export class UserController extends BaseHttpController {
     }
   }
 
-  @httpPatch('/:email')
+  @httpPatch('/:username')
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const updatedUser: IUserEntity | null = await this.userService.updateUser(
-        request.params.email,
+        request.params.username,
         request.body
       );
       return this.json(updatedUser);

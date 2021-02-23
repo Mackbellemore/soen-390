@@ -1,7 +1,12 @@
+import TYPES from '../constants/types';
+import { inject } from 'inversify';
 import { BaseHttpController, results } from 'inversify-express-utils';
+import { Logger } from 'winston';
 import { BadRequestError, NotFoundError } from '../errors';
 
 export class BaseController extends BaseHttpController {
+  @inject(TYPES.logger) protected logger: Logger;
+
   protected handleError(err: Error): results.JsonResult {
     if (err instanceof NotFoundError) {
       return this.json(err.message, 404);

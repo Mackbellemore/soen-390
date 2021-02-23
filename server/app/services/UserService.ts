@@ -52,17 +52,17 @@ export class UserService {
   }
 
   public async deleteUser(body: IUser): Promise<IUserEntity | null> {
-    const deletedUser: IUser | null = await this.userRepo.delete(body.id);
+    const deletedUser: IUser | null = await this.userRepo.deleteByEmail(body);
     if (!deletedUser) {
-      throw new NotFoundError(`User with id ${body.id} was not found`);
+      throw new NotFoundError(`User with email ${body.email} was not found`);
     }
     return UserEntity.buildUser(deletedUser);
   }
 
-  public async updateUser(email: string, body: IUser): Promise<IUserEntity> {
-    const updatedUser: IUser | null = await this.userRepo.updateByEmail(email, body);
+  public async updateUser(username: string, body: IUser): Promise<IUserEntity> {
+    const updatedUser: IUser | null = await this.userRepo.updateByUsername(username, body);
     if (!updatedUser) {
-      throw new NotFoundError(`User with email ${email} was not found`);
+      throw new NotFoundError(`User with username ${username} was not found`);
     }
 
     return UserEntity.buildUser(updatedUser);

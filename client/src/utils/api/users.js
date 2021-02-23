@@ -1,4 +1,4 @@
-import { makeGetRequest, makePostRequest } from './base.js';
+import { makeGetRequest, makePostRequest, makeDeleteRequest, makePatchRequest } from './base.js';
 
 const baseEndpoint = 'user';
 
@@ -18,4 +18,12 @@ const getUsers = async () => {
   return makeGetRequest(baseEndpoint);
 };
 
-export { userLogin, userRegister, userAuthCheck, getUsers };
+const deleteUser = async (body) => {
+  return makeDeleteRequest(baseEndpoint, body);
+};
+
+const updateUser = async (body, username) => {
+  return makePatchRequest(`${baseEndpoint}/${username}`, body);
+};
+
+export { userLogin, userRegister, userAuthCheck, getUsers, deleteUser, updateUser };
