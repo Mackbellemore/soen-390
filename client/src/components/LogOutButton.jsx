@@ -6,12 +6,12 @@ import { RootStoreContext } from 'stores/stores.jsx';
 
 const LogOutButton = () => {
   const history = useHistory();
-  const { uiStore } = useContext(RootStoreContext);
+  const { uiStore: userStore } = useContext(RootStoreContext);
   const [, setCookie] = useCookies(['userLoggedIn']);
   const toast = useToast();
 
   const logOutSuccess = () => {
-    uiStore.userLogOut();
+    userStore.logOut();
     setCookie('userLoggedIn', false, { path: '/' });
     history.push('/');
     toast({

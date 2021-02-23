@@ -4,15 +4,19 @@ class UserStore {
   username = '';
   email = '';
   role = '';
+  loggedIn = false;
 
   constructor() {
     makeObservable(this, {
       username: observable,
       email: observable,
       role: observable,
+      loggedIn: observable,
       setUsername: action,
       setEmail: action,
       setRole: action,
+      logOut: action,
+      logIn: action,
     });
   }
 
@@ -35,6 +39,14 @@ class UserStore {
    */
   setRole = (role) => {
     this.role = role;
+  };
+
+  logOut = () => {
+    this.loggedIn = false;
+  };
+
+  logIn = () => {
+    this.loggedIn = true;
   };
 }
 

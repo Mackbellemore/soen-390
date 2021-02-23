@@ -56,7 +56,7 @@ const StyledFormLabel = styled(FormLabel)`
 `;
 
 const Login = () => {
-  const { uiStore, userStore } = useContext(RootStoreContext);
+  const { userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
   const passwordRef = useRef('');
   const emailRef = useRef('');
@@ -96,7 +96,7 @@ const Login = () => {
 
       setCookie('userLoggedIn', true, { path: '/' });
 
-      uiStore.userLogIn();
+      userStore.logIn();
       history.push('/main');
     } catch {
       toast({

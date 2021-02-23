@@ -23,7 +23,7 @@ const Button = ({ path, text }) => (
 
 const NavBar = () => {
   const location = useLocation();
-  const { uiStore } = useContext(RootStoreContext);
+  const { uiStore: userStore } = useContext(RootStoreContext);
 
   const onLogin = location.pathname === '/login';
   const onHome = location.pathname === '/';
@@ -39,7 +39,7 @@ const NavBar = () => {
       paddingX={{ md: '3rem' }}
       paddingY="2rem"
     >
-      <Flex alignItems="center">{uiStore.userLoggedIn ? <HamburgerButton /> : <></>}</Flex>
+      <Flex alignItems="center">{userStore.loggedIn ? <HamburgerButton /> : <></>}</Flex>
       <Heading fontSize={{ base: '14px', sm: '36px' }} lineHeight={{ base: '40px', sm: '1.5' }}>
         Enterprise Resource Planning
       </Heading>

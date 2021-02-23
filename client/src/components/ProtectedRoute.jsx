@@ -8,7 +8,7 @@ import { userAuthCheck } from 'utils/api/users.js';
 import { Heading } from '@chakra-ui/react';
 
 const ProtectedRoute = ({ allowedRoles, children, ...rest }) => {
-  const { uiStore, userStore } = useContext(RootStoreContext);
+  const { userStore } = useContext(RootStoreContext);
   const [cookies, setCookie] = useCookies(['userLoggedIn']);
   const history = useHistory();
 
@@ -17,16 +17,16 @@ const ProtectedRoute = ({ allowedRoles, children, ...rest }) => {
       try {
         await userAuthCheck();
         setCookie('userLoggedIn', true, { path: '/' });
-        uiStore.userLogIn();
+        userStore.logIn();
       } catch {
         setCookie('userLoggedIn', false, { path: '/' });
         history.push('/login');
-        uiStore.userLogOut();
+        userStore.logOut();
       }
     };
 
     verifyCookie();
-  }, [history, setCookie, uiStore]);
+  }, [history, setCookie, userStore]);
 
   // if (!allowedRoles?.includes(userStore.role)) {
   //   return (
