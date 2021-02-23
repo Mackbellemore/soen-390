@@ -10,6 +10,7 @@ import { Heading, Text } from '../common/Typography.jsx';
 import RegisterUserModal from '../RegisterUserModal.jsx';
 import { FormButton } from '../common/Button.jsx';
 import { StyledForm } from '../common/Form.jsx';
+import { useCookies } from 'react-cookie';
 
 const Container = styled(Box)`
   width: 100%;
@@ -62,10 +63,11 @@ const Login = () => {
   const emailRef = useRef('');
   const history = useHistory();
   const toast = useToast();
+  const [cookies, setCookie] = useCookies(['hasLoggedOut']);
 
   useEffect(() => {
     const userAlreadyLoggedIn = () => {
-      if (userStore.getHasLoggedOut === undefined) {
+      if (cookies.hasLoggedOut === undefined) {
         history.push('/main');
       } else {
         setShouldRender(true);
@@ -73,7 +75,7 @@ const Login = () => {
     };
 
     userAlreadyLoggedIn();
-  }, [history, userStore.getHasLoggedOut]);
+  }, [cookies.hasLoggedOut, history]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -95,6 +97,7 @@ const Login = () => {
       userStore.setRole(role);
 
       userStore.logIn();
+      setCookie('hasLoggedOut', true, { path: '/' });
       history.push('/main');
     } catch {
       toast({

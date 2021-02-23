@@ -4,10 +4,12 @@ import React, { useContext, useEffect } from 'react';
 import { Redirect, Route, useHistory } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userAuthCheck } from 'utils/api/users.js';
+import { useCookies } from 'react-cookie';
 
 const ProtectedRoute = ({ allowedRoles, children, ...rest }) => {
   const { userStore } = useContext(RootStoreContext);
   const history = useHistory();
+  const [cookies, setCookie, removeCookie] = useCookies(['hasLoggedOut']);
 
   useEffect(() => {
     const verifyCookie = async () => {
@@ -18,16 +20,18 @@ const ProtectedRoute = ({ allowedRoles, children, ...rest }) => {
         userStore.setEmail(email);
         userStore.setRole(role);
         userStore.logIn();
+        removeCookie('hasLoggedOut', { path: '/' });
       } catch {
         history.push('/login');
         userStore.logOut();
+        setCookie('hasLoggedOut', true, { path: '/' });
       }
     };
 
-    if (userStore.getHasLoggedOut === undefined) {
+    if (cookies.hasLoggedOut === undefined) {
       verifyCookie();
     }
-  }, [allowedRoles, history, userStore]);
+  }, [cookies.hasLoggedOut, history, removeCookie, setCookie, userStore]);
 
   return (
     <>

@@ -8,7 +8,6 @@
     "axios": "^0.21.1",
     "framer-motion": "^3.2.1",
     "mobx": "^6.1.4",
-    "mobx-cookie": "^4.0.5",
     "mobx-react-lite": "^3.2.0",
     "next": "^10.0.5",
     "prop-types": "^15.7.2",
