@@ -18,7 +18,6 @@ export class SystemController extends BaseController {
       const info: SentMessageInfo = await this.systemService.sendEmail(req.body);
       return this.json(info);
     } catch (err) {
-      this.logger.error(err);
       return this.json(err.message, 400);
     }
   }
