@@ -13,7 +13,7 @@ const MainDashboard = () => {
         <title>ERP - Dashboard</title>
       </Head>
       <Flex margin="2rem">
-        <Heading>Welcome back {userStore.getUsername}!</Heading>
+        <Heading>Welcome back {userStore.username}!</Heading>
       </Flex>
     </>
   );

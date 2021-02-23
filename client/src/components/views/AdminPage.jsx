@@ -6,6 +6,7 @@ import { sendEmail } from 'utils/api/system.js';
 import { useQuery } from 'react-query';
 import { TableButton } from '../common/Button.jsx';
 import Loader from '../common/Loader.jsx';
+
 const StyledTableHeader = styled(Th)`
   text-align: center;
 `;
@@ -78,20 +79,14 @@ const AdminPage = () => {
   };
 
   if (isLoading) {
-    return (
-      <>
-        <Loader></Loader>
-      </>
-    );
+    return <Loader />;
   }
 
   if (isSuccess && data.data.filter((user) => !user.approved).length === 0) {
     return (
-      <>
-        <Heading size="xl" textAlign="center" mt={5}>
-          No User Requests
-        </Heading>
-      </>
+      <Heading size="xl" textAlign="center" mt={5}>
+        No User Requests
+      </Heading>
     );
   }
 
@@ -104,7 +99,7 @@ const AdminPage = () => {
             <StyledTableHeader>Username</StyledTableHeader>
             <StyledTableHeader>E-mail</StyledTableHeader>
             <StyledTableHeader>Role</StyledTableHeader>
-            <StyledTableHeader></StyledTableHeader>
+            <StyledTableHeader />
           </Tr>
         </Thead>
         <Tbody>

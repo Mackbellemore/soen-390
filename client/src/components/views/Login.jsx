@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { GrLock, GrMailOption } from 'react-icons/gr';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userLogin } from 'utils/api/users.js';
 import { Heading, Text } from '../common/Typography.jsx';
@@ -62,14 +62,10 @@ const Login = () => {
   const emailRef = useRef('');
   const history = useHistory();
   const toast = useToast();
-  const location = useLocation();
 
   useEffect(() => {
-    /*
-    when user has logged out and comes back, they are automatically logged in, they might want to use a different account
-     */
     const userAlreadyLoggedIn = () => {
-      if (userStore.getHasLoggedOut === undefined && location.pathname === '/login') {
+      if (userStore.getHasLoggedOut === undefined) {
         history.push('/main');
       } else {
         setShouldRender(true);
@@ -77,7 +73,7 @@ const Login = () => {
     };
 
     userAlreadyLoggedIn();
-  }, [history, location.pathname, userStore.getHasLoggedOut]);
+  }, [history, userStore.getHasLoggedOut]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -100,8 +96,7 @@ const Login = () => {
 
       userStore.logIn();
       history.push('/main');
-    } catch (err) {
-      console.log(err);
+    } catch {
       toast({
         position: 'top',
         title: 'An error occurred.',

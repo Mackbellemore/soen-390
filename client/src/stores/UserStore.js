@@ -1,10 +1,10 @@
-import { makeObservable, observable, action, computed } from 'mobx';
 import Cookie from 'mobx-cookie';
+import { makeObservable, observable, action, computed } from 'mobx';
 
 class UserStore {
-  username = new Cookie('username');
-  email = new Cookie('email');
-  role = new Cookie('role');
+  username = '';
+  email = '';
+  role = '';
   loggedIn = false;
   hasLoggedOut = new Cookie('hasLoggedOut');
 
@@ -14,12 +14,12 @@ class UserStore {
       email: observable,
       role: observable,
       loggedIn: observable,
+      hasLoggedOut: observable,
       setUsername: action,
       setEmail: action,
       setRole: action,
       logOut: action,
       logIn: action,
-      getUsername: computed,
       getHasLoggedOut: computed,
     });
   }
@@ -28,24 +28,27 @@ class UserStore {
    * @param {string} username
    */
   setUsername = (username) => {
-    this.username.set(username);
+    this.username = username;
   };
 
   /**
    * @param {string} email
    */
   setEmail = (email) => {
-    this.email.set(email);
+    this.email = email;
   };
 
   /**
    * @param {string} role
    */
   setRole = (role) => {
-    this.role.set(role);
+    this.role = role;
   };
 
   logOut = () => {
+    this.username = '';
+    this.email = '';
+    this.role = '';
     this.loggedIn = false;
     this.hasLoggedOut.set(true);
   };
@@ -54,10 +57,6 @@ class UserStore {
     this.loggedIn = true;
     this.hasLoggedOut.remove();
   };
-
-  get getUsername() {
-    return this.username.value;
-  }
 
   get getHasLoggedOut() {
     return this.hasLoggedOut.value;
