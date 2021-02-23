@@ -41,9 +41,9 @@ const Index = () => {
             <ProtectedRoute path="/main">
               <MainDashboard />
             </ProtectedRoute>
-            <Route path="/admin">
+            <ProtectedRoute path="/admin" allowedRoles={['Admin']}>
               <AdminPage />
-            </Route>
+            </ProtectedRoute>
           </Switch>
         </main>
       </BrowserRouter>

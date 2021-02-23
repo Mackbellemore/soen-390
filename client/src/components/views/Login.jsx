@@ -56,7 +56,7 @@ const StyledFormLabel = styled(FormLabel)`
 `;
 
 const Login = () => {
-  const { uiStore } = useContext(RootStoreContext);
+  const { uiStore, userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
   const passwordRef = useRef('');
   const emailRef = useRef('');
@@ -89,7 +89,13 @@ const Login = () => {
         token: res.data.jwt,
       });
 
+      const { username, email, role } = res.data.user;
+      userStore.setUsername(username);
+      userStore.setEmail(email);
+      userStore.setRole(role);
+
       setCookie('userLoggedIn', true, { path: '/' });
+
       uiStore.userLogIn();
       history.push('/main');
     } catch {

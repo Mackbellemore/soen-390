@@ -5,9 +5,10 @@ import { useCookies } from 'react-cookie';
 import { Redirect, Route, useHistory } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userAuthCheck } from 'utils/api/users.js';
+import { Heading } from '@chakra-ui/react';
 
-const ProtectedRoute = ({ children, ...rest }) => {
-  const { uiStore } = useContext(RootStoreContext);
+const ProtectedRoute = ({ allowedRoles, children, ...rest }) => {
+  const { uiStore, userStore } = useContext(RootStoreContext);
   const [cookies, setCookie] = useCookies(['userLoggedIn']);
   const history = useHistory();
 
@@ -27,6 +28,16 @@ const ProtectedRoute = ({ children, ...rest }) => {
     verifyCookie();
   }, [history, setCookie, uiStore]);
 
+  // if (!allowedRoles?.includes(userStore.role)) {
+  //   return (
+  //     <>
+  //       <Heading size="xl" textAlign="center" mt={5}>
+  //         You do not have access to this page
+  //       </Heading>
+  //     </>
+  //   );
+  // }
+
   return (
     <>
       {cookies.userLoggedIn === 'true' ? (
@@ -40,6 +51,7 @@ const ProtectedRoute = ({ children, ...rest }) => {
 
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
+  allowedRoles: PropTypes.arrayOf(PropTypes.string),
 };
 
 export default observer(ProtectedRoute);
