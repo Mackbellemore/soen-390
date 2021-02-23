@@ -1,7 +1,7 @@
 import { IUserEntity } from './../entities/User';
 import { UserService } from './../services/UserService';
 import { generateToken } from '../middlewares/authentication';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { inject } from 'inversify';
 import {
   controller,
@@ -54,7 +54,11 @@ export class UserController extends BaseHttpController {
   }
 
   @httpGet('/authCheck')
-  public async checkAuth(): Promise<results.JsonResult> {
+  public async checkAuth(_req: Request, res: Response): Promise<results.JsonResult> {
+    const user = res.locals?.user;
+    if (user) {
+      return this.json(user);
+    }
     return this.json(200);
   }
 
