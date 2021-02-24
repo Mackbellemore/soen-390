@@ -45,7 +45,7 @@ const NavBar = observer(() => {
       </Heading>
       <Flex>
         {onLogin && <Button path="/" text="Home" />}
-        {/* {onHome && <Button path="/login" text="Log In" />} */}
+        {onHome && <Button path="/login" text="Log In" />}
         {onOther && <LogOutButton />}
       </Flex>
     </Box>
