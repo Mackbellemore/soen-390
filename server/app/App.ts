@@ -84,7 +84,10 @@ export class App {
             transports: loggerTransports,
           })
         );
-        if (this.config.get<boolean>('server.authEnabled')) {
+        if (
+          this.config.get<boolean>('server.authEnabled') &&
+          this.config.get<string>('env') !== 'test'
+        ) {
           server.all('*', authenticateJWT);
         }
       });

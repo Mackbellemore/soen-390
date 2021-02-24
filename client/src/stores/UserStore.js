@@ -1,9 +1,9 @@
 import { makeObservable, observable, action } from 'mobx';
 
 class UserStore {
-  username = '';
-  email = '';
-  role = '';
+  username;
+  email;
+  role;
   loggedIn = false;
 
   constructor() {
