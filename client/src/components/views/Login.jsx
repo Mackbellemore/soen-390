@@ -21,6 +21,7 @@ import { FormButton } from '../common/Button.jsx';
 import { StyledForm } from '../common/Form.jsx';
 import { useCookies } from 'react-cookie';
 import useLoggedInUser from '../../hooks/useLoggedInUser.jsx';
+import Loader from '../common/Loader.jsx';
 
 const Container = styled(Box)`
   width: 100%;
@@ -68,24 +69,19 @@ const StyledFormLabel = styled(FormLabel)`
 const Login = () => {
   const { userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldRenderForm, setShouldRenderForm] = useState(false);
+  const [shouldRenderForm, setShouldRenderForm] = useState(true);
   const passwordRef = useRef('');
   const emailRef = useRef('');
   const history = useHistory();
   const toast = useToast();
   const [cookies, , removeCookie] = useCookies(['hasLoggedOut']);
-  const { verifyToken } = useLoggedInUser();
+  const { hasVerifiedToken } = useLoggedInUser();
 
   useEffect(() => {
-    const userAlreadyLoggedIn = () => {
-      setShouldRenderForm(true);
-      verifyToken();
-    };
-
-    if (cookies.hasLoggedOut !== undefined) {
-      userAlreadyLoggedIn();
+    if (cookies.hasLoggedOut === undefined && hasVerifiedToken) {
+      setShouldRenderForm(false);
     }
-  }, [cookies.hasLoggedOut, history, verifyToken]);
+  }, [cookies.hasLoggedOut, hasVerifiedToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -126,6 +122,10 @@ const Login = () => {
       setIsLoading(false);
     }
   };
+
+  if (!hasVerifiedToken) {
+    return <Loader />;
+  }
 
   return (
     <>
