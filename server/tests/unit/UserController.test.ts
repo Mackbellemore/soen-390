@@ -138,14 +138,26 @@ describe('UserController', () => {
 
       const mockResponse = {} as Response;
 
-      sandbox.stub(config, 'get').returns(true);
-
       const response = await controller.checkAuth(mockRequest, mockResponse);
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
     });
 
-    it('returns 200 with user info', async () => {});
+    it('returns 200 if the user has a valid token', async () => {
+      const mockRequest = {} as Request;
+
+      const mockResponse = {
+        locals: {
+          user: mockUser,
+        },
+      } as Response | any;
+
+      const response = await controller.checkAuth(mockRequest, mockResponse);
+
+      expect(response.json).to.deep.equal(mockUser);
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(200);
+    });
   });
 
   describe('getUsers endpoint', () => {

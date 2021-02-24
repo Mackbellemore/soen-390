@@ -1,4 +1,15 @@
-import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, useToast, Heading } from '@chakra-ui/react';
+import {
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  useToast,
+  Heading,
+  Image,
+} from '@chakra-ui/react';
 import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { getUsers, updateUser, deleteUser } from 'utils/api/users.js';
@@ -85,9 +96,17 @@ const AdminPage = () => {
 
   if (isSuccess && data.data.filter((user) => !user.approved).length === 0) {
     return (
-      <Heading size="xl" textAlign="center" mt={5}>
-        No User Requests
-      </Heading>
+      <>
+        <Heading size="xl" textAlign="center" mt={5}>
+          No User Requests
+        </Heading>
+        <Image
+          src="/images/noResults.png"
+          alt="No results illustration"
+          width="100%"
+          height="100%"
+        />
+      </>
     );
   }
 
