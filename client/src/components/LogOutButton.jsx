@@ -1,19 +1,18 @@
 import { Button, useToast } from '@chakra-ui/react';
 import React, { useContext } from 'react';
-import { useCookies } from 'react-cookie';
 import { useHistory } from 'react-router-dom';
-import { RootStoreContext } from '../stores/stores';
-import { makeRequest } from '../utils/api';
+import { RootStoreContext } from 'stores/stores.jsx';
+import { useCookies } from 'react-cookie';
 
 const LogOutButton = () => {
   const history = useHistory();
-  const { uiStore } = useContext(RootStoreContext);
-  const [, setCookie] = useCookies(['userLoggedIn']);
+  const { userStore } = useContext(RootStoreContext);
   const toast = useToast();
+  const [, setCookie] = useCookies(['hasLoggedOut']);
 
   const logOutSuccess = () => {
-    uiStore.userLogOut();
-    setCookie('userLoggedIn', false, { path: '/' });
+    userStore.logOut();
+    setCookie('hasLoggedOut', true, { path: '/' });
     history.push('/');
     toast({
       position: 'top',

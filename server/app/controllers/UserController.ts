@@ -1,7 +1,7 @@
 import { IUserEntity } from './../entities/User';
 import { UserService } from './../services/UserService';
 import { generateToken } from '../middlewares/authentication';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { inject } from 'inversify';
 import {
   controller,
@@ -9,6 +9,8 @@ import {
   results,
   httpPost,
   httpGet,
+  httpDelete,
+  httpPatch,
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import config from 'config';
@@ -52,7 +54,11 @@ export class UserController extends BaseHttpController {
   }
 
   @httpGet('/authCheck')
-  public async checkAuth(): Promise<results.JsonResult> {
+  public async checkAuth(_req: Request, res: Response): Promise<results.JsonResult> {
+    const user = res.locals?.user;
+    if (user) {
+      return this.json(user);
+    }
     return this.json(200);
   }
 
@@ -63,6 +69,29 @@ export class UserController extends BaseHttpController {
       return this.json(users);
     } catch (err) {
       return this.json(err.message, 400);
+    }
+  }
+
+  @httpDelete('/')
+  public async delete(request: Request): Promise<results.JsonResult> {
+    try {
+      const user: IUserEntity | null = await this.userService.deleteUser(request.body);
+      return this.json(user);
+    } catch (err) {
+      return this.json(err.message, 404);
+    }
+  }
+
+  @httpPatch('/:username')
+  public async update(request: Request): Promise<results.JsonResult> {
+    try {
+      const updatedUser: IUserEntity | null = await this.userService.updateUser(
+        request.params.username,
+        request.body
+      );
+      return this.json(updatedUser);
+    } catch (err) {
+      return this.json(err.message, 404);
     }
   }
 }

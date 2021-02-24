@@ -1,45 +1,56 @@
 import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import React, { useContext, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
 import { Redirect, Route, useHistory } from 'react-router-dom';
-import { RootStoreContext } from '../stores/stores';
-import { makeRequest } from '../utils/api';
+import { RootStoreContext } from 'stores/stores.jsx';
+import { userAuthCheck } from 'utils/api/users.js';
+import { useCookies } from 'react-cookie';
 
-const ProtectedRoute = observer(({ children, ...rest }) => {
-  const { uiStore } = useContext(RootStoreContext);
-  const [cookies, setCookie] = useCookies(['userLoggedIn']);
+const ProtectedRoute = ({ allowedRoles, children, ...rest }) => {
+  const { userStore } = useContext(RootStoreContext);
   const history = useHistory();
+  const [cookies, setCookie, removeCookie] = useCookies(['hasLoggedOut']);
 
   useEffect(() => {
     const verifyCookie = async () => {
       try {
-        await makeRequest('get', 'user/authCheck');
-        setCookie('userLoggedIn', true, { path: '/' });
-        uiStore.userLogIn();
+        const res = await userAuthCheck();
+        const { username, email, role } = res.data;
+        userStore.setUsername(username);
+        userStore.setEmail(email);
+        userStore.setRole(role);
+        userStore.logIn();
+        removeCookie('hasLoggedOut', { path: '/' });
       } catch {
-        setCookie('userLoggedIn', false, { path: '/' });
         history.push('/login');
-        uiStore.userLogOut();
+        userStore.logOut();
+        setCookie('hasLoggedOut', true, { path: '/' });
       }
     };
 
-    verifyCookie();
-  }, [history, setCookie, uiStore]);
+    if (cookies.hasLoggedOut === undefined) {
+      verifyCookie();
+    }
+  }, [cookies.hasLoggedOut, history, removeCookie, setCookie, userStore]);
 
   return (
     <>
-      {cookies.userLoggedIn === 'true' ? (
-        <Route {...rest}>{children}</Route>
+      {userStore.loggedIn ? (
+        allowedRoles?.includes(userStore.role) ? (
+          <Route {...rest}>{children}</Route>
+        ) : (
+          <Redirect to={{ pathname: '/no-access' }} />
+        )
       ) : (
         <Redirect to={{ pathname: '/login' }} />
       )}
     </>
   );
-});
+};
 
 ProtectedRoute.propTypes = {
   children: PropTypes.node.isRequired,
+  allowedRoles: PropTypes.arrayOf(PropTypes.string),
 };
 
-export default ProtectedRoute;
+export default observer(ProtectedRoute);
