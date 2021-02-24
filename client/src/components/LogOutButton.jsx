@@ -13,7 +13,9 @@ const LogOutButton = () => {
   const logOutSuccess = () => {
     userStore.logOut();
     setCookie('hasLoggedOut', true, { path: '/' });
+
     history.push('/');
+
     toast({
       position: 'top',
       title: 'Logged out',

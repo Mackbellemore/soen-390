@@ -4,7 +4,11 @@
     "checkJs": false,
     "jsx": "react",
     "moduleResolution": "node",
-    "target": "esnext"
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["esnext", "dom"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules", "**/node_modules/*", ".next", "out"],
   "include": ["src"]
