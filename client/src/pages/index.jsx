@@ -5,33 +5,31 @@ import { push as Menu } from 'react-burger-menu';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import NavBar from '../components/NavBar.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
-import { styles } from '../components/Sidebar.jsx';
 import Inventory from '../components/views/Inventory.jsx';
+import { sidebarStyles } from '../components/Sidebar.jsx';
 import Login from '../components/views/Login.jsx';
+import AdminPage from '../components/views/AdminPage.jsx';
 import MainDashboard from '../components/views/MainDashboard.jsx';
-import { RootStoreContext } from '../stores/stores';
+import NoAccess from '../components/views/NoAccess.jsx';
+import { RootStoreContext } from '../stores/stores.jsx';
+import { rolesAvailable } from '../constants.js';
+import { Flex } from '@chakra-ui/react';
 
 const MenuItems = () => (
-  <>
-    <UnorderedList>
-      <ListItem>
-        <Link to="/main">Dashboard</Link>
-      </ListItem>
-      <ListItem>
-        <Link to="/inventory">Inventory</Link>
-      </ListItem>
-    </UnorderedList>
-  </>
+  <Flex direction="column">
+    <Link to="/main">Dashboard</Link>
+    <Link to="/admin">Admin</Link>
+  </Flex>
 );
 
-const Index = observer(() => {
+const Index = () => {
   const { uiStore } = useContext(RootStoreContext);
 
   return (
     <>
       <BrowserRouter>
         <Menu
-          styles={styles}
+          styles={sidebarStyles}
           pageWrapId={'page-wrap'}
           customBurgerIcon={false}
           customCrossIcon={false}
@@ -43,20 +41,23 @@ const Index = observer(() => {
         <main id="page-wrap">
           <NavBar />
           <Switch>
+            <ProtectedRoute path="/admin" allowedRoles={['Admin']}>
+              <AdminPage />
+            </ProtectedRoute>
+            <ProtectedRoute path="/main" allowedRoles={rolesAvailable}>
+              <MainDashboard />
+            </ProtectedRoute>
             <Route path="/login">
               <Login />
             </Route>
-            <ProtectedRoute path="/main">
-              <MainDashboard />
-            </ProtectedRoute>
-            <ProtectedRoute path="/inventory">
-              <Inventory />
-            </ProtectedRoute>
+            <Route path="/no-access">
+              <NoAccess />
+            </Route>
           </Switch>
         </main>
       </BrowserRouter>
     </>
   );
-});
+};
 
-export default Index;
+export default observer(Index);

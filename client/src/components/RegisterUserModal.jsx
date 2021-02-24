@@ -11,12 +11,12 @@ import {
   Select,
   useToast,
 } from '@chakra-ui/react';
-import { StyledButton } from './views/Login.jsx';
 import { Text } from './common/Typography.jsx';
 import React, { Fragment, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { makeRequest } from '../utils/api.js';
+import { userRegister } from 'utils/api/users.js';
 import { rolesAvailable } from '../constants.js';
+import { FormButton } from './common/Button.jsx';
 
 const ValidationText = styled(Text)`
   font-size: 10px;
@@ -40,7 +40,7 @@ const RegisterUserModal = () => {
     setIsLoading(true);
 
     try {
-      await makeRequest('post', 'user/register', {
+      await userRegister({
         email: emailRef.current.value,
         password: passwordRef.current.value,
         role: roleRef.current.value,
@@ -83,11 +83,11 @@ const RegisterUserModal = () => {
     }
   };
 
-  // Validates Username
+  // Validates email
   const registerHandleEmailValidation = (e) => {
     const email = e.target.value;
-    // any number of characters followed by @ followed by any number of characters followed by a . then any number of characters
-    const regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    // grabbed from https://emailregex.com/
     const isOk = regex.test(email);
     if (!isOk) {
       setEmailIsValidated(true);
@@ -100,9 +100,9 @@ const RegisterUserModal = () => {
 
   return (
     <>
-      <StyledButton colorScheme="green" onClick={onOpen}>
+      <FormButton colorScheme="green" onClick={onOpen}>
         Request an account
-      </StyledButton>
+      </FormButton>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <form onSubmit={registerHandleSubmit}>
@@ -145,7 +145,7 @@ const RegisterUserModal = () => {
               </Select>
             </ModalBody>
             <ModalFooter justifyContent="center">
-              <StyledButton
+              <FormButton
                 type="submit"
                 disabled={buttonIsDisabled}
                 colorScheme="green"
@@ -153,7 +153,7 @@ const RegisterUserModal = () => {
                 loadingText="Request Submitted"
               >
                 Send Request
-              </StyledButton>
+              </FormButton>
             </ModalFooter>
           </ModalContent>
         </form>

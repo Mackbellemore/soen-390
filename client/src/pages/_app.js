@@ -5,27 +5,35 @@ import React, { useEffect } from 'react';
 import { CookiesProvider } from 'react-cookie';
 import RootStore from '../stores/stores.jsx';
 import theme from '../theme.js';
+import { ReactQueryDevtools } from 'react-query/devtools';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
+const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
   const toast = useToast();
 
   useEffect(() => {
+    const registerWorker = async () => {
+      try {
+        await navigator.serviceWorker.register('/authServiceWorker.js');
+      } catch {
+        toast({
+          position: 'bottom',
+          title: 'An error occurred.',
+          description: 'Please contact Gordon',
+          status: 'error',
+          duration: 4000,
+          isClosable: true,
+        });
+      }
+    };
+
     if ('serviceWorker' in navigator) {
-      window.addEventListener('load', async () => {
-        try {
-          await navigator.serviceWorker.register('/authServiceWorker.js');
-        } catch {
-          toast({
-            position: 'bottom',
-            title: 'An error occurred.',
-            description: 'Please contact Gordon',
-            status: 'error',
-            duration: 4000,
-            isClosable: true,
-          });
-        }
-      });
+      window.addEventListener('load', registerWorker);
     }
+
+    return window.removeEventListener('load', registerWorker);
   }, [toast]);
 
   return (
@@ -46,14 +54,18 @@ function MyApp({ Component, pageProps }) {
         <ChakraProvider resetCSS theme={theme}>
           <ColorModeProvider
             options={{
-              useSystemColorMode: true,
+              initialColorMode: 'light',
+              useSystemColorMode: false,
             }}
           >
-            <CookiesProvider>
-              <div suppressHydrationWarning>
-                {typeof window === 'undefined' ? null : <Component {...pageProps} />}
-              </div>
-            </CookiesProvider>
+            <QueryClientProvider client={queryClient}>
+              <CookiesProvider>
+                <div suppressHydrationWarning>
+                  {typeof window === 'undefined' ? null : <Component {...pageProps} />}
+                </div>
+              </CookiesProvider>
+              <ReactQueryDevtools initialIsOpen={false} />
+            </QueryClientProvider>
           </ColorModeProvider>
         </ChakraProvider>
       </RootStore>

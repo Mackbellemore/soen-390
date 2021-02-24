@@ -6,7 +6,7 @@ import TYPES from '../constants/types';
 import bcrypt from 'bcryptjs';
 import { IConfig } from 'config';
 import validator from 'validator';
-import { BadRequestError, NotApprovedError } from '../errors';
+import { BadRequestError, NotApprovedError, NotFoundError } from '../errors';
 
 @injectable()
 export class UserService {
@@ -49,5 +49,22 @@ export class UserService {
   public async getUsers(): Promise<IUserEntity[]> {
     const users: IUser[] = await this.userRepo.getList();
     return UserEntity.buildUsers(users);
+  }
+
+  public async deleteUser(body: IUser): Promise<IUserEntity | null> {
+    const deletedUser: IUser | null = await this.userRepo.deleteByEmail(body);
+    if (!deletedUser) {
+      throw new NotFoundError(`User with email ${body.email} was not found`);
+    }
+    return UserEntity.buildUser(deletedUser);
+  }
+
+  public async updateUser(username: string, body: IUser): Promise<IUserEntity> {
+    const updatedUser: IUser | null = await this.userRepo.updateByUsername(username, body);
+    if (!updatedUser) {
+      throw new NotFoundError(`User with username ${username} was not found`);
+    }
+
+    return UserEntity.buildUser(updatedUser);
   }
 }

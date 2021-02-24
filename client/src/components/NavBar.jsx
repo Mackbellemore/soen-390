@@ -3,10 +3,10 @@ import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import React, { useContext } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { RootStoreContext } from '../stores/stores';
-import { Heading } from './common/Typography';
-import LogOutButton from './LogOutButton';
-import { HamburgerButton } from './Sidebar';
+import { RootStoreContext } from 'stores/stores.jsx';
+import { Heading } from './common/Typography.jsx';
+import LogOutButton from './LogOutButton.jsx';
+import { HamburgerButton } from './Sidebar.jsx';
 
 const Button = ({ path, text }) => (
   <Link to={path}>
@@ -21,9 +21,9 @@ const Button = ({ path, text }) => (
   </Link>
 );
 
-const NavBar = observer(() => {
+const NavBar = () => {
   const location = useLocation();
-  const { uiStore } = useContext(RootStoreContext);
+  const { userStore } = useContext(RootStoreContext);
 
   const onLogin = location.pathname === '/login';
   const onHome = location.pathname === '/';
@@ -39,7 +39,7 @@ const NavBar = observer(() => {
       paddingX={{ md: '3rem' }}
       paddingY="2rem"
     >
-      <Flex alignItems="center">{uiStore.userLoggedIn ? <HamburgerButton /> : <></>}</Flex>
+      <Flex alignItems="center">{userStore.loggedIn ? <HamburgerButton /> : <></>}</Flex>
       <Heading fontSize={{ base: '14px', sm: '36px' }} lineHeight={{ base: '40px', sm: '1.5' }}>
         Enterprise Resource Planning
       </Heading>
@@ -50,11 +50,11 @@ const NavBar = observer(() => {
       </Flex>
     </Box>
   );
-});
+};
 
 Button.propTypes = {
   path: PropTypes.string,
   text: PropTypes.string,
 };
 
-export default NavBar;
+export default observer(NavBar);
