@@ -6,6 +6,7 @@ import { sendEmail } from 'utils/api/system.js';
 import { useQuery } from 'react-query';
 import { TableButton } from '../common/Button.jsx';
 import Loader from '../common/Loader.jsx';
+import Head from 'next/head';
 
 const StyledTableHeader = styled(Th)`
   text-align: center;
@@ -92,6 +93,9 @@ const AdminPage = () => {
 
   return (
     <>
+      <Head>
+        <title>ERP - Admin</title>
+      </Head>
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
         <TableCaption placement="top">List of users</TableCaption>
         <Thead>
