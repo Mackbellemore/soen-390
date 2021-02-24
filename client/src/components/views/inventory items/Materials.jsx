@@ -1,35 +1,43 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td, TableCaption, useToast, Button } from '@chakra-ui/react';
+import React, { Fragment } from 'react';
+import { Table, Thead, Tbody, Tr, TableCaption } from '@chakra-ui/react';
+import Loader from 'components/common/Loader';
+import { getMaterials } from 'utils/api/materials.js';
+import { useQuery } from 'react-query';
+import { StyledTableRow, StyledTableHeader, StyledTableCell } from '../../common/Table';
 
-const Materials = (props) => {
-  const materials = props.items;
+const Materials = () => {
+  const { isLoading, isSuccess, data } = useQuery('materials', getMaterials);
 
-  const makeTableItems = () => {
-    materials.map((material) => (
-      <Tr>
-        <Td>{material.name}</Td>
-        <Td>{material.description}</Td>
-        <Td>{material.stock}</Td>
-        <Td>{material.weight}</Td>
-        <Td>{material.price}</Td>
-      </Tr>
-    ));
-  };
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
-    <Table variant="striped" colorScheme="green">
-      {console.log(materials)}
+    <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
       <TableCaption placement="top">List of materials</TableCaption>
       <Thead>
         <Tr>
-          <Th>Name</Th>
-          <Th>Description</Th>
-          <Th>Stock</Th>
-          <Th>Weight</Th>
-          <Th>Price</Th>
+          <StyledTableHeader>Name</StyledTableHeader>
+          <StyledTableHeader>Description</StyledTableHeader>
+          <StyledTableHeader>Stock</StyledTableHeader>
+          <StyledTableHeader>Weight</StyledTableHeader>
+          <StyledTableHeader>Price</StyledTableHeader>
         </Tr>
       </Thead>
-      <Tbody>{makeTableItems}</Tbody>
+      <Tbody>
+        {isSuccess &&
+          data.data.map((material) => (
+            <Fragment key={material.id}>
+              <StyledTableRow>
+                <StyledTableCell>{material.name}</StyledTableCell>
+                <StyledTableCell>{material.description}</StyledTableCell>
+                <StyledTableCell>{material.stock}</StyledTableCell>
+                <StyledTableCell>{material.weight}</StyledTableCell>
+                <StyledTableCell>{material.price}</StyledTableCell>
+              </StyledTableRow>
+            </Fragment>
+          ))}
+      </Tbody>
     </Table>
   );
 };

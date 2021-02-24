@@ -1,4 +1,3 @@
-import { UnorderedList, ListItem } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import { push as Menu } from 'react-burger-menu';
@@ -19,6 +18,7 @@ const MenuItems = () => (
   <Flex direction="column">
     <Link to="/main">Dashboard</Link>
     <Link to="/admin">Admin</Link>
+    <Link to="/inventory">Inventory</Link>
   </Flex>
 );
 
@@ -46,6 +46,9 @@ const Index = () => {
             </ProtectedRoute>
             <ProtectedRoute path="/main" allowedRoles={rolesAvailable}>
               <MainDashboard />
+            </ProtectedRoute>
+            <ProtectedRoute path="/inventory" allowedRoles={rolesAvailable}>
+              <Inventory />
             </ProtectedRoute>
             <Route path="/login">
               <Login />
