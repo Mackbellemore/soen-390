@@ -1,12 +1,13 @@
 import { SystemService } from './../services/SystemService';
 import { Request } from 'express';
 import { inject } from 'inversify';
-import { controller, BaseHttpController, results, httpPost } from 'inversify-express-utils';
+import { controller, results, httpPost } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import { SentMessageInfo } from 'nodemailer';
+import { BaseController } from './BaseController';
 
 @controller('/system')
-export class SystemController extends BaseHttpController {
+export class SystemController extends BaseController {
   constructor(@inject(TYPES.SystemService) private systemService: SystemService) {
     super();
   }

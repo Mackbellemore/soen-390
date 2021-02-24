@@ -4,26 +4,35 @@ import { push as Menu } from 'react-burger-menu';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import NavBar from '../components/NavBar.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
-import { styles } from '../components/Sidebar.jsx';
+import { sidebarStyles } from '../components/Sidebar.jsx';
 import Login from '../components/views/Login.jsx';
+import AdminPage from '../components/views/AdminPage.jsx';
 import MainDashboard from '../components/views/MainDashboard.jsx';
-import { RootStoreContext } from '../stores/stores';
 import LandingPage from '../components/views/LandingPage';
+import NoAccess from '../components/views/NoAccess.jsx';
+import { RootStoreContext } from '../stores/stores.jsx';
+import { rolesAvailable } from '../constants.js';
+import { Flex, Link as ChakraLink } from '@chakra-ui/react';
 
 const MenuItems = () => (
-  <>
-    <Link to="/main">Dashboard</Link>
-  </>
+  <Flex direction="column">
+    <ChakraLink as={Link} to="/main">
+      Dashboard
+    </ChakraLink>
+    <ChakraLink as={Link} to="/admin">
+      Admin
+    </ChakraLink>
+  </Flex>
 );
 
-const Index = observer(() => {
+const Index = () => {
   const { uiStore } = useContext(RootStoreContext);
 
   return (
     <>
       <BrowserRouter>
         <Menu
-          styles={styles}
+          styles={sidebarStyles}
           pageWrapId={'page-wrap'}
           customBurgerIcon={false}
           customCrossIcon={false}
@@ -35,12 +44,18 @@ const Index = observer(() => {
         <main id="page-wrap">
           <NavBar />
           <Switch>
+            <ProtectedRoute path="/admin" allowedRoles={['Admin']}>
+              <AdminPage />
+            </ProtectedRoute>
+            <ProtectedRoute path="/main" allowedRoles={rolesAvailable}>
+              <MainDashboard />
+            </ProtectedRoute>
             <Route path="/login">
               <Login />
             </Route>
-            <ProtectedRoute path="/main">
-              <MainDashboard />
-            </ProtectedRoute>
+            <Route path="/no-access">
+              <NoAccess />
+            </Route>
             <Route path="/">
               <LandingPage />
             </Route>
@@ -49,6 +64,6 @@ const Index = observer(() => {
       </BrowserRouter>
     </>
   );
-});
+};
 
-export default Index;
+export default observer(Index);

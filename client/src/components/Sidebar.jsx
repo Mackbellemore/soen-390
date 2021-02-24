@@ -1,9 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import React, { useContext } from 'react';
 import HamburgerMenu from 'react-hamburger-menu';
-import { RootStoreContext } from '../stores/stores';
+import { RootStoreContext } from 'stores/stores.jsx';
 
-export const styles = {
+const sidebarStyles = {
   bmMenuWrap: {
     position: 'fixed',
     height: '100%',
@@ -28,7 +28,7 @@ export const styles = {
   },
 };
 
-export const HamburgerButton = observer(() => {
+const HamburgerButton = observer(() => {
   const { uiStore } = useContext(RootStoreContext);
 
   return (
@@ -45,3 +45,5 @@ export const HamburgerButton = observer(() => {
     />
   );
 });
+
+export { HamburgerButton, sidebarStyles };

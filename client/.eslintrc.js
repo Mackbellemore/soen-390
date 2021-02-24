@@ -30,6 +30,13 @@ module.exports = {
   },
   plugins: ['react', 'react-hooks', '@babel', 'prettier', 'promise'],
   rules: {
+    'react/self-closing-comp': [
+      'error',
+      {
+        component: true,
+        html: true,
+      },
+    ],
     'import/extensions': ['error', 'ignorePackages'],
     'no-console': 'error',
     'prettier/prettier': [
@@ -46,7 +53,9 @@ module.exports = {
     },
     'import/resolver': {
       node: {
-        extensions: ['.js', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.d.ts'],
+        moduleDirectory: ['node_modules', './src/'],
+        paths: ['src'],
       },
     },
   },

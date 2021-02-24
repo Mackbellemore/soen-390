@@ -41,6 +41,8 @@ export class App {
       await this.initRepositories();
       this.logger.info('mongoDB connection initialized');
 
+      const whitelistOrigins = [/http:\/\/localhost.*$/, /soen-390-team-07\.netlify\.app$/];
+
       const options = {
         console: {
           level: 'debug',
@@ -65,7 +67,7 @@ export class App {
         server.use(
           cors({
             credentials: true,
-            origin: ['http://localhost:3000', /soen-390-team-07\.netlify\.app$/],
+            origin: whitelistOrigins,
           })
         );
         server.use(cookieParser());
@@ -82,7 +84,10 @@ export class App {
             transports: loggerTransports,
           })
         );
-        if (this.config.get<boolean>('server.authEnabled')) {
+        if (
+          this.config.get<boolean>('server.authEnabled') &&
+          this.config.get<string>('env') !== 'test'
+        ) {
           server.all('*', authenticateJWT);
         }
       });
