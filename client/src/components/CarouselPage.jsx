@@ -1,32 +1,32 @@
-import { Image } from 'antd';
-const CarouselPage = (props) => {
-  const textStyle = {
-    fontSize: 50,
-    color: '#fff',
-    textAlign: 'left',
-    marginLeft: '10%',
-    paddingTop: '1%',
-  };
+import { Text } from '@chakra-ui/react';
+const textStyle = {
+  fontSize: 45,
+  textAlign: 'center',
+  paddingTop: '1%',
+  marginBottom: '40px',
+};
 
-  const imgStyle = {
-    height: '400px',
-    width: '800px',
-    marginLeft: '10%',
-    position: 'relative',
-    top: '40px',
-  };
-  const carouselStyle = {
-    background: '#364d79',
-    height: '75vh',
-  };
+const imgStyle = {
+  height: '400px',
+  width: '800px',
+  display: 'block',
+  marginLeft: 'auto',
+  marginRight: 'auto',
+};
+const carouselStyle = {
+  background: '#EDF2F7',
+  height: '75vh',
+  left: '50%',
+};
+
+const CarouselPage = (props) => {
   return (
-    <div>
-      <div style={carouselStyle}>
-        <p style={textStyle}>{props.title}</p>
+    <div style={carouselStyle}>
+      <div>
+        <Text style={textStyle}>{props.title}</Text>>
         <svg style={imgStyle}>
           <image href={'/assets/' + props.imgSrc} width="800px" height="400px" />
         </svg>
-        {/* <Image style={imgStyle} src={"/assets/"+props.imgSrc}/> */}
       </div>
     </div>
   );

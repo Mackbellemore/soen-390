@@ -1,15 +1,13 @@
-import { background } from '@chakra-ui/react';
+const footerSyle = {
+  backgroundColor: '#d1f1ff',
+  height: '10.5vh',
+};
+const textStyle = {
+  paddingTop: '26px',
+  textAlign: 'center',
+};
 
 const Footer = () => {
-  const footerSyle = {
-    backgroundColor: '#59ffc5',
-    height: '10.5vh',
-  };
-  const textStyle = {
-    paddingTop: '26px',
-    textAlign: 'center',
-    // position: 'relative',
-  };
   return (
     <div style={footerSyle}>
       <p style={textStyle}>
