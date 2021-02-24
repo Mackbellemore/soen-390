@@ -8,6 +8,7 @@ import { styles } from '../components/Sidebar.jsx';
 import Login from '../components/views/Login.jsx';
 import MainDashboard from '../components/views/MainDashboard.jsx';
 import { RootStoreContext } from '../stores/stores';
+import LandingPage from '../components/views/LandingPage';
 
 const MenuItems = () => (
   <>
@@ -40,6 +41,9 @@ const Index = observer(() => {
             <ProtectedRoute path="/main">
               <MainDashboard />
             </ProtectedRoute>
+            <Route path="/">
+              <LandingPage />
+            </Route>
           </Switch>
         </main>
       </BrowserRouter>

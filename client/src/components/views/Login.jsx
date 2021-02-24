@@ -12,16 +12,17 @@ import RegisterUserModal from '../RegisterUserModal.jsx';
 
 const Container = styled(Box)`
   width: 100%;
-  height: 456px;
+  height: 550px;
   display: flex;
   flex-direction: column;
-  position: fixed;
-  left: 50%;
+  position: absolute;
+  left: 80%;
   align-items: center;
   transform: translate(-50%, -50%);
   background-color: #fffcfc;
   padding: 10px;
-  max-width: 560px;
+  max-width: 660px;
+  border-radius: 25px;
 `;
 
 const InputContainer = styled(Flex)`
@@ -64,6 +65,7 @@ export const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
+  paddingtop: 52px;
 `;
 const Login = () => {
   const { uiStore } = useContext(RootStoreContext);
