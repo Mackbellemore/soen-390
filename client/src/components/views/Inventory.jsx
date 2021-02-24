@@ -3,6 +3,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import Head from 'next/head';
 import Materials from './inventory items/Materials';
 import Parts from './inventory items/Parts';
+import Bikes from './inventory items/Bikes';
 
 const Inventory = () => {
   return (
@@ -10,7 +11,7 @@ const Inventory = () => {
       <Head>
         <title>ERP - Inventory</title>
       </Head>
-      <Tabs isManual variant="soft-rounded" colorScheme="green">
+      <Tabs>
         <TabList>
           <Tab>Materials</Tab>
           <Tab>Parts</Tab>
@@ -24,7 +25,7 @@ const Inventory = () => {
             <Parts />
           </TabPanel>
           <TabPanel>
-            <p> product table here </p>
+            <Bikes />
           </TabPanel>
         </TabPanels>
       </Tabs>
