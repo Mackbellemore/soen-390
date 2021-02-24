@@ -56,7 +56,7 @@ const Bikes = () => {
         </Thead>
         <Tbody>
           {isSuccess &&
-            data.data.map((bike) => (
+            data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((bike) => (
               <Fragment key={bike.id}>
                 <StyledTableRow>
                   <StyledTableCell>{bike.name}</StyledTableCell>

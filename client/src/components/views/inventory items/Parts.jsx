@@ -58,7 +58,7 @@ const Parts = () => {
         </Thead>
         <Tbody>
           {isSuccess &&
-            data.data.map((part) => (
+            data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((part) => (
               <Fragment key={part.id}>
                 <StyledTableRow>
                   <StyledTableCell>{part.name}</StyledTableCell>
