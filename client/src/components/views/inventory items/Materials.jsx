@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Table, Thead, Tbody, Tr, TableCaption } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, TableCaption, Heading, Image } from '@chakra-ui/react';
 import Loader from 'components/common/Loader';
 import { getMaterials } from 'utils/api/materials.js';
 import { useQuery } from 'react-query';
@@ -10,6 +10,22 @@ const Materials = () => {
 
   if (isLoading) {
     return <Loader />;
+  }
+
+  if (isSuccess && data.data.length === 0) {
+    return (
+      <>
+        <Heading size="xl" textAlign="center" mt={5}>
+          No Materials
+        </Heading>
+        <Image
+          src="/images/noResults.png"
+          alt="No results illustration"
+          width="100%"
+          height="100%"
+        />
+      </>
+    );
   }
 
   return (
