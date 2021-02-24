@@ -32,8 +32,6 @@ function MyApp({ Component, pageProps }) {
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', registerWorker);
     }
-
-    return window.removeEventListener('load', registerWorker);
   }, [toast]);
 
   return (
