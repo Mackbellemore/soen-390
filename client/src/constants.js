@@ -14,15 +14,15 @@ export const carouselContent = [
     imgName: 'vendor.jpg',
   },
   {
-    title: "Analyze and View your Company's Financial",
+    title: "Analyze and View your Company's Finances",
     imgName: 'accounting.jpg',
   },
   {
-    title: 'Forcast your Sales',
+    title: 'Forecast your Sales',
     imgName: 'planning.jpg',
   },
   {
-    title: "Place Customers' Purchases",
+    title: "Manage Customers' Purchases",
     imgName: 'sales.jpg',
   },
 ];

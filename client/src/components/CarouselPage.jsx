@@ -23,7 +23,7 @@ const CarouselPage = (props) => {
   return (
     <div style={carouselStyle}>
       <div>
-        <Text style={textStyle}>{props.title}</Text>>
+        <Text style={textStyle}>{props.title}</Text>
         <svg style={imgStyle}>
           <image href={'/assets/' + props.imgSrc} width="800px" height="400px" />
         </svg>
