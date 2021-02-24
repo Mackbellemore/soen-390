@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 import { IConfig } from 'config';
 
 export class MongoConnection {
-  private connectionString: string;
+  public connectionString: string;
   private connected = false;
   private connecting = false;
 
@@ -24,7 +24,8 @@ export class MongoConnection {
       useFindAndModify: false,
     };
 
-    if (config.get<string>('env') === 'development') {
+    const env = config.get<string>('env');
+    if (env === 'development' || env === 'test') {
       this.connectionString = `mongodb://${user}:${pass}@${host}:${port}/${dbName}?authSource=admin`;
       return;
     }

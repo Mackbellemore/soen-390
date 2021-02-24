@@ -1,32 +1,37 @@
 import 'reflect-metadata';
-import { MaterialRepository } from './repository/MaterialRepository';
-import { authenticateJWT } from './middlewares/authentication';
-import winston, { Logger } from 'winston';
-import expressWinston from 'express-winston';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore types don't exist for the logdna-winston library
 import LogdnaWinston from 'logdna-winston';
-import { InversifyExpressServer } from 'inversify-express-utils';
-import { container } from './registry';
-import { Application } from 'express';
-import { IConfig } from 'config';
 import * as bodyParser from 'body-parser';
-import { Server } from 'http';
-import TYPES from './constants/types';
-import { BikeRepository } from './repository/BikeRepository';
-import { UserRepository } from './repository/UserRepository';
-import cors from 'cors';
+import { IConfig } from 'config';
 import cookieParser from 'cookie-parser';
+import cors from 'cors';
+import { Application } from 'express';
+import expressWinston from 'express-winston';
+import { Server } from 'http';
+import { InversifyExpressServer } from 'inversify-express-utils';
+import winston, { Logger } from 'winston';
+import TYPES from './constants/types';
+import { authenticateJWT } from './middlewares/authentication';
+import { container } from './registry';
+
+// Repository
+import { BikeRepository } from './repository/BikeRepository';
+import { PartRepository } from './repository/PartRepository';
+import { UserRepository } from './repository/UserRepository';
+import { MaterialRepository } from './repository/MaterialRepository';
 
 export class App {
   private config: IConfig;
-  private app: Application;
+  public server: Application;
   private listener: Server;
+  private port?: number;
   public logger: Logger;
 
-  constructor() {
+  constructor(port?: number) {
     this.config = container.get<IConfig>(TYPES.config);
     this.logger = container.get<Logger>(TYPES.logger);
+    this.port = port;
   }
 
   public async init(): Promise<void> {
@@ -84,7 +89,7 @@ export class App {
         }
       });
 
-      this.app = appBuilder.build();
+      this.server = appBuilder.build();
     } catch ({ message }) {
       this.logger.error(message);
       process.exit(1);
@@ -93,13 +98,15 @@ export class App {
 
   public async start(): Promise<void> {
     try {
-      if (!this.app) {
+      if (!this.server) {
         throw new Error('app failed to initialize');
       }
-      const port = this.config.get<number>('server.port');
 
-      this.listener = this.app.listen(port, () => {
-        this.logger.info(`Service booted on port ${port}`);
+      const configPort = this.config.get<number>('server.port');
+
+      this.port = typeof this.port !== 'undefined' ? this.port : configPort;
+      this.listener = this.server.listen(this.port, () => {
+        this.logger.info(`Service booted on port ${this.port}`);
       });
     } catch ({ message }) {
       this.logger.error(message);
@@ -110,6 +117,7 @@ export class App {
   public async close(): Promise<void> {
     try {
       this.listener.close();
+      this.logger.info(`Closing application on port ${this.port}`);
     } catch ({ message }) {
       this.logger.error(message);
       process.exit(1);
@@ -120,6 +128,7 @@ export class App {
     this.logger.info('Initializing repositories');
     await container.get<UserRepository>(TYPES.UserRepository).initialize();
     await container.get<BikeRepository>(TYPES.BikeRepository).initialize();
+    await container.get<PartRepository>(TYPES.PartRepository).initialize();
     await container.get<MaterialRepository>(TYPES.MaterialRepository).initialize();
   }
 }
