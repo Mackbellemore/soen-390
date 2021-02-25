@@ -1,9 +1,18 @@
-import { Flex, FormLabel, Icon, Input, Box, useToast, Divider } from '@chakra-ui/react';
+import {
+  Flex,
+  FormLabel,
+  Icon,
+  Input,
+  Box,
+  useToast,
+  Divider,
+  Link as ChakraLink,
+} from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { GrLock, GrMailOption } from 'react-icons/gr';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userLogin } from 'utils/api/users.js';
 import { Heading, Text } from '../common/Typography.jsx';
@@ -11,6 +20,8 @@ import RegisterUserModal from '../RegisterUserModal.jsx';
 import { FormButton } from '../common/Button.jsx';
 import { StyledForm } from '../common/Form.jsx';
 import { useCookies } from 'react-cookie';
+import useLoggedInUser from '../../hooks/useLoggedInUser.jsx';
+import Loader from '../common/Loader.jsx';
 
 const Container = styled(Box)`
   width: 100%;
@@ -58,28 +69,24 @@ const StyledFormLabel = styled(FormLabel)`
 const Login = () => {
   const { userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldRender, setShouldRender] = useState(false);
+  const [shouldRenderForm, setShouldRenderForm] = useState(true);
   const passwordRef = useRef('');
   const emailRef = useRef('');
   const history = useHistory();
   const toast = useToast();
-  const [cookies, setCookie] = useCookies(['hasLoggedOut']);
+  const [cookies, , removeCookie] = useCookies(['hasLoggedOut']);
+  const { hasVerifiedToken } = useLoggedInUser();
 
   useEffect(() => {
-    const userAlreadyLoggedIn = () => {
-      if (cookies.hasLoggedOut === undefined) {
-        history.push('/main');
-      } else {
-        setShouldRender(true);
-      }
-    };
-
-    userAlreadyLoggedIn();
-  }, [cookies.hasLoggedOut, history]);
+    if (cookies.hasLoggedOut === undefined && hasVerifiedToken) {
+      setShouldRenderForm(false);
+    }
+  }, [cookies.hasLoggedOut, hasVerifiedToken]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
       const res = await userLogin({
         email: emailRef.current.value,
@@ -97,7 +104,9 @@ const Login = () => {
       userStore.setRole(role);
 
       userStore.logIn();
-      setCookie('hasLoggedOut', true, { path: '/' });
+
+      removeCookie('hasLoggedOut', { path: '/' });
+
       history.push('/main');
     } catch {
       toast({
@@ -114,55 +123,57 @@ const Login = () => {
     }
   };
 
+  if (!hasVerifiedToken) {
+    return <Loader />;
+  }
+
   return (
     <>
-      {shouldRender && (
-        <>
-          <Head>
-            <title>ERP - Login</title>
-          </Head>
-          <Container top={{ base: '66%', sm: '50%' }}>
-            <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
-              Log in
-            </Heading>
-            <StyledForm onSubmit={handleSubmit}>
-              <InputContainer>
-                <Flex alignItems="center">
-                  <InputIcon as={GrMailOption} />
-                </Flex>
-                <Flex direction="column">
-                  <StyledFormLabel px={4}>Email address</StyledFormLabel>
-                  <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
-                </Flex>
-              </InputContainer>
-              <InputContainer mt={7}>
-                <Flex alignItems="center">
-                  <InputIcon as={GrLock} />
-                </Flex>
-                <Flex direction="column">
-                  <StyledFormLabel>Password</StyledFormLabel>
-                  <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
-                </Flex>
-              </InputContainer>
-              <Flex direction="row" width="100%" maxWidth="380px">
-                <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
-                  Login
-                </FormButton>
+      <Head>
+        <title>ERP - Login</title>
+      </Head>
+      {shouldRenderForm ? (
+        <Container top={{ base: '66%', sm: '50%' }}>
+          <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
+            Log in
+          </Heading>
+          <StyledForm onSubmit={handleSubmit}>
+            <InputContainer>
+              <Flex alignItems="center">
+                <InputIcon as={GrMailOption} />
               </Flex>
-            </StyledForm>
-            <Divider
-              orientation="horizontal"
-              borderColor="#D4D4D4"
-              opacity="1"
-              width="90%"
-              mt={9}
-            />
-            <Text mt={4} fontSize="12px">
-              New User?
-            </Text>
-            <RegisterUserModal />
-          </Container>
-        </>
+              <Flex direction="column">
+                <StyledFormLabel px={4}>Email address</StyledFormLabel>
+                <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
+              </Flex>
+            </InputContainer>
+            <InputContainer mt={7}>
+              <Flex alignItems="center">
+                <InputIcon as={GrLock} />
+              </Flex>
+              <Flex direction="column">
+                <StyledFormLabel>Password</StyledFormLabel>
+                <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
+              </Flex>
+            </InputContainer>
+            <Flex direction="row" width="100%" maxWidth="380px">
+              <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
+                Login
+              </FormButton>
+            </Flex>
+          </StyledForm>
+          <Divider orientation="horizontal" borderColor="#D4D4D4" opacity="1" width="90%" mt={9} />
+          <Text mt={4} fontSize="12px">
+            New User?
+          </Text>
+          <RegisterUserModal />
+        </Container>
+      ) : (
+        <Text fontSize="3xl" textAlign="center" mt={5}>
+          <ChakraLink as={Link} to="/main">
+            You have previously logged in, click to continue to the main dashboard
+          </ChakraLink>
+        </Text>
       )}
     </>
   );

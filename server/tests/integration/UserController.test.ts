@@ -8,14 +8,6 @@ import { seedMongo } from '../utils/MongoSeeder';
 describe('User controller', () => {
   let app: App;
 
-  const seed = {
-    approved: false,
-    email: 'm.bellemore@hotmail.com',
-    id: '602712cda4dfb1001597025a',
-    role: 'Admin',
-    username: 'macbellemoreTest',
-  };
-
   const postBody = {
     username: 'mackbellemoreTest2',
     email: 'mack@mack.com',
@@ -40,14 +32,6 @@ describe('User controller', () => {
     await app.close();
   });
 
-  describe('GET /', () => {
-    it('returns a 200 with user array from seed when auth is disabled', async () => {
-      const res = await supertest(app.server).get('/user');
-      expect(res.body).to.deep.equal([seed]);
-      expect(res.status).to.be.equal(200);
-    });
-  });
-
   describe('GET /user/authCheck', () => {
     it('returns a 200 when auth is disabled', async () => {
       const res = await supertest(app.server).get('/user/authCheck');
@@ -58,7 +42,6 @@ describe('User controller', () => {
   describe('POST /user/register', () => {
     it('returns a 200 with user when proper body is passed', async () => {
       const res = await supertest(app.server).post('/user/register').send(postBody);
-
       expect(res.status).to.be.equal(200);
       assert(res.body.id);
       // delete id since its impossible to assert on a random mongo uuid
@@ -74,9 +57,10 @@ describe('User controller', () => {
         email: postBody.email,
         password: postBody.password,
       });
+
       delete res.body.user.id;
+      delete res.body.jwt;
       expect(res.body).to.deep.equal({
-        jwt: '',
         user: expectedUserRes,
       });
       expect(res.status).to.be.equal(200);

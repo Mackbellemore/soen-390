@@ -12,13 +12,19 @@ import MainDashboard from '../components/views/MainDashboard.jsx';
 import NoAccess from '../components/views/NoAccess.jsx';
 import { RootStoreContext } from '../stores/stores.jsx';
 import { rolesAvailable } from '../constants.js';
-import { Flex } from '@chakra-ui/react';
+import { Flex, Link as ChakraLink } from '@chakra-ui/react';
 
 const MenuItems = () => (
   <Flex direction="column">
-    <Link to="/main">Dashboard</Link>
-    <Link to="/admin">Admin</Link>
-    <Link to="/inventory">Inventory</Link>
+    <ChakraLink as={Link} to="/main">
+      Dashboard
+    </ChakraLink>
+    <ChakraLink as={Link} to="/admin">
+      Admin
+    </ChakraLink>
+    <ChakraLink as={Link} to="/inventory">
+      Inventory
+    </ChakraLink>
   </Flex>
 );
 

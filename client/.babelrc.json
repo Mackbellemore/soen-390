@@ -1,17 +1,3 @@
 {
-  "plugins": [
-    [
-      "@babel/plugin-proposal-class-properties",
-      {
-        "loose": true
-      }
-    ],
-    [
-      "module-resolver",
-      {
-        "root": ["./src"]
-      }
-    ]
-  ],
   "presets": ["next/babel"]
 }
