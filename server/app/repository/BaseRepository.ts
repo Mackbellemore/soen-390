@@ -23,7 +23,7 @@ export abstract class BaseRepository<T extends Document> {
   }
 
   protected manageRepositoryError(e: Error): never {
-    // eventually do something here
+    // log errors and eventually conver mongo errors to more readable errors
     this.logger.warn(e.message);
     throw new BadRequestError(e.message);
   }
@@ -33,6 +33,8 @@ export abstract class BaseRepository<T extends Document> {
 
     return this._model;
   }
+
+  // Abstracted repository CRUD functions that can be used for any collection
 
   public async getList(): Promise<T[]> {
     try {
