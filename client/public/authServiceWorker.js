@@ -40,5 +40,9 @@ self.addEventListener('message', function (event) {
 self.addEventListener('fetch', addAuthHeader);
 
 self.addEventListener('install', function (event) {
-  self.skipWaiting();
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim());
 });

@@ -54,6 +54,9 @@ export class App {
 
       const loggerTransports = [new winston.transports.Console(options.console)];
 
+      expressWinston.requestWhitelist.push('body');
+      expressWinston.responseWhitelist.push('body');
+
       const isDeployed =
         this.config.get<string>('zeetEnv') === 'main' ||
         this.config.get<string>('zeetEnv') === 'develop';
