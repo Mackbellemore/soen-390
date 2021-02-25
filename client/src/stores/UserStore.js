@@ -1,5 +1,6 @@
 import { makeObservable, observable, action } from 'mobx';
 
+// The class is responsible to track of the state of User
 class UserStore {
   username;
   email;
