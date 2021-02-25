@@ -100,12 +100,7 @@ const AdminPage = () => {
         <Heading size="xl" textAlign="center" mt={5}>
           No User Requests
         </Heading>
-        <Image
-          src="/images/noResults.png"
-          alt="No results illustration"
-          width="100%"
-          height="100%"
-        />
+        <Image src="/images/noResults.png" alt="No results illustration" width="50%" />
       </>
     );
   }

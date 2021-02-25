@@ -1,32 +1,23 @@
-import { Text } from '@chakra-ui/react';
-const textStyle = {
-  fontSize: '8vh',
-  textAlign: 'center',
-  paddingTop: '1%',
-  marginBottom: '40px',
-};
+import { Text, Image, Box, Flex, Center } from '@chakra-ui/react';
 
-const imgStyle = {
-  height: '400px',
-  width: '800px',
-  display: 'block',
-  marginLeft: 'auto',
-  marginRight: 'auto',
-};
-const carouselStyle = {
-  background: '#EDF2F7',
-  height: '75vh',
-  left: '50%',
-};
-
-const CarouselPage = (props) => {
+const CarouselPage = ({ title, imgSrc }) => {
   return (
-    <div style={carouselStyle}>
-      <Text style={textStyle}>{props.title}</Text>
-      <svg style={imgStyle}>
-        <image href={'/assets/' + props.imgSrc} width="800px" height="400px" />
-      </svg>
-    </div>
+    <Box height="80%">
+      <Text
+        fontSize={{ sm: '8vw', lg: '2vw' }}
+        textAlign="center"
+        paddingTop="1%"
+        marginBottom="40px"
+      >
+        {title}
+      </Text>
+      <Flex justifyContent="center">
+        <Center>
+          <Image src={imgSrc} />
+        </Center>
+      </Flex>
+    </Box>
   );
 };
+
 export default CarouselPage;

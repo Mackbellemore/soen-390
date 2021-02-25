@@ -1,25 +1,28 @@
-import { Text } from '@chakra-ui/react';
+import { Text, Box } from '@chakra-ui/react';
+import styled from '@emotion/styled';
 
-const footerSyle = {
-  backgroundColor: '#d1f1ff',
-  height: '10.5vh',
-};
-const textStyle = {
-  paddingTop: '26px',
-  textAlign: 'center',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
+const BottomFooter = styled(Box)`
+  background-color: #d1f1ff;
+  width: 100%;
+`;
+
+const FooterText = styled(Text)`
+  padding: 26px 0;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Footer = () => {
   return (
-    <div style={footerSyle}>
-      <Text style={textStyle}>
+    <BottomFooter>
+      <FooterText>
         Built by Gordon Pham-Nguyen, Naasir Jusab, Mackenzie Bellemore, Sujan Saravanamuthu, David
         Liang, Tiffany Zeng, Siu Ye, Karin Kazarian, TianMing Chen
-      </Text>
-    </div>
+      </FooterText>
+    </BottomFooter>
   );
 };
+
 export default Footer;
