@@ -34,10 +34,12 @@ export class App {
     this.port = port;
   }
 
+  // Function to initialize database and setup express application without starting it.
   public async init(): Promise<void> {
     try {
       const appBuilder = new InversifyExpressServer(container);
 
+      // initialize all our mongodb collections
       await this.initRepositories();
       this.logger.info('mongoDB connection initialized');
 
@@ -54,10 +56,14 @@ export class App {
 
       const loggerTransports = [new winston.transports.Console(options.console)];
 
+      expressWinston.requestWhitelist.push('body');
+      expressWinston.responseWhitelist.push('body');
+
       const isDeployed =
         this.config.get<string>('zeetEnv') === 'main' ||
         this.config.get<string>('zeetEnv') === 'develop';
 
+      // only log to Logdna when were deployed, i.e. when zeet env is main or develop
       if (isDeployed) {
         loggerTransports.push(new LogdnaWinston(options.logdna));
       }
@@ -84,6 +90,8 @@ export class App {
             transports: loggerTransports,
           })
         );
+
+        // Adds our custom authentication middleware only when auth is enabled and were not running integration tests
         if (
           this.config.get<boolean>('server.authEnabled') &&
           this.config.get<string>('env') !== 'test'
@@ -99,6 +107,7 @@ export class App {
     }
   }
 
+  // Function to start the server with a port
   public async start(): Promise<void> {
     try {
       if (!this.server) {
@@ -127,6 +136,7 @@ export class App {
     }
   }
 
+  // Initializes all our repository classes and creates their respective collections
   private async initRepositories(): Promise<void> {
     this.logger.info('Initializing repositories');
     await container.get<UserRepository>(TYPES.UserRepository).initialize();

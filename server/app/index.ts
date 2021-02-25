@@ -24,6 +24,7 @@ const gracefulClose = () => {
 
 process.on('uncaughtException', uncaughtException);
 
+// Catch any unhandledRejection events and console error it for debugging
 process.on('unhandledRejection', (reason: string, p: Promise<unknown>) => {
   console.error(`Unhandled Rejection at: Promise', ${p}, reason: ${reason}`, null, [
     'unhandled',
@@ -31,9 +32,11 @@ process.on('unhandledRejection', (reason: string, p: Promise<unknown>) => {
   ]);
 });
 
+// close our application when the user kills the server or the server exits unexpectedly
 process.on('SIGTERM', gracefulClose);
 process.on('SIGINT', gracefulClose);
 
+// This is the absolute start of our entire backend
 app
   .init()
   .then(() => {
