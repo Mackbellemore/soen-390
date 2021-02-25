@@ -1,7 +1,7 @@
-import { ChakraProvider, ColorModeProvider, useToast } from '@chakra-ui/react';
+import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { CookiesProvider } from 'react-cookie';
 import RootStore from '../stores/stores.jsx';
 import theme from '../theme.js';
@@ -11,29 +11,6 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }) {
-  const toast = useToast();
-
-  useEffect(() => {
-    const registerWorker = async () => {
-      try {
-        await navigator.serviceWorker.register('/authServiceWorker.js');
-      } catch {
-        toast({
-          position: 'bottom',
-          title: 'An error occurred.',
-          description: 'Please contact Gordon',
-          status: 'error',
-          duration: 4000,
-          isClosable: true,
-        });
-      }
-    };
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', registerWorker);
-    }
-  }, [toast]);
-
   return (
     <>
       <Head>

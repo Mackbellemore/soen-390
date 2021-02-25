@@ -27,9 +27,7 @@ const LogOutButton = () => {
   };
 
   const handleLogOut = async () => {
-    navigator.serviceWorker.controller.postMessage({
-      type: 'REVOKE_TOKEN',
-    });
+    localStorage.setItem('jwt', '');
     logOutSuccess();
   };
 

@@ -3,11 +3,15 @@ import axios from 'axios';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const makeRequest = async (method, endpoint, body = {}, params = {}) => {
+  const token = localStorage.getItem('jwt');
   const options = {
     method: method,
     url: `${apiUrl}/${endpoint}`,
     data: body,
     params: params,
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
   };
 
   const response = await axios(options);
