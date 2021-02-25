@@ -1,4 +1,5 @@
 import { Text, Image, Box, Flex, Center } from '@chakra-ui/react';
+import PropTypes from 'prop-types';
 
 const CarouselPage = ({ title, imgSrc }) => {
   return (
@@ -18,6 +19,11 @@ const CarouselPage = ({ title, imgSrc }) => {
       </Flex>
     </Box>
   );
+};
+
+CarouselPage.propTypes = {
+  title: PropTypes.string,
+  imgSrc: PropTypes.string,
 };
 
 export default CarouselPage;

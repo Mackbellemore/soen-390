@@ -1,4 +1,4 @@
-import { Table, Thead, Tbody, Tr, TableCaption, useToast, Heading, Image } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, TableCaption, useToast, Heading } from '@chakra-ui/react';
 import React, { Fragment, useState } from 'react';
 import { getUsers, updateUser, deleteUser } from 'utils/api/users.js';
 import { sendEmail } from 'utils/api/system.js';
@@ -7,6 +7,7 @@ import { TableButton } from '../common/Button.jsx';
 import Loader from '../common/Loader.jsx';
 import Head from 'next/head';
 import { StyledTableHeader, StyledTableCell } from '../common/Table.jsx';
+import { NoResultImage } from '../common/Image.jsx';
 
 const AdminPage = () => {
   const { isLoading, isSuccess, data, refetch } = useQuery('users', getUsers);
@@ -86,7 +87,7 @@ const AdminPage = () => {
         <Heading size="xl" textAlign="center" mt={5}>
           No User Requests
         </Heading>
-        <Image src="/images/noResults.png" alt="No results illustration" width="50%" />
+        <NoResultImage />
       </>
     );
   }

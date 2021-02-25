@@ -1,7 +1,7 @@
 import 'antd/dist/antd.css';
 import { Carousel } from 'antd';
 import CarouselPage from '../CarouselPage.jsx';
-import { carouselContent } from '../../constants';
+import { carouselContent } from '../../constants.js';
 import Footer from '../Footer.jsx';
 import { Flex } from '@chakra-ui/react';
 
