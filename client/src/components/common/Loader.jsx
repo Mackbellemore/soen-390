@@ -1,4 +1,4 @@
-import CircleLoader from 'react-spinners/CircleLoader';
+import PuffLoader from 'react-spinners/PuffLoader';
 import { Flex } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import React from 'react';
@@ -12,7 +12,7 @@ const FlexBox = styled(Flex)`
 const Loader = () => {
   return (
     <FlexBox>
-      <CircleLoader color="blue" size={250} />
+      <PuffLoader color="#006ee6" size={250} />
     </FlexBox>
   );
 };

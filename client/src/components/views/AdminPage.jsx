@@ -1,18 +1,21 @@
-import { Table, Thead, Tbody, Tr, TableCaption, useToast, Heading, Image } from '@chakra-ui/react';
-import React, { Fragment } from 'react';
+import { Table, Thead, Tbody, Tr, TableCaption, useToast, Heading } from '@chakra-ui/react';
+import React, { Fragment, useState } from 'react';
 import { getUsers, updateUser, deleteUser } from 'utils/api/users.js';
 import { sendEmail } from 'utils/api/system.js';
 import { useQuery } from 'react-query';
 import { TableButton } from '../common/Button.jsx';
 import Loader from '../common/Loader.jsx';
 import Head from 'next/head';
-import { StyledTableHeader, StyledTableCell } from '../common/Table';
+import { StyledTableHeader, StyledTableCell } from '../common/Table.jsx';
+import { NoResultImage } from '../common/Image.jsx';
 
 const AdminPage = () => {
   const { isLoading, isSuccess, data, refetch } = useQuery('users', getUsers);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
 
   const handleDeny = async (email) => {
+    setIsSubmitting(true);
     try {
       await deleteUser({
         email: email,
@@ -35,9 +38,11 @@ const AdminPage = () => {
       });
     }
     refetch();
+    setIsSubmitting(false);
   };
 
   const handleApprove = async (username, email) => {
+    setIsSubmitting(true);
     try {
       await updateUser(
         {
@@ -69,6 +74,7 @@ const AdminPage = () => {
       });
     }
     refetch();
+    setIsSubmitting(false);
   };
 
   if (isLoading) {
@@ -81,12 +87,7 @@ const AdminPage = () => {
         <Heading size="xl" textAlign="center" mt={5}>
           No User Requests
         </Heading>
-        <Image
-          src="/images/noResults.png"
-          alt="No results illustration"
-          width="100%"
-          height="100%"
-        />
+        <NoResultImage />
       </>
     );
   }
@@ -118,6 +119,7 @@ const AdminPage = () => {
                     <StyledTableCell>{user.role}</StyledTableCell>
                     <StyledTableCell>
                       <TableButton
+                        isLoading={isSubmitting}
                         margin={1}
                         colorScheme="green"
                         onClick={() => handleApprove(user.username, user.email)}
@@ -125,6 +127,7 @@ const AdminPage = () => {
                         Approve
                       </TableButton>
                       <TableButton
+                        isLoading={isSubmitting}
                         margin={1}
                         colorScheme="red"
                         onClick={() => handleDeny(user.email)}

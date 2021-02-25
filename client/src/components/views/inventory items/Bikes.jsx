@@ -1,10 +1,11 @@
 import React, { Fragment, useState } from 'react';
-import { Table, Thead, Tbody, Tr, TableCaption, Heading, Image } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, TableCaption, Heading } from '@chakra-ui/react';
 import Loader from 'components/common/Loader';
 import { getBikes } from 'utils/api/bikes.js';
 import { useQuery } from 'react-query';
-import { StyledTableRow, StyledTableHeader, StyledTableCell } from '../../common/Table';
+import { StyledTableRow, StyledTableHeader, StyledTableCell } from '../../common/Table.jsx';
 import { TablePagination } from '@material-ui/core';
+import { NoResultImage } from '../../common/Image.jsx';
 
 const Bikes = () => {
   const { isLoading, isSuccess, data } = useQuery('bikes', getBikes);
@@ -30,12 +31,7 @@ const Bikes = () => {
         <Heading size="xl" textAlign="center" mt={5}>
           No bikes.
         </Heading>
-        <Image
-          src="/images/noResults.png"
-          alt="No results illustration"
-          width="100%"
-          height="100%"
-        />
+        <NoResultImage />
       </>
     );
   }

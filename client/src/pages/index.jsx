@@ -9,6 +9,7 @@ import { sidebarStyles } from '../components/Sidebar.jsx';
 import Login from '../components/views/Login.jsx';
 import AdminPage from '../components/views/AdminPage.jsx';
 import MainDashboard from '../components/views/MainDashboard.jsx';
+import LandingPage from '../components/views/LandingPage';
 import NoAccess from '../components/views/NoAccess.jsx';
 import { RootStoreContext } from '../stores/stores.jsx';
 import { rolesAvailable } from '../constants.js';
@@ -61,6 +62,9 @@ const Index = () => {
             </Route>
             <Route path="/no-access">
               <NoAccess />
+            </Route>
+            <Route path="/">
+              <LandingPage />
             </Route>
           </Switch>
         </main>
