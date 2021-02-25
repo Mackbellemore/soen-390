@@ -1,18 +1,9 @@
-import {
-  Flex,
-  FormLabel,
-  Icon,
-  Input,
-  Box,
-  useToast,
-  Divider,
-  Link as ChakraLink,
-} from '@chakra-ui/react';
+import { Flex, FormLabel, Icon, Input, Box, useToast, Divider } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { GrLock, GrMailOption } from 'react-icons/gr';
-import { useHistory, Link } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userLogin } from 'utils/api/users.js';
 import { Heading, Text } from '../common/Typography.jsx';
@@ -166,11 +157,7 @@ const Login = () => {
           <RegisterUserModal />
         </Container>
       ) : (
-        <Text fontSize="3xl" textAlign="center" mt={5}>
-          <ChakraLink as={Link} to="/main">
-            You have previously logged in, click to continue to the main dashboard
-          </ChakraLink>
-        </Text>
+        <Redirect to={{ pathname: '/main' }} />
       )}
     </>
   );
