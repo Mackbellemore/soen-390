@@ -56,5 +56,9 @@ self.addEventListener('fetch', addAuthHeader);
  * activate on the first page load so that all requests can have the token
  */
 self.addEventListener('install', function (event) {
-  self.skipWaiting();
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(self.clients.claim());
 });
