@@ -4,6 +4,16 @@ import jwt from 'jsonwebtoken';
 import config from 'config';
 import { NON_AUTH_PATHS } from '../constants/common';
 
+/**
+ * AuthenticateJWT Middleware:
+ * This middleware is a function that is ran before any request reaches any controller
+ * that requires authentication. This function intercepts the request and response object
+ * so that we can verify the token passed in the request. The token we are verifying is a json web token
+ * that holds the user information and the expiry all encoded. If the token is missing or
+ * is invalid, this middleware will return a 403 unauthorized response. If the token is valid
+ * then the middleware calls the next() function which allows the API request to continue to the controller
+ * and access the resources.
+ */
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
   if (NON_AUTH_PATHS.includes(req.path)) return next();
 
@@ -38,6 +48,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
   });
 };
 
+// function use to generate a jwt for a given user
 export function generateToken(user: IUserEntity): string {
   return jwt.sign(user, config.get<string>('jwt.secret'), {
     expiresIn: config.get<string>('jwt.expiry'),
