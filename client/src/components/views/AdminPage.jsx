@@ -1,31 +1,12 @@
-import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  useToast,
-  Heading,
-  Image,
-} from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, TableCaption, useToast, Heading, Image } from '@chakra-ui/react';
 import React, { Fragment } from 'react';
-import styled from '@emotion/styled';
 import { getUsers, updateUser, deleteUser } from 'utils/api/users.js';
 import { sendEmail } from 'utils/api/system.js';
 import { useQuery } from 'react-query';
 import { TableButton } from '../common/Button.jsx';
 import Loader from '../common/Loader.jsx';
 import Head from 'next/head';
-
-const StyledTableHeader = styled(Th)`
-  text-align: center;
-`;
-
-const StyledTableCell = styled(Td)`
-  text-align: center;
-`;
+import { StyledTableHeader, StyledTableCell } from '../common/Table';
 
 const AdminPage = () => {
   const { isLoading, isSuccess, data, refetch } = useQuery('users', getUsers);
