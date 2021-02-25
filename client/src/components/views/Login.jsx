@@ -93,10 +93,7 @@ const Login = () => {
         password: passwordRef.current.value,
       });
 
-      navigator.serviceWorker.controller.postMessage({
-        type: 'SET_TOKEN',
-        token: res.data.jwt,
-      });
+      localStorage.setItem('jwt', res.data.jwt);
 
       const { username, email, role } = res.data.user;
       userStore.setUsername(username);
