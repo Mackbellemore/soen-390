@@ -4,6 +4,7 @@ import { push as Menu } from 'react-burger-menu';
 import { BrowserRouter, Link, Route, Switch } from 'react-router-dom';
 import NavBar from '../components/NavBar.jsx';
 import ProtectedRoute from '../components/ProtectedRoute.jsx';
+import Inventory from '../components/views/Inventory.jsx';
 import { sidebarStyles } from '../components/Sidebar.jsx';
 import Login from '../components/views/Login.jsx';
 import AdminPage from '../components/views/AdminPage.jsx';
@@ -20,6 +21,9 @@ const MenuItems = () => (
     </ChakraLink>
     <ChakraLink as={Link} to="/admin">
       Admin
+    </ChakraLink>
+    <ChakraLink as={Link} to="/inventory">
+      Inventory
     </ChakraLink>
   </Flex>
 );
@@ -48,6 +52,9 @@ const Index = () => {
             </ProtectedRoute>
             <ProtectedRoute path="/main" allowedRoles={rolesAvailable}>
               <MainDashboard />
+            </ProtectedRoute>
+            <ProtectedRoute path="/inventory" allowedRoles={rolesAvailable}>
+              <Inventory />
             </ProtectedRoute>
             <Route path="/login">
               <Login />
