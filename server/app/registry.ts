@@ -1,3 +1,9 @@
+/**
+ * This file is used to setup our dependency injection container provided by inversifyJS.
+ * Any class, function, logger etc that needs to be injected annywhere in our app is first
+ * binded in our container and can then be injected.
+ */
+
 // Config package binds the config/default.js file
 import config, { IConfig } from 'config';
 import { Container } from 'inversify';
@@ -33,8 +39,13 @@ import { BikeRepository } from './repository/BikeRepository';
 // @ts-ignore because types don't exist for this library
 import LogdnaWinston from 'logdna-winston';
 
+/**
+ * @constant logger
+ * This is our app logger that can be used to log any specific actions that are not reflected by our access
+ * logger defined in App.ts middlewares.
+ */
 const logger: Logger = winston.createLogger({});
-// Just for dev purposes now
+
 logger.add(
   new winston.transports.Console({
     level: 'debug',
@@ -46,6 +57,7 @@ logger.add(
 const isDeployed =
   config.get<string>('zeetEnv') === 'main' || config.get<string>('zeetEnv') === 'develop';
 
+// only log to Logdna, our third part logging manager when deployed to save resources.
 if (isDeployed) {
   logger.add(new LogdnaWinston(config.get<string>('logdna')));
 }

@@ -25,6 +25,8 @@ export class MongoConnection {
     };
 
     const env = config.get<string>('env');
+
+    // use the local container for mongodb when the app is ran locally or integration tests are running
     if (env === 'development' || env === 'test') {
       this.connectionString = `mongodb://${user}:${pass}@${host}:${port}/${dbName}?authSource=admin`;
       return;
