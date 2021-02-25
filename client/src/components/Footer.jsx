@@ -1,3 +1,5 @@
+import { Text } from '@chakra-ui/react';
+
 const footerSyle = {
   backgroundColor: '#d1f1ff',
   height: '10.5vh',
@@ -5,15 +7,18 @@ const footerSyle = {
 const textStyle = {
   paddingTop: '26px',
   textAlign: 'center',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
 };
 
 const Footer = () => {
   return (
     <div style={footerSyle}>
-      <p style={textStyle}>
+      <Text style={textStyle}>
         Built by Gordon Pham-Nguyen, Naasir Jusab, Mackenzie Bellemore, Sujan Saravanamuthu, David
         Liang, Tiffany Zeng, Siu Ye, Karin Kazarian, TianMing Chen
-      </p>
+      </Text>
     </div>
   );
 };

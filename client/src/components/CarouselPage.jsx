@@ -1,6 +1,6 @@
 import { Text } from '@chakra-ui/react';
 const textStyle = {
-  fontSize: 45,
+  fontSize: '8vh',
   textAlign: 'center',
   paddingTop: '1%',
   marginBottom: '40px',
@@ -22,12 +22,10 @@ const carouselStyle = {
 const CarouselPage = (props) => {
   return (
     <div style={carouselStyle}>
-      <div>
-        <Text style={textStyle}>{props.title}</Text>
-        <svg style={imgStyle}>
-          <image href={'/assets/' + props.imgSrc} width="800px" height="400px" />
-        </svg>
-      </div>
+      <Text style={textStyle}>{props.title}</Text>
+      <svg style={imgStyle}>
+        <image href={'/assets/' + props.imgSrc} width="800px" height="400px" />
+      </svg>
     </div>
   );
 };
