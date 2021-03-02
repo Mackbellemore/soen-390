@@ -15,6 +15,7 @@ import { NON_AUTH_PATHS } from '../constants/common';
  * and access the resources.
  */
 export const authenticateJWT = (req: Request, res: Response, next: NextFunction): void => {
+  if (req.path.includes('/doc')) return next();
   if (NON_AUTH_PATHS.includes(req.path)) return next();
 
   const bearerHeader = req.headers.authorization;
