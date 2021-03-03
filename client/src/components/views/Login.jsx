@@ -13,6 +13,7 @@ import { StyledForm } from '../common/Form.jsx';
 import { useCookies } from 'react-cookie';
 import useLoggedInUser from 'hooks/useLoggedInUser.jsx';
 import Loader from '../common/Loader.jsx';
+import PropTypes from 'prop-types';
 
 const Container = styled(Box)`
   width: 100%;
@@ -57,7 +58,7 @@ const StyledFormLabel = styled(FormLabel)`
   font-size: 12px;
 `;
 
-const Login = (props) => {
+const Login = ({ location: { state: { referrer } = '/main' } }) => {
   const { userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
   const [shouldRenderForm, setShouldRenderForm] = useState(true);
@@ -159,15 +160,16 @@ const Login = (props) => {
       ) : (
         <Redirect
           to={{
-            pathname:
-              props.location.state?.referrer === undefined
-                ? '/main'
-                : props.location.state?.referrer,
+            pathname: referrer,
           }}
         />
       )}
     </>
   );
+};
+
+Login.propTypes = {
+  location: PropTypes.object,
 };
 
 export default Login;

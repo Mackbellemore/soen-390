@@ -12,7 +12,7 @@ const ProtectedRoute = ({ allowedRoles, component: Component, ...rest }) => {
     <>
       <Route
         {...rest}
-        render={(rest) => {
+        render={() => {
           return userStore.loggedIn ? (
             allowedRoles?.includes(userStore.role) ? (
               <Component />
@@ -29,6 +29,7 @@ const ProtectedRoute = ({ allowedRoles, component: Component, ...rest }) => {
 };
 
 ProtectedRoute.propTypes = {
+  component: PropTypes.object,
   allowedRoles: PropTypes.arrayOf(PropTypes.string),
 };
 
