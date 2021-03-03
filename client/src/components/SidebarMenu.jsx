@@ -39,7 +39,7 @@ const SidebarMenu = () => {
     if (route.name !== undefined && route.allowedRoles.includes(userStore.role)) {
       menuItems.push(
         <Flex key={route.path}>
-          <ChakraLink as={Link} to={route.path} onClick={uiStore.closeSidebar}>
+          <ChakraLink as={Link} to={route.path} onClick={uiStore.closeSidebar} _focus={{}}>
             {route.name}
           </ChakraLink>
         </Flex>

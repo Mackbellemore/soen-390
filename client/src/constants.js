@@ -1,9 +1,4 @@
-import AdminPage from 'components/views/AdminPage';
-import LandingPage from 'components/views/LandingPage';
-import Login from 'components/views/Login';
-import MainDashboard from 'components/views/MainDashboard';
-import Inventory from 'components/views/Inventory.jsx';
-import NoAccess from 'components/views/NoAccess.jsx';
+import { lazy } from 'react';
 
 export const rolesAvailable = ['Admin', 'General'];
 export const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -33,41 +28,42 @@ export const carouselContent = [
     imgName: '/assets/sales.jpg',
   },
 ];
+
 export const appRoutes = [
   {
     name: 'Admin',
     protected: true,
     allowedRoles: ['Admin'],
     path: '/admin',
-    component: AdminPage,
+    component: lazy(() => import('components/views/AdminPage.jsx')),
   },
   {
     name: 'Dashboard',
     protected: true,
     allowedRoles: rolesAvailable,
     path: '/main',
-    component: MainDashboard,
+    component: lazy(() => import('components/views/MainDashboard')),
   },
   {
     name: 'Inventory',
     protected: true,
     allowedRoles: rolesAvailable,
     path: '/inventory',
-    component: Inventory,
+    component: lazy(() => import('components/views/Inventory')),
   },
   {
     protected: false,
     path: '/login',
-    component: Login,
+    component: lazy(() => import('components/views/Login')),
   },
   {
     protected: false,
     path: '/no-access',
-    component: NoAccess,
+    component: lazy(() => import('components/views/NoAccess')),
   },
   {
     protected: false,
     path: '/',
-    component: LandingPage,
+    component: lazy(() => import('components/views/LandingPage')),
   },
 ];

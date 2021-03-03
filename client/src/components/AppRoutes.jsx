@@ -1,6 +1,8 @@
 import { Route, Switch } from 'react-router-dom';
 import ProtectedRoute from 'components/ProtectedRoute.jsx';
 import { appRoutes } from 'constants.js';
+import { Suspense } from 'react';
+import Loader from 'components/common/Loader.jsx';
 
 const routes = [];
 
@@ -20,7 +22,11 @@ appRoutes.forEach((route) => {
 });
 
 const AppRoutes = () => {
-  return <Switch>{routes}</Switch>;
+  return (
+    <Suspense fallback={<Loader />}>
+      <Switch>{routes}</Switch>
+    </Suspense>
+  );
 };
 
 export default AppRoutes;
