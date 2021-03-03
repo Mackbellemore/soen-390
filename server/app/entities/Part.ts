@@ -26,7 +26,7 @@ export default class PartEntity {
     finish: Joi.string(),
     grade: Joi.string(),
     detail: Joi.string(),
-    stock: Joi.number().integer().default(1),
+    stock: Joi.number().integer().greater(-1).less(100),
   });
 
   // create a second schema purely just for POST requests
