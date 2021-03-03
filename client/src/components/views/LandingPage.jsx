@@ -1,5 +1,5 @@
 import 'antd/dist/antd.css';
-import { Carousel } from 'antd';
+import Carousel from 'antd/es/carousel';
 import CarouselPage from '../LandingPage/CarouselPage.jsx';
 import { carouselContent } from '../../constants.js';
 import Footer from '../LandingPage/Footer.jsx';
