@@ -33,7 +33,9 @@ const NavBar = () => {
   const { userStore } = useContext(RootStoreContext);
 
   const shouldRenderHomeButton =
-    location.pathname === '/login' || !allPaths.includes(location.pathname);
+    location.pathname === '/login' ||
+    !allPaths.includes(location.pathname) ||
+    location.pathname === '/no-access';
   const shouldRenderLoginButton = location.pathname === '/';
   const onOther = !(shouldRenderHomeButton || shouldRenderLoginButton);
 
