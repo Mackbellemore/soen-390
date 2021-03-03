@@ -55,6 +55,7 @@ export const appRoutes = [
     protected: false,
     path: '/login',
     component: lazy(() => import('components/views/Login')),
+    exact: true,
   },
   {
     protected: false,

@@ -58,7 +58,7 @@ const StyledFormLabel = styled(FormLabel)`
   font-size: 12px;
 `;
 
-const Login = ({ location: { state: { referrer } = '/main' } }) => {
+const Login = ({ location: { state } }) => {
   const { userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
   const [shouldRenderForm, setShouldRenderForm] = useState(true);
@@ -160,7 +160,7 @@ const Login = ({ location: { state: { referrer } = '/main' } }) => {
       ) : (
         <Redirect
           to={{
-            pathname: referrer,
+            pathname: state?.referrer === undefined ? '/main' : state.referrer,
           }}
         />
       )}
