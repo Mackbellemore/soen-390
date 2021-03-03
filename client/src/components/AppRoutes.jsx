@@ -14,10 +14,13 @@ appRoutes.forEach((route) => {
         component={route.component}
         key={route.path}
         path={route.path}
+        exact={route.exact}
       />
     );
   } else {
-    routes.push(<Route component={route.component} path={route.path} key={route.path} />);
+    routes.push(
+      <Route exact={route.exact} component={route.component} path={route.path} key={route.path} />
+    );
   }
 });
 

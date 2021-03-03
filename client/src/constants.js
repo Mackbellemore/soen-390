@@ -65,5 +65,11 @@ export const appRoutes = [
     protected: false,
     path: '/',
     component: lazy(() => import('components/views/LandingPage')),
+    exact: true,
+  },
+  {
+    protected: false,
+    path: '*',
+    component: lazy(() => import('components/views/NotFound')),
   },
 ];
