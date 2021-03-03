@@ -11,6 +11,7 @@
     "inversify": "^5.0.5",
     "inversify-express-utils": "^6.3.2",
     "inversify-logger-middleware": "^3.1.0",
+    "joi": "^17.4.0",
     "jsonwebtoken": "^8.5.1",
     "logdna-winston": "^3.0.4",
     "mongoose": "^5.11.13",
