@@ -14,6 +14,7 @@ import winston, { Logger } from 'winston';
 import TYPES from './constants/types';
 import { authenticateJWT } from './middlewares/authentication';
 import { container } from './registry';
+import { load } from 'inversify-express-doc';
 
 // Repository
 import { BikeRepository } from './repository/BikeRepository';
@@ -118,6 +119,7 @@ export class App {
 
       this.port = typeof this.port !== 'undefined' ? this.port : configPort;
       this.listener = this.server.listen(this.port, () => {
+        load(container);
         this.logger.info(`Service booted on port ${this.port}`);
       });
     } catch ({ message }) {

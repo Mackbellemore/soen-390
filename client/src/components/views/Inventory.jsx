@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { lazy } from 'react';
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Heading } from '@chakra-ui/react';
 import Head from 'next/head';
-import Materials from 'components/Inventory/Materials.jsx';
-import Parts from 'components/Inventory/Parts.jsx';
-import Bikes from 'components/Inventory/Bikes.jsx';
+
+const Bikes = lazy(() => import('components/Inventory/Bikes.jsx'));
+const Parts = lazy(() => import('components/Inventory/Parts.jsx'));
+const Materials = lazy(() => import('components/Inventory/Materials.jsx'));
 
 const Inventory = () => {
   return (
