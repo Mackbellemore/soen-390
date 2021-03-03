@@ -1,3 +1,10 @@
+import AdminPage from 'components/views/AdminPage';
+import LandingPage from 'components/views/LandingPage';
+import Login from 'components/views/Login';
+import MainDashboard from 'components/views/MainDashboard';
+import Inventory from 'components/views/Inventory.jsx';
+import NoAccess from 'components/views/NoAccess.jsx';
+
 export const rolesAvailable = ['Admin', 'General'];
 export const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export const carouselContent = [
@@ -24,5 +31,43 @@ export const carouselContent = [
   {
     title: "Manage Customers' Purchases",
     imgName: '/assets/sales.jpg',
+  },
+];
+export const appRoutes = [
+  {
+    name: 'Admin',
+    protected: true,
+    allowedRoles: ['Admin'],
+    path: '/admin',
+    component: AdminPage,
+  },
+  {
+    name: 'Dashboard',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/main',
+    component: MainDashboard,
+  },
+  {
+    name: 'Inventory',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/inventory',
+    component: Inventory,
+  },
+  {
+    protected: false,
+    path: '/login',
+    component: Login,
+  },
+  {
+    protected: false,
+    path: '/no-access',
+    component: NoAccess,
+  },
+  {
+    protected: false,
+    path: '/',
+    component: LandingPage,
   },
 ];

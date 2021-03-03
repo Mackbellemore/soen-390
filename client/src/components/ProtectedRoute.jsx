@@ -4,14 +4,14 @@ import { RootStoreContext } from 'stores/stores.jsx';
 import React, { useContext } from 'react';
 import { Redirect, Route } from 'react-router-dom';
 
-const ProtectedRoute = ({ allowedRoles, children, ...rest }) => {
+const ProtectedRoute = ({ allowedRoles, ...rest }) => {
   const { userStore } = useContext(RootStoreContext);
 
   return (
     <>
       {userStore.loggedIn ? (
         allowedRoles?.includes(userStore.role) ? (
-          <Route {...rest}>{children}</Route>
+          <Route {...rest} />
         ) : (
           <Redirect to={{ pathname: '/no-access' }} />
         )
@@ -23,7 +23,6 @@ const ProtectedRoute = ({ allowedRoles, children, ...rest }) => {
 };
 
 ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
   allowedRoles: PropTypes.arrayOf(PropTypes.string),
 };
 
