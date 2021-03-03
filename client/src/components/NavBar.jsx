@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { Heading } from './common/Typography.jsx';
 import LogOutButton from './LogOutButton.jsx';
-import { HamburgerButton } from './Sidebar.jsx';
+import SidebarButton from 'components/SidebarButton.jsx';
 
 const Button = ({ path, text }) => (
   <Link to={path}>
@@ -39,7 +39,7 @@ const NavBar = () => {
       paddingX={{ md: '3rem' }}
       paddingY="2rem"
     >
-      <Flex alignItems="center">{userStore.loggedIn ? <HamburgerButton /> : <></>}</Flex>
+      <Flex alignItems="center">{userStore.loggedIn ? <SidebarButton /> : <></>}</Flex>
       <Heading fontSize={{ base: '14px', sm: '36px' }} lineHeight={{ base: '40px', sm: '1.5' }}>
         Enterprise Resource Planning
       </Heading>
