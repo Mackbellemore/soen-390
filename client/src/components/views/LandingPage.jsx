@@ -1,8 +1,8 @@
 import 'antd/dist/antd.css';
 import { Carousel } from 'antd';
-import CarouselPage from '../CarouselPage.jsx';
+import CarouselPage from '../LandingPage/CarouselPage.jsx';
 import { carouselContent } from '../../constants.js';
-import Footer from '../Footer.jsx';
+import Footer from '../LandingPage/Footer.jsx';
 import { Flex } from '@chakra-ui/react';
 
 const LandingPage = () => {

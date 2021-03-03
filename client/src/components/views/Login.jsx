@@ -7,11 +7,11 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userLogin } from 'utils/api/users.js';
 import { Heading, Text } from '../common/Typography.jsx';
-import RegisterUserModal from '../RegisterUserModal.jsx';
+import RegisterUserModal from 'components/Login/RegisterUserModal.jsx';
 import { FormButton } from '../common/Button.jsx';
 import { StyledForm } from '../common/Form.jsx';
 import { useCookies } from 'react-cookie';
-import useLoggedInUser from '../../hooks/useLoggedInUser.jsx';
+import useLoggedInUser from 'hooks/useLoggedInUser.jsx';
 import Loader from '../common/Loader.jsx';
 
 const Container = styled(Box)`

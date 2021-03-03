@@ -1,9 +1,9 @@
 import React from 'react';
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Heading } from '@chakra-ui/react';
 import Head from 'next/head';
-import Materials from './inventory items/Materials';
-import Parts from './inventory items/Parts';
-import Bikes from './inventory items/Bikes';
+import Materials from 'components/Inventory/Materials.jsx';
+import Parts from 'components/Inventory/Parts.jsx';
+import Bikes from 'components/Inventory/Bikes.jsx';
 
 const Inventory = () => {
   return (
