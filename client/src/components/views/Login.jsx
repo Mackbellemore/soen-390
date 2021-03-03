@@ -57,7 +57,7 @@ const StyledFormLabel = styled(FormLabel)`
   font-size: 12px;
 `;
 
-const Login = () => {
+const Login = (props) => {
   const { userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
   const [shouldRenderForm, setShouldRenderForm] = useState(true);
@@ -157,7 +157,14 @@ const Login = () => {
           <RegisterUserModal />
         </Container>
       ) : (
-        <Redirect to={{ pathname: '/main' }} />
+        <Redirect
+          to={{
+            pathname:
+              props.location.state?.referrer === undefined
+                ? '/main'
+                : props.location.state?.referrer,
+          }}
+        />
       )}
     </>
   );
