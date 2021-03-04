@@ -7,12 +7,13 @@ import { useHistory, Redirect } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userLogin } from 'utils/api/users.js';
 import { Heading, Text } from '../common/Typography.jsx';
-import RegisterUserModal from '../RegisterUserModal.jsx';
+import RegisterUserModal from 'components/Login/RegisterUserModal.jsx';
 import { FormButton } from '../common/Button.jsx';
 import { StyledForm } from '../common/Form.jsx';
 import { useCookies } from 'react-cookie';
-import useLoggedInUser from '../../hooks/useLoggedInUser.jsx';
+import useLoggedInUser from 'hooks/useLoggedInUser.jsx';
 import Loader from '../common/Loader.jsx';
+import PropTypes from 'prop-types';
 
 const Container = styled(Box)`
   width: 100%;
@@ -57,7 +58,7 @@ const StyledFormLabel = styled(FormLabel)`
   font-size: 12px;
 `;
 
-const Login = () => {
+const Login = ({ location: { state } }) => {
   const { userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
   const [shouldRenderForm, setShouldRenderForm] = useState(true);
@@ -157,10 +158,18 @@ const Login = () => {
           <RegisterUserModal />
         </Container>
       ) : (
-        <Redirect to={{ pathname: '/main' }} />
+        <Redirect
+          to={{
+            pathname: state?.referrer === undefined ? '/main' : state.referrer,
+          }}
+        />
       )}
     </>
   );
+};
+
+Login.propTypes = {
+  location: PropTypes.object,
 };
 
 export default Login;
