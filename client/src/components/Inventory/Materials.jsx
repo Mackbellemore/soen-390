@@ -3,9 +3,9 @@ import { Table, Thead, Tbody, Tr, TableCaption, Heading } from '@chakra-ui/react
 import Loader from 'components/common/Loader';
 import { getMaterials } from 'utils/api/materials.js';
 import { useQuery } from 'react-query';
-import { StyledTableRow, StyledTableHeader, StyledTableCell } from '../../common/Table.jsx';
+import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
 import { TablePagination } from '@material-ui/core';
-import { NoResultImage } from '../../common/Image.jsx';
+import { NoResultImage } from 'components/common/Image.jsx';
 
 const Materials = () => {
   const { isLoading, isSuccess, data } = useQuery('materials', getMaterials);
@@ -54,7 +54,7 @@ const Materials = () => {
             data.data
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((material) => (
-                <Fragment key={material.id}>
+                <Fragment key={material._id}>
                   <StyledTableRow>
                     <StyledTableCell>{material.name}</StyledTableCell>
                     <StyledTableCell>{material.description}</StyledTableCell>

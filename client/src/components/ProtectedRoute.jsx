@@ -2,28 +2,34 @@ import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import { RootStoreContext } from 'stores/stores.jsx';
 import React, { useContext } from 'react';
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, useLocation } from 'react-router-dom';
 
-const ProtectedRoute = ({ allowedRoles, children, ...rest }) => {
+const ProtectedRoute = ({ allowedRoles, component: Component, ...rest }) => {
   const { userStore } = useContext(RootStoreContext);
+  const location = useLocation();
 
   return (
     <>
-      {userStore.loggedIn ? (
-        allowedRoles?.includes(userStore.role) ? (
-          <Route {...rest}>{children}</Route>
-        ) : (
-          <Redirect to={{ pathname: '/no-access' }} />
-        )
-      ) : (
-        <Redirect to={{ pathname: '/login' }} />
-      )}
+      <Route
+        {...rest}
+        render={() => {
+          return userStore.loggedIn ? (
+            allowedRoles?.includes(userStore.role) ? (
+              <Component />
+            ) : (
+              <Redirect to="/no-access" />
+            )
+          ) : (
+            <Redirect to={{ pathname: '/login', state: { referrer: location.pathname } }} />
+          );
+        }}
+      />
     </>
   );
 };
 
 ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
+  component: PropTypes.object,
   allowedRoles: PropTypes.arrayOf(PropTypes.string),
 };
 

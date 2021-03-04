@@ -9,6 +9,7 @@
     "express": "^4.17.1",
     "express-winston": "^4.0.5",
     "inversify": "^5.0.5",
+    "inversify-express-doc": "^1.4.6",
     "inversify-express-utils": "^6.3.2",
     "inversify-logger-middleware": "^3.1.0",
     "joi": "^17.4.0",
