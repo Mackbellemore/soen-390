@@ -7,6 +7,7 @@ export interface IOrder extends Document {
   quantity: number;
   cost: number;
   deliveryDate: Date;
+  orderDate: Date;
   manufactureName: string;
   note: string;
 }
@@ -17,6 +18,7 @@ export const OrderSchema: Schema = new Schema({
   quantity: { type: Schema.Types.Number, required: true, min: 1 },
   cost: { type: Schema.Types.Number, required: true, min: 1 },
   deliveryDate: { type: Schema.Types.Date, required: true },
+  orderDate: { type: Schema.Types.Date, required: true },
   manufactureName: { type: Schema.Types.String },
   note: { type: Schema.Types.String },
 });

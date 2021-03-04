@@ -21,7 +21,8 @@ const mockOrder = {
   quantity: 100,
   cost: 1000,
   manufacture: 'Joe',
-  deliveryDate: '2020-02-20',
+  deliveryDate: '2020-02-21',
+  orderDate: '2020-02-20',
   id: '12312313',
 };
 
@@ -63,7 +64,8 @@ describe('OrderController', () => {
           quantity: 100,
           cost: 1000,
           manufacture: 'Joe',
-          deliveryDate: '2020-02-20',
+          deliveryDate: '2020-02-21',
+          orderDate: '2020-02-20',
           id: '12312313',
         },
       ];
@@ -82,7 +84,8 @@ describe('OrderController', () => {
           quantity: 100,
           cost: 1000,
           manufacture: 'Joe',
-          deliveryDate: '2020-02-20',
+          deliveryDate: '2020-02-21',
+          orderDate: '2020-02-20',
           id: '12312313',
         },
       ]);
@@ -164,7 +167,8 @@ describe('OrderController', () => {
         quantity: 100,
         cost: 1000,
         manufacture: 'Joe',
-        deliveryDate: '2020-02-20',
+        deliveryDate: '2020-02-21',
+        orderDate: '2020-02-20',
         id: '12312313',
       });
     });
@@ -230,7 +234,8 @@ describe('OrderController', () => {
         quantity: 100,
         cost: 1000,
         manufacture: 'Joe',
-        deliveryDate: '2020-02-20',
+        deliveryDate: '2020-02-21',
+        orderDate: '2020-02-20',
         id: '12312313',
       });
     });
@@ -295,7 +300,8 @@ describe('OrderController', () => {
         quantity: 100,
         cost: 1000,
         manufacture: 'Joe',
-        deliveryDate: '2020-02-20',
+        deliveryDate: '2020-02-21',
+        orderDate: '2020-02-20',
         id: '12312313',
       });
     });
