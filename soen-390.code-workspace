@@ -33,7 +33,10 @@
     "javascript.updateImportsOnFileMove.enabled": "always",
     "typescript.autoClosingTags": true,
     "typescript.suggest.autoImports": true,
-    "typescript.updateImportsOnFileMove.enabled": "always"
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "cSpell.words": [
+      "antd"
+    ]
   },
   "extensions": {
     "recommendations": [

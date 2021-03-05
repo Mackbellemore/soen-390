@@ -1,14 +1,14 @@
 import React, { Fragment, useState } from 'react';
 import { Table, Thead, Tbody, Tr, TableCaption, Heading } from '@chakra-ui/react';
 import Loader from 'components/common/Loader';
-import { getBikes } from 'utils/api/bikes.js';
+import { getParts } from 'utils/api/parts.js';
 import { useQuery } from 'react-query';
-import { StyledTableRow, StyledTableHeader, StyledTableCell } from '../../common/Table.jsx';
+import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
 import { TablePagination } from '@material-ui/core';
-import { NoResultImage } from '../../common/Image.jsx';
+import { NoResultImage } from 'components/common/Image.jsx';
 
-const Bikes = () => {
-  const { isLoading, isSuccess, data } = useQuery('bikes', getBikes);
+const Parts = () => {
+  const { isLoading, isSuccess, data } = useQuery('parts', getParts);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -29,39 +29,42 @@ const Bikes = () => {
     return (
       <>
         <Heading size="xl" textAlign="center" mt={5}>
-          No bikes.
+          No Parts
         </Heading>
         <NoResultImage />
       </>
     );
   }
+
   return (
     <>
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <TableCaption placement="top">List of bike products</TableCaption>
+        <TableCaption placement="top">List of parts</TableCaption>
         <Thead>
           <Tr>
             <StyledTableHeader>Name</StyledTableHeader>
             <StyledTableHeader>Description</StyledTableHeader>
-            <StyledTableHeader>Weight Amount</StyledTableHeader>
-            <StyledTableHeader>Weight Type</StyledTableHeader>
-            <StyledTableHeader>Selling Price</StyledTableHeader>
-            <StyledTableHeader>Cost Price</StyledTableHeader>
+            <StyledTableHeader>Quality</StyledTableHeader>
+            <StyledTableHeader>Type</StyledTableHeader>
             <StyledTableHeader>Color</StyledTableHeader>
+            <StyledTableHeader>Finish</StyledTableHeader>
+            <StyledTableHeader>Grade</StyledTableHeader>
+            <StyledTableHeader>Detail</StyledTableHeader>
           </Tr>
         </Thead>
         <Tbody>
           {isSuccess &&
-            data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((bike) => (
-              <Fragment key={bike.id}>
+            data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((part) => (
+              <Fragment key={part._id}>
                 <StyledTableRow>
-                  <StyledTableCell>{bike.name}</StyledTableCell>
-                  <StyledTableCell>{bike.description}</StyledTableCell>
-                  <StyledTableCell>{bike.weightAmount}</StyledTableCell>
-                  <StyledTableCell>{bike.weightType}</StyledTableCell>
-                  <StyledTableCell>{bike.sellingPrice}</StyledTableCell>
-                  <StyledTableCell>{bike.costPrice}</StyledTableCell>
-                  <StyledTableCell>{bike.color}</StyledTableCell>
+                  <StyledTableCell>{part.name}</StyledTableCell>
+                  <StyledTableCell>{part.description}</StyledTableCell>
+                  <StyledTableCell>{part.quality}</StyledTableCell>
+                  <StyledTableCell>{part.type}</StyledTableCell>
+                  <StyledTableCell>{part.color}</StyledTableCell>
+                  <StyledTableCell>{part.finish}</StyledTableCell>
+                  <StyledTableCell>{part.grade}</StyledTableCell>
+                  <StyledTableCell>{part.detail}</StyledTableCell>
                 </StyledTableRow>
               </Fragment>
             ))}
@@ -80,4 +83,4 @@ const Bikes = () => {
   );
 };
 
-export default Bikes;
+export default Parts;

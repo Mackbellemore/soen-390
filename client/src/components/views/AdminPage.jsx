@@ -77,6 +77,12 @@ const AdminPage = () => {
     setIsSubmitting(false);
   };
 
+  const AdminTabTitle = () => (
+    <Head>
+      <title>ERP - Admin</title>
+    </Head>
+  );
+
   if (isLoading) {
     return <Loader />;
   }
@@ -84,6 +90,7 @@ const AdminPage = () => {
   if (isSuccess && data.data.filter((user) => !user.approved).length === 0) {
     return (
       <>
+        <AdminTabTitle />
         <Heading size="xl" textAlign="center" mt={5}>
           No User Requests
         </Heading>
@@ -94,9 +101,7 @@ const AdminPage = () => {
 
   return (
     <>
-      <Head>
-        <title>ERP - Admin</title>
-      </Head>
+      <AdminTabTitle />
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
         <TableCaption placement="top">List of users</TableCaption>
         <Thead>

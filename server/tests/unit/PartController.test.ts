@@ -6,6 +6,9 @@ import { Request } from 'express';
 import { SinonSandbox } from 'sinon';
 import { expect } from 'chai';
 import { BadRequestError, NotFoundError } from '../../app/errors';
+import PartEntity from './../../app/entities/Part';
+import { IPart } from '../../app/models/PartModel';
+import { partTypeMaterials } from './../../app/validation/parts/partTypes';
 
 const partService: any = {
   get: Function,
@@ -18,13 +21,14 @@ const mockPart = {
   name: 'wheel',
   quality: 'high-quality',
   description: 'Circular frame of hard material that is solid',
-  type: 'round',
+  type: 'wheels',
   color: 'color',
   finish: 'glossy',
   grade: 'aluminum',
   detail: '18inch',
   id: '12312313',
-};
+  stock: 1,
+} as IPart;
 
 let sandbox: SinonSandbox;
 let controller: PartController;
@@ -130,6 +134,17 @@ describe('Part Controller', () => {
     });
   });
 
+  // Get part MaterialList
+  describe('Get part MaterialList', () => {
+    it('Should return materialList', async () => {
+      const res = await controller.getMaterialList();
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(200);
+      expect(res.json).to.deep.equal(partTypeMaterials);
+    });
+  });
+
   // POST
   describe('Post Request', async () => {
     it('Should return a part on success from the service layer', async () => {
@@ -138,6 +153,7 @@ describe('Part Controller', () => {
       } as Request;
 
       const partServiceStub = sandbox.stub(partService, 'createPart').returns(mockPart);
+      sandbox.stub(PartEntity, 'validate').resolves(mockPart);
 
       const res = await controller.post(mockRequest);
 
@@ -152,6 +168,7 @@ describe('Part Controller', () => {
         body: mockPart,
       } as Request;
 
+      sandbox.stub(PartEntity, 'validate').resolves(mockPart);
       const partServiceStub = sandbox
         .stub(partService, 'createPart')
         .throws(new Error('Random Part failure!!'));
@@ -175,6 +192,7 @@ describe('Part Controller', () => {
         },
       } as Request | any;
 
+      sandbox.stub(PartEntity, 'validate').resolves(mockPart);
       sandbox.stub(partService, 'updatePart').returns(mockPart);
 
       const res = await controller.patch(mockRequest);
@@ -192,6 +210,7 @@ describe('Part Controller', () => {
         },
       } as Request | any;
 
+      sandbox.stub(PartEntity, 'validate').resolves(mockPart);
       sandbox.stub(partService, 'updatePart').throws(new NotFoundError('Not found error'));
 
       const res = await controller.patch(mockRequest);

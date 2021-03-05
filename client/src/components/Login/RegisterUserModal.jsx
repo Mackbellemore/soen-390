@@ -11,12 +11,12 @@ import {
   Select,
   useToast,
 } from '@chakra-ui/react';
-import { Text } from './common/Typography.jsx';
+import { Text } from '../common/Typography.jsx';
 import React, { Fragment, useRef, useState } from 'react';
 import styled from '@emotion/styled';
 import { userRegister } from 'utils/api/users.js';
-import { rolesAvailable } from '../constants.js';
-import { FormButton } from './common/Button.jsx';
+import { rolesAvailable } from 'constants.js';
+import { FormButton } from 'components/common/Button.jsx';
 
 const ValidationText = styled(Text)`
   font-size: 10px;

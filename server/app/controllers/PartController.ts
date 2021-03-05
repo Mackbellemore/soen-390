@@ -13,6 +13,8 @@ import {
 import TYPES from '../constants/types';
 import { Request } from 'express';
 import { BaseController } from './BaseController';
+import PartEntity from './../entities/Part';
+import { partTypeMaterials } from '../validation/parts/partTypes';
 
 @controller('/parts')
 export class PartController extends BaseController {
@@ -46,7 +48,8 @@ export class PartController extends BaseController {
   @httpPost('/')
   public async post(req: Request): Promise<results.JsonResult> {
     try {
-      const part = await this.partService.createPart(req.body);
+      const validPartBody = await PartEntity.validate(req.body, 'post');
+      const part = await this.partService.createPart(validPartBody);
       return this.json(part);
     } catch (err) {
       return this.handleError(err);
@@ -59,7 +62,8 @@ export class PartController extends BaseController {
   @httpPatch('/:name')
   public async patch(req: Request): Promise<results.JsonResult> {
     try {
-      const part = await this.partService.updatePart(req.params.name, req.body);
+      const validPartBody = await PartEntity.validate(req.body, 'patch');
+      const part = await this.partService.updatePart(req.params.name, validPartBody);
       return this.json(part);
     } catch (err) {
       return this.handleError(err);
@@ -77,5 +81,13 @@ export class PartController extends BaseController {
     } catch (err) {
       return this.handleError(err);
     }
+  }
+
+  // @desc        Gets the material list rules to create a type of part
+  // @route       GET /parts/materialList
+  // @access      Public
+  @httpGet('/materialList')
+  public async getMaterialList(): Promise<results.JsonResult> {
+    return this.json(partTypeMaterials);
   }
 }
