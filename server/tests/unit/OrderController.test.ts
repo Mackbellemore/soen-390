@@ -17,10 +17,10 @@ const orderService: any = {
   approveOrder: Function,
 };
 const mockOrder = {
-  material: 'steel',
-  quantity: 100,
+  materialType: 'steel',
   cost: 1000,
-  manufactureName: 'Joe',
+  quantity: 100,
+  manufacturerName: 'Joe',
   deliveryDate: '2020-02-21',
   orderDate: '2020-02-20',
   id: '12312313',
@@ -28,10 +28,10 @@ const mockOrder = {
 };
 
 const mockOrderApproved = {
-  material: 'steel',
-  quantity: 100,
+  materialType: 'steel',
   cost: 1000,
-  manufactureName: 'Joe',
+  quantity: 100,
+  manufacturerName: 'Joe',
   deliveryDate: '2020-02-21',
   orderDate: '2020-02-20',
   id: '12312313',
@@ -70,10 +70,10 @@ describe('OrderController', () => {
     it('returns an array of Orders with a 200 status when service layer returns an order', async () => {
       const mockArr = [
         {
-          material: 'steel',
-          quantity: 100,
+          materialType: 'steel',
           cost: 1000,
-          manufactureName: 'Joe',
+          quantity: 100,
+          manufacturerName: 'Joe',
           deliveryDate: '2020-02-21',
           orderDate: '2020-02-20',
           id: '12312313',
@@ -89,10 +89,10 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.json).to.deep.equal([
         {
-          material: 'steel',
-          quantity: 100,
+          materialType: 'steel',
           cost: 1000,
-          manufactureName: 'Joe',
+          quantity: 100,
+          manufacturerName: 'Joe',
           deliveryDate: '2020-02-21',
           orderDate: '2020-02-20',
           id: '12312313',
@@ -171,10 +171,10 @@ describe('OrderController', () => {
       expect(orderServiceStub.calledOnceWith()).to.equal(true);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        material: 'steel',
-        quantity: 100,
+        materialType: 'steel',
         cost: 1000,
-        manufactureName: 'Joe',
+        quantity: 100,
+        manufacturerName: 'Joe',
         deliveryDate: '2020-02-21',
         orderDate: '2020-02-20',
         id: '12312313',
@@ -237,10 +237,10 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        material: 'steel',
-        quantity: 100,
+        materialType: 'steel',
         cost: 1000,
-        manufactureName: 'Joe',
+        quantity: 100,
+        manufacturerName: 'Joe',
         deliveryDate: '2020-02-21',
         orderDate: '2020-02-20',
         id: '12312313',
@@ -302,10 +302,10 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        material: 'steel',
-        quantity: 100,
+        materialType: 'steel',
         cost: 1000,
-        manufactureName: 'Joe',
+        quantity: 100,
+        manufacturerName: 'Joe',
         deliveryDate: '2020-02-21',
         orderDate: '2020-02-20',
         id: '12312313',
@@ -384,10 +384,10 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        material: 'steel',
-        quantity: 100,
+        materialType: 'steel',
         cost: 1000,
-        manufactureName: 'Joe',
+        quantity: 100,
+        manufacturerName: 'Joe',
         deliveryDate: '2020-02-21',
         orderDate: '2020-02-20',
         id: '12312313',

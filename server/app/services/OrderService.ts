@@ -5,6 +5,7 @@ import { OrderRepository } from '../repository/OrderRepository';
 import { NotApprovedError, NotFoundError } from '../errors';
 import { MaterialService } from './MaterialService';
 import { IMaterial } from '../models/MaterialModel';
+import { materialCost } from '../entities/Material';
 
 @injectable()
 export class OrderService {
@@ -18,10 +19,18 @@ export class OrderService {
   }
 
   public async createOrder(body: IOrder): Promise<IOrder> {
+    if (!materialCost[body.materialType]) {
+      throw new NotFoundError(`Material ${body.materialType} was not found`);
+    }
+    body.cost = Object.values(materialCost[body.materialType])[0];
     return this.orderRepo.create(body);
   }
 
   public async updateOrder(id: string, body: IOrder): Promise<IOrder> {
+    if (!materialCost[body.materialType]) {
+      throw new NotFoundError(`Material ${body.materialType} was not found`);
+    }
+    body.cost = Object.values(materialCost[body.materialType])[0];
     const updateOrder = await this.orderRepo.update(id, body);
     if (!updateOrder) {
       throw new NotFoundError(`Order with id ${id} was not found`);
@@ -60,7 +69,9 @@ export class OrderService {
     }
 
     if (orderApproved.status === 'Approved') {
-      const material: IMaterial = await this.materialService.findMaterial(orderApproved.material);
+      const material: IMaterial = await this.materialService.findMaterial(
+        orderApproved.materialType
+      );
 
       material.stock += orderApproved.quantity;
       this.materialService.updateMaterial(material.name, { stock: material.stock } as IMaterial);
