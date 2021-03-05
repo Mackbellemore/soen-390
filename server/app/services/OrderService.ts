@@ -2,11 +2,16 @@ import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
 import { IOrder } from '../models/OrderModel';
 import { OrderRepository } from '../repository/OrderRepository';
-import { NotFoundError } from '../errors';
+import { NotApprovedError, NotFoundError } from '../errors';
+import { MaterialService } from './MaterialService';
+import { IMaterial } from '../models/MaterialModel';
 
 @injectable()
 export class OrderService {
-  constructor(@inject(TYPES.OrderRepository) private orderRepo: OrderRepository) {}
+  constructor(
+    @inject(TYPES.OrderRepository) private orderRepo: OrderRepository,
+    @inject(TYPES.MaterialService) private materialService: MaterialService
+  ) {}
 
   public async getOrders(): Promise<IOrder[]> {
     return this.orderRepo.getList();
@@ -19,7 +24,7 @@ export class OrderService {
   public async updateOrder(id: string, body: IOrder): Promise<IOrder> {
     const updateOrder = await this.orderRepo.update(id, body);
     if (!updateOrder) {
-      throw new NotFoundError(`Bike with id ${id} was not found`);
+      throw new NotFoundError(`Order with id ${id} was not found`);
     }
 
     return updateOrder;
@@ -41,5 +46,26 @@ export class OrderService {
     }
 
     return order;
+  }
+
+  public async approveOrder(body: IOrder): Promise<IOrder> {
+    if (body.status !== 'Approved') {
+      throw new NotApprovedError(`Order with id ${body.id} was not approved`);
+    }
+
+    const orderApproved = await this.orderRepo.update(body.id, body);
+
+    if (!orderApproved) {
+      throw new NotFoundError(`Order with id ${body.id} was not found`);
+    }
+
+    if (orderApproved.status === 'Approved') {
+      const material: IMaterial = await this.materialService.findMaterial(orderApproved.material);
+
+      material.stock += orderApproved.quantity;
+      this.materialService.updateMaterial(material.name, { stock: material.stock } as IMaterial);
+    }
+
+    return orderApproved;
   }
 }

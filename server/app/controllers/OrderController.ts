@@ -12,6 +12,7 @@ import TYPES from '../constants/types';
 import { BaseController } from './BaseController';
 import { OrderService } from '../services/OrderService';
 import { IOrder } from '../models/OrderModel';
+import { MaterialTypes } from '../entities/Material';
 
 @controller('/orders')
 export class OrderController extends BaseController {
@@ -63,10 +64,25 @@ export class OrderController extends BaseController {
     }
   }
 
+  @httpGet('/materialList')
+  public async getMaterialList(): Promise<results.JsonResult> {
+    return this.json(MaterialTypes);
+  }
+
   @httpGet('/:id')
   public async getById(request: Request): Promise<results.JsonResult> {
     try {
       const order: IOrder = await this.orderService.findById(request.params.id);
+      return this.json(order);
+    } catch (err) {
+      return this.handleError(err);
+    }
+  }
+
+  @httpPost('/approved')
+  public async approve(request: Request): Promise<results.JsonResult> {
+    try {
+      const order: IOrder | null = await this.orderService.approveOrder(request.body);
       return this.json(order);
     } catch (err) {
       return this.handleError(err);

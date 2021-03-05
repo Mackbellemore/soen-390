@@ -5,7 +5,8 @@ import { results } from 'inversify-express-utils';
 import * as sinon from 'sinon';
 import { SinonSandbox } from 'sinon';
 import { OrderController } from './../../app/controllers/OrderController';
-import { NotFoundError } from '../../app/errors';
+import { NotApprovedError, NotFoundError } from '../../app/errors';
+import { MaterialTypes } from '../../app/entities/Material';
 
 const orderService: any = {
   getOrders: Function,
@@ -13,17 +14,28 @@ const orderService: any = {
   deleteOrder: Function,
   updateOrder: Function,
   findById: Function,
+  approveOrder: Function,
 };
 const mockOrder = {
-  componentName: 'Frame',
-  option1: 'Color Red',
-  option2: 'Size 30cm',
+  material: 'steel',
   quantity: 100,
   cost: 1000,
-  manufacture: 'Joe',
+  manufactureName: 'Joe',
   deliveryDate: '2020-02-21',
   orderDate: '2020-02-20',
   id: '12312313',
+  status: 'Pending',
+};
+
+const mockOrderApproved = {
+  material: 'steel',
+  quantity: 100,
+  cost: 1000,
+  manufactureName: 'Joe',
+  deliveryDate: '2020-02-21',
+  orderDate: '2020-02-20',
+  id: '12312313',
+  status: 'Approved',
 };
 
 let sandbox: SinonSandbox;
@@ -58,15 +70,14 @@ describe('OrderController', () => {
     it('returns an array of Orders with a 200 status when service layer returns an order', async () => {
       const mockArr = [
         {
-          componentName: 'Frame',
-          option1: 'Color Red',
-          option2: 'Size 30cm',
+          material: 'steel',
           quantity: 100,
           cost: 1000,
-          manufacture: 'Joe',
+          manufactureName: 'Joe',
           deliveryDate: '2020-02-21',
           orderDate: '2020-02-20',
           id: '12312313',
+          status: 'Pending',
         },
       ];
       const orderServiceStub = sandbox.stub(orderService, 'getOrders').returns(mockArr);
@@ -78,15 +89,14 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.json).to.deep.equal([
         {
-          componentName: 'Frame',
-          option1: 'Color Red',
-          option2: 'Size 30cm',
+          material: 'steel',
           quantity: 100,
           cost: 1000,
-          manufacture: 'Joe',
+          manufactureName: 'Joe',
           deliveryDate: '2020-02-21',
           orderDate: '2020-02-20',
           id: '12312313',
+          status: 'Pending',
         },
       ]);
       expect(response.statusCode).to.equal(200);
@@ -161,15 +171,14 @@ describe('OrderController', () => {
       expect(orderServiceStub.calledOnceWith()).to.equal(true);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        componentName: 'Frame',
-        option1: 'Color Red',
-        option2: 'Size 30cm',
+        material: 'steel',
         quantity: 100,
         cost: 1000,
-        manufacture: 'Joe',
+        manufactureName: 'Joe',
         deliveryDate: '2020-02-21',
         orderDate: '2020-02-20',
         id: '12312313',
+        status: 'Pending',
       });
     });
 
@@ -228,15 +237,14 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        componentName: 'Frame',
-        option1: 'Color Red',
-        option2: 'Size 30cm',
+        material: 'steel',
         quantity: 100,
         cost: 1000,
-        manufacture: 'Joe',
+        manufactureName: 'Joe',
         deliveryDate: '2020-02-21',
         orderDate: '2020-02-20',
         id: '12312313',
+        status: 'Pending',
       });
     });
 
@@ -294,15 +302,14 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        componentName: 'Frame',
-        option1: 'Color Red',
-        option2: 'Size 30cm',
+        material: 'steel',
         quantity: 100,
         cost: 1000,
-        manufacture: 'Joe',
+        manufactureName: 'Joe',
         deliveryDate: '2020-02-21',
         orderDate: '2020-02-20',
         id: '12312313',
+        status: 'Pending',
       });
     });
 
@@ -344,6 +351,98 @@ describe('OrderController', () => {
       const response = await controller.getById(mockRequest);
 
       sinon.assert.calledOnce(orderServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(500);
+      expect(response.json).to.equal(expectedErrorMsg);
+    });
+  });
+
+  describe('getMaterialList', () => {
+    it('Should get list of materials that can be ordered', async () => {
+      const res = await controller.getMaterialList();
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(res.statusCode).to.equal(200);
+      expect(res.json).to.deep.equal(MaterialTypes);
+    });
+  });
+
+  describe('approved', () => {
+    it('Approves an order with associated body', async () => {
+      const mockRequest = {
+        body: mockOrderApproved,
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      sandbox.stub(orderService, 'approveOrder').returns(mockOrderApproved);
+
+      const response = await controller.approve(mockRequest);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(200);
+      expect(response.json).to.deep.equal({
+        material: 'steel',
+        quantity: 100,
+        cost: 1000,
+        manufactureName: 'Joe',
+        deliveryDate: '2020-02-21',
+        orderDate: '2020-02-20',
+        id: '12312313',
+        status: 'Approved',
+      });
+    });
+
+    it('returns 500 if an order is not approved', async () => {
+      const mockRequest = {
+        body: mockOrderApproved,
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      const expectedErrorMsg = 'Order not approved';
+      sandbox.stub(orderService, 'approveOrder').throws(new NotApprovedError(expectedErrorMsg));
+
+      const response = await controller.approve(mockRequest);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(500);
+      expect(response.json).to.equal(expectedErrorMsg);
+    });
+
+    it('returns 404 if an order is not approved', async () => {
+      const mockRequest = {
+        body: mockOrderApproved,
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      const expectedErrorMsg = 'Order not found';
+      sandbox.stub(orderService, 'approveOrder').throws(new NotFoundError(expectedErrorMsg));
+
+      const response = await controller.approve(mockRequest);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(404);
+      expect(response.json).to.equal(expectedErrorMsg);
+    });
+
+    it('returns 500 if an unexpected error occurs', async () => {
+      const mockRequest = {
+        body: mockOrderApproved,
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      const expectedErrorMsg = 'Some test error';
+      sandbox.stub(orderService, 'approveOrder').throws(new Error(expectedErrorMsg));
+
+      const response = await controller.approve(mockRequest);
 
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(500);
