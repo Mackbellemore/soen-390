@@ -38,7 +38,9 @@ jobs:
             ${{ runner.os }}
 
       - name: Install dependencies
-        run: npm ci
+        working-directory: ${{ matrix.project }}
+        run: npm i
 
       - name: Build project
-        run: npm run build --if-present
+        working-directory: ${{ matrix.project }}
+        run: npm run build
