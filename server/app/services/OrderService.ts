@@ -5,7 +5,7 @@ import { OrderRepository } from '../repository/OrderRepository';
 import { NotApprovedError, NotFoundError } from '../errors';
 import { MaterialService } from './MaterialService';
 import { IMaterial } from '../models/MaterialModel';
-import { materialCost } from '../entities/Material';
+import { materialCost, materialTypes } from '../entities/Material';
 
 @injectable()
 export class OrderService {
@@ -19,17 +19,15 @@ export class OrderService {
   }
 
   public async createOrder(body: IOrder): Promise<IOrder> {
-    if (!materialCost[body.materialType]) {
-      throw new NotFoundError(`Material ${body.materialType} was not found`);
-    }
+    this.validateMaterial(body.materialType);
+
     body.cost = Object.values(materialCost[body.materialType])[0];
     return this.orderRepo.create(body);
   }
 
   public async updateOrder(id: string, body: IOrder): Promise<IOrder> {
-    if (!materialCost[body.materialType]) {
-      throw new NotFoundError(`Material ${body.materialType} was not found`);
-    }
+    this.validateMaterial(body.materialType);
+
     body.cost = Object.values(materialCost[body.materialType])[0];
     const updateOrder = await this.orderRepo.update(id, body);
     if (!updateOrder) {
@@ -62,6 +60,8 @@ export class OrderService {
       throw new NotApprovedError(`Order with id ${body.id} was not approved`);
     }
 
+    this.validateMaterial(body.materialType);
+
     const orderApproved = await this.orderRepo.update(body.id, body);
 
     if (!orderApproved) {
@@ -78,5 +78,11 @@ export class OrderService {
     }
 
     return orderApproved;
+  }
+
+  private validateMaterial(materialType: materialTypes) {
+    if (!materialCost[materialType]) {
+      throw new NotFoundError(`Material ${materialType} was not found`);
+    }
   }
 }

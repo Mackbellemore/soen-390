@@ -12,7 +12,7 @@ import TYPES from '../constants/types';
 import { BaseController } from './BaseController';
 import { OrderService } from '../services/OrderService';
 import { IOrder } from '../models/OrderModel';
-import { MaterialTypes } from '../entities/Material';
+import { materialCost } from '../entities/Material';
 
 @controller('/orders')
 export class OrderController extends BaseController {
@@ -66,7 +66,7 @@ export class OrderController extends BaseController {
 
   @httpGet('/materialList')
   public async getMaterialList(): Promise<results.JsonResult> {
-    return this.json(MaterialTypes);
+    return this.json(materialCost);
   }
 
   @httpGet('/:id')

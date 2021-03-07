@@ -1,4 +1,4 @@
-export const MaterialTypes = ['rubber', 'aluminum', 'steel', 'copper', 'plastic'];
+export const MaterialTypes = ['rubber', 'aluminum', 'steel', 'copper', 'plastic', 'leather'];
 
 export type materialTypes = typeof MaterialTypes[number];
 
@@ -23,4 +23,7 @@ export const materialCost: MaterialCost = {
   plastic: {
     cost: 0.5,
   },
+  leather: {
+    cost: 4,
+  }
 };

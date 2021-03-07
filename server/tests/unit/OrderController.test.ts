@@ -6,7 +6,7 @@ import * as sinon from 'sinon';
 import { SinonSandbox } from 'sinon';
 import { OrderController } from './../../app/controllers/OrderController';
 import { NotApprovedError, NotFoundError } from '../../app/errors';
-import { MaterialTypes } from '../../app/entities/Material';
+import { materialCost } from '../../app/entities/Material';
 
 const orderService: any = {
   getOrders: Function,
@@ -17,6 +17,7 @@ const orderService: any = {
   approveOrder: Function,
 };
 const mockOrder = {
+  orderId: '1',
   materialType: 'steel',
   cost: 1000,
   quantity: 100,
@@ -25,9 +26,12 @@ const mockOrder = {
   orderDate: '2020-02-20',
   id: '12312313',
   status: 'Pending',
+  vendorLocation: 'My house',
+  note: 'blabla',
 };
 
 const mockOrderApproved = {
+  orderId: '1',
   materialType: 'steel',
   cost: 1000,
   quantity: 100,
@@ -36,6 +40,8 @@ const mockOrderApproved = {
   orderDate: '2020-02-20',
   id: '12312313',
   status: 'Approved',
+  vendorLocation: 'My house',
+  note: 'blabla',
 };
 
 let sandbox: SinonSandbox;
@@ -70,6 +76,7 @@ describe('OrderController', () => {
     it('returns an array of Orders with a 200 status when service layer returns an order', async () => {
       const mockArr = [
         {
+          orderId: '1',
           materialType: 'steel',
           cost: 1000,
           quantity: 100,
@@ -78,6 +85,8 @@ describe('OrderController', () => {
           orderDate: '2020-02-20',
           id: '12312313',
           status: 'Pending',
+          vendorLocation: 'My house',
+          note: 'blabla',
         },
       ];
       const orderServiceStub = sandbox.stub(orderService, 'getOrders').returns(mockArr);
@@ -89,6 +98,7 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.json).to.deep.equal([
         {
+          orderId: '1',
           materialType: 'steel',
           cost: 1000,
           quantity: 100,
@@ -97,6 +107,8 @@ describe('OrderController', () => {
           orderDate: '2020-02-20',
           id: '12312313',
           status: 'Pending',
+          vendorLocation: 'My house',
+          note: 'blabla',
         },
       ]);
       expect(response.statusCode).to.equal(200);
@@ -171,6 +183,7 @@ describe('OrderController', () => {
       expect(orderServiceStub.calledOnceWith()).to.equal(true);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
+        orderId: '1',
         materialType: 'steel',
         cost: 1000,
         quantity: 100,
@@ -179,6 +192,8 @@ describe('OrderController', () => {
         orderDate: '2020-02-20',
         id: '12312313',
         status: 'Pending',
+        vendorLocation: 'My house',
+        note: 'blabla',
       });
     });
 
@@ -237,6 +252,7 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
+        orderId: '1',
         materialType: 'steel',
         cost: 1000,
         quantity: 100,
@@ -245,6 +261,8 @@ describe('OrderController', () => {
         orderDate: '2020-02-20',
         id: '12312313',
         status: 'Pending',
+        vendorLocation: 'My house',
+        note: 'blabla',
       });
     });
 
@@ -302,6 +320,7 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
+        orderId: '1',
         materialType: 'steel',
         cost: 1000,
         quantity: 100,
@@ -310,6 +329,8 @@ describe('OrderController', () => {
         orderDate: '2020-02-20',
         id: '12312313',
         status: 'Pending',
+        vendorLocation: 'My house',
+        note: 'blabla',
       });
     });
 
@@ -364,7 +385,7 @@ describe('OrderController', () => {
 
       expect(res).to.be.an.instanceof(results.JsonResult);
       expect(res.statusCode).to.equal(200);
-      expect(res.json).to.deep.equal(MaterialTypes);
+      expect(res.json).to.deep.equal(materialCost);
     });
   });
 
@@ -384,6 +405,7 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
+        orderId: '1',
         materialType: 'steel',
         cost: 1000,
         quantity: 100,
@@ -392,6 +414,8 @@ describe('OrderController', () => {
         orderDate: '2020-02-20',
         id: '12312313',
         status: 'Approved',
+        vendorLocation: 'My house',
+        note: 'blabla',
       });
     });
 
