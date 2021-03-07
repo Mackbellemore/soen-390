@@ -13,7 +13,7 @@ const useLoggedInUser = () => {
   const { userStore } = useContext(RootStoreContext);
   const [cookies, setCookie, removeCookie] = useCookies(['hasLoggedOut']);
   const isMounted = useRef(true);
-  const [hasVerifiedToken, setHasVerifiedToken] = useState(false);
+  const [isCheckDone, setIsCheckDone] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -39,15 +39,20 @@ const useLoggedInUser = () => {
         setCookie('hasLoggedOut', true, { path: '/' });
       }
 
-      setHasVerifiedToken(true);
+      setIsCheckDone(true);
     };
+
+    if (!localStorage.getItem('jwt')) {
+      setIsCheckDone(true);
+      return;
+    }
 
     if (isMounted.current) {
       verifyToken();
     }
   }, [cookies.hasLoggedOut, removeCookie, setCookie, userStore]);
 
-  return { hasVerifiedToken };
+  return { isCheckDone };
 };
 
 export default useLoggedInUser;

@@ -67,13 +67,13 @@ const Login = ({ location: { state } }) => {
   const history = useHistory();
   const toast = useToast();
   const [cookies, , removeCookie] = useCookies(['hasLoggedOut']);
-  const { hasVerifiedToken } = useLoggedInUser();
+  const { isCheckDone } = useLoggedInUser();
 
   useEffect(() => {
-    if (cookies.hasLoggedOut === undefined && hasVerifiedToken) {
+    if (cookies.hasLoggedOut === undefined && isCheckDone) {
       setShouldRenderForm(false);
     }
-  }, [cookies.hasLoggedOut, hasVerifiedToken]);
+  }, [cookies.hasLoggedOut, isCheckDone]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -112,7 +112,7 @@ const Login = ({ location: { state } }) => {
     }
   };
 
-  if (!hasVerifiedToken) {
+  if (!isCheckDone) {
     return <Loader />;
   }
 
