@@ -25,5 +25,5 @@ export const materialCost: MaterialCost = {
   },
   leather: {
     cost: 4,
-  }
+  },
 };
