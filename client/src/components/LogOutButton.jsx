@@ -10,7 +10,8 @@ const LogOutButton = () => {
   const toast = useToast();
   const [, setCookie] = useCookies(['hasLoggedOut']);
 
-  const logOutSuccess = () => {
+  const handleLogOut = async () => {
+    localStorage.setItem('jwt', '');
     userStore.logOut();
     setCookie('hasLoggedOut', true, { path: '/' });
 
@@ -24,11 +25,6 @@ const LogOutButton = () => {
       duration: 2000,
       isClosable: true,
     });
-  };
-
-  const handleLogOut = async () => {
-    localStorage.setItem('jwt', '');
-    logOutSuccess();
   };
 
   return (

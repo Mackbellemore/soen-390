@@ -3,12 +3,6 @@ import { RootStoreContext } from 'stores/stores.jsx';
 import { useCookies } from 'react-cookie';
 import { userAuthCheck } from 'utils/api/users.js';
 
-/*
-On certain occasions, this hook maybe cause a slight memory leak when the component using this hook
-has unmounted but the async call still runs.
-I tried to make it better using a useRef to check if the hook is mounted
-and to skip the verifyToken call if the component is not mounted.
-*/
 const useLoggedInUser = () => {
   const { userStore } = useContext(RootStoreContext);
   const [cookies, setCookie, removeCookie] = useCookies(['hasLoggedOut']);
@@ -39,7 +33,9 @@ const useLoggedInUser = () => {
         setCookie('hasLoggedOut', true, { path: '/' });
       }
 
-      setIsCheckDone(true);
+      if (isMounted.current) {
+        setIsCheckDone(true);
+      }
     };
 
     if (!localStorage.getItem('jwt')) {
