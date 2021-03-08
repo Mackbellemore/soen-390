@@ -25,6 +25,7 @@ const useLoggedInUser = () => {
         userStore.logIn();
       } catch (err) {
         userStore.logOut();
+        localStorage.setItem('jwt', '');
       }
 
       if (isMounted.current) {
