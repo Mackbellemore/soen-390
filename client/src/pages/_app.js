@@ -2,7 +2,6 @@ import { ChakraProvider, ColorModeProvider } from '@chakra-ui/react';
 import Head from 'next/head';
 import PropTypes from 'prop-types';
 import React from 'react';
-import { CookiesProvider } from 'react-cookie';
 import RootStore from '../stores/stores.jsx';
 import theme from '../theme.js';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -34,11 +33,9 @@ function MyApp({ Component, pageProps }) {
             }}
           >
             <QueryClientProvider client={queryClient}>
-              <CookiesProvider>
-                <div suppressHydrationWarning>
-                  {typeof window === 'undefined' ? null : <Component {...pageProps} />}
-                </div>
-              </CookiesProvider>
+              <div suppressHydrationWarning>
+                {typeof window === 'undefined' ? null : <Component {...pageProps} />}
+              </div>
               <ReactQueryDevtools initialIsOpen={false} />
             </QueryClientProvider>
           </ColorModeProvider>
