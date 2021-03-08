@@ -1,11 +1,9 @@
 import { useEffect, useContext, useRef, useState } from 'react';
 import { RootStoreContext } from 'stores/stores.jsx';
-import { useCookies } from 'react-cookie';
 import { userAuthCheck } from 'utils/api/users.js';
 
 const useLoggedInUser = () => {
   const { userStore } = useContext(RootStoreContext);
-  const [cookies, setCookie, removeCookie] = useCookies(['hasLoggedOut']);
   const isMounted = useRef(true);
   const [isCheckDone, setIsCheckDone] = useState(false);
 
@@ -19,18 +17,14 @@ const useLoggedInUser = () => {
     const verifyToken = async () => {
       try {
         const res = await userAuthCheck();
-        const { username: resUsername, email: resEmail, role: resRole } = res.data;
+        const { username, email, role } = res.data;
 
-        userStore.setUsername(resUsername);
-        userStore.setEmail(resEmail);
-        userStore.setRole(resRole);
+        userStore.setUsername(username);
+        userStore.setEmail(email);
+        userStore.setRole(role);
         userStore.logIn();
-
-        removeCookie('hasLoggedOut', { path: '/' });
       } catch (err) {
         userStore.logOut();
-
-        setCookie('hasLoggedOut', true, { path: '/' });
       }
 
       if (isMounted.current) {
@@ -38,7 +32,7 @@ const useLoggedInUser = () => {
       }
     };
 
-    if (!localStorage.getItem('jwt')) {
+    if (!localStorage.getItem('jwt') && isMounted.current) {
       setIsCheckDone(true);
       return;
     }
@@ -46,7 +40,7 @@ const useLoggedInUser = () => {
     if (isMounted.current) {
       verifyToken();
     }
-  }, [cookies.hasLoggedOut, removeCookie, setCookie, userStore]);
+  }, [userStore]);
 
   return { isCheckDone };
 };
