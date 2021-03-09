@@ -52,6 +52,13 @@ export const appRoutes = [
     component: lazy(() => import('components/views/Inventory')),
   },
   {
+    name: 'Production',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/production',
+    component: lazy(() => import('components/views/ProductionPage')),
+  },
+  {
     protected: false,
     path: '/login',
     component: lazy(() => import('components/views/Login')),
