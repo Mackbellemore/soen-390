@@ -17,7 +17,6 @@ const orderService: any = {
   approveOrder: Function,
 };
 const mockOrder = {
-  orderId: '1',
   materialType: 'steel',
   cost: 1000,
   quantity: 100,
@@ -31,7 +30,6 @@ const mockOrder = {
 };
 
 const mockOrderApproved = {
-  orderId: '1',
   materialType: 'steel',
   cost: 1000,
   quantity: 100,
@@ -76,7 +74,6 @@ describe('OrderController', () => {
     it('returns an array of Orders with a 200 status when service layer returns an order', async () => {
       const mockArr = [
         {
-          orderId: '1',
           materialType: 'steel',
           cost: 1000,
           quantity: 100,
@@ -98,7 +95,6 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.json).to.deep.equal([
         {
-          orderId: '1',
           materialType: 'steel',
           cost: 1000,
           quantity: 100,
@@ -183,7 +179,6 @@ describe('OrderController', () => {
       expect(orderServiceStub.calledOnceWith()).to.equal(true);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        orderId: '1',
         materialType: 'steel',
         cost: 1000,
         quantity: 100,
@@ -252,7 +247,6 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        orderId: '1',
         materialType: 'steel',
         cost: 1000,
         quantity: 100,
@@ -320,7 +314,6 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        orderId: '1',
         materialType: 'steel',
         cost: 1000,
         quantity: 100,
@@ -405,7 +398,6 @@ describe('OrderController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
       expect(response.json).to.deep.equal({
-        orderId: '1',
         materialType: 'steel',
         cost: 1000,
         quantity: 100,
