@@ -21,6 +21,7 @@ import './controllers/PartController';
 import './controllers/UserController';
 import './controllers/SystemController';
 import './controllers/MaterialController';
+import './controllers/OrderController';
 
 // Services (make sure to bind it to a singleton)
 import { UserService } from './services/UserService';
@@ -28,12 +29,14 @@ import { SystemService } from './services/SystemService';
 import { MaterialService } from './services/MaterialService';
 import { PartService } from './services/PartService';
 import { BikeService } from './services/BikeService';
+import { OrderService } from './services/OrderService';
 
 // Repositories
 import { UserRepository } from './repository/UserRepository';
 import { MaterialRepository } from './repository/MaterialRepository';
 import { PartRepository } from './repository/PartRepository';
 import { BikeRepository } from './repository/BikeRepository';
+import { OrderRepository } from './repository/OrderRepository';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore because types don't exist for this library
@@ -87,6 +90,7 @@ container.bind<PartService>(TYPES.PartService).to(PartService).inSingletonScope(
 container.bind<SystemService>(TYPES.SystemService).to(SystemService).inSingletonScope();
 container.bind<MaterialService>(TYPES.MaterialService).to(MaterialService).inSingletonScope();
 container.bind<BikeService>(TYPES.BikeService).to(BikeService).inSingletonScope();
+container.bind<OrderService>(TYPES.OrderService).to(OrderService).inSingletonScope();
 
 // Repository
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
@@ -96,5 +100,6 @@ container
   .to(MaterialRepository)
   .inSingletonScope();
 container.bind<BikeRepository>(TYPES.BikeRepository).to(BikeRepository).inSingletonScope();
+container.bind<OrderRepository>(TYPES.OrderRepository).to(OrderRepository).inSingletonScope();
 
 export { container };
