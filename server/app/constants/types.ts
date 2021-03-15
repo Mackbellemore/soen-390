@@ -7,12 +7,14 @@ const TYPES = {
   UserService: Symbol.for('UserService'),
   PartService: Symbol.for('PartService'),
   MaterialService: Symbol.for('MaterialService'),
+  DefectService: Symbol.for('DefectService'),
 
   // Repository
   UserRepository: Symbol.for('UserRepository'),
   PartRepository: Symbol.for('PartRepository'),
   MaterialRepository: Symbol.for('MaterialRepository'),
   BikeRepository: Symbol.for('BikeRepository'),
+  DefectRepository: Symbol.for('DefectRepository'),
 
   // Mongo
   MongoConnection: Symbol.for('MongoConnection'),
