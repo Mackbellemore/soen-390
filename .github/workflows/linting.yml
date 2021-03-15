@@ -6,6 +6,7 @@ on:
       - "main"
       - "develop"
   pull_request:
+    types: [opened, reopened]
 
 jobs:
   linting:
@@ -23,18 +24,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 15
-
-      - name: Cache node modules
-        uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
 
       - name: Install Node.js dependencies
         working-directory: ${{ matrix.project }}
