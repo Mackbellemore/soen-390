@@ -2,7 +2,7 @@ import { IPart } from './../models/PartModel';
 import Joi from 'joi';
 import { BadRequestError } from '../errors';
 
-const PartTypes = [
+export const PartTypes = [
   'handle_bar',
   'wheels',
   'chain',
