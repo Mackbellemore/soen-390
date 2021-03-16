@@ -2,39 +2,39 @@ import React from 'react';
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
 
 const ExportFiles = ({ section, data }) => {
-    const handleExportCSV = () => {
-    var dateTime = getDateTime();
-    var arrData = data;
+  const handleExportCSV = () => {
+    const dateTime = getDateTime();
+    const arrData = data;
 
     arrData.forEach(function (currentItem) {
       delete currentItem['_id'];
     });
 
-    var CSV = '';
+    let finalText = '';
 
     // CSV title
-    var row = '';
-    for (var index in arrData[0]) row += index + ',';
+    let row = '';
+    for (let index in arrData[0]) row += index + ',';
     row = row.slice(0, -1);
-    CSV += row + '\r\n';
+    finalText += row + '\r\n';
 
     // CSV data
-    for (var i = 0; i < arrData.length; i++) {
-      var row = '';
-      for (var index in arrData[i]) row += '"' + arrData[i][index] + '",';
-      row.slice(0, row.length - 1);
-      CSV += row + '\r\n';
+    for (let i = 0; i < arrData.length; i++) {
+      let row = '';
+      for (let index in arrData[i]) row += '"' + arrData[i][index] + '",';
+      row = row.slice(0, row.length - 1);
+      finalText += row + '\r\n';
     }
 
-    if (CSV === '') {
-      alert('Invalid data');
+    if (finalText === '') {
+      alert('Invalid data to export');
       return;
     }
 
-    var fileName = ('ERP_export_' + section + '_' + dateTime).replace(/ /g, '_');
+    const fileName = ('ERP_export_' + section + '_' + dateTime).replace(/ /g, '_');
 
-    var link = document.createElement('a');
-    link.href = 'data:text/csv;charset=utf-8,' + escape(CSV);
+    const link = document.createElement('a');
+    link.href = 'data:text/csv;charset=utf-8,' + escape(finalText);
 
     // set the visibility hidden so it will not effect on your web-layout
     link.style = 'visibility:hidden';
@@ -47,7 +47,7 @@ const ExportFiles = ({ section, data }) => {
   };
 
   const getDateTime = () => {
-    var today = new Date();
+    const today = new Date();
     return (
       today.getFullYear() +
       '' +
@@ -69,9 +69,7 @@ const ExportFiles = ({ section, data }) => {
         <MenuButton as={Button}>Export »</MenuButton>
         <MenuList>
           <MenuItem onClick={() => handleExportCSV()}>.CSV</MenuItem>
-          <MenuItem disabled>
-            .PDF
-          </MenuItem>
+          <MenuItem disabled>.PDF</MenuItem>
         </MenuList>
       </Menu>
     </div>
