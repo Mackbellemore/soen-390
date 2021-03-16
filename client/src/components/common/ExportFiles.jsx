@@ -2,12 +2,7 @@ import React from 'react';
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
 
 const ExportFiles = ({ section, data }) => {
-  // const section = {props.section};
-  // const data = {props.data};
-
-  const handleExportPDF = () => {};
-
-  const handleExportCSV = () => {
+    const handleExportCSV = () => {
     var dateTime = getDateTime();
     var arrData = data;
 
@@ -70,12 +65,11 @@ const ExportFiles = ({ section, data }) => {
 
   return (
     <div>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
       <Menu placement="right-start" isLazy="true">
         <MenuButton as={Button}>Export »</MenuButton>
         <MenuList>
-          <MenuItem onClick={() => handleExportCSV('material', data.data)}>.CSV</MenuItem>
-          <MenuItem onClick={() => handleExportPDF('material', data.data)} disabled>
+          <MenuItem onClick={() => handleExportCSV()}>.CSV</MenuItem>
+          <MenuItem disabled>
             .PDF
           </MenuItem>
         </MenuList>
