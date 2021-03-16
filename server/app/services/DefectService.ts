@@ -50,7 +50,7 @@ export class DefectService {
         const part = (await this.partService.get('', defect.partName)) as IPart;
 
         await this.updatePart(part.name, { defectId: null });
-        return await this.defectRepo.delete(defectId);
+        return this.defectRepo.delete(defectId);
       })
     );
   }
