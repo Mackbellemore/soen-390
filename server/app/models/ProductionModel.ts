@@ -7,7 +7,7 @@ export interface IProduction extends Document {
   option1: string;
   option2: string;
   quantity: string;
-  expectStartDate: Date;
+  expectedStartDate: Date;
   expectedEndDate: Date;
   actualStartDate: Date;
   actualEndDate: Date;
@@ -22,7 +22,7 @@ export const ProductionSchema: Schema = new Schema({
   option1: { type: Schema.Types.String, required: false },
   option2: { type: Schema.Types.String, required: false },
   quantity: { type: Schema.Types.String, required: true },
-  expectStartDate: { type: Schema.Types.Date, required: true },
+  expectedStartDate: { type: Schema.Types.Date, required: true },
   expectedEndDate: { type: Schema.Types.Date, required: true },
   actualStartDate: { type: Schema.Types.Date, required: true },
   actualEndDate: { type: Schema.Types.Date, required: true },

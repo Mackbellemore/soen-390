@@ -1,8 +1,34 @@
-import { Table, Thead, Tbody, Tr, Th, Td } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Th, Heading } from '@chakra-ui/react';
+import { Fragment } from 'react';
+import { getProductions } from 'utils/api/productions';
+import { useQuery } from 'react-query';
+import Loader from 'components/common/Loader';
+import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
+import { NoResultImage } from 'components/common/Image.jsx';
 
 const Productions = () => {
+  const { isLoading, isSuccess, data } = useQuery('productions', getProductions);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isSuccess && data.data.length === 0) {
+    return (
+      <>
+        <Heading size="xl" textAlign="center" mt={5}>
+          No Productions
+        </Heading>
+        <NoResultImage />
+      </>
+    );
+  }
+
   return (
     <>
+      {/* {console.log('hello')} */}
+      {/* {console.log(data)} */}
+      {/* {console.log(data.data)} */}
       <Table variant="striped" colorScheme="teal">
         <Thead>
           <Tr>
@@ -21,20 +47,23 @@ const Productions = () => {
           </Tr>
         </Thead>
         <Tbody>
-          <Tr>
-            <Th>Ongoing</Th>
-            <Th>#3214512</Th>
-            <Th>Frame</Th>
-            <Th>Color Red</Th>
-            <Th>Size 30 cm</Th>
-            <Th>100</Th>
-            <Th>01/22/15 17:15</Th>
-            <Th>03/03/12 22:43</Th>
-            <Th>03/03/12 22:43</Th>
-            <Th>03/03/12 22:43</Th>
-            <Th>A</Th>
-            <Th />
-          </Tr>
+          {data.data.map((production) => (
+            <Fragment key={production.id}>
+              <StyledTableRow>
+                <StyledTableCell>{production.status}</StyledTableCell>
+                <StyledTableCell>{production.orderID}</StyledTableCell>
+                <StyledTableCell>{production.component}</StyledTableCell>
+                <StyledTableCell>{production.option1}</StyledTableCell>
+                <StyledTableCell>{production.option2}</StyledTableCell>
+                <StyledTableCell>{production.quantity}</StyledTableCell>
+                <StyledTableCell>{production.expectedStartDate}</StyledTableCell>
+                <StyledTableCell>{production.expectedEndDate}</StyledTableCell>
+                <StyledTableCell>{production.actualStartDate}</StyledTableCell>
+                <StyledTableCell>{production.actualEndDate}</StyledTableCell>
+                <StyledTableCell>{production.note}</StyledTableCell>
+              </StyledTableRow>
+            </Fragment>
+          ))}
         </Tbody>
       </Table>
     </>
