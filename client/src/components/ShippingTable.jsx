@@ -1,22 +1,19 @@
 import React, { Fragment, useState, useContext } from 'react';
-import { Table, Thead, Tbody, Tr, TableCaption, Heading, Button } from '@chakra-ui/react';
-// import Loader from 'components/common/Loader';
+import { Table, Thead, Tbody, Tr, Heading, Button, Tooltip } from '@chakra-ui/react';
 import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
 import { TablePagination } from '@material-ui/core';
-// import { NoResultImage } from 'components/common/Image.jsx';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { MapContext } from 'react-map-gl';
 import { mapLayerID, shippingStates, shippingStatesHide } from 'constants.js';
-import { runInAction } from 'mobx';
 import { observer } from 'mobx-react-lite';
 
 const ShippingTable = () => {
   const { shippingStore } = useContext(RootStoreContext);
-
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
-  const isSuccess = true; // TODO: remove when integrating with api
+  const isSuccess = true;
   const [shpmtData, setShpmtData] = useState(shippingStore.shippingData);
+  const [label, setLabel] = useState(null);
   const { map } = useContext(MapContext);
 
   const handleChangePage = (event, newPage) => {
@@ -28,11 +25,15 @@ const ShippingTable = () => {
     setPage(0);
   };
 
+  const getNextShpmtStatus = (currentStatus) => {
+    const numStates = shippingStates.length;
+    const nextStateIdx = shippingStates.indexOf(currentStatus) + 1;
+    return shippingStates[nextStateIdx % numStates];
+  };
+
   const handleShpmtStateChange = (e) => {
     if (map._fullyLoaded) {
       const shipId = e.currentTarget.id;
-
-      const numStates = shippingStates.length;
 
       setShpmtData((oldArr) => {
         const shpmtArr = [...oldArr];
@@ -40,23 +41,21 @@ const ShippingTable = () => {
         shpmtArr.find((elmt) => {
           const isTargetId = elmt._id == shipId;
           if (isTargetId) {
-            const nextStateIdx = shippingStates.indexOf(elmt.status) + 1;
-            const nextState = shippingStates[nextStateIdx % numStates];
-            elmt.status = nextState;
+            elmt.status = getNextShpmtStatus(elmt.status);
           }
 
           return isTargetId;
         });
         shippingStore.setShippingData(shpmtArr);
         setShpmtData(shpmtArr);
+        setLabel(getNextShpmtStatus(shippingStore.shpmtStatus(e.currentTarget.id)));
+
         const newShpmtStatus = shippingStore.shpmtStatus(shipId);
         map.setLayoutProperty(
           mapLayerID + shipId,
           'visibility',
           shippingStatesHide.includes(newShpmtStatus) ? 'none' : 'visible'
         );
-
-        // TODO: Update new changes to DB
 
         return shpmtArr;
       });
@@ -84,22 +83,9 @@ const ShippingTable = () => {
     }
   };
 
-  // TODO: Use when Shipping API is complete
-
-  //   if (isLoading) {
-  //     return <Loader />;
-  //   }
-
-  //   if (isSuccess && data.data.length === 0) {
-  //     return (
-  //       <>
-  //         <Heading size="xl" textAlign="center" mt={5}>
-  //           No Shipping
-  //         </Heading>
-  //         <NoResultImage />
-  //       </>
-  //     );
-  //   }
+  const showLabel = (e) => {
+    setLabel(getNextShpmtStatus(shippingStore.shpmtStatus(e.currentTarget.id)));
+  };
 
   return (
     <>
@@ -133,10 +119,16 @@ const ShippingTable = () => {
                     }}
                   >
                     <StyledTableCell>{shipment._id}</StyledTableCell>
-                    <StyledTableCell>
-                      <Button id={shipment._id} onClick={handleShpmtStateChange}>
-                        {shipment.status}
-                      </Button>
+                    <StyledTableCell id={shipment._id} onMouseOver={showLabel}>
+                      <Tooltip
+                        label={'Next Status [' + label + ']'}
+                        placement="top-start"
+                        closeOnClick={false}
+                      >
+                        <Button id={shipment._id} onClick={handleShpmtStateChange}>
+                          {shipment.status}
+                        </Button>
+                      </Tooltip>
                     </StyledTableCell>
                     <StyledTableCell>{shipment.company}</StyledTableCell>
                     <StyledTableCell>{shipment.location}</StyledTableCell>

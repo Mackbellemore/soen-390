@@ -2,7 +2,6 @@ import axios from 'axios';
 import { hq } from 'constants.js';
 const mapbox = 'https://api.mapbox.com';
 const token = process.env.NEXT_PUBLIC_MAPBOX;
-// const start = [-73.745181, 45.4644455];
 
 const getDestinationCoor = async (dest) => {
   const encodeStr = encodeURI(dest);
