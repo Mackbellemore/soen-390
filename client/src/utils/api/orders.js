@@ -4,4 +4,8 @@ const getOrders = async () => {
   return makeGetRequest('orders');
 };
 
-export { getOrders };
+const postOrders = async (body) => {
+  return makePostRequest('orders', body);
+};
+
+export { getOrders, postOrders };

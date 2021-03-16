@@ -1,5 +1,25 @@
 import React, { Fragment, useState } from 'react';
-import { Table, Thead, Tbody, Tr, TableCaption, Heading } from '@chakra-ui/react';
+import {
+  useDisclosure,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  TableCaption,
+  Heading,
+  Button,
+  FormControl,
+  FormLabel,
+  Input,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from '@chakra-ui/react';
+import { SmallAddIcon, DeleteIcon } from '@chakra-ui/icons';
 import Loader from 'components/common/Loader.jsx';
 import { getOrders } from 'utils/api/orders.js';
 import { useQuery } from 'react-query';
@@ -8,6 +28,7 @@ import { TablePagination } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
 
 const Orders = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { isLoading, isSuccess, data } = useQuery('orders', getOrders);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -37,6 +58,55 @@ const Orders = () => {
   }
   return (
     <>
+      <Button
+        margin={1}
+        colorScheme="blue"
+        variant="solid"
+        leftIcon={<SmallAddIcon />}
+        onClick={onOpen}
+      >
+        Place an order
+      </Button>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Place an order</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <FormControl>
+              <FormLabel>Material</FormLabel>
+              <Input placeholder="Material" />
+            </FormControl>
+
+            <FormControl>
+              <FormLabel>Quantity</FormLabel>
+              <Input placeholder="Quantity" />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Cost</FormLabel>
+              <Input placeholder="Cost" />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Manufacturer</FormLabel>
+              <Input placeholder="Manufacturer" />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Location</FormLabel>
+              <Input placeholder="Location" />
+            </FormControl>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3}>
+              Save
+            </Button>
+            <Button onClick={onClose}>Cancel</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
         <TableCaption placement="top">List of orders</TableCaption>
         <Thead>
