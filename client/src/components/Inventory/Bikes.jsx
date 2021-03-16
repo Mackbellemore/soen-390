@@ -6,6 +6,7 @@ import { useQuery } from 'react-query';
 import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
 import { TablePagination } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const Bikes = () => {
   const { isLoading, isSuccess, data } = useQuery('bikes', getBikes);
@@ -76,6 +77,7 @@ const Bikes = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ExportFiles section="product" data={data.data}></ExportFiles>
     </>
   );
 };
