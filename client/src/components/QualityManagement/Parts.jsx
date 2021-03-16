@@ -137,7 +137,6 @@ const Parts = () => {
         type: type.current.value,
         status: status.current.value,
         description: description.current.value,
-        onCloseComplete: onClose,
       });
       toast({
         title: 'Request Sent',
@@ -199,7 +198,7 @@ const Parts = () => {
         <ModalFooter>
           <Button
             isLoading={isLoadingButton}
-            disabled={partName ? false : true}
+            isDisabled={!partName}
             onClick={handleSubmit}
             colorScheme="blue"
             mr={3}
@@ -272,10 +271,7 @@ const Parts = () => {
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((defect) => (
                   <Fragment key={defect._id}>
-                    <StyledTableRow
-                    //selected={isSelected(defect._id)}
-                    // onClick={(event) => handleClick(event, defect._id)}
-                    >
+                    <StyledTableRow>
                       <StyledTableCell>
                         <Checkbox
                           onChange={(event) => handleOnChange(event, defect._id)}
@@ -289,7 +285,7 @@ const Parts = () => {
                         <Tag
                           size="md"
                           variant="solid"
-                          colorScheme={defect.type == 'Broken' ? 'red' : 'orange'}
+                          colorScheme={defect.type === 'Broken' ? 'red' : 'orange'}
                         >
                           {defect.type}
                         </Tag>
