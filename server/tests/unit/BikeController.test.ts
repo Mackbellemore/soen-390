@@ -5,7 +5,9 @@ import { results } from 'inversify-express-utils';
 import * as sinon from 'sinon';
 import { SinonSandbox } from 'sinon';
 import { BikeController } from './../../app/controllers/BikeController';
+import BikeEntity from './../../app/entities/Bike';
 import { NotFoundError } from '../../app/errors';
+import { IBike } from '../../app/models/BikeModel';
 
 const bikeService: any = {
   getBikes: Function,
@@ -99,6 +101,7 @@ describe('BikeController', () => {
         body: mockBike,
       } as Request;
 
+      sandbox.stub(BikeEntity, 'validate').resolves(mockBike as IBike);
       const bikeServiceStub = sandbox.stub(bikeService, 'createBike').returns(mockBike);
 
       const response = await controller.post(mockRequest);
@@ -116,6 +119,7 @@ describe('BikeController', () => {
       } as Request;
 
       const expectedErrorMsg = 'Some test error';
+      sandbox.stub(BikeEntity, 'validate').resolves(mockBike as IBike);
       const bikeServiceStub = sandbox
         .stub(bikeService, 'createBike')
         .throws(new Error(expectedErrorMsg));
@@ -201,6 +205,7 @@ describe('BikeController', () => {
         },
       } as Request | any;
 
+      sandbox.stub(BikeEntity, 'validate').resolves(mockBike as IBike);
       sandbox.stub(bikeService, 'updateBike').returns(mockBike);
 
       const response = await controller.update(mockRequest);
@@ -223,6 +228,7 @@ describe('BikeController', () => {
         },
       } as Request | any;
 
+      sandbox.stub(BikeEntity, 'validate').resolves(mockBike as IBike);
       const expectedErrorMsg = 'Cannot find';
       sandbox.stub(bikeService, 'updateBike').throws(new NotFoundError(expectedErrorMsg));
 
@@ -241,6 +247,7 @@ describe('BikeController', () => {
         },
       } as Request | any;
 
+      sandbox.stub(BikeEntity, 'validate').resolves(mockBike as IBike);
       const expectedErrorMsg = 'Some test error';
       sandbox.stub(bikeService, 'updateBike').throws(new Error(expectedErrorMsg));
 
