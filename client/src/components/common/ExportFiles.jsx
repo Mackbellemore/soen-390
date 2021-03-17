@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
 
 const ExportFiles = (props) => {
@@ -74,6 +75,11 @@ const ExportFiles = (props) => {
       </Menu>
     </div>
   );
+};
+
+ExportFiles.propTypes = {
+  section: PropTypes.string,
+  data: PropTypes.string,
 };
 
 export default ExportFiles;

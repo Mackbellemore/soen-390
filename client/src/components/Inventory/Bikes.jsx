@@ -77,7 +77,7 @@ const Bikes = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-      <ExportFiles section="product" data={data.data}></ExportFiles>
+      <ExportFiles section="product" data={data.data} />
     </>
   );
 };
