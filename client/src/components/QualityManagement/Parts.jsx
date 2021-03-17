@@ -22,9 +22,9 @@ import {
   Select,
   Textarea,
   useToast,
-  Link,
   Tag,
   Checkbox,
+  Center,
 } from '@chakra-ui/react';
 import Loader from 'components/common/Loader';
 import { getDefects, createDefect, deleteDefects } from 'utils/api/defect.js';
@@ -217,10 +217,11 @@ const Parts = () => {
         <Heading size="xl" textAlign="center" mt={5}>
           No Defects
         </Heading>
+        <Center mt={4}>
+          <Button onClick={onOpen}>Add Defect</Button>
+        </Center>
         {addDefectForm()}
-        <Link onClick={onOpen}>
-          <NoResultImage />
-        </Link>
+        <NoResultImage />
       </>
     );
   }
