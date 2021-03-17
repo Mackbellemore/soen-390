@@ -12,6 +12,7 @@ import {
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import { BaseController } from './BaseController';
+import BikeEntity from '../entities/Bike';
 
 @controller('/bikes')
 export class BikeController extends BaseController {
@@ -32,7 +33,8 @@ export class BikeController extends BaseController {
   @httpPost('/')
   public async post(request: Request): Promise<results.JsonResult> {
     try {
-      const bike: IBike = await this.bikeService.createBike(request.body);
+      const validBikeBody = await BikeEntity.validate(request.body, 'post');
+      const bike: IBike = await this.bikeService.createBike(validBikeBody);
       return this.json(bike);
     } catch (err) {
       return this.handleError(err);
@@ -53,7 +55,11 @@ export class BikeController extends BaseController {
   @httpPatch('/:id')
   public async update(request: Request): Promise<results.JsonResult> {
     try {
-      const bike: IBike | null = await this.bikeService.updateBike(request.params.id, request.body);
+      const validBikeBody = await BikeEntity.validate(request.body, 'patch');
+      const bike: IBike | null = await this.bikeService.updateBike(
+        request.params.id,
+        validBikeBody
+      );
       return this.json(bike);
     } catch (err) {
       return this.handleError(err);
