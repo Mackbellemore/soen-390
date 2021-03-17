@@ -90,16 +90,26 @@ const Orders = () => {
     );
   }
 
+  //sets material and cost states
   const handleMaterial = (e) => {
     let choice = e.target.value;
     setMaterial(choice);
     setCost(materialCost[choice].cost);
   };
 
+  //generates a random int within ranges
+  function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
   const handleSubmit = async () => {
     let orderTime = new Date();
+    let deliveryTime = new Date();
+    let randomDeliveryDate = deliveryTime.getDate() + getRandomInt(1, 8); //random delivery date within a week
+    deliveryTime.setDate(randomDeliveryDate);
+
     setOrderDate(orderTime);
-    setDeliveryDate(orderTime.setDate(orderTime.getDate() + 4));
+    setDeliveryDate(deliveryTime);
 
     try {
       await postOrders({
