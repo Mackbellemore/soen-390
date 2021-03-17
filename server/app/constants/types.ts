@@ -7,6 +7,7 @@ const TYPES = {
   UserService: Symbol.for('UserService'),
   PartService: Symbol.for('PartService'),
   MaterialService: Symbol.for('MaterialService'),
+  DefectService: Symbol.for('DefectService'),
   OrderService: Symbol.for('OrderService'),
   SchedulingService: Symbol.for('SchedulingService'),
 
@@ -15,6 +16,7 @@ const TYPES = {
   PartRepository: Symbol.for('PartRepository'),
   MaterialRepository: Symbol.for('MaterialRepository'),
   BikeRepository: Symbol.for('BikeRepository'),
+  DefectRepository: Symbol.for('DefectRepository'),
   OrderRepository: Symbol.for('OrderRepository'),
   SchedulingRepository: Symbol.for('SchedulingRepository'),
 
