@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useRef } from 'react';
 import {
+  Center,
   useToast,
   Textarea,
   Select,
@@ -56,21 +57,6 @@ const Orders = () => {
     setPage(0);
   };
 
-  if (isLoading) {
-    return <Loader />;
-  }
-
-  if (isSuccess && data.data.length === 0) {
-    return (
-      <>
-        <Heading size="xl" textAlign="center" mt={5}>
-          No orders found.
-        </Heading>
-        <NoResultImage />
-      </>
-    );
-  }
-
   // sets material and cost states
   const handleMaterial = (e) => {
     const choice = e.target.value;
@@ -125,6 +111,69 @@ const Orders = () => {
     onClose();
   };
 
+  const openOrderForm = () => (
+    <Modal isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay />
+      <ModalContent>
+        <ModalHeader>Place an order</ModalHeader>
+        <ModalCloseButton />
+        <ModalBody pb={6}>
+          <FormControl isRequired>
+            <FormLabel>Material</FormLabel>
+            <Select placeholder="Select an option" onChange={handleMaterial}>
+              {materialTypes.map((material) => (
+                <Fragment key={material._id}>
+                  <option value={material}>{material}</option>
+                </Fragment>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Quantity</FormLabel>
+            <Input placeholder="Quantity" onChange={(e) => setQuantity(e.target.value)} />
+          </FormControl>
+          <FormControl mt={4}>
+            <FormLabel>Manufacturer</FormLabel>
+            <Input placeholder="Manufacturer" ref={manufacturer} />
+          </FormControl>
+          <FormControl mt={4}>
+            <FormLabel>Location</FormLabel>
+            <Input placeholder="Location" ref={location} />
+          </FormControl>
+          <FormControl mt={4}>
+            <FormLabel>Note to the manufacturer</FormLabel>
+            <Textarea placeholder="Note" ref={note} />
+          </FormControl>
+        </ModalBody>
+        <ModalFooter>
+          <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            Submit
+          </Button>
+          <Button onClick={onClose}>Cancel</Button>
+        </ModalFooter>
+      </ModalContent>
+    </Modal>
+  );
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (isSuccess && data.data.length === 0) {
+    return (
+      <>
+        <Heading size="xl" textAlign="center" mt={5}>
+          No orders found.
+        </Heading>
+        <Center mt={4}>
+          <Button onClick={onOpen}>Place an order</Button>
+        </Center>
+        {openOrderForm()}
+        <NoResultImage />
+      </>
+    );
+  }
+
   return (
     <>
       <Button
@@ -136,52 +185,7 @@ const Orders = () => {
       >
         Place an order
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Place an order</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <FormControl isRequired>
-              <FormLabel>Material</FormLabel>
-              <Select placeholder="Select an option" onChange={handleMaterial}>
-                {materialTypes.map((material) => (
-                  <Fragment key={material._id}>
-                    <option value={material}>{material}</option>
-                  </Fragment>
-                ))}
-              </Select>
-            </FormControl>
-
-            <FormControl isRequired>
-              <FormLabel>Quantity</FormLabel>
-              <Input placeholder="Quantity" onChange={(e) => setQuantity(e.target.value)} />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Manufacturer</FormLabel>
-              <Input placeholder="Manufacturer" ref={manufacturer} />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Location</FormLabel>
-              <Input placeholder="Location" ref={location} />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Note to the manufacturer</FormLabel>
-              <Textarea placeholder="Note" ref={note} />
-            </FormControl>
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
-              Submit
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
+      {openOrderForm()}
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
         <TableCaption placement="top">List of orders</TableCaption>
         <Thead>
