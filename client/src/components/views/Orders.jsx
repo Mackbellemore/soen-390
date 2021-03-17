@@ -71,22 +71,22 @@ const Orders = () => {
     );
   }
 
-  //sets material and cost states
+  // sets material and cost states
   const handleMaterial = (e) => {
-    let choice = e.target.value;
+    const choice = e.target.value;
     setMaterial(choice);
     setCost(materialCost.data.data[choice].cost);
   };
 
-  //generates a random int within ranges
+  // generates a random int within ranges
   function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
   const handleSubmit = async () => {
-    let orderTime = new Date();
-    let deliveryTime = new Date();
-    let randomDeliveryDate = deliveryTime.getDate() + getRandomInt(1, 8); //random delivery date within a week
+    const orderTime = new Date();
+    const deliveryTime = new Date();
+    const randomDeliveryDate = deliveryTime.getDate() + getRandomInt(1, 8); // random delivery date within a week
     deliveryTime.setDate(randomDeliveryDate);
 
     setOrderDate(orderTime);
@@ -146,7 +146,9 @@ const Orders = () => {
               <FormLabel>Material</FormLabel>
               <Select placeholder="Select an option" onChange={handleMaterial}>
                 {materialTypes.map((material) => (
-                  <option value={material}>{material}</option>
+                  <Fragment key={material._id}>
+                    <option value={material}>{material}</option>
+                  </Fragment>
                 ))}
               </Select>
             </FormControl>
