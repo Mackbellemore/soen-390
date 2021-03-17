@@ -22,6 +22,7 @@ import './controllers/UserController';
 import './controllers/SystemController';
 import './controllers/MaterialController';
 import './controllers/OrderController';
+import './controllers/SchedulingController';
 
 // Services (make sure to bind it to a singleton)
 import { UserService } from './services/UserService';
@@ -30,6 +31,7 @@ import { MaterialService } from './services/MaterialService';
 import { PartService } from './services/PartService';
 import { BikeService } from './services/BikeService';
 import { OrderService } from './services/OrderService';
+import { SchedulingService } from './services/SchedulingService';
 
 // Repositories
 import { UserRepository } from './repository/UserRepository';
@@ -37,6 +39,7 @@ import { MaterialRepository } from './repository/MaterialRepository';
 import { PartRepository } from './repository/PartRepository';
 import { BikeRepository } from './repository/BikeRepository';
 import { OrderRepository } from './repository/OrderRepository';
+import { SchedulingRepository } from './repository/SchedulingRepository';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore because types don't exist for this library
@@ -91,6 +94,7 @@ container.bind<SystemService>(TYPES.SystemService).to(SystemService).inSingleton
 container.bind<MaterialService>(TYPES.MaterialService).to(MaterialService).inSingletonScope();
 container.bind<BikeService>(TYPES.BikeService).to(BikeService).inSingletonScope();
 container.bind<OrderService>(TYPES.OrderService).to(OrderService).inSingletonScope();
+container.bind<SchedulingService>(TYPES.SchedulingService).to(SchedulingService).inSingletonScope();
 
 // Repository
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
@@ -101,5 +105,9 @@ container
   .inSingletonScope();
 container.bind<BikeRepository>(TYPES.BikeRepository).to(BikeRepository).inSingletonScope();
 container.bind<OrderRepository>(TYPES.OrderRepository).to(OrderRepository).inSingletonScope();
+container
+  .bind<SchedulingRepository>(TYPES.SchedulingRepository)
+  .to(SchedulingRepository)
+  .inSingletonScope();
 
 export { container };
