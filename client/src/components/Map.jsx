@@ -35,13 +35,16 @@ const ShippingMap = () => {
 
   const [destinations, setDestinations] = useState([]);
 
-  useEffect(async () => {
-    if (updateMap) {
-      const dest = shippingStore.getDestinations;
-      setDestinations(await createRoutes(dest));
-      setUpdateMap(false);
-    }
-  });
+  useEffect(() => {
+    const getMapRoutes = async () => {
+      if (updateMap) {
+        const dest = shippingStore.getDestinations;
+        setDestinations(await createRoutes(dest));
+        setUpdateMap(false);
+      }
+    };
+    getMapRoutes();
+  }, [updateMap, shippingStore.getDestinations]);
 
   return (
     <div>
@@ -51,7 +54,7 @@ const ShippingMap = () => {
         mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX}
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
       >
-        {destinations.length != 0
+        {destinations.length !== 0
           ? destinations.map((dest) => (
               <div key={dest._id}>
                 <Source key={'source' + dest._id} type="geojson" data={dest.route}>

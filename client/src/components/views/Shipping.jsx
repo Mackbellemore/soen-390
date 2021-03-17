@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { MapContext } from 'react-map-gl';
-import ShippingMap from '../Map';
-import ShippingTable from '../ShippingTable';
+import ShippingMap from '../Map.jsx';
+import ShippingTable from '../ShippingTable.jsx';
 import { getShippingData } from 'utils/api/shippings.js';
 import { RootStoreContext } from 'stores/stores.jsx';
 import Head from 'next/head';

@@ -55,7 +55,7 @@
     "format:base": "prettier --ignore-path .gitignore",
     "format:ci": "npm run format:base -- --check .",
     "lint": "npm run lint:ci -- --fix",
-    "lint:ci": "eslint --ignore-path .gitignore .",
+    "lint:ci": "eslint --ext .jsx,.js --ignore-path .gitignore .",
     "preexport": "npm run build",
     "start": "next start"
   },

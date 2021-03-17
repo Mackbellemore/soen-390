@@ -39,7 +39,7 @@ const ShippingTable = () => {
         const shpmtArr = [...oldArr];
 
         shpmtArr.find((elmt) => {
-          const isTargetId = elmt._id == shipId;
+          const isTargetId = String(elmt._id) === shipId;
           if (isTargetId) {
             elmt.status = getNextShpmtStatus(elmt.status);
           }
@@ -64,11 +64,11 @@ const ShippingTable = () => {
 
   const handleHover = (e, eType) => {
     if (map._fullyLoaded) {
-      shippingStore.getDestIds.map((destId) => {
-        const focusId = destId == e.currentTarget.id;
+      shippingStore.getDestIds.forEach((destId) => {
+        const focusId = String(destId) === e.currentTarget.id;
         const hideStatus = shippingStatesHide.includes(shippingStore.shpmtStatus(destId));
 
-        if (eType == 'over') {
+        if (eType === 'over') {
           map.setLayoutProperty(
             mapLayerID + destId,
             'visibility',
@@ -76,7 +76,7 @@ const ShippingTable = () => {
           );
         }
 
-        if (eType == 'out') {
+        if (eType === 'out') {
           map.setLayoutProperty(mapLayerID + destId, 'visibility', hideStatus ? 'none' : 'visible');
         }
       });
