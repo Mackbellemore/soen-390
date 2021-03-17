@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
 
-const ExportFiles = (props) => {
+const ExportFiles = ({ section, data }) => {
   const handleExportCSV = () => {
     const dateTime = getDateTime();
-    const arrData = props.data;
+    const arrData = data;
 
     arrData.forEach(function (currentItem) {
       delete currentItem._id;
@@ -32,7 +32,7 @@ const ExportFiles = (props) => {
       return;
     }
 
-    const fileName = ('ERP_export_' + props.section + '_' + dateTime).replace(/ /g, '_');
+    const fileName = ('ERP_export_' + section + '_' + dateTime).replace(/ /g, '_');
 
     const link = document.createElement('a');
     link.href = 'data:text/csv;charset=utf-8,' + escape(finalText);
@@ -78,8 +78,8 @@ const ExportFiles = (props) => {
 };
 
 ExportFiles.propTypes = {
-  section: PropTypes.string,
-  data: PropTypes.string,
+  section: PropTypes.string.isRequired,
+  data: PropTypes.string.isRequired,
 };
 
 export default ExportFiles;
