@@ -1,4 +1,4 @@
-import { makeGetRequest } from './base.js';
+import { makeGetRequest, makePostRequest } from './base.js';
 
 const getOrders = async () => {
   return makeGetRequest('orders');

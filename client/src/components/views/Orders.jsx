@@ -1,5 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import {
+  useToast,
+  Textarea,
+  Select,
   useDisclosure,
   Table,
   Thead,
@@ -19,9 +22,9 @@ import {
   ModalBody,
   ModalCloseButton,
 } from '@chakra-ui/react';
-import { SmallAddIcon, DeleteIcon } from '@chakra-ui/icons';
+import { SmallAddIcon } from '@chakra-ui/icons';
 import Loader from 'components/common/Loader.jsx';
-import { getOrders } from 'utils/api/orders.js';
+import { getOrders, postOrders } from 'utils/api/orders.js';
 import { useQuery } from 'react-query';
 import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
 import { TablePagination } from '@material-ui/core';
@@ -29,9 +32,39 @@ import { NoResultImage } from 'components/common/Image.jsx';
 
 const Orders = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isLoading, isSuccess, data } = useQuery('orders', getOrders);
+  const { isLoading, isSuccess, data, refetch } = useQuery('orders', getOrders);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const toast = useToast();
+  const [material, setMaterial] = useState();
+  const [cost, setCost] = useState(0);
+  const [deliveryDate, setDeliveryDate] = useState();
+  const [orderDate, setOrderDate] = useState();
+  const [quantity, setQuantity] = useState(0);
+  const [manufacturer, setManufacturer] = useState();
+  const [location, setLocation] = useState();
+  const [note, setNote] = useState();
+  const materialTypes = ['rubber', 'aluminum', 'steel', 'copper', 'plastic', 'leather'];
+  const materialCost = {
+    rubber: {
+      cost: 2,
+    },
+    aluminum: {
+      cost: 1,
+    },
+    steel: {
+      cost: 1,
+    },
+    copper: {
+      cost: 3,
+    },
+    plastic: {
+      cost: 0.5,
+    },
+    leather: {
+      cost: 4,
+    },
+  };
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -56,6 +89,51 @@ const Orders = () => {
       </>
     );
   }
+
+  const handleMaterial = (e) => {
+    let choice = e.target.value;
+    setMaterial(choice);
+    setCost(materialCost[choice].cost);
+  };
+
+  const handleSubmit = async () => {
+    let orderTime = new Date();
+    setOrderDate(orderTime);
+    setDeliveryDate(orderTime.setDate(orderTime.getDate() + 4));
+
+    try {
+      await postOrders({
+        materialType: material,
+        cost: cost,
+        quantity: quantity,
+        deliveryDate: deliveryDate,
+        orderDate: orderDate,
+        manufacturerName: manufacturer,
+        vendorLocation: location,
+        status: 'Pending',
+        note: note,
+      });
+      toast({
+        title: 'Order Placed',
+        description: 'The order has been placed',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+    } catch {
+      toast({
+        position: 'top',
+        title: 'An error occurred.',
+        description: 'Unable to place order.',
+        status: 'error',
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+    refetch();
+    onClose();
+  };
+
   return (
     <>
       <Button
@@ -75,33 +153,37 @@ const Orders = () => {
           <ModalBody pb={6}>
             <FormControl>
               <FormLabel>Material</FormLabel>
-              <Input placeholder="Material" />
+              <Select placeholder="Select an option" onChange={handleMaterial}>
+                {materialTypes.map((option) => (
+                  <option value={option}>{option}</option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl>
               <FormLabel>Quantity</FormLabel>
-              <Input placeholder="Quantity" />
-            </FormControl>
-
-            <FormControl mt={4}>
-              <FormLabel>Cost</FormLabel>
-              <Input placeholder="Cost" />
+              <Input placeholder="Quantity" onChange={(e) => setQuantity(e.target.value)} />
             </FormControl>
 
             <FormControl mt={4}>
               <FormLabel>Manufacturer</FormLabel>
-              <Input placeholder="Manufacturer" />
+              <Input placeholder="Manufacturer" onChange={(e) => setManufacturer(e.target.value)} />
             </FormControl>
 
             <FormControl mt={4}>
               <FormLabel>Location</FormLabel>
-              <Input placeholder="Location" />
+              <Input placeholder="Location" onChange={(e) => setLocation(e.target.value)} />
+            </FormControl>
+
+            <FormControl mt={4}>
+              <FormLabel>Note to the manufacturer</FormLabel>
+              <Textarea placeholder="Note" onChange={(e) => setNote(e.target.value)} />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
-              Save
+            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+              Submit
             </Button>
             <Button onClick={onClose}>Cancel</Button>
           </ModalFooter>
