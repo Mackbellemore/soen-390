@@ -24,7 +24,7 @@ import {
 } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons';
 import Loader from 'components/common/Loader.jsx';
-import { getOrders, postOrders } from 'utils/api/orders.js';
+import { getOrders, getMaterialList, postOrders } from 'utils/api/orders.js';
 import { useQuery } from 'react-query';
 import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
 import { TablePagination } from '@material-ui/core';
@@ -45,26 +45,7 @@ const Orders = () => {
   const [location, setLocation] = useState();
   const [note, setNote] = useState();
   const materialTypes = ['rubber', 'aluminum', 'steel', 'copper', 'plastic', 'leather'];
-  const materialCost = {
-    rubber: {
-      cost: 2,
-    },
-    aluminum: {
-      cost: 1,
-    },
-    steel: {
-      cost: 1,
-    },
-    copper: {
-      cost: 3,
-    },
-    plastic: {
-      cost: 0.5,
-    },
-    leather: {
-      cost: 4,
-    },
-  };
+  const materialCost = useQuery('orders/materialList', getMaterialList);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
@@ -94,7 +75,7 @@ const Orders = () => {
   const handleMaterial = (e) => {
     let choice = e.target.value;
     setMaterial(choice);
-    setCost(materialCost[choice].cost);
+    setCost(materialCost.data.data[choice].cost);
   };
 
   //generates a random int within ranges
@@ -161,7 +142,7 @@ const Orders = () => {
           <ModalHeader>Place an order</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Material</FormLabel>
               <Select placeholder="Select an option" onChange={handleMaterial}>
                 {materialTypes.map((material) => (
@@ -170,7 +151,7 @@ const Orders = () => {
               </Select>
             </FormControl>
 
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Quantity</FormLabel>
               <Input placeholder="Quantity" onChange={(e) => setQuantity(e.target.value)} />
             </FormControl>

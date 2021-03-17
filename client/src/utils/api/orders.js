@@ -4,8 +4,12 @@ const getOrders = async () => {
   return makeGetRequest('orders');
 };
 
+const getMaterialList = async () => {
+  return makeGetRequest('orders/materialList');
+};
+
 const postOrders = async (body) => {
   return makePostRequest('orders', body);
 };
 
-export { getOrders, postOrders };
+export { getOrders, getMaterialList, postOrders };
