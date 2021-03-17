@@ -8,7 +8,7 @@ const ExportFiles = (props) => {
     const arrData = props.data;
 
     arrData.forEach(function (currentItem) {
-      delete currentItem['_id'];
+      delete currentItem._id;
     });
 
     let finalText = '';
