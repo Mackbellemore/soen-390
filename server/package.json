@@ -81,7 +81,7 @@
     "format:base": "prettier --ignore-path .gitignore",
     "format:ci": "npm run format:base -- --check .",
     "lint": "npm run lint:ci -- --fix",
-    "lint:ci": "eslint --ignore-path .gitignore .",
+    "lint:ci": "eslint --ext .ts,.js --ignore-path .gitignore .",
     "start": "node build/index.js",
     "test": "npm run test:unit",
     "test:unit": "mocha -r ts-node/register tests/unit/*.test.ts",
