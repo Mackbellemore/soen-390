@@ -164,8 +164,8 @@ const Orders = () => {
             <FormControl>
               <FormLabel>Material</FormLabel>
               <Select placeholder="Select an option" onChange={handleMaterial}>
-                {materialTypes.map((option) => (
-                  <option value={option}>{option}</option>
+                {materialTypes.map((material) => (
+                  <option value={material}>{material}</option>
                 ))}
               </Select>
             </FormControl>
