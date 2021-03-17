@@ -27,6 +27,7 @@ export default class PartEntity {
     grade: Joi.string(),
     detail: Joi.string(),
     stock: Joi.number().integer().greater(-1).less(100),
+    defectId: Joi.string(),
   });
 
   // create a second schema purely just for POST requests
