@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useRef } from 'react';
 import {
   useToast,
   Textarea,
@@ -41,9 +41,9 @@ const Orders = () => {
   const [deliveryDate, setDeliveryDate] = useState();
   const [orderDate, setOrderDate] = useState();
   const [quantity, setQuantity] = useState(0);
-  const [manufacturer, setManufacturer] = useState();
-  const [location, setLocation] = useState();
-  const [note, setNote] = useState();
+  const manufacturer = useRef('');
+  const location = useRef('');
+  const note = useRef('');
   const materialTypes = ['rubber', 'aluminum', 'steel', 'copper', 'plastic', 'leather'];
   const materialCost = useQuery('orders/materialList', getMaterialList);
 
@@ -99,10 +99,10 @@ const Orders = () => {
         quantity: quantity,
         deliveryDate: deliveryDate,
         orderDate: orderDate,
-        manufacturerName: manufacturer,
-        vendorLocation: location,
+        manufacturerName: manufacturer.current.value,
+        vendorLocation: location.current.value,
         status: 'Pending',
-        note: note,
+        note: note.current.value,
       });
       toast({
         title: 'Order Placed',
@@ -160,17 +160,17 @@ const Orders = () => {
 
             <FormControl mt={4}>
               <FormLabel>Manufacturer</FormLabel>
-              <Input placeholder="Manufacturer" onChange={(e) => setManufacturer(e.target.value)} />
+              <Input placeholder="Manufacturer" ref={manufacturer} />
             </FormControl>
 
             <FormControl mt={4}>
               <FormLabel>Location</FormLabel>
-              <Input placeholder="Location" onChange={(e) => setLocation(e.target.value)} />
+              <Input placeholder="Location" ref={location} />
             </FormControl>
 
             <FormControl mt={4}>
               <FormLabel>Note to the manufacturer</FormLabel>
-              <Textarea placeholder="Note" onChange={(e) => setNote(e.target.value)} />
+              <Textarea placeholder="Note" ref={note} />
             </FormControl>
           </ModalBody>
 
