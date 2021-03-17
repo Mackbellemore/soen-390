@@ -1,10 +1,10 @@
 import React from 'react';
 import { Menu, MenuButton, MenuList, MenuItem, Button } from '@chakra-ui/react';
 
-const ExportFiles = ({ section, data }) => {
+const ExportFiles = (props) => {
   const handleExportCSV = () => {
     const dateTime = getDateTime();
-    const arrData = data;
+    const arrData = props.data;
 
     arrData.forEach(function (currentItem) {
       delete currentItem['_id'];
@@ -14,14 +14,14 @@ const ExportFiles = ({ section, data }) => {
 
     // CSV title
     let row = '';
-    for (let index in arrData[0]) row += index + ',';
+    for (const index in arrData[0]) row += index + ',';
     row = row.slice(0, -1);
     finalText += row + '\r\n';
 
     // CSV data
     for (let i = 0; i < arrData.length; i++) {
       let row = '';
-      for (let index in arrData[i]) row += '"' + arrData[i][index] + '",';
+      for (const index in arrData[i]) row += '"' + arrData[i][index] + '",';
       row = row.slice(0, row.length - 1);
       finalText += row + '\r\n';
     }
@@ -31,7 +31,7 @@ const ExportFiles = ({ section, data }) => {
       return;
     }
 
-    const fileName = ('ERP_export_' + section + '_' + dateTime).replace(/ /g, '_');
+    const fileName = ('ERP_export_' + props.section + '_' + dateTime).replace(/ /g, '_');
 
     const link = document.createElement('a');
     link.href = 'data:text/csv;charset=utf-8,' + escape(finalText);
