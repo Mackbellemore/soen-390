@@ -2,7 +2,7 @@ import { IPart } from './../models/PartModel';
 import Joi from 'joi';
 import { BadRequestError } from '../errors';
 
-const PartTypes = [
+export const PartTypes = [
   'handle_bar',
   'wheels',
   'chain',
@@ -27,6 +27,7 @@ export default class PartEntity {
     grade: Joi.string(),
     detail: Joi.string(),
     stock: Joi.number().integer().greater(-1).less(100),
+    defectId: Joi.string(),
   });
 
   // create a second schema purely just for POST requests
