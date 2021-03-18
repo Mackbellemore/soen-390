@@ -18,6 +18,7 @@ export class DefectController extends BaseController {
    * @desc        Get all defect
    * @route       GET /defects
    * @access      Public
+   * @returns     List Defects Json Format
    */
   @httpGet('/')
   public async get(): Promise<results.JsonResult> {

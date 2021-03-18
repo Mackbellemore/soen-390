@@ -100,7 +100,7 @@ export class PartController extends BaseController {
     }
   }
 
-  @Doc('Get All Parts')
+  @Doc('Get All Material List')
   /*
    * @desc        Gets the material list rules to create a type of part
    * @route       GET /parts/materialList

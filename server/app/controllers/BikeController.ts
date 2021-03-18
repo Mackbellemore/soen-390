@@ -26,6 +26,7 @@ export class BikeController extends BaseController {
    * @desc        Get all bikes
    * @route       GET /bikes
    * @access      Public
+   * @returns     List Bikes Json Format
    */
   @httpGet('/')
   public async get(): Promise<results.JsonResult> {
