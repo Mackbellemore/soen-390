@@ -1,5 +1,10 @@
 import React, { Fragment, useState, useRef } from 'react';
 import {
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
   Center,
   useToast,
   Textarea,
@@ -129,7 +134,13 @@ const Orders = () => {
           </FormControl>
           <FormControl isRequired>
             <FormLabel>Quantity</FormLabel>
-            <Input placeholder="Quantity" onChange={(e) => setQuantity(e.target.value)} />
+            <NumberInput min={1} defaultValue={1} onChange={(e) => setQuantity(e)}>
+              <NumberInputField />
+              <NumberInputStepper>
+                <NumberIncrementStepper />
+                <NumberDecrementStepper />
+              </NumberInputStepper>
+            </NumberInput>
           </FormControl>
           <FormControl mt={4}>
             <FormLabel>Manufacturer</FormLabel>
