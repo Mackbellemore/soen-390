@@ -33,9 +33,8 @@ const getRandomInt = (min, max) => {
 };
 
 const FormModal = ({ showButton = false }) => {
-  // TODO: use the endpoint to get this constant list of materials rather than hardcoding
+  // TODO: use the endpoint to get this constant list of materials rather than hard coding
   const materialTypes = ['rubber', 'aluminum', 'steel', 'copper', 'plastic', 'leather'];
-  const [quantity, setQuantity] = useState(0);
   const manufacturer = useRef('');
   const location = useRef('');
   const note = useRef('');
@@ -45,6 +44,7 @@ const FormModal = ({ showButton = false }) => {
   const materialCost = useQuery('orders/materialList', getMaterialList);
   const { refetch } = useQuery('orders', getOrders);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const quantityRef = useRef(1);
 
   // sets material and cost states
   const handleMaterial = (e) => {
@@ -61,7 +61,7 @@ const FormModal = ({ showButton = false }) => {
       await postOrders({
         materialType: material,
         cost: cost,
-        quantity: quantity,
+        quantity: quantityRef.current.value,
         deliveryDate: randomDeliveryDate,
         orderDate: orderTime,
         manufacturerName: manufacturer.current.value,
@@ -125,8 +125,8 @@ const FormModal = ({ showButton = false }) => {
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Quantity</FormLabel>
-              <NumberInput min={1} defaultValue={1} onChange={(e) => setQuantity(e)}>
-                <NumberInputField />
+              <NumberInput min={1} defaultValue={1}>
+                <NumberInputField ref={quantityRef} />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
