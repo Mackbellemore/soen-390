@@ -9,20 +9,28 @@ const ExportFiles = ({ section, data }) => {
 
     arrData.forEach(function (currentItem) {
       delete currentItem._id;
+      delete currentItem.__v;
     });
 
     let finalText = '';
+    const headerArr = [];
 
     // CSV title
     let row = '';
-    for (const index in arrData[0]) row += index + ',';
+    for (const index in arrData[0]) {
+      headerArr.push(index);
+      row += index + ',';
+    }
+
     row = row.slice(0, -1);
     finalText += row + '\r\n';
 
     // CSV data
     for (let i = 0; i < arrData.length; i++) {
       let row = '';
-      for (const index in arrData[i]) row += '"' + arrData[i][index] + '",';
+      for (const header in headerArr) {
+        row += '"' + arrData[i][headerArr[header]] + '",';
+      }
       row = row.slice(0, row.length - 1);
       finalText += row + '\r\n';
     }

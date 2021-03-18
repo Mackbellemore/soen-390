@@ -33,6 +33,7 @@ import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/c
 import { TablePagination, Paper, TableContainer } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
 import { DeleteIcon, SmallAddIcon } from '@chakra-ui/icons';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const Parts = () => {
   const { isLoading, isSuccess, data, refetch } = useQuery('defects', getDefects);
@@ -318,6 +319,7 @@ const Parts = () => {
         />
       </TableContainer>
       {addDefectForm()}
+      <ExportFiles section="material" data={data.data} />
     </Box>
   );
 };
