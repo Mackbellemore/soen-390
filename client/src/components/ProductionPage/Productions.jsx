@@ -1,13 +1,25 @@
-import { Table, Thead, Tbody, Tr, Th, Heading } from '@chakra-ui/react';
-import { Fragment } from 'react';
+import { Table, Thead, Tbody, Tr, Th, Heading, TableCaption } from '@chakra-ui/react';
+import { Fragment, useState } from 'react';
 import { getProductions } from 'utils/api/productions';
 import { useQuery } from 'react-query';
 import Loader from 'components/common/Loader';
-import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
+import { StyledTableRow, StyledTableCell } from 'components/common/Table.jsx';
 import { NoResultImage } from 'components/common/Image.jsx';
+import { TablePagination } from '@material-ui/core';
 
 const Productions = () => {
   const { isLoading, isSuccess, data } = useQuery('productions', getProductions);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   if (isLoading) {
     return <Loader />;
@@ -26,10 +38,8 @@ const Productions = () => {
 
   return (
     <>
-      {/* {console.log('hello')} */}
-      {/* {console.log(data)} */}
-      {/* {console.log(data.data)} */}
-      <Table variant="striped" colorScheme="teal">
+      <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+        <TableCaption placement="top">List of productions</TableCaption>
         <Thead>
           <Tr>
             <Th>Status</Th>
@@ -47,25 +57,36 @@ const Productions = () => {
           </Tr>
         </Thead>
         <Tbody>
-          {data.data.map((production) => (
-            <Fragment key={production.id}>
-              <StyledTableRow>
-                <StyledTableCell>{production.status}</StyledTableCell>
-                <StyledTableCell>{production.orderID}</StyledTableCell>
-                <StyledTableCell>{production.component}</StyledTableCell>
-                <StyledTableCell>{production.option1}</StyledTableCell>
-                <StyledTableCell>{production.option2}</StyledTableCell>
-                <StyledTableCell>{production.quantity}</StyledTableCell>
-                <StyledTableCell>{production.expectedStartDate}</StyledTableCell>
-                <StyledTableCell>{production.expectedEndDate}</StyledTableCell>
-                <StyledTableCell>{production.actualStartDate}</StyledTableCell>
-                <StyledTableCell>{production.actualEndDate}</StyledTableCell>
-                <StyledTableCell>{production.note}</StyledTableCell>
-              </StyledTableRow>
-            </Fragment>
-          ))}
+          {data.data
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((production) => (
+              <Fragment key={production.id}>
+                <StyledTableRow>
+                  <StyledTableCell>{production.status}</StyledTableCell>
+                  <StyledTableCell>{production.orderID}</StyledTableCell>
+                  <StyledTableCell>{production.component}</StyledTableCell>
+                  <StyledTableCell>{production.option1}</StyledTableCell>
+                  <StyledTableCell>{production.option2}</StyledTableCell>
+                  <StyledTableCell>{production.quantity}</StyledTableCell>
+                  <StyledTableCell>{production.expectedStartDate}</StyledTableCell>
+                  <StyledTableCell>{production.expectedEndDate}</StyledTableCell>
+                  <StyledTableCell>{production.actualStartDate}</StyledTableCell>
+                  <StyledTableCell>{production.actualEndDate}</StyledTableCell>
+                  <StyledTableCell>{production.note}</StyledTableCell>
+                </StyledTableRow>
+              </Fragment>
+            ))}
         </Tbody>
       </Table>
+      <TablePagination
+        rowsPerPageOptions={[10, 20]}
+        component="div"
+        count={data.data.length}
+        page={page}
+        onChangePage={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
     </>
   );
 };
