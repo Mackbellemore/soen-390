@@ -76,7 +76,7 @@ const Materials = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-      <ExportFiles section="material" data={data.data} />
+      <ExportFiles section="materials" data={data.data} />
     </>
   );
 };
