@@ -128,7 +128,7 @@ export class OrderController extends BaseController {
   @Doc('Approve an Order')
   /**
    * @desc          Approves an order
-   * @route         POST/orders/approved
+   * @route         POST  /orders/approved
    * @access        Public
    * @param request
    * @returns       Order JSON Format

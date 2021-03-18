@@ -15,6 +15,7 @@ import {
 import TYPES from '../constants/types';
 import config from 'config';
 import { checkAdminRole } from '../middlewares/authorization';
+import { Doc } from 'inversify-express-doc';
 
 @controller('/user')
 export class UserController extends BaseHttpController {
@@ -22,6 +23,14 @@ export class UserController extends BaseHttpController {
     super();
   }
 
+  @Doc('Create a user account')
+  /**
+   * @desc        Create user account
+   * @route       POST /user/register
+   * @access      Public
+   * @param req   Parameters {username, email, password}
+   * @returns     User JSON Format
+   */
   @httpPost('/register')
   public async register(req: Request): Promise<results.JsonResult> {
     try {
