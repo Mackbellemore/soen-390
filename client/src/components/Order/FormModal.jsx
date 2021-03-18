@@ -39,7 +39,7 @@ const FormModal = ({ showButton = false }) => {
   const location = useRef('');
   const note = useRef('');
   const toast = useToast();
-  const [material, setMaterial] = useState();
+  const [material, setMaterial] = useState(null);
   const [cost, setCost] = useState(0);
   const materialCost = useQuery('orders/materialList', getMaterialList);
   const { refetch } = useQuery('orders', getOrders);
@@ -88,6 +88,7 @@ const FormModal = ({ showButton = false }) => {
     }
     refetch();
     onClose();
+    setMaterial(null);
   };
 
   return (
@@ -147,7 +148,7 @@ const FormModal = ({ showButton = false }) => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            <Button colorScheme="blue" mr={3} onClick={handleSubmit} isDisabled={material === null}>
               Submit
             </Button>
             <Button onClick={onClose}>Cancel</Button>
