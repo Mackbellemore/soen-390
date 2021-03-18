@@ -319,7 +319,7 @@ const Parts = () => {
         />
       </TableContainer>
       {addDefectForm()}
-      <ExportFiles section="material" data={data.data} />
+      <ExportFiles section="part" data={data.data} />
     </Box>
   );
 };
