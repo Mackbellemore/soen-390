@@ -13,6 +13,7 @@ import { BaseController } from './BaseController';
 import { OrderService } from '../services/OrderService';
 import { IOrder } from '../models/OrderModel';
 import { materialCost } from '../entities/Material';
+import { Doc } from 'inversify-express-doc';
 
 @controller('/orders')
 export class OrderController extends BaseController {
@@ -20,6 +21,13 @@ export class OrderController extends BaseController {
     super();
   }
 
+  @Doc('Get All Orders')
+  /**
+   * @desc        Get all orders
+   * @route       GET /orders
+   * @access      Public
+   * @returns     List of Orders JSON format
+   */
   @httpGet('/')
   public async get(): Promise<results.JsonResult> {
     try {
@@ -30,6 +38,14 @@ export class OrderController extends BaseController {
     }
   }
 
+  @Doc('Create new Order')
+  /**
+   * @desc          Create new order
+   * @route         POST /orders
+   * @access        Public
+   * @param request
+   * @returns       Order JSON Format
+   */
   @httpPost('/')
   public async post(request: Request): Promise<results.JsonResult> {
     try {
@@ -40,6 +56,14 @@ export class OrderController extends BaseController {
     }
   }
 
+  @Doc('Delete an Order')
+  /**
+   * @desc          Delete an Order
+   * @route         DELETE /orders
+   * @access        Public
+   * @param request
+   * @returns       Order JSON Format
+   */
   @httpDelete('/')
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
@@ -51,6 +75,14 @@ export class OrderController extends BaseController {
     }
   }
 
+  @Doc('Update Order by ID')
+  /**
+   * @desc          Update an Order by ID
+   * @route         Patch /orders/:id
+   * @access        Public
+   * @param request
+   * @returns       Order JSON Format
+   */
   @httpPatch('/:id')
   public async update(request: Request): Promise<results.JsonResult> {
     try {
@@ -64,11 +96,25 @@ export class OrderController extends BaseController {
     }
   }
 
+  @Doc('Get All Material List')
+  /*
+   * @desc        Gets the material list rules to create a type of part
+   * @route       GET /orders/materialList
+   * @access      Public
+   */
   @httpGet('/materialList')
   public async getMaterialList(): Promise<results.JsonResult> {
     return this.json(materialCost);
   }
 
+  @Doc('Get an Order by ID')
+  /**
+   * @desc          Delete Order by ID
+   * @route         DELETE /orders/:id
+   * @access        Public
+   * @param request
+   * @returns       Order JSON Format
+   */
   @httpGet('/:id')
   public async getById(request: Request): Promise<results.JsonResult> {
     try {
@@ -79,6 +125,14 @@ export class OrderController extends BaseController {
     }
   }
 
+  @Doc('Approve an Order')
+  /**
+   * @desc          Approves an order
+   * @route         POST  /orders/approved
+   * @access        Public
+   * @param request
+   * @returns       Order JSON Format
+   */
   @httpPost('/approved')
   public async approve(request: Request): Promise<results.JsonResult> {
     try {

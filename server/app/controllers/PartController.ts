@@ -15,6 +15,7 @@ import { Request } from 'express';
 import { BaseController } from './BaseController';
 import PartEntity from './../entities/Part';
 import { partTypeMaterials } from '../validation/parts/partTypes';
+import { Doc } from 'inversify-express-doc';
 
 @controller('/parts')
 export class PartController extends BaseController {
@@ -22,13 +23,14 @@ export class PartController extends BaseController {
     super();
   }
 
+  @Doc('Get One Part or All Parts')
   /*
-  @desc        Get one part or all parts
-  @route       GET /parts or /parts?name= or parts?id=
-  @access      Public
-  @param  {string} id part id
-  @param  {string} name part name
-  */
+   * @desc        Get one part or all parts
+   * @route       GET /parts or /parts?name= or parts?id=
+   * @access      Public
+   * @param  {string} id part id
+   * @param  {string} name part name
+   */
   @httpGet('/')
   public async get(
     @queryParam('id') id?: string,
@@ -42,9 +44,14 @@ export class PartController extends BaseController {
     }
   }
 
-  // @desc        Create new part
-  // @route       POST /parts
-  // @access      Public
+  @Doc('Create new Part')
+  /**
+   * @desc        Create new part
+   * @route       POST /parts
+   * @access      Public
+   * @param req
+   * @returns     Part Json Format
+   */
   @httpPost('/')
   public async post(req: Request): Promise<results.JsonResult> {
     try {
@@ -56,9 +63,14 @@ export class PartController extends BaseController {
     }
   }
 
-  // @desc        Update part by name
-  // @route       PATCH /parts/:name
-  // @access      Public
+  @Doc('Update Part by Name')
+  /**
+   * @desc        Update part by name
+   * @route       PATCH /parts/:name
+   * @access      Public
+   * @param req   Parameter name
+   * @returns     Part Json Format
+   */
   @httpPatch('/:name')
   public async patch(req: Request): Promise<results.JsonResult> {
     try {
@@ -70,9 +82,14 @@ export class PartController extends BaseController {
     }
   }
 
-  // @desc        Delete part
-  // @route       DELETE /parts/:name
-  // @access      Public
+  @Doc('Delete Part By Name')
+  /**
+   * @desc        Delete part
+   * @route       DELETE /parts/:name
+   * @access      Public
+   * @param req   Parameter name
+   * @returns     Part Json Format
+   */
   @httpDelete('/:name')
   public async delete(req: Request): Promise<results.JsonResult> {
     try {
@@ -83,9 +100,12 @@ export class PartController extends BaseController {
     }
   }
 
-  // @desc        Gets the material list rules to create a type of part
-  // @route       GET /parts/materialList
-  // @access      Public
+  @Doc('Get All Material List')
+  /*
+   * @desc        Gets the material list rules to create a type of part
+   * @route       GET /parts/materialList
+   * @access      Public
+   */
   @httpGet('/materialList')
   public async getMaterialList(): Promise<results.JsonResult> {
     return this.json(partTypeMaterials);
