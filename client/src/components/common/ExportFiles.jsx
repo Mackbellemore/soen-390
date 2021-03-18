@@ -20,7 +20,7 @@ const ExportFiles = ({ section, data }) => {
 
 ExportFiles.propTypes = {
   section: PropTypes.string.isRequired,
-  data: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default ExportFiles;
