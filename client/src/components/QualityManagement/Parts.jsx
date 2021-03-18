@@ -1,52 +1,30 @@
-import React, { Fragment, useState, useRef } from 'react';
+import { DeleteIcon } from '@chakra-ui/icons';
 import {
   Box,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
+  Checkbox,
   Heading,
   IconButton,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalFooter,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  FormControl,
-  FormLabel,
-  Input,
-  Button,
-  Select,
-  Textarea,
-  useToast,
+  Table,
   Tag,
-  Checkbox,
-  Center,
+  Tbody,
+  Thead,
+  Tr,
+  useToast,
 } from '@chakra-ui/react';
-import Loader from 'components/common/Loader';
-import { getDefects, createDefect, deleteDefects } from 'utils/api/defect.js';
-import { useQuery } from 'react-query';
-import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
-import { TablePagination, Paper, TableContainer } from '@material-ui/core';
+import { Paper, TableContainer, TablePagination } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
-import { DeleteIcon, SmallAddIcon } from '@chakra-ui/icons';
+import Loader from 'components/common/Loader';
+import { StyledTableCell, StyledTableHeader, StyledTableRow } from 'components/common/Table.jsx';
+import AddDefectModal from 'components/QualityManagement/AddDefectModal.jsx';
+import React, { Fragment, useState } from 'react';
+import { useQuery } from 'react-query';
+import { deleteDefects, getDefects } from 'utils/api/defect.js';
 
 const Parts = () => {
   const { isLoading, isSuccess, data, refetch } = useQuery('defects', getDefects);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [selected, setSelected] = useState([]);
-
-  // Modal (add new defect)
-  const [partName, setPartName] = useState('');
-  const type = useRef('');
-  const status = useRef('');
-  const description = useRef('');
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isLoadingButton, setIsLoadingButton] = useState(false);
   const toast = useToast();
 
   const handleChangePage = (e, newPage) => {
@@ -67,10 +45,6 @@ const Parts = () => {
       case 'Ongoing':
         return 'yellow';
     }
-  };
-
-  const handlePartNameInput = (e) => {
-    setPartName(e.target.value);
   };
 
   const isSelected = (_id) => selected.indexOf(_id) !== -1;
@@ -128,88 +102,9 @@ const Parts = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoadingButton(true);
-    try {
-      await createDefect({
-        partName: partName,
-        type: type.current.value,
-        status: status.current.value,
-        description: description.current.value,
-      });
-      toast({
-        title: 'Request Sent',
-        description: 'Defect has been created successfully',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      });
-      refetch();
-    } catch (err) {
-      toast({
-        title: 'Error',
-        description: err.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-    setIsLoadingButton(false);
-  };
-
   if (isLoading) {
     return <Loader />;
   }
-
-  const addDefectForm = () => (
-    <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Add a new Defect</ModalHeader>
-        <ModalCloseButton />
-        <ModalBody pb={6}>
-          <FormControl isRequired>
-            <FormLabel>Part Name</FormLabel>
-            <Input onChange={handlePartNameInput} value={partName} placeholder="Part name" />
-          </FormControl>
-
-          <FormControl mt={4}>
-            <FormLabel>Defect Type</FormLabel>
-            <Select ref={type}>
-              <option>Broken</option>
-              <option>Reparable</option>
-            </Select>
-          </FormControl>
-          <FormControl mt={4}>
-            <FormLabel>Defect Status</FormLabel>
-            <Select ref={status}>
-              <option>Solved</option>
-              <option>Pending</option>
-              <option>Ongoing</option>
-            </Select>
-          </FormControl>
-          <FormControl mt={4}>
-            <FormLabel>Description</FormLabel>
-            <Textarea ref={description} placeholder="Description" />
-          </FormControl>
-        </ModalBody>
-
-        <ModalFooter>
-          <Button
-            isLoading={isLoadingButton}
-            isDisabled={!partName}
-            onClick={handleSubmit}
-            colorScheme="blue"
-            mr={3}
-          >
-            Add
-          </Button>
-          <Button onClick={onClose}>Cancel</Button>
-        </ModalFooter>
-      </ModalContent>
-    </Modal>
-  );
 
   if (isSuccess && data.data.length === 0) {
     return (
@@ -217,10 +112,7 @@ const Parts = () => {
         <Heading size="xl" textAlign="center" mt={5}>
           No Defects
         </Heading>
-        <Center mt={4}>
-          <Button onClick={onOpen}>Add Defect</Button>
-        </Center>
-        {addDefectForm()}
+        <AddDefectModal showButton={true} />
         <NoResultImage />
       </>
     );
@@ -228,15 +120,6 @@ const Parts = () => {
 
   return (
     <Box overflowX="auto">
-      <IconButton
-        colorScheme="blue"
-        variant="outline"
-        aria-label="add"
-        float="right"
-        m={2}
-        icon={<SmallAddIcon />}
-        onClick={onOpen}
-      />
       <IconButton
         colorScheme="blue"
         variant="outline"
@@ -317,7 +200,7 @@ const Parts = () => {
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
       </TableContainer>
-      {addDefectForm()}
+      <AddDefectModal />
     </Box>
   );
 };
