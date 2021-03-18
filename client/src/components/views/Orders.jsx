@@ -65,16 +65,15 @@ const Orders = () => {
   };
 
   // generates a random int within ranges
-  function getRandomInt(min, max) {
+  const getRandomInt = (min, max) => {
     return Math.floor(Math.random() * (max - min)) + min;
-  }
+  };
 
   const handleSubmit = async () => {
     const orderTime = new Date();
     const deliveryTime = new Date();
     const randomDeliveryDate = deliveryTime.getDate() + getRandomInt(1, 8); // random delivery date within a week
     deliveryTime.setDate(randomDeliveryDate);
-
     setOrderDate(orderTime);
     setDeliveryDate(deliveryTime);
 
@@ -174,6 +173,13 @@ const Orders = () => {
     );
   }
 
+  const formatDate = (date) => {
+    const displayDate = new Date(date);
+    const dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    return displayDate.toLocaleDateString(undefined, dateFormat);
+  };
+
   return (
     <>
       <Button
@@ -209,10 +215,10 @@ const Orders = () => {
                   <StyledTableCell>{order.materialType}</StyledTableCell>
                   <StyledTableCell>{order.quantity}</StyledTableCell>
                   <StyledTableCell>{order.cost}</StyledTableCell>
-                  <StyledTableCell>{order.orderDate}</StyledTableCell>
+                  <StyledTableCell>{formatDate(order.orderDate)}</StyledTableCell>
                   <StyledTableCell>{order.manufacturerName}</StyledTableCell>
                   <StyledTableCell>{order.vendorLocation}</StyledTableCell>
-                  <StyledTableCell>{order.deliveryDate}</StyledTableCell>
+                  <StyledTableCell>{formatDate(order.deliveryDate)}</StyledTableCell>
                   <StyledTableCell>{order.status}</StyledTableCell>
                   <StyledTableCell>{order.note}</StyledTableCell>
                 </StyledTableRow>
