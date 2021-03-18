@@ -13,6 +13,7 @@ import {
 import TYPES from '../constants/types';
 import { BaseController } from './BaseController';
 import BikeEntity from '../entities/Bike';
+import { Doc } from 'inversify-express-doc';
 
 @controller('/bikes')
 export class BikeController extends BaseController {
@@ -20,6 +21,12 @@ export class BikeController extends BaseController {
     super();
   }
 
+  @Doc('Get All Bike')
+  /*
+   * @desc        Get all bikes
+   * @route       GET /bikes
+   * @access      Public
+   */
   @httpGet('/')
   public async get(): Promise<results.JsonResult> {
     try {
@@ -30,6 +37,14 @@ export class BikeController extends BaseController {
     }
   }
 
+  @Doc('Create new Bike')
+  /**
+   * @desc          Create new Bike
+   * @route         POST /bikes
+   * @access        Public
+   * @param request
+   * @returns       Bike Json Object Format
+   */
   @httpPost('/')
   public async post(request: Request): Promise<results.JsonResult> {
     try {
@@ -41,6 +56,14 @@ export class BikeController extends BaseController {
     }
   }
 
+  @Doc('Delete Bike')
+  /**
+   * @desc          Delete Bike
+   * @route         DELETE /bikes
+   * @access        Public
+   * @param request
+   * @returns       Bike Json Object Format
+   */
   @httpDelete('/')
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
@@ -52,6 +75,14 @@ export class BikeController extends BaseController {
     }
   }
 
+  @Doc('Update Bike by ID')
+  /**
+   * @desc          Update Bike by ID
+   * @route         PATCH /bikes
+   * @access        Public
+   * @param request
+   * @returns       Bike Json Object Format
+   */
   @httpPatch('/:id')
   public async update(request: Request): Promise<results.JsonResult> {
     try {
@@ -66,6 +97,14 @@ export class BikeController extends BaseController {
     }
   }
 
+  @Doc('Get Bike by ID')
+  /**
+   * @desc          Update Bike by ID
+   * @route         GET /bikes
+   * @access        Public
+   * @param request
+   * @returns       Bike Json Object Format
+   */
   @httpGet('/:id')
   public async getById(request: Request): Promise<results.JsonResult> {
     try {

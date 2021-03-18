@@ -52,7 +52,6 @@ export class PartController extends BaseController {
    * @param req
    * @returns     Part Json Object Format
    */
-  //
   @httpPost('/')
   public async post(req: Request): Promise<results.JsonResult> {
     try {
