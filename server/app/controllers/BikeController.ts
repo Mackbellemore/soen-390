@@ -43,7 +43,7 @@ export class BikeController extends BaseController {
    * @route         POST /bikes
    * @access        Public
    * @param request
-   * @returns       Bike Json Object Format
+   * @returns       Bike Json Format
    */
   @httpPost('/')
   public async post(request: Request): Promise<results.JsonResult> {
@@ -62,7 +62,7 @@ export class BikeController extends BaseController {
    * @route         DELETE /bikes
    * @access        Public
    * @param request
-   * @returns       Bike Json Object Format
+   * @returns       Bike Json Format
    */
   @httpDelete('/')
   public async delete(request: Request): Promise<results.JsonResult> {
@@ -81,7 +81,7 @@ export class BikeController extends BaseController {
    * @route         PATCH /bikes
    * @access        Public
    * @param request
-   * @returns       Bike Json Object Format
+   * @returns       Bike Json Format
    */
   @httpPatch('/:id')
   public async update(request: Request): Promise<results.JsonResult> {
@@ -103,7 +103,7 @@ export class BikeController extends BaseController {
    * @route         GET /bikes
    * @access        Public
    * @param request
-   * @returns       Bike Json Object Format
+   * @returns       Bike Json Format
    */
   @httpGet('/:id')
   public async getById(request: Request): Promise<results.JsonResult> {

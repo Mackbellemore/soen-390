@@ -50,7 +50,7 @@ export class PartController extends BaseController {
    * @route       POST /parts
    * @access      Public
    * @param req
-   * @returns     Part Json Object Format
+   * @returns     Part Json Format
    */
   @httpPost('/')
   public async post(req: Request): Promise<results.JsonResult> {
@@ -69,7 +69,7 @@ export class PartController extends BaseController {
    * @route       PATCH /parts/:name
    * @access      Public
    * @param req   Parameter name
-   * @returns     Part Json Object Format
+   * @returns     Part Json Format
    */
   @httpPatch('/:name')
   public async patch(req: Request): Promise<results.JsonResult> {
@@ -88,7 +88,7 @@ export class PartController extends BaseController {
    * @route       DELETE /parts/:name
    * @access      Public
    * @param req   Parameter name
-   * @returns     Part Json Object Format
+   * @returns     Part Json Format
    */
   @httpDelete('/:name')
   public async delete(req: Request): Promise<results.JsonResult> {

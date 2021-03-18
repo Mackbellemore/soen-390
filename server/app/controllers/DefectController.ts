@@ -5,6 +5,7 @@ import { inject } from 'inversify';
 import { controller, httpGet, httpPost, httpDelete, results } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import { BaseController } from './BaseController';
+import { Doc } from 'inversify-express-doc';
 
 @controller('/defects')
 export class DefectController extends BaseController {
@@ -12,6 +13,12 @@ export class DefectController extends BaseController {
     super();
   }
 
+  @Doc('Get All Defect')
+  /**
+   * @desc        Get all defect
+   * @route       GET /defects
+   * @access      Public
+   */
   @httpGet('/')
   public async get(): Promise<results.JsonResult> {
     try {
@@ -22,6 +29,14 @@ export class DefectController extends BaseController {
     }
   }
 
+  @Doc('Create new Defect')
+  /**
+   * @desc          Create new Defect
+   * @route         POST /defects
+   * @access        Public
+   * @param request
+   * @returns       Defect Json Format
+   */
   @httpPost('/')
   public async post(request: Request): Promise<results.JsonResult> {
     try {
@@ -32,6 +47,14 @@ export class DefectController extends BaseController {
     }
   }
 
+  @Doc('Delete a Defect')
+  /**
+   * @desc          Delete Defect
+   * @route         DELETE /defects
+   * @access        Public
+   * @param req
+   * @returns       Defect Json Format
+   */
   @httpDelete('/')
   public async delete(req: Request): Promise<results.JsonResult> {
     try {
