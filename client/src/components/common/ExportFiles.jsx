@@ -78,7 +78,6 @@ const ExportFiles = ({ section, data }) => {
         <MenuButton as={Button}>Export »</MenuButton>
         <MenuList>
           <MenuItem onClick={() => handleExportCSV()}>.CSV</MenuItem>
-          <MenuItem disabled>.PDF</MenuItem>
         </MenuList>
       </Menu>
     </div>
