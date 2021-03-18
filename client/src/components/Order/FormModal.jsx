@@ -42,8 +42,6 @@ const FormModal = ({ showButton = false }) => {
   const toast = useToast();
   const [material, setMaterial] = useState();
   const [cost, setCost] = useState(0);
-  const [deliveryDate, setDeliveryDate] = useState();
-  const [orderDate, setOrderDate] = useState();
   const materialCost = useQuery('orders/materialList', getMaterialList);
   const { refetch } = useQuery('orders', getOrders);
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -57,19 +55,15 @@ const FormModal = ({ showButton = false }) => {
 
   const handleSubmit = async () => {
     const orderTime = new Date();
-    const deliveryTime = new Date();
-    const randomDeliveryDate = deliveryTime.getDate() + getRandomInt(1, 8); // random delivery date within a week
-    deliveryTime.setDate(randomDeliveryDate);
-    setOrderDate(orderTime);
-    setDeliveryDate(deliveryTime);
+    const randomDeliveryDate = new Date().getDate() + getRandomInt(1, 8); // random delivery date within a week
 
     try {
       await postOrders({
         materialType: material,
         cost: cost,
         quantity: quantity,
-        deliveryDate: deliveryDate,
-        orderDate: orderDate,
+        deliveryDate: randomDeliveryDate,
+        orderDate: orderTime,
         manufacturerName: manufacturer.current.value,
         vendorLocation: location.current.value,
         status: 'Pending',
