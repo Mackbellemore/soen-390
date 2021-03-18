@@ -2,7 +2,7 @@ import { IPart } from './../models/PartModel';
 import Joi from 'joi';
 import { BadRequestError } from '../errors';
 
-const PartTypes = [
+export const PartTypes = [
   'handle_bar',
   'wheels',
   'chain',
@@ -18,7 +18,7 @@ export type partType = typeof PartTypes[number];
 export default class PartEntity {
   // Optional schema to validate Patch requests
   private static optionalSchema = Joi.object().keys({
-    name: Joi.string(),
+    name: Joi.string().trim(),
     quality: Joi.string(),
     description: Joi.string(),
     type: Joi.string().valid(...PartTypes),
@@ -27,6 +27,7 @@ export default class PartEntity {
     grade: Joi.string(),
     detail: Joi.string(),
     stock: Joi.number().integer().greater(-1).less(100),
+    defectId: Joi.string(),
   });
 
   // create a second schema purely just for POST requests

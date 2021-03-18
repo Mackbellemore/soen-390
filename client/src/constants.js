@@ -1,5 +1,19 @@
 import { lazy } from 'react';
 
+export const hq = {
+  longitude: -73.745181,
+  latitude: 45.4644455,
+};
+export const mapLayerID = 'mapLayer';
+export const shippingStates = [
+  'Ordered',
+  'Packaged',
+  'Shipped',
+  'Delivered',
+  'Cancelled',
+  'Delayed',
+];
+export const shippingStatesHide = ['Delivered', 'Cancelled'];
 export const rolesAvailable = ['Admin', 'General'];
 export const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export const carouselContent = [
@@ -57,6 +71,20 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/production',
     component: lazy(() => import('components/views/ProductionPage')),
+  },
+  {
+    name: 'Quality Management',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/quality-management',
+    component: lazy(() => import('components/views/QualityManagement')),
+  },
+  {
+    name: 'Shipping',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/shipping',
+    component: lazy(() => import('components/views/Shipping')),
   },
   {
     protected: false,

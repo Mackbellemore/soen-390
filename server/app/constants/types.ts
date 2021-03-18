@@ -8,6 +8,9 @@ const TYPES = {
   PartService: Symbol.for('PartService'),
   MaterialService: Symbol.for('MaterialService'),
   ProductionService: Symbol.for('ProductionService'),
+  DefectService: Symbol.for('DefectService'),
+  OrderService: Symbol.for('OrderService'),
+  SchedulingService: Symbol.for('SchedulingService'),
 
   // Repository
   UserRepository: Symbol.for('UserRepository'),
@@ -15,6 +18,9 @@ const TYPES = {
   MaterialRepository: Symbol.for('MaterialRepository'),
   BikeRepository: Symbol.for('BikeRepository'),
   ProductionRepository: Symbol.for('ProductionRepository'),
+  DefectRepository: Symbol.for('DefectRepository'),
+  OrderRepository: Symbol.for('OrderRepository'),
+  SchedulingRepository: Symbol.for('SchedulingRepository'),
 
   // Mongo
   MongoConnection: Symbol.for('MongoConnection'),
