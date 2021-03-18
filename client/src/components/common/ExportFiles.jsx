@@ -29,7 +29,8 @@ const ExportFiles = ({ section, data }) => {
     for (let i = 0; i < arrData.length; i++) {
       let row = '';
       for (const header in headerArr) {
-        row += '"' + arrData[i][headerArr[header]] + '",';
+        const str = arrData[i][headerArr[header]];
+        if (str !== undefined) row += '"' + arrData[i][headerArr[header]] + '",';
       }
       row = row.slice(0, row.length - 1);
       finalText += row + '\r\n';
