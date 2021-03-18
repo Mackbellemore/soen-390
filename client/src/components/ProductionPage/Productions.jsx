@@ -21,6 +21,13 @@ const Productions = () => {
     setPage(0);
   };
 
+  const formatDate = (date) => {
+    const displayDate = new Date(date);
+    const dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+    return displayDate.toLocaleDateString(undefined, dateFormat);
+  };
+
   if (isLoading) {
     return <Loader />;
   }
@@ -68,10 +75,10 @@ const Productions = () => {
                   <StyledTableCell>{production.option1}</StyledTableCell>
                   <StyledTableCell>{production.option2}</StyledTableCell>
                   <StyledTableCell>{production.quantity}</StyledTableCell>
-                  <StyledTableCell>{production.expectedStartDate}</StyledTableCell>
-                  <StyledTableCell>{production.expectedEndDate}</StyledTableCell>
-                  <StyledTableCell>{production.actualStartDate}</StyledTableCell>
-                  <StyledTableCell>{production.actualEndDate}</StyledTableCell>
+                  <StyledTableCell>{formatDate(production.expectedStartDate)}</StyledTableCell>
+                  <StyledTableCell>{formatDate(production.expectedEndDate)}</StyledTableCell>
+                  <StyledTableCell>{formatDate(production.actualStartDate)}</StyledTableCell>
+                  <StyledTableCell>{formatDate(production.actualEndDate)}</StyledTableCell>
                   <StyledTableCell>{production.note}</StyledTableCell>
                 </StyledTableRow>
               </Fragment>
