@@ -7,6 +7,25 @@ import FormModal from 'components/Order/FormModal.jsx';
 import React, { Fragment, useState } from 'react';
 import { useQuery } from 'react-query';
 import { getOrders } from 'utils/api/orders.js';
+import Head from 'next/head';
+
+const formatDate = (date) => {
+  const displayDate = new Date(date);
+  const dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+  return displayDate.toLocaleDateString(undefined, dateFormat);
+};
+
+const OrdersHeader = () => (
+  <>
+    <Head>
+      <title>ERP - Orders</title>
+    </Head>
+    <Heading fontSize={{ base: '12px', sm: '26px' }} textAlign="center" mt={5}>
+      Orders
+    </Heading>
+  </>
+);
 
 const Orders = () => {
   const [page, setPage] = useState(0);
@@ -29,6 +48,7 @@ const Orders = () => {
   if (isSuccess && data.data.length === 0) {
     return (
       <>
+        <OrdersHeader />
         <Heading size="xl" textAlign="center" mt={5}>
           No orders found.
         </Heading>
@@ -38,15 +58,9 @@ const Orders = () => {
     );
   }
 
-  const formatDate = (date) => {
-    const displayDate = new Date(date);
-    const dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-    return displayDate.toLocaleDateString(undefined, dateFormat);
-  };
-
   return (
     <>
+      <OrdersHeader />
       <FormModal />
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
         <TableCaption placement="top">List of orders</TableCaption>
