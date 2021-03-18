@@ -80,7 +80,7 @@ const Parts = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-      <ExportFiles section="material" data={data.data} />
+      <ExportFiles section="parts" data={data.data} />
     </>
   );
 };

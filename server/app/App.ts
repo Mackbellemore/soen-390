@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import { IConfig } from 'config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { Application } from 'express';
+import { Application, Request, Response } from 'express';
 import expressWinston from 'express-winston';
 import { Server } from 'http';
 import { InversifyExpressServer } from 'inversify-express-utils';
@@ -73,6 +73,9 @@ export class App {
       }
 
       appBuilder.setConfig((server: Application) => {
+        server.get('/', (_req: Request, res: Response) => {
+          res.redirect('/doc');
+        });
         // middlewares
         server.use(
           cors({
