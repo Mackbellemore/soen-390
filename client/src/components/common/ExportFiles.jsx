@@ -11,7 +11,7 @@ const ExportFiles = ({ section, data }) => {
       delete currentItem._id;
       delete currentItem.__v;
     });
-    
+
     // TO-DO: add filter for table col after all the pages are created.
 
     let finalText = '';
