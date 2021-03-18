@@ -24,8 +24,8 @@ export const ProductionSchema: Schema = new Schema({
   quantity: { type: Schema.Types.String, required: true },
   expectedStartDate: { type: Schema.Types.Date, required: true },
   expectedEndDate: { type: Schema.Types.Date, required: true },
-  actualStartDate: { type: Schema.Types.Date, required: true },
-  actualEndDate: { type: Schema.Types.Date, required: true },
+  actualStartDate: { type: Schema.Types.Date, required: false },
+  actualEndDate: { type: Schema.Types.Date, required: false },
   manufacture: { type: Schema.Types.String, required: true },
   note: { type: Schema.Types.String, required: false },
 });
