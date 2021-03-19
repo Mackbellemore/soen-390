@@ -4,10 +4,11 @@ import { NoResultImage } from 'components/common/Image.jsx';
 import Loader from 'components/common/Loader.jsx';
 import { StyledTableCell, StyledTableHeader, StyledTableRow } from 'components/common/Table.jsx';
 import FormModal from 'components/Order/FormModal.jsx';
-import React, { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { useQuery } from 'react-query';
 import { getOrders } from 'utils/api/orders.js';
 import Head from 'next/head';
+import usePagination from 'hooks/usePagination.jsx';
 
 const formatDate = (date) => {
   const displayDate = new Date(date);
@@ -28,18 +29,8 @@ const OrdersHeader = () => (
 );
 
 const Orders = () => {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
   const { isLoading, isSuccess, data } = useQuery('orders', getOrders);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
 
   if (isLoading) {
     return <Loader />;
