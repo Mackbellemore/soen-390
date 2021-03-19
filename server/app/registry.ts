@@ -1,6 +1,6 @@
 /**
  * This file is used to setup our dependency injection container provided by inversifyJS.
- * Any class, function, logger etc that needs to be injected annywhere in our app is first
+ * Any class, function, logger etc that needs to be injected anywhere in our app is first
  * binded in our container and can then be injected.
  */
 
@@ -24,6 +24,7 @@ import './controllers/MaterialController';
 import './controllers/DefectController';
 import './controllers/OrderController';
 import './controllers/SchedulingController';
+import './controllers/SaleController';
 
 // Services (make sure to bind it to a singleton)
 import { UserService } from './services/UserService';
@@ -34,6 +35,7 @@ import { BikeService } from './services/BikeService';
 import { DefectService } from './services/DefectService';
 import { OrderService } from './services/OrderService';
 import { SchedulingService } from './services/SchedulingService';
+import { SaleService } from './services/SaleService';
 
 // Repositories
 import { UserRepository } from './repository/UserRepository';
@@ -43,6 +45,7 @@ import { BikeRepository } from './repository/BikeRepository';
 import { DefectRepository } from './repository/DefectRepository';
 import { OrderRepository } from './repository/OrderRepository';
 import { SchedulingRepository } from './repository/SchedulingRepository';
+import { SaleRepository } from './repository/SaleRepository';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore because types don't exist for this library
@@ -99,6 +102,7 @@ container.bind<BikeService>(TYPES.BikeService).to(BikeService).inSingletonScope(
 container.bind<DefectService>(TYPES.DefectService).to(DefectService).inSingletonScope();
 container.bind<OrderService>(TYPES.OrderService).to(OrderService).inSingletonScope();
 container.bind<SchedulingService>(TYPES.SchedulingService).to(SchedulingService).inSingletonScope();
+container.bind<SaleService>(TYPES.SaleService).to(SaleService).inSingletonScope();
 
 // Repository
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
@@ -114,5 +118,6 @@ container
   .bind<SchedulingRepository>(TYPES.SchedulingRepository)
   .to(SchedulingRepository)
   .inSingletonScope();
+container.bind<SaleRepository>(TYPES.SaleRepository).to(SaleRepository).inSingletonScope();
 
 export { container };

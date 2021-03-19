@@ -10,6 +10,7 @@ const TYPES = {
   DefectService: Symbol.for('DefectService'),
   OrderService: Symbol.for('OrderService'),
   SchedulingService: Symbol.for('SchedulingService'),
+  SaleService: Symbol.for('SaleService'),
 
   // Repository
   UserRepository: Symbol.for('UserRepository'),
@@ -19,6 +20,7 @@ const TYPES = {
   DefectRepository: Symbol.for('DefectRepository'),
   OrderRepository: Symbol.for('OrderRepository'),
   SchedulingRepository: Symbol.for('SchedulingRepository'),
+  SaleRepository: Symbol.for('SaleRepository'),
 
   // Mongo
   MongoConnection: Symbol.for('MongoConnection'),
