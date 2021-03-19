@@ -35,6 +35,7 @@
     "typescript.suggest.autoImports": true,
     "typescript.updateImportsOnFileMove.enabled": "always",
     "cSpell.words": [
+      "JWTs",
       "antd"
     ],
     "gitdoc.enabled": false

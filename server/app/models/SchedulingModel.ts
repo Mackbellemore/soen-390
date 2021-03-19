@@ -7,6 +7,7 @@ export interface IScheduling extends Document {
   cost: number;
   operatingTime: Date;
 }
+
 export const SchedulingSchema: Schema = new Schema({
   partType: { type: Schema.Types.String, required: true, immutable: true },
   quantity: { type: Schema.Types.Number, required: true, min: 1 },
