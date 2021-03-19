@@ -24,6 +24,7 @@ import { MaterialRepository } from './repository/MaterialRepository';
 import { DefectRepository } from './repository/DefectRepository';
 import { OrderRepository } from './repository/OrderRepository';
 import { SchedulingRepository } from './repository/SchedulingRepository';
+import { ProductionRepository } from './repository/ProductionRepository';
 
 export class App {
   private config: IConfig;
@@ -154,5 +155,6 @@ export class App {
     await container.get<DefectRepository>(TYPES.DefectRepository).initialize();
     await container.get<OrderRepository>(TYPES.OrderRepository).initialize();
     await container.get<SchedulingRepository>(TYPES.SchedulingRepository).initialize();
+    await container.get<ProductionRepository>(TYPES.ProductionRepository).initialize();
   }
 }
