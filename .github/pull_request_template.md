@@ -14,7 +14,7 @@
 
 <!-- ## ClickUp reference -->
 
-<!-- Link the ClickUp ticket if it was not autolinked -->
+<!-- JUST the ClickUp ID if you did NOT use the generated branch name by ClickUp  -->
 
 ## Notes for reviewers
 
@@ -24,6 +24,5 @@
 
 ## Checklist
 
-- [ ] Have I renamed the title of this pull request to follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary)?
-- [ ] I will squash and merge when my PR is approved.
+- [ ] I renamed the title of my pull request to follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/#summary).
 - [ ] I have added tests to cover my changes (if applicable).
