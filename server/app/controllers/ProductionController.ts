@@ -12,6 +12,7 @@ import {
 import { BaseController } from './BaseController';
 import { IProduction } from './../models/ProductionModel';
 import { Request } from 'express';
+import { Doc } from 'inversify-express-doc';
 
 @controller('/productions')
 export class ProductionController extends BaseController {
@@ -19,6 +20,7 @@ export class ProductionController extends BaseController {
     super();
   }
 
+  @Doc('Get All Production')
   // @desc        Get all production
   // @route       GET /productions
   // @access      Public
@@ -32,6 +34,7 @@ export class ProductionController extends BaseController {
     }
   }
 
+  @Doc('Create Production')
   // @desc        Create new production
   // @route       POST /productions
   // @access      Public
@@ -45,8 +48,9 @@ export class ProductionController extends BaseController {
     }
   }
 
-  // @desc        Delete part
-  // @route       DELETE /productions
+  @Doc('Delete Production by ID')
+  // @desc        Delete production by ID
+  // @route       DELETE /productions/:id
   // @access      Public
   @httpDelete('/:id')
   public async delete(request: Request): Promise<results.JsonResult> {
@@ -58,9 +62,12 @@ export class ProductionController extends BaseController {
     }
   }
 
+  @Doc('Update Production by ID')
+  // @desc        update production by ID
+  // @route       PATCH /productions/:id
+  // @access      Public
   @httpPatch('/:id')
   public async update(request: Request): Promise<results.JsonResult> {
-    console.log('yes?');
     try {
       const production = await this.productionService.updateProduction(
         request.params.id,
