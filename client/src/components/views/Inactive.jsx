@@ -11,7 +11,7 @@ const Inactive = () => {
       <Heading size="xl" textAlign="center" mt={5}>
         You&apos;ve been logged out due to inactivity!
       </Heading>
-      <Text fontSize="xl" textAlign="center">
+      <Text fontSize="xl" textAlign="center" marginTop={2}>
         For security reasons.
       </Text>
     </>
