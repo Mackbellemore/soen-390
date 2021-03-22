@@ -6,12 +6,11 @@ import Loader from 'components/common/Loader';
 import { StyledTableCell, StyledTableHeader, StyledTableRow } from 'components/common/Table.jsx';
 import AddDefectModal from 'components/QualityManagement/AddDefectModal.jsx';
 import useQualityPartsTable from 'hooks/useQualityPartsTable.jsx';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
+import usePagination from 'hooks/usePagination.jsx';
 
 const Parts = () => {
   const {
-    handleChangePage,
-    handleChangeRowsPerPage,
     handleStatusColor,
     isSelected,
     handleSelectAllClick,
@@ -19,11 +18,10 @@ const Parts = () => {
     handleDelete,
     isLoading,
     isSuccess,
-    page,
-    rowsPerPage,
     data,
     selected,
   } = useQualityPartsTable();
+  const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
 
   if (isLoading) {
     return <Loader />;
