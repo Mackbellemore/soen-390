@@ -99,6 +99,11 @@ export const appRoutes = [
   },
   {
     protected: false,
+    path: '/bye',
+    component: lazy(() => import('components/views/Inactive')),
+  },
+  {
+    protected: false,
     path: '/',
     component: lazy(() => import('components/views/LandingPage')),
     exact: true,
