@@ -9,6 +9,7 @@ const IdleMonitor = () => {
   const { userStore } = useContext(RootStoreContext);
 
   const handleOnIdle = () => {
+    if (process.env.NODE_ENV !== 'production') return;
     if (!userStore.loggedIn) return;
 
     history.push('/bye');
