@@ -42,6 +42,7 @@ export const carouselContent = [
     imgName: '/assets/sales.jpg',
   },
 ];
+export const salesStatus = ['Fulfilled', 'Placed', 'Cancelled', 'Processing'];
 
 export const appRoutes = [
   {
@@ -85,6 +86,13 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/shipping',
     component: lazy(() => import('components/views/Shipping')),
+  },
+  {
+    name: 'Sales',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/sales',
+    component: lazy(() => import('components/views/Sales')),
   },
   {
     protected: false,
