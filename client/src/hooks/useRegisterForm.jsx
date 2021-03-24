@@ -1,6 +1,7 @@
 import { useDisclosure, useToast } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { userRegister } from 'utils/api/users.js';
+import useEmailValidation from 'hooks/useEmailValidation.jsx';
 
 const useRegisterForm = () => {
   const usernameRef = useRef('');
@@ -13,6 +14,7 @@ const useRegisterForm = () => {
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isAnEmail } = useEmailValidation();
 
   const registerHandleSubmit = async (e) => {
     e.preventDefault();
@@ -65,10 +67,7 @@ const useRegisterForm = () => {
   // Validates email
   const registerHandleEmailValidation = (e) => {
     const email = e.target.value;
-    const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    // grabbed from https://emailregex.com/
-    const isOk = regex.test(email);
-    if (!isOk) {
+    if (!isAnEmail(email)) {
       setEmailIsValidated(true);
       setButtonIsDisabled(true);
     } else {
