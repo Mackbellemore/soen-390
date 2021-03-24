@@ -25,13 +25,18 @@ export class SchedulingService {
     return updateScheduling;
   }
 
-  public async deleteScheduling(body: IScheduling): Promise<IScheduling | null> {
-    const deletedScheduling = await this.schedulingRepo.delete(body.id);
-    if (!deletedScheduling) {
-      throw new NotFoundError(`Scheduling with id ${body.id} was not found`);
-    }
+  public async deleteScheduling(body: string[]): Promise<(IScheduling | null)[]> {
+    return Promise.all(
+      body.map(async (schedulingId) => {
+        const deletedScheduling = await this.schedulingRepo.delete(schedulingId);
 
-    return deletedScheduling;
+        if (!deletedScheduling) {
+          throw new NotFoundError(`Scheduling with id ${deletedScheduling} was not found`);
+        }
+
+        return deletedScheduling;
+      })
+    );
   }
 
   public async findById(id: string): Promise<IScheduling> {

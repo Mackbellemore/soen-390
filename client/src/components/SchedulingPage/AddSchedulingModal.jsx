@@ -91,6 +91,11 @@ const AddSchedulingModal = ({ showButton = false }) => {
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Operating Time</FormLabel>
+              <Input
+                onChange={handleOperatingTime}
+                value={operatingTime}
+                placeholder="Operating Time"
+              />
             </FormControl>
           </ModalBody>
 

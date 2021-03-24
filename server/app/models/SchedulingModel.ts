@@ -11,5 +11,5 @@ export const SchedulingSchema: Schema = new Schema({
   partType: { type: Schema.Types.String, required: true, immutable: true },
   quantity: { type: Schema.Types.Number, required: true, min: 1 },
   cost: { type: Schema.Types.Number, required: true, min: 1 },
-  operatingTime: { type: Schema.Types.Date, default: Date.now() },
+  operatingTime: { type: Schema.Types.Date, required: true },
 });

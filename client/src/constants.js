@@ -59,6 +59,13 @@ export const appRoutes = [
     component: lazy(() => import('components/views/QualityManagement')),
   },
   {
+    name: 'Schedulings',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/schedulings',
+    component: lazy(() => import('components/views/SchedulingPage')),
+  },
+  {
     protected: false,
     path: '/login',
     component: lazy(() => import('components/views/Login')),
