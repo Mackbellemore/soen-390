@@ -11,6 +11,7 @@ const TYPES = {
   OrderService: Symbol.for('OrderService'),
   SchedulingService: Symbol.for('SchedulingService'),
   SaleService: Symbol.for('SaleService'),
+  ShippingService: Symbol.for('ShippingService'),
 
   // Repository
   UserRepository: Symbol.for('UserRepository'),
@@ -21,6 +22,7 @@ const TYPES = {
   OrderRepository: Symbol.for('OrderRepository'),
   SchedulingRepository: Symbol.for('SchedulingRepository'),
   SaleRepository: Symbol.for('SaleRepository'),
+  ShippingRepository: Symbol.for('ShippingRepository'),
 
   // Mongo
   MongoConnection: Symbol.for('MongoConnection'),
