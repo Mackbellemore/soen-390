@@ -21,7 +21,7 @@
       "source.addMissingImports": true,
       "source.fixAll": true,
       "source.fixAll.eslint": true,
-      "source.organizeImports": false,
+      "source.organizeImports": false
     },
     "editor.formatOnPaste": false,
     "editor.linkedEditing": true,
@@ -34,9 +34,8 @@
     "typescript.autoClosingTags": true,
     "typescript.suggest.autoImports": true,
     "typescript.updateImportsOnFileMove.enabled": "always",
-    "cSpell.words": [
-      "antd"
-    ]
+    "cSpell.words": ["JWTs", "antd", "antd", "apos"],
+    "gitdoc.enabled": false
   },
   "extensions": {
     "recommendations": [

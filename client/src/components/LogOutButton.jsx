@@ -2,17 +2,15 @@ import { Button, useToast } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
-import { useCookies } from 'react-cookie';
 
 const LogOutButton = () => {
   const history = useHistory();
   const { userStore } = useContext(RootStoreContext);
   const toast = useToast();
-  const [, setCookie] = useCookies(['hasLoggedOut']);
 
-  const logOutSuccess = () => {
+  const handleLogOut = async () => {
+    localStorage.setItem('jwt', '');
     userStore.logOut();
-    setCookie('hasLoggedOut', true, { path: '/' });
 
     history.push('/');
 
@@ -24,11 +22,6 @@ const LogOutButton = () => {
       duration: 2000,
       isClosable: true,
     });
-  };
-
-  const handleLogOut = async () => {
-    localStorage.setItem('jwt', '');
-    logOutSuccess();
   };
 
   return (

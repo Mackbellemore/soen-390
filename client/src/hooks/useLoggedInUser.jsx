@@ -1,19 +1,11 @@
 import { useEffect, useContext, useRef, useState } from 'react';
 import { RootStoreContext } from 'stores/stores.jsx';
-import { useCookies } from 'react-cookie';
 import { userAuthCheck } from 'utils/api/users.js';
 
-/*
-On certain occasions, this hook maybe cause a slight memory leak when the component using this hook
-has unmounted but the async call still runs.
-I tried to make it better using a useRef to check if the hook is mounted
-and to skip the verifyToken call if the component is not mounted.
-*/
 const useLoggedInUser = () => {
   const { userStore } = useContext(RootStoreContext);
-  const [cookies, setCookie, removeCookie] = useCookies(['hasLoggedOut']);
   const isMounted = useRef(true);
-  const [hasVerifiedToken, setHasVerifiedToken] = useState(false);
+  const [isCheckDone, setIsCheckDone] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -25,29 +17,33 @@ const useLoggedInUser = () => {
     const verifyToken = async () => {
       try {
         const res = await userAuthCheck();
-        const { username: resUsername, email: resEmail, role: resRole } = res.data;
+        const { username, email, role } = res.data;
 
-        userStore.setUsername(resUsername);
-        userStore.setEmail(resEmail);
-        userStore.setRole(resRole);
+        userStore.setUsername(username);
+        userStore.setEmail(email);
+        userStore.setRole(role);
         userStore.logIn();
-
-        removeCookie('hasLoggedOut', { path: '/' });
       } catch (err) {
         userStore.logOut();
-
-        setCookie('hasLoggedOut', true, { path: '/' });
+        localStorage.setItem('jwt', '');
       }
 
-      setHasVerifiedToken(true);
+      if (isMounted.current) {
+        setIsCheckDone(true);
+      }
     };
+
+    if (!localStorage.getItem('jwt') && isMounted.current) {
+      setIsCheckDone(true);
+      return;
+    }
 
     if (isMounted.current) {
       verifyToken();
     }
-  }, [cookies.hasLoggedOut, removeCookie, setCookie, userStore]);
+  }, [userStore]);
 
-  return { hasVerifiedToken };
+  return { isCheckDone };
 };
 
 export default useLoggedInUser;

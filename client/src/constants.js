@@ -1,5 +1,19 @@
 import { lazy } from 'react';
 
+export const hq = {
+  longitude: -73.745181,
+  latitude: 45.4644455,
+};
+export const mapLayerID = 'mapLayer';
+export const shippingStates = [
+  'Ordered',
+  'Packaged',
+  'Shipped',
+  'Delivered',
+  'Cancelled',
+  'Delayed',
+];
+export const shippingStatesHide = ['Delivered', 'Cancelled'];
 export const rolesAvailable = ['Admin', 'General'];
 export const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export const carouselContent = [
@@ -28,6 +42,7 @@ export const carouselContent = [
     imgName: '/assets/sales.jpg',
   },
 ];
+export const salesStatus = ['Fulfilled', 'Placed', 'Cancelled', 'Processing'];
 
 export const appRoutes = [
   {
@@ -52,6 +67,34 @@ export const appRoutes = [
     component: lazy(() => import('components/views/Inventory')),
   },
   {
+    name: 'Orders',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/orders',
+    component: lazy(() => import('components/views/Orders')),
+  },
+  {
+    name: 'Quality Management',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/quality-management',
+    component: lazy(() => import('components/views/QualityManagement')),
+  },
+  {
+    name: 'Shipping',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/shipping',
+    component: lazy(() => import('components/views/Shipping')),
+  },
+  {
+    name: 'Sales',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/sales',
+    component: lazy(() => import('components/views/Sales')),
+  },
+  {
     protected: false,
     path: '/login',
     component: lazy(() => import('components/views/Login')),
@@ -61,6 +104,11 @@ export const appRoutes = [
     protected: false,
     path: '/no-access',
     component: lazy(() => import('components/views/NoAccess')),
+  },
+  {
+    protected: false,
+    path: '/bye',
+    component: lazy(() => import('components/views/Inactive')),
   },
   {
     protected: false,

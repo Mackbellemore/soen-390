@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Table, Thead, Tbody, Tr, TableCaption, Heading } from '@chakra-ui/react';
 import Loader from 'components/common/Loader.jsx';
 import { getBikes } from 'utils/api/bikes.js';
@@ -6,20 +6,12 @@ import { useQuery } from 'react-query';
 import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
 import { TablePagination } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
+import usePagination from 'hooks/usePagination.jsx';
 
 const Bikes = () => {
   const { isLoading, isSuccess, data } = useQuery('bikes', getBikes);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
 
   if (isLoading) {
     return <Loader />;
@@ -76,6 +68,7 @@ const Bikes = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ExportFiles section="products" data={data.data} />
     </>
   );
 };

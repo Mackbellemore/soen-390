@@ -15,6 +15,7 @@ import {
 import TYPES from '../constants/types';
 import config from 'config';
 import { checkAdminRole } from '../middlewares/authorization';
+import { Doc } from 'inversify-express-doc';
 
 @controller('/user')
 export class UserController extends BaseHttpController {
@@ -22,6 +23,14 @@ export class UserController extends BaseHttpController {
     super();
   }
 
+  @Doc('Create a user account')
+  /**
+   * @desc        Create user account
+   * @route       POST /user/register
+   * @access      Public
+   * @param req   Parameters {username, email, password}
+   * @returns     User JSON Format
+   */
   @httpPost('/register')
   public async register(req: Request): Promise<results.JsonResult> {
     try {
@@ -32,6 +41,14 @@ export class UserController extends BaseHttpController {
     }
   }
 
+  @Doc('Log a user')
+  /**
+   * @desc        Login user
+   * @route       POST /user/login
+   * @access      Public
+   * @param req
+   * @returns     User JSON Format + Jwt token
+   */
   @httpPost('/login')
   public async login(req: Request): Promise<results.JsonResult> {
     try {
@@ -53,6 +70,15 @@ export class UserController extends BaseHttpController {
     }
   }
 
+  @Doc('Authentication Check')
+  /**
+   * @desc        Authentication Check
+   * @route       Get /user/authCheck
+   * @access      Public
+   * @param _req
+   * @param res
+   * @returns     User JSON Format
+   */
   @httpGet('/authCheck')
   public async checkAuth(_req: Request, res: Response): Promise<results.JsonResult> {
     const user = res.locals?.user;
@@ -62,6 +88,13 @@ export class UserController extends BaseHttpController {
     return this.json(200);
   }
 
+  @Doc('Check Admin Role')
+  /**
+   * @desc        Check Admin User
+   * @route       Get /user
+   * @access      Public
+   * @returns     User JSON Format
+   */
   @httpGet('/', checkAdminRole)
   public async get(): Promise<results.JsonResult> {
     try {
@@ -72,6 +105,14 @@ export class UserController extends BaseHttpController {
     }
   }
 
+  @Doc('Delete User')
+  /**
+   * @desc          Delete User
+   * @route         Delete /user
+   * @access        Public
+   * @param request
+   * @returns       User JSON Format
+   */
   @httpDelete('/')
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
@@ -82,6 +123,14 @@ export class UserController extends BaseHttpController {
     }
   }
 
+  @Doc('Update User')
+  /**
+   * @desc          Update username
+   * @route         PATCH /user/:username
+   * @access        Public
+   * @param request
+   * @returns       User JSON Format
+   */
   @httpPatch('/:username')
   public async update(request: Request): Promise<results.JsonResult> {
     try {

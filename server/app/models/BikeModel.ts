@@ -8,7 +8,10 @@ export interface IBike extends Document {
   sellingPrice: number;
   costPrice: number;
   color: string;
+  parts: Record<string, string>;
+  stock: number;
 }
+
 export const BikeSchema: Schema = new Schema({
   name: { type: Schema.Types.String, required: true },
   description: { type: Schema.Types.String },
@@ -17,4 +20,6 @@ export const BikeSchema: Schema = new Schema({
   sellingPrice: { type: Schema.Types.Number, required: true, min: 1 },
   costPrice: { type: Schema.Types.Number, required: true, min: 1 },
   color: { type: Schema.Types.String, required: true },
+  stock: { type: Schema.Types.Number, required: true },
+  parts: { type: Schema.Types.Mixed, required: true },
 });

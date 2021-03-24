@@ -6,7 +6,7 @@ import * as bodyParser from 'body-parser';
 import { IConfig } from 'config';
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
-import { Application } from 'express';
+import { Application, Request, Response } from 'express';
 import expressWinston from 'express-winston';
 import { Server } from 'http';
 import { InversifyExpressServer } from 'inversify-express-utils';
@@ -21,6 +21,10 @@ import { BikeRepository } from './repository/BikeRepository';
 import { PartRepository } from './repository/PartRepository';
 import { UserRepository } from './repository/UserRepository';
 import { MaterialRepository } from './repository/MaterialRepository';
+import { DefectRepository } from './repository/DefectRepository';
+import { OrderRepository } from './repository/OrderRepository';
+import { SchedulingRepository } from './repository/SchedulingRepository';
+import { SaleRepository } from './repository/SaleRepository';
 
 export class App {
   private config: IConfig;
@@ -70,6 +74,9 @@ export class App {
       }
 
       appBuilder.setConfig((server: Application) => {
+        server.get('/', (_req: Request, res: Response) => {
+          res.redirect('/doc');
+        });
         // middlewares
         server.use(
           cors({
@@ -145,5 +152,9 @@ export class App {
     await container.get<BikeRepository>(TYPES.BikeRepository).initialize();
     await container.get<PartRepository>(TYPES.PartRepository).initialize();
     await container.get<MaterialRepository>(TYPES.MaterialRepository).initialize();
+    await container.get<DefectRepository>(TYPES.DefectRepository).initialize();
+    await container.get<OrderRepository>(TYPES.OrderRepository).initialize();
+    await container.get<SchedulingRepository>(TYPES.SchedulingRepository).initialize();
+    await container.get<SaleRepository>(TYPES.SaleRepository).initialize();
   }
 }

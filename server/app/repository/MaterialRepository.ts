@@ -11,7 +11,7 @@ export class MaterialRepository extends BaseRepository<IMaterial> {
 
   public async updateByName(name: string, body: IMaterial): Promise<IMaterial | null> {
     try {
-      return await this.model.findOneAndUpdate({ name }, body, {
+      return this.model.findOneAndUpdate({ name }, body, {
         returnOriginal: false,
         runValidators: true,
       });
@@ -22,7 +22,7 @@ export class MaterialRepository extends BaseRepository<IMaterial> {
 
   public async getByName(name: string): Promise<IMaterial | null> {
     try {
-      return await this.model.findOne({ name });
+      return this.model.findOne({ name });
     } catch (err) {
       return this.manageRepositoryError(err);
     }

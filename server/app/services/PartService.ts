@@ -7,11 +7,12 @@ import { BadRequestError, NotFoundError } from '../errors';
 import { IMaterial } from '../models/MaterialModel';
 import { partTypeMaterials } from '../validation/parts/partTypes';
 import { partType } from './../entities/Part';
-
+import { DefectRepository } from './../repository/DefectRepository';
 @injectable()
 export class PartService {
   constructor(
     @inject(TYPES.MaterialService) private materialService: MaterialService,
+    @inject(TYPES.DefectRepository) private defectRepo: DefectRepository,
     @inject(TYPES.PartRepository) private partRepo: PartRepository
   ) {}
 
@@ -60,6 +61,11 @@ export class PartService {
   }
 
   public async deletePart(name: string): Promise<IPart | null> {
+    const part = (await this.get(undefined, name)) as IPart;
+    if (part) {
+      const defectId = part.defectId;
+      await this.defectRepo.delete(defectId);
+    }
     return this.partRepo.deletePart(name);
   }
 

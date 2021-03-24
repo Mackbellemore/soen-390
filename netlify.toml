@@ -2,6 +2,8 @@
   base = "client/"
   publish = "out/"
   command = "npm i && npm run export"
+[build.environment]
+  NEXT_PUBLIC_MAPBOX= "pk.eyJ1IjoidXNlcmRldjAxIiwiYSI6ImNrbHZza3J1ejBxY3Yybm42c2NkOW1zNHAifQ.Wjw8BO1n9nz-2CJTEQ9DZA"
 [context.production.environment]
   NEXT_PUBLIC_API_URL = "https://mackbellemore-mackbellemore-soen-390-team07.zeet.app"
 [context.develop.environment]

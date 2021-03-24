@@ -10,7 +10,6 @@ import { Heading, Text } from '../common/Typography.jsx';
 import RegisterUserModal from 'components/Login/RegisterUserModal.jsx';
 import { FormButton } from '../common/Button.jsx';
 import { StyledForm } from '../common/Form.jsx';
-import { useCookies } from 'react-cookie';
 import useLoggedInUser from 'hooks/useLoggedInUser.jsx';
 import Loader from '../common/Loader.jsx';
 import PropTypes from 'prop-types';
@@ -66,14 +65,13 @@ const Login = ({ location: { state } }) => {
   const emailRef = useRef('');
   const history = useHistory();
   const toast = useToast();
-  const [cookies, , removeCookie] = useCookies(['hasLoggedOut']);
-  const { hasVerifiedToken } = useLoggedInUser();
+  const { isCheckDone } = useLoggedInUser();
 
   useEffect(() => {
-    if (cookies.hasLoggedOut === undefined && hasVerifiedToken) {
+    if (localStorage.getItem('jwt')) {
       setShouldRenderForm(false);
     }
-  }, [cookies.hasLoggedOut, hasVerifiedToken]);
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -94,8 +92,6 @@ const Login = ({ location: { state } }) => {
 
       userStore.logIn();
 
-      removeCookie('hasLoggedOut', { path: '/' });
-
       history.push('/main');
     } catch {
       toast({
@@ -112,7 +108,7 @@ const Login = ({ location: { state } }) => {
     }
   };
 
-  if (!hasVerifiedToken) {
+  if (!isCheckDone) {
     return <Loader />;
   }
 

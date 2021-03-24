@@ -6,6 +6,7 @@ on:
       - "main"
       - "develop"
   pull_request:
+    types: [opened, reopened]
 
 jobs:
   tests:
@@ -16,7 +17,8 @@ jobs:
         project: ["server"]
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out Git repository
+        uses: actions/checkout@v2
 
       - name: Bring up containers
         working-directory: ${{ matrix.project }}
@@ -29,4 +31,3 @@ jobs:
       - name: Run integration tests
         working-directory: ${{ matrix.project }}
         run: docker-compose run server test:int
-
