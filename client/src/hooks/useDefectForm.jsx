@@ -44,6 +44,7 @@ const useDefectForm = () => {
         isClosable: true,
       });
     }
+    setPartName('');
     setIsLoadingButton(false);
   };
 
