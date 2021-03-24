@@ -1,7 +1,8 @@
 import { useDisclosure, useToast } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { createSale, getSales, updateSale } from 'utils/api/sales.js';
+import { getOneBike } from 'utils/api/bikes.js';
 
 const useSales = (sale) => {
   const {
@@ -16,11 +17,19 @@ const useSales = (sale) => {
   const emailRef = useRef('');
   const [selectedBikeId, setSelectedBikeId] = useState(undefined);
   const quantityRef = useRef(1);
+  const [bikeMaxStock, setBikeMaxStock] = useState(1);
   const {
     isOpen: isSaleModalOpen,
     onOpen: onSaleModalOpen,
     onClose: onSaleModalClose,
   } = useDisclosure();
+  const { data: bikeData, isSuccess } = useQuery(`bikes/${selectedBikeId}`, () => {
+    if (selectedBikeId !== undefined) getOneBike(selectedBikeId);
+  });
+
+  useEffect(() => {
+    if (isSuccess && selectedBikeId !== undefined) setBikeMaxStock(bikeData.data.stock);
+  }, [bikeData?.data.stock, isSuccess, selectedBikeId]);
 
   const handleStatusColor = (status) => {
     switch (status) {
@@ -95,6 +104,7 @@ const useSales = (sale) => {
     isLoadingButton,
     name,
     quantityRef,
+    bikeMaxStock,
   };
 };
 
