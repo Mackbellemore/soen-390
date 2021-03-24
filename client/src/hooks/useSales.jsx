@@ -15,7 +15,7 @@ const useSales = (sale) => {
   const [name, setName] = useState(undefined);
   const emailRef = useRef('');
   const [selectedBikeId, setSelectedBikeId] = useState(undefined);
-  const [quantity, setQuantity] = useState(1);
+  const quantityRef = useRef(1);
   const {
     isOpen: isSaleModalOpen,
     onOpen: onSaleModalOpen,
@@ -60,7 +60,7 @@ const useSales = (sale) => {
         bikeId: selectedBikeId,
         customerEmail: emailRef.current.value,
         customerName: name,
-        quantity,
+        quantity: quantityRef.current.value,
       });
       refetch();
     } catch (err) {
@@ -74,7 +74,6 @@ const useSales = (sale) => {
     }
     setSelectedBikeId(undefined);
     setName(undefined);
-    setQuantity(1);
     setIsLoadingButton(false);
     onSaleModalClose();
   };
@@ -92,10 +91,10 @@ const useSales = (sale) => {
     emailRef,
     setSelectedBikeId,
     setName,
-    setQuantity,
     selectedBikeId,
     isLoadingButton,
     name,
+    quantityRef,
   };
 };
 

@@ -15,7 +15,7 @@ const AboutBike = ({ bikeId }) => {
           </Heading>
           <Text>Name: {data.data.name}</Text>
           <Text>Description: {data.data.description}</Text>
-          <Text>Weight: {data.data.weight} kg</Text>
+          <Text>Weight: {data.data.weightAmount} kg</Text>
           <Text>Color: {data.data.color}</Text>
           <Text>Cost price: {data.data.costPrice}$</Text>
           <Text>Selling price: {data.data.sellingPrice}$</Text>

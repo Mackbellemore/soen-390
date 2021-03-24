@@ -37,10 +37,10 @@ const SalesModal = ({ showButton = false }) => {
     emailRef,
     setSelectedBikeId,
     setName,
-    setQuantity,
     selectedBikeId,
     isLoadingButton,
     name,
+    quantityRef,
   } = useSales();
   const { isValidEmail, handleEmailInput } = useEmailValidation();
 
@@ -102,7 +102,7 @@ const SalesModal = ({ showButton = false }) => {
             <FormControl isRequired mt={4}>
               <FormLabel>Quantity</FormLabel>
               <NumberInput min={1} defaultValue={1}>
-                <NumberInputField onChange={(e) => setQuantity(e.target.value)} />
+                <NumberInputField ref={quantityRef} />
                 <NumberInputStepper>
                   <NumberIncrementStepper />
                   <NumberDecrementStepper />
