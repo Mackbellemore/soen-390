@@ -19,59 +19,36 @@ import {
   NumberInputField,
   NumberInputStepper,
   Select,
-  useDisclosure,
-  useToast,
 } from '@chakra-ui/react';
-import useRegisterForm from 'hooks/useRegisterForm.jsx';
+import useEmailValidation from 'hooks/useEmailValidation.jsx';
+import useSales from 'hooks/useSales.jsx';
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { getBikes } from 'utils/api/bikes.js';
-import { createSale, getSales } from 'utils/api/sales.js';
 import AboutBike from './AboutBike.jsx';
 
 const SalesModal = ({ showButton = false }) => {
   const { isSuccess, data } = useQuery('bikes', getBikes);
-  const { refetch } = useQuery('sales', getSales);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedBikeId, setSelectedBikeId] = useState(undefined);
-  const [name, setName] = useState(undefined);
-  const [quantity, setQuantity] = useState(1);
-  const [isLoadingButton, setIsLoadingButton] = useState(false);
-  const { emailRef, emailIsValidated, registerHandleEmailValidation } = useRegisterForm();
-  const toast = useToast();
-
-  const handleSubmit = async () => {
-    setIsLoadingButton(true);
-    try {
-      await createSale({
-        bikeId: selectedBikeId,
-        customerEmail: emailRef.current.value,
-        customerName: name,
-        quantity,
-      });
-      refetch();
-    } catch (err) {
-      toast({
-        title: 'Error',
-        description: err.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-    setSelectedBikeId(undefined);
-    setName(undefined);
-    setQuantity(1);
-    setIsLoadingButton(false);
-    onClose();
-  };
+  const {
+    handleSubmit,
+    isSaleModalOpen,
+    onSaleModalOpen,
+    onSaleModalClose,
+    emailRef,
+    setSelectedBikeId,
+    setName,
+    setQuantity,
+    selectedBikeId,
+    isLoadingButton,
+    name,
+  } = useSales();
+  const { isValidEmail, handleEmailInput } = useEmailValidation();
 
   return (
     <>
       {showButton ? (
         <Center mt={4}>
-          <Button onClick={onOpen}>Add Sale</Button>
+          <Button onClick={onSaleModalOpen}>Add Sale</Button>
         </Center>
       ) : (
         <IconButton
@@ -81,10 +58,10 @@ const SalesModal = ({ showButton = false }) => {
           float="right"
           m={2}
           icon={<SmallAddIcon />}
-          onClick={onOpen}
+          onClick={onSaleModalOpen}
         />
       )}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isSaleModalOpen} onClose={onSaleModalClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add a sale</ModalHeader>
@@ -92,8 +69,10 @@ const SalesModal = ({ showButton = false }) => {
           <ModalBody pb={6}>
             <FormControl isRequired>
               <FormLabel>Bike</FormLabel>
-              <Select onChange={(e) => setSelectedBikeId(e.target.value)}>
-                {/* <option>Select one</option> */}
+              <Select onChange={(e) => setSelectedBikeId(e.target.value)} defaultValue="default">
+                <option disabled value="default">
+                  Select
+                </option>
                 {isSuccess &&
                   data.data
                     .filter((bike) => bike.stock > 0)
@@ -110,9 +89,9 @@ const SalesModal = ({ showButton = false }) => {
                 placeholder="Customer Email"
                 type="email"
                 ref={emailRef}
-                focusBorderColor={emailIsValidated ? 'red' : 'blue.500'}
-                isInvalid={emailIsValidated}
-                onChange={registerHandleEmailValidation}
+                focusBorderColor={isValidEmail ? 'blue.500' : 'red'}
+                isInvalid={!isValidEmail}
+                onChange={handleEmailInput}
                 required
               />
             </FormControl>
@@ -135,14 +114,14 @@ const SalesModal = ({ showButton = false }) => {
           <ModalFooter>
             <Button
               isLoading={isLoadingButton}
-              isDisabled={!(!emailIsValidated && name)}
+              isDisabled={!(isValidEmail && name)}
               onClick={handleSubmit}
               colorScheme="blue"
               mr={3}
             >
               Submit
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onSaleModalClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

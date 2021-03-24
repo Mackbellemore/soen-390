@@ -19,6 +19,7 @@ const AboutBike = ({ bikeId }) => {
           <Text>Color: {data.data.color}</Text>
           <Text>Cost price: {data.data.costPrice}$</Text>
           <Text>Selling price: {data.data.sellingPrice}$</Text>
+          <Text>Stock left: {data.data.stock}</Text>
         </>
       )}
     </>
