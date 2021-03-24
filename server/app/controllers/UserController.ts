@@ -70,9 +70,9 @@ export class UserController extends BaseHttpController {
     }
   }
 
-  @Doc('Authenthication Check')
+  @Doc('Authentication Check')
   /**
-   * @desc        Authenthication Check
+   * @desc        Authentication Check
    * @route       Get /user/authCheck
    * @access      Public
    * @param _req

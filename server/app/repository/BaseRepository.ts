@@ -23,7 +23,7 @@ export abstract class BaseRepository<T extends Document> {
   }
 
   protected manageRepositoryError(e: Error): never {
-    // log errors and eventually conver mongo errors to more readable errors
+    // log errors and eventually convert mongo errors to more readable errors
     this.logger.warn(e.message);
     throw new BadRequestError(e.message);
   }
