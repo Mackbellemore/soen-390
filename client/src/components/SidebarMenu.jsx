@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { Flex, Link as ChakraLink } from '@chakra-ui/react';
 import { appRoutes } from 'constants.js';
+import Logo from '../components/common/Logo';
 
 const sidebarStyles = {
   bmMenuWrap: {
@@ -12,19 +13,24 @@ const sidebarStyles = {
     height: '100%',
   },
   bmMenu: {
-    background: '#373a47',
-    padding: '2.5em 1.5em 0',
+    background: '#F5F5F5',
     fontSize: '1.15em',
+    width: '80px',
+    border: '2px solid black',
   },
   bmMorphShape: {
     fill: '#373a47',
   },
   bmItemList: {
     color: '#b8b7ad',
-    padding: '0.8em',
+    paddingTop: '20px',
   },
   bmItem: {
-    display: 'inline-block',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: '60px',
   },
   bmOverlay: {
     background: 'rgba(0, 0, 0, 0.3)',
@@ -37,13 +43,23 @@ const SidebarMenu = () => {
 
   appRoutes.forEach((route) => {
     if (route.name !== undefined && route.allowedRoles.includes(userStore.role)) {
-      menuItems.push(
-        <Flex key={route.path}>
-          <ChakraLink as={Link} to={route.path} onClick={uiStore.closeSidebar} _focus={{}}>
-            {route.name}
-          </ChakraLink>
-        </Flex>
-      );
+      if (route.name === 'Inventory') {
+        menuItems.push(
+          <Flex key={route.path}>
+            <ChakraLink as={Link} to={route.path} onClick={uiStore.closeSidebar} _focus={{}}>
+              Inventory
+            </ChakraLink>
+          </Flex>
+        );
+      } else {
+        menuItems.push(
+          <Flex key={route.path}>
+            <ChakraLink as={Link} to={route.path} onClick={uiStore.closeSidebar} _focus={{}}>
+              {route.name}
+            </ChakraLink>
+          </Flex>
+        );
+      }
     }
   });
 
@@ -55,7 +71,9 @@ const SidebarMenu = () => {
       customCrossIcon={false}
       isOpen={uiStore.sidebarState}
       onClose={uiStore.closeSidebar}
+      display="flex"
     >
+      <Logo />
       <Flex direction="column">{menuItems}</Flex>
     </Menu>
   );
