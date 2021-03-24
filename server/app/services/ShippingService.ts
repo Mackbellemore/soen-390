@@ -16,10 +16,10 @@ export class ShippingService {
     }
   }
 
-  public async deleteShipment(body: IShipping): Promise<IShipping | null> {
-    const shipment = await this.shippingRepo.delete(body._id);
+  public async deleteShipment(id: string): Promise<IShipping | null> {
+    const shipment = await this.shippingRepo.delete(id);
     if (!shipment) {
-      throw new NotFoundError(`Shipment ${body._id} was not deleted successfully`);
+      throw new NotFoundError(`Shipment ${id} was not deleted successfully`);
     }
     return shipment;
   }
