@@ -10,58 +10,29 @@ import {
   ModalBody,
   ModalCloseButton,
   ModalContent,
+  ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Text,
-  useDisclosure,
-  ModalFooter,
   Tag,
-  useToast,
+  Text,
 } from '@chakra-ui/react';
 import { StyledTableCell, StyledTableRow } from 'components/common/Table.jsx';
 import { salesStatus } from 'constants.js';
+import useSales from 'hooks/useSales.jsx';
 import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
 import { getOneBike } from 'utils/api/bikes.js';
-import { updateSale, getSales } from 'utils/api/sales.js';
 import AboutBike from './AboutBike.jsx';
 
 const SaleRow = ({ sale }) => {
   const { isLoading, data } = useQuery(`bikes/${sale.bikeId}`, () => getOneBike(sale.bikeId));
-  const { refetch } = useQuery('sales', getSales);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const toast = useToast();
-
-  const handleStatusColor = (status) => {
-    switch (status) {
-      case 'Fulfilled':
-        return 'green';
-      case 'Processing':
-        return 'yellow';
-      case 'Cancelled':
-        return 'red';
-    }
-  };
-
-  const handleStatusChange = async (newStatus) => {
-    try {
-      await updateSale({
-        _id: sale._id,
-        status: newStatus,
-        bikeId: sale.bikeId,
-      });
-      refetch();
-    } catch (err) {
-      toast({
-        title: 'Error',
-        description: err.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-    onClose();
-  };
+  const {
+    isInfoModalOpen,
+    onInfoModalOpen,
+    onInfoModalClose,
+    handleStatusColor,
+    handleStatusChange,
+  } = useSales(sale);
 
   if (isLoading) {
     return (
@@ -78,7 +49,7 @@ const SaleRow = ({ sale }) => {
   }
 
   return (
-    <StyledTableRow onClick={onOpen} cursor="pointer">
+    <StyledTableRow onClick={onInfoModalOpen} cursor="pointer">
       <StyledTableCell>{data.data.name}</StyledTableCell>
       <StyledTableCell>{sale.customerName}</StyledTableCell>
       <StyledTableCell>{sale.quantity}</StyledTableCell>
@@ -90,7 +61,7 @@ const SaleRow = ({ sale }) => {
       </StyledTableCell>
       <StyledTableCell>
         <InfoOutlineIcon />
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isInfoModalOpen} onClose={onInfoModalClose}>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>Sale ID: {sale._id}</ModalHeader>
