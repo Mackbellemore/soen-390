@@ -80,6 +80,20 @@ describe('ShippingController', () => {
       expect(response.json).to.deep.include(mockShipment);
       expect(response.statusCode).to.equal(200);
     });
+    it('should return status 500 if an unexpected error occured', async () => {
+      const expectedErrorMsg = 'Error 500';
+      const shippingServiceStub = sandbox
+        .stub(shippingService, 'getShippingList')
+        .throws(new Error(expectedErrorMsg));
+
+      const response = await controller.get();
+
+      sinon.assert.calledOnce(shippingServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.equal(expectedErrorMsg);
+      expect(response.statusCode).to.equal(500);
+    });
   });
   describe('Delete Shipment', () => {
     it('should delete a shipment with requested body', async () => {
@@ -194,6 +208,23 @@ describe('ShippingController', () => {
         shippingDate: '2020-01-01T00:00:00.000Z',
         deliveryDate: '2020-01-01T00:00:00.000Z',
       });
+    });
+    it('should return status 500 if an unexpected error occured', async () => {
+      const mockRequest = {
+        body: mockShipment,
+      } as Request;
+      const expectedErrorMsg = 'Error 500';
+      const shippingServiceStub = sandbox
+        .stub(shippingService, 'createShipment')
+        .throws(new Error(expectedErrorMsg));
+
+      const response = await controller.post(mockRequest);
+
+      sinon.assert.calledOnce(shippingServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.equal(expectedErrorMsg);
+      expect(response.statusCode).to.equal(500);
     });
   });
 });
