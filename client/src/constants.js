@@ -1,5 +1,13 @@
 import { lazy } from 'react';
-
+import {
+  MdDescription,
+  MdAssignmentTurnedIn,
+  MdAttachMoney,
+  MdAddShoppingCart,
+  MdLocalShipping,
+  MdVerifiedUser,
+} from 'react-icons/md';
+import Logo from './components/common/Logo.jsx';
 export const hq = {
   longitude: -73.745181,
   latitude: 45.4644455,
@@ -46,18 +54,22 @@ export const salesStatus = ['Fulfilled', 'Placed', 'Cancelled', 'Processing'];
 
 export const appRoutes = [
   {
-    name: 'Admin',
-    protected: true,
-    allowedRoles: ['Admin'],
-    path: '/admin',
-    component: lazy(() => import('components/views/AdminPage.jsx')),
-  },
-  {
     name: 'Dashboard',
     protected: true,
     allowedRoles: rolesAvailable,
     path: '/main',
     component: lazy(() => import('components/views/MainDashboard')),
+    icon: Logo,
+    active: false,
+  },
+  {
+    name: 'Admin',
+    protected: true,
+    allowedRoles: ['Admin'],
+    path: '/admin',
+    component: lazy(() => import('components/views/AdminPage.jsx')),
+    icon: MdVerifiedUser,
+    active: false,
   },
   {
     name: 'Inventory',
@@ -65,6 +77,8 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/inventory',
     component: lazy(() => import('components/views/Inventory')),
+    icon: MdDescription,
+    active: false,
   },
   {
     name: 'Orders',
@@ -72,6 +86,8 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/orders',
     component: lazy(() => import('components/views/Orders')),
+    icon: MdAddShoppingCart,
+    active: false,
   },
   {
     name: 'Quality Management',
@@ -79,6 +95,8 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/quality-management',
     component: lazy(() => import('components/views/QualityManagement')),
+    icon: MdAssignmentTurnedIn,
+    active: false,
   },
   {
     name: 'Shipping',
@@ -86,6 +104,8 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/shipping',
     component: lazy(() => import('components/views/Shipping')),
+    icon: MdLocalShipping,
+    active: false,
   },
   {
     name: 'Sales',
@@ -93,6 +113,8 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/sales',
     component: lazy(() => import('components/views/Sales')),
+    icon: MdAttachMoney,
+    active: false,
   },
   {
     protected: false,
