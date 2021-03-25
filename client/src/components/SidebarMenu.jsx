@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { Flex, Link as ChakraLink } from '@chakra-ui/react';
 import { appRoutes } from 'constants.js';
-import Logo from '../components/common/Logo';
 
 const sidebarStyles = {
   bmMenuWrap: {
@@ -15,8 +14,7 @@ const sidebarStyles = {
   bmMenu: {
     background: '#F5F5F5',
     fontSize: '1.15em',
-    width: '80px',
-    border: '2px solid black',
+    borderRight: '1px solid black',
   },
   bmMorphShape: {
     fill: '#373a47',
@@ -30,7 +28,6 @@ const sidebarStyles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: '60px',
   },
   bmOverlay: {
     background: 'rgba(0, 0, 0, 0.3)',
@@ -41,40 +38,46 @@ const SidebarMenu = () => {
   const { uiStore, userStore } = useContext(RootStoreContext);
   const menuItems = [];
 
+  const handleClick = (e) => {
+    appRoutes.forEach((route) => {
+      route.active = false;
+    });
+    e.active = true;
+    uiStore.closeSidebar();
+  };
+
   appRoutes.forEach((route) => {
     if (route.name !== undefined && route.allowedRoles.includes(userStore.role)) {
-      if (route.name === 'Inventory') {
-        menuItems.push(
-          <Flex key={route.path}>
-            <ChakraLink as={Link} to={route.path} onClick={uiStore.closeSidebar} _focus={{}}>
-              Inventory
-            </ChakraLink>
-          </Flex>
-        );
-      } else {
-        menuItems.push(
-          <Flex key={route.path}>
-            <ChakraLink as={Link} to={route.path} onClick={uiStore.closeSidebar} _focus={{}}>
-              {route.name}
-            </ChakraLink>
-          </Flex>
-        );
-      }
+      menuItems.push(
+        <Flex key={route.path}>
+          <ChakraLink
+            as={Link}
+            to={route.path}
+            onClick={() => handleClick(route)}
+            _focus={{}}
+            my="20px"
+          >
+            {route.active ? route.activeIcon : route.icon}
+          </ChakraLink>
+        </Flex>
+      );
     }
   });
 
   return (
     <Menu
       styles={sidebarStyles}
-      pageWrapId={'page-wrap'}
+      pageWrapId="page-wrap"
       customBurgerIcon={false}
       customCrossIcon={false}
       isOpen={uiStore.sidebarState}
       onClose={uiStore.closeSidebar}
       display="flex"
+      width="80px"
     >
-      <Logo />
-      <Flex direction="column">{menuItems}</Flex>
+      <Flex _focus={{ outline: 'none' }} direction="column">
+        {menuItems}
+      </Flex>
     </Menu>
   );
 };

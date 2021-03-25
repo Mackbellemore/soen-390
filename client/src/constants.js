@@ -1,5 +1,15 @@
 import { lazy } from 'react';
-
+import {
+  MdDescription,
+  MdSchedule,
+  MdTrendingUp,
+  MdAssignmentTurnedIn,
+  MdAttachMoney,
+  MdAddShoppingCart,
+  MdLocalShipping,
+  MdVerifiedUser,
+} from 'react-icons/md';
+import Logo from './components/common/Logo';
 export const hq = {
   longitude: -73.745181,
   latitude: 45.4644455,
@@ -46,18 +56,23 @@ export const salesStatus = ['Fulfilled', 'Placed', 'Cancelled', 'Processing'];
 
 export const appRoutes = [
   {
-    name: 'Admin',
-    protected: true,
-    allowedRoles: ['Admin'],
-    path: '/admin',
-    component: lazy(() => import('components/views/AdminPage.jsx')),
-  },
-  {
     name: 'Dashboard',
     protected: true,
     allowedRoles: rolesAvailable,
     path: '/main',
     component: lazy(() => import('components/views/MainDashboard')),
+    icon: <Logo />,
+    active: false,
+  },
+  {
+    name: 'Admin',
+    protected: true,
+    allowedRoles: ['Admin'],
+    path: '/admin',
+    component: lazy(() => import('components/views/AdminPage.jsx')),
+    icon: <MdVerifiedUser color="black" />,
+    activeIcon: <MdVerifiedUser color="green" />,
+    active: false,
   },
   {
     name: 'Inventory',
@@ -65,6 +80,9 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/inventory',
     component: lazy(() => import('components/views/Inventory')),
+    icon: <MdDescription color="black" />,
+    activeIcon: <MdDescription color="green" />,
+    active: false,
   },
   {
     name: 'Orders',
@@ -72,6 +90,9 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/orders',
     component: lazy(() => import('components/views/Orders')),
+    icon: <MdAddShoppingCart color="black" />,
+    activeIcon: <MdAddShoppingCart color="green" />,
+    active: false,
   },
   {
     name: 'Quality Management',
@@ -79,6 +100,9 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/quality-management',
     component: lazy(() => import('components/views/QualityManagement')),
+    icon: <MdAssignmentTurnedIn color="black" />,
+    activeIcon: <MdAssignmentTurnedIn color="green" />,
+    active: false,
   },
   {
     name: 'Shipping',
@@ -86,6 +110,9 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/shipping',
     component: lazy(() => import('components/views/Shipping')),
+    icon: <MdLocalShipping color="black" />,
+    activeIcon: <MdLocalShipping color="green" />,
+    active: false,
   },
   {
     name: 'Sales',
@@ -93,6 +120,9 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/sales',
     component: lazy(() => import('components/views/Sales')),
+    icon: <MdAttachMoney color="black" />,
+    activeIcon: <MdAttachMoney color="green" />,
+    active: false,
   },
   {
     protected: false,
