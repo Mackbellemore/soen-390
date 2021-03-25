@@ -9,7 +9,7 @@ const useSchedulingForm = () => {
   // Modal (add new scheduling)
   const [quantity, setQuantity] = useState('');
   const [cost, setCost] = useState('');
-  const [operatingTime, setOperatingTime] = useState('');
+  const [operatingTime, setOperatingTime] = useState(new Date());
   const partType = useRef('');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const toast = useToast();
@@ -29,9 +29,10 @@ const useSchedulingForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoadingButton(true);
+
     try {
       await createScheduling({
-        partType: partType,
+        partType: partType.current.value,
         quantity: quantity,
         cost: cost,
         operatingTime: operatingTime,

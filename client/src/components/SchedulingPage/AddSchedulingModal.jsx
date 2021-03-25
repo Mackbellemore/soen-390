@@ -22,6 +22,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { getPartMaterialList } from 'utils/api/parts.js';
 import Loader from 'components/common/Loader.jsx';
+import { DateTimePicker } from '@progress/kendo-react-dateinputs';
 
 const AddSchedulingModal = ({ showButton = false }) => {
   const { isLoading, data: partsData } = useQuery('parts/materialList', getPartMaterialList);
@@ -91,11 +92,7 @@ const AddSchedulingModal = ({ showButton = false }) => {
             </FormControl>
             <FormControl isRequired>
               <FormLabel>Operating Time</FormLabel>
-              <Input
-                onChange={handleOperatingTime}
-                value={operatingTime}
-                placeholder="Operating Time"
-              />
+              <DateTimePicker onChange={handleOperatingTime} value={operatingTime} />
             </FormControl>
           </ModalBody>
 
