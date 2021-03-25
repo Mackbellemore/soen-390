@@ -23,9 +23,11 @@ import { useQuery } from 'react-query';
 import { getPartMaterialList } from 'utils/api/parts.js';
 import Loader from 'components/common/Loader.jsx';
 import { DateTimePicker } from '@progress/kendo-react-dateinputs';
+import { getMachines } from 'utils/api/machines.js';
 
 const AddSchedulingModal = ({ showButton = false }) => {
   const { isLoading, data: partsData } = useQuery('parts/materialList', getPartMaterialList);
+  const { isLoading: isLoadingMachine, data: machineData } = useQuery('machine', getMachines);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -38,9 +40,10 @@ const AddSchedulingModal = ({ showButton = false }) => {
     cost,
     operatingTime,
     partType,
+    machineName,
   } = useSchedulingForm();
 
-  if (isLoading) {
+  if (isLoading || isLoadingMachine) {
     return <Loader />;
   }
 
@@ -78,6 +81,16 @@ const AddSchedulingModal = ({ showButton = false }) => {
               </Select>
             </FormControl>
             <FormControl isRequired>
+              <FormLabel>Machine</FormLabel>
+              <Select placeholder="Select a machine" ref={machineName}>
+                {Object.values(machineData.data).map((val) => (
+                  <option key={val.machineName} value={val.machineName}>
+                    {val.machineName}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+            <FormControl isRequired>
               <FormLabel>Quantity</FormLabel>
               <Input
                 type="number"
@@ -99,7 +112,7 @@ const AddSchedulingModal = ({ showButton = false }) => {
           <ModalFooter>
             <Button
               isLoading={isLoadingButton}
-              isDisabled={!partType && !quantity && !cost && !operatingTime}
+              isDisabled={!partType && !machineName && !quantity && !cost && !operatingTime}
               onClick={handleSubmit}
               colorScheme="blue"
               mr={3}

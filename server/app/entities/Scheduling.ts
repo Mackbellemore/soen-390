@@ -10,6 +10,7 @@ export default class SchedulingEntity {
     quantity: Joi.number().integer().greater(-1),
     cost: Joi.number().integer().greater(-1),
     operatingTime: Joi.string(),
+    machineName: Joi.string(),
   });
 
   // create a second schema purely just for POST requests

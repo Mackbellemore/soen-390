@@ -5,10 +5,10 @@ import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/c
 import { TablePagination, Paper, TableContainer } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
 import { DeleteIcon } from '@chakra-ui/icons';
-import AddSchedulingModal from 'components/SchedulingPage/AddSchedulingModal.jsx';
-import useSchedulingTable from 'hooks/useSchedulingTable.jsx';
+import AddMachineModal from 'components/SchedulingPage/AddMachineModal.jsx';
+import useMachineTable from 'hooks/useMachineTable.jsx';
 
-const Schedulings = () => {
+const Machines = () => {
   const {
     handleChangePage,
     handleChangeRowsPerPage,
@@ -22,7 +22,7 @@ const Schedulings = () => {
     rowsPerPage,
     data,
     selected,
-  } = useSchedulingTable();
+  } = useMachineTable();
 
   if (isLoading) {
     return <Loader />;
@@ -32,16 +32,16 @@ const Schedulings = () => {
     return (
       <>
         <Heading size="xl" textAlign="center" mt={5}>
-          No schedulings.
+          No machines.
         </Heading>
-        <AddSchedulingModal showButton={true} />
+        <AddMachineModal showButton={true} />
         <NoResultImage />
       </>
     );
   }
   return (
     <Box overflowX="auto">
-      <AddSchedulingModal />
+      <AddMachineModal />
       <IconButton
         colorScheme="blue"
         variant="outline"
@@ -62,36 +62,30 @@ const Schedulings = () => {
                   isChecked={data.data.length > 0 && selected.length === data.data.length}
                   onChange={handleSelectAllClick}
                 >
-                  Schedule ID
+                  Machine ID
                 </Checkbox>
               </StyledTableHeader>
-              <StyledTableHeader>Operating Time</StyledTableHeader>
-              <StyledTableHeader>Machine Name</StyledTableHeader>
-              <StyledTableHeader>Quantity</StyledTableHeader>
-              <StyledTableHeader>Production Part</StyledTableHeader>
-              <StyledTableHeader>Cost</StyledTableHeader>
+              <StyledTableHeader>Machine name</StyledTableHeader>
+              <StyledTableHeader>Duraton</StyledTableHeader>
             </Tr>
           </Thead>
           <Tbody>
             {isSuccess &&
               data.data
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((scheduling) => (
-                  <Fragment key={scheduling._id}>
+                .map((machine) => (
+                  <Fragment key={machine._id}>
                     <StyledTableRow>
                       <StyledTableCell>
                         <Checkbox
-                          onChange={(event) => handleOnChange(event, scheduling._id)}
-                          isChecked={isSelected(scheduling._id)}
+                          onChange={(event) => handleOnChange(event, machine._id)}
+                          isChecked={isSelected(machine._id)}
                         >
-                          {scheduling._id.substr(scheduling._id.length - 3)}
+                          {machine._id.substr(machine._id.length - 3)}
                         </Checkbox>
                       </StyledTableCell>
-                      <StyledTableCell>{scheduling.operatingTime}</StyledTableCell>
-                      <StyledTableCell>{scheduling.machineName}</StyledTableCell>
-                      <StyledTableCell>{scheduling.quantity}</StyledTableCell>
-                      <StyledTableCell>{scheduling.partType}</StyledTableCell>
-                      <StyledTableCell>{scheduling.cost}</StyledTableCell>
+                      <StyledTableCell>{machine.machineName}</StyledTableCell>
+                      <StyledTableCell>{machine.duration}</StyledTableCell>
                     </StyledTableRow>
                   </Fragment>
                 ))}
@@ -111,4 +105,4 @@ const Schedulings = () => {
   );
 };
 
-export default Schedulings;
+export default Machines;

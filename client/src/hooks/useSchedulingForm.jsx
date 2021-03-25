@@ -4,13 +4,14 @@ import { useQuery } from 'react-query';
 import { createScheduling, getSchedulings } from 'utils/api/schedulings.js';
 
 const useSchedulingForm = () => {
-  const { refetch } = useQuery('schedulings', getSchedulings);
+  const { refetch } = useQuery('scheduling', getSchedulings);
 
   // Modal (add new scheduling)
   const [quantity, setQuantity] = useState('');
   const [cost, setCost] = useState('');
   const [operatingTime, setOperatingTime] = useState(new Date());
   const partType = useRef('');
+  const machineName = useRef('');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const toast = useToast();
 
@@ -36,6 +37,7 @@ const useSchedulingForm = () => {
         quantity: quantity,
         cost: cost,
         operatingTime: operatingTime,
+        machineName: machineName.current.value,
       });
       toast({
         title: 'Request Sent',
@@ -66,6 +68,7 @@ const useSchedulingForm = () => {
     cost,
     operatingTime,
     partType,
+    machineName,
   };
 };
 export default useSchedulingForm;
