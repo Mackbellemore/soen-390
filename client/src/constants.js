@@ -1,15 +1,13 @@
 import { lazy } from 'react';
 import {
   MdDescription,
-  MdSchedule,
-  MdTrendingUp,
   MdAssignmentTurnedIn,
   MdAttachMoney,
   MdAddShoppingCart,
   MdLocalShipping,
   MdVerifiedUser,
 } from 'react-icons/md';
-import Logo from './components/common/Logo';
+import Logo from './components/common/Logo.jsx';
 export const hq = {
   longitude: -73.745181,
   latitude: 45.4644455,
