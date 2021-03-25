@@ -47,6 +47,7 @@ const SidebarMenu = () => {
   };
 
   appRoutes.forEach((route) => {
+    const { icon: Icon } = route;
     if (route.name !== undefined && route.allowedRoles.includes(userStore.role)) {
       menuItems.push(
         <Flex key={route.path}>
@@ -57,7 +58,7 @@ const SidebarMenu = () => {
             _focus={{}}
             my="20px"
           >
-            {route.active ? route.activeIcon : route.icon}
+            <Icon color={route.active ? 'green' : 'black'} />
           </ChakraLink>
         </Flex>
       );

@@ -59,7 +59,7 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/main',
     component: lazy(() => import('components/views/MainDashboard')),
-    icon: <Logo />,
+    icon: Logo,
     active: false,
   },
   {
@@ -68,8 +68,7 @@ export const appRoutes = [
     allowedRoles: ['Admin'],
     path: '/admin',
     component: lazy(() => import('components/views/AdminPage.jsx')),
-    icon: <MdVerifiedUser color="black" />,
-    activeIcon: <MdVerifiedUser color="green" />,
+    icon: MdVerifiedUser,
     active: false,
   },
   {
@@ -78,8 +77,7 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/inventory',
     component: lazy(() => import('components/views/Inventory')),
-    icon: <MdDescription color="black" />,
-    activeIcon: <MdDescription color="green" />,
+    icon: MdDescription,
     active: false,
   },
   {
@@ -88,8 +86,7 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/orders',
     component: lazy(() => import('components/views/Orders')),
-    icon: <MdAddShoppingCart color="black" />,
-    activeIcon: <MdAddShoppingCart color="green" />,
+    icon: MdAddShoppingCart,
     active: false,
   },
   {
@@ -98,8 +95,7 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/quality-management',
     component: lazy(() => import('components/views/QualityManagement')),
-    icon: <MdAssignmentTurnedIn color="black" />,
-    activeIcon: <MdAssignmentTurnedIn color="green" />,
+    icon: MdAssignmentTurnedIn,
     active: false,
   },
   {
@@ -108,8 +104,7 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/shipping',
     component: lazy(() => import('components/views/Shipping')),
-    icon: <MdLocalShipping color="black" />,
-    activeIcon: <MdLocalShipping color="green" />,
+    icon: MdLocalShipping,
     active: false,
   },
   {
@@ -118,8 +113,7 @@ export const appRoutes = [
     allowedRoles: rolesAvailable,
     path: '/sales',
     component: lazy(() => import('components/views/Sales')),
-    icon: <MdAttachMoney color="black" />,
-    activeIcon: <MdAttachMoney color="green" />,
+    icon: MdAttachMoney,
     active: false,
   },
   {
