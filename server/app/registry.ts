@@ -25,6 +25,7 @@ import './controllers/DefectController';
 import './controllers/OrderController';
 import './controllers/SchedulingController';
 import './controllers/SaleController';
+import './controllers/ShippingController';
 
 // Services (make sure to bind it to a singleton)
 import { UserService } from './services/UserService';
@@ -36,6 +37,7 @@ import { DefectService } from './services/DefectService';
 import { OrderService } from './services/OrderService';
 import { SchedulingService } from './services/SchedulingService';
 import { SaleService } from './services/SaleService';
+import { ShippingService } from './services/ShippingService';
 
 // Repositories
 import { UserRepository } from './repository/UserRepository';
@@ -46,6 +48,7 @@ import { DefectRepository } from './repository/DefectRepository';
 import { OrderRepository } from './repository/OrderRepository';
 import { SchedulingRepository } from './repository/SchedulingRepository';
 import { SaleRepository } from './repository/SaleRepository';
+import { ShippingRepository } from './repository/ShippingRepository';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore because types don't exist for this library
@@ -103,6 +106,7 @@ container.bind<DefectService>(TYPES.DefectService).to(DefectService).inSingleton
 container.bind<OrderService>(TYPES.OrderService).to(OrderService).inSingletonScope();
 container.bind<SchedulingService>(TYPES.SchedulingService).to(SchedulingService).inSingletonScope();
 container.bind<SaleService>(TYPES.SaleService).to(SaleService).inSingletonScope();
+container.bind<ShippingService>(TYPES.ShippingService).to(ShippingService).inSingletonScope();
 
 // Repository
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
@@ -119,5 +123,9 @@ container
   .to(SchedulingRepository)
   .inSingletonScope();
 container.bind<SaleRepository>(TYPES.SaleRepository).to(SaleRepository).inSingletonScope();
+container
+  .bind<ShippingRepository>(TYPES.ShippingRepository)
+  .to(ShippingRepository)
+  .inSingletonScope();
 
 export { container };
