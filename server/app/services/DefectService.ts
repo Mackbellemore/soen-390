@@ -64,13 +64,13 @@ export class DefectService {
   public async updateDefect(body: IDefect): Promise<IDefect | null> {
     if (!body._id) throw new BadRequestError(`Missing Defect ID`);
 
-    const sale = await this.defectRepo.findById(body._id);
+    const defect = await this.defectRepo.findById(body._id);
 
-    if (!sale) throw new NotFoundError(`Cannot find defect with ID ${body._id}`);
+    if (!defect) throw new NotFoundError(`Cannot find defect with ID ${body._id}`);
 
     const updatedDefect = await this.defectRepo.update(body._id, {
-      status: body.status,
-      description: body.description,
+      status: body.status ? body.status : defect.status,
+      description: body.description ? body.description : defect.description,
     } as IDefect);
     return updatedDefect;
   }
