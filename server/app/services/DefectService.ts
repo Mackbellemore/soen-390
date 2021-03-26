@@ -4,7 +4,7 @@ import { IDefect } from './../models/DefectModel';
 import { IPart } from '../models/PartModel';
 import { DefectRepository } from './../repository/DefectRepository';
 import { PartService } from './PartService';
-import { NotFoundError, ConflictError } from '../errors';
+import { NotFoundError, ConflictError, BadRequestError } from '../errors';
 
 @injectable()
 export class DefectService {
@@ -38,6 +38,20 @@ export class DefectService {
       defectId: defect._id,
     });
     return defect;
+  }
+
+  public async updateDefect(body: IDefect): Promise<IDefect | null> {
+    if (!body._id) throw new BadRequestError(`Missing Defect ID`);
+
+    const sale = await this.defectRepo.findById(body._id);
+
+    if (!sale) throw new NotFoundError(`Cannot find defect with ID ${body._id}`);
+
+    const updatedDefect = await this.defectRepo.update(body._id, {
+      status: body.status,
+      description: body.description,
+    } as IDefect);
+    return updatedDefect;
   }
 
   public async deleteDefects(body: string[]): Promise<(IDefect | null)[]> {

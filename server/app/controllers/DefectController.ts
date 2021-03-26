@@ -2,7 +2,14 @@ import { IDefect } from './../models/DefectModel';
 import { DefectService } from './../services/DefectService';
 import { Request } from 'express';
 import { inject } from 'inversify';
-import { controller, httpGet, httpPost, httpDelete, results } from 'inversify-express-utils';
+import {
+  controller,
+  httpGet,
+  httpPost,
+  httpDelete,
+  httpPatch,
+  results,
+} from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import { BaseController } from './BaseController';
 import { Doc } from 'inversify-express-doc';
@@ -60,6 +67,24 @@ export class DefectController extends BaseController {
   public async delete(req: Request): Promise<results.JsonResult> {
     try {
       const defect = await this.defectService.deleteDefects(req.body);
+      return this.json(defect);
+    } catch (err) {
+      return this.handleError(err);
+    }
+  }
+
+  @Doc('Update Defect by ID')
+  /**
+   * @desc          Update Defect by ID
+   * @route         PATCH /defects
+   * @access        Public
+   * @param request
+   * @returns       Defect Json Format
+   */
+  @httpPatch('/')
+  public async update(request: Request): Promise<results.JsonResult> {
+    try {
+      const defect: IDefect | null = await this.defectService.updateDefect(request.body);
       return this.json(defect);
     } catch (err) {
       return this.handleError(err);
