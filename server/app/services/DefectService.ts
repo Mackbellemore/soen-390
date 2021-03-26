@@ -4,6 +4,7 @@ import { IDefect } from './../models/DefectModel';
 import { IPart } from '../models/PartModel';
 import { DefectRepository } from './../repository/DefectRepository';
 import { PartService } from './PartService';
+import { BikeService } from './BikeService';
 import { NotFoundError, ConflictError, BadRequestError } from '../errors';
 
 @injectable()
@@ -11,13 +12,33 @@ export class DefectService {
   ticketIdCount: number;
   constructor(
     @inject(TYPES.DefectRepository) private defectRepo: DefectRepository,
-    @inject(TYPES.PartService) private partService: PartService
+    @inject(TYPES.PartService) private partService: PartService,
+    @inject(TYPES.BikeService) private bikeService: BikeService
   ) {
     this.ticketIdCount = 0;
   }
 
   public async getDefects(): Promise<IDefect[]> {
     return this.defectRepo.getList();
+  }
+
+  public async getBikeDefects(): Promise<any[]> {
+    const bikes = await this.bikeService.getBikes();
+    const bikeDefects: any[] = [];
+    await Promise.all(
+      bikes.map(async (bike) => {
+        const defects = [];
+        if (bike.parts) {
+          for (const partId of Object.values(bike.parts)) {
+            const part = (await this.partService.get(partId)) as IPart;
+
+            if (part.defectId) defects.push(await this.defectRepo.findById(part.defectId));
+          }
+          if (defects.length !== 0) bikeDefects.push({ bike: bike.name, defects: defects });
+        }
+      })
+    );
+    return bikeDefects;
   }
 
   public async createDefect(body: IDefect): Promise<IDefect> {

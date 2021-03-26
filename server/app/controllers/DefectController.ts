@@ -37,6 +37,23 @@ export class DefectController extends BaseController {
     }
   }
 
+  @Doc('Get All Bike Defect')
+  /**
+   * @desc        Get all defect
+   * @route       GET /defects/bikes
+   * @access      Public
+   * @returns     List Defects Json Format
+   */
+  @httpGet('/bikes')
+  public async getBikeDefects(): Promise<results.JsonResult> {
+    try {
+      const defects = await this.defectService.getBikeDefects();
+      return this.json(defects);
+    } catch (err) {
+      return this.handleError(err);
+    }
+  }
+
   @Doc('Create new Defect')
   /**
    * @desc          Create new Defect
