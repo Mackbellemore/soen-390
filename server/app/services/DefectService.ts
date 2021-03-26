@@ -22,9 +22,9 @@ export class DefectService {
     return this.defectRepo.getList();
   }
 
-  public async getBikeDefects(): Promise<any[]> {
+  public async getBikeDefects(): Promise<Object[]> {
     const bikes = await this.bikeService.getBikes();
-    const bikeDefects: any[] = [];
+    const bikeDefects: Object[] = [];
     await Promise.all(
       bikes.map(async (bike) => {
         const defects = [];
