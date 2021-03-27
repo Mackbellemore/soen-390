@@ -1,15 +1,15 @@
 import { Document, Schema } from 'mongoose';
 
-export interface IBikeDefect {
-  bike: string;
-  defects: IDefect[];
-}
 export interface IDefect extends Document {
   id: number;
   type: 'Broken' | 'Reparable';
   status: 'Solved' | 'Pending' | 'Ongoing';
   description: string;
   partName: string;
+}
+export interface IBikeDefect {
+  bike: string;
+  defects: IDefect[];
 }
 
 export const DefectSchema: Schema = new Schema({
