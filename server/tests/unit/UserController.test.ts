@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { UserController } from './../../app/controllers/UserController';
 import * as sinon from 'sinon';
 import { results } from 'inversify-express-utils';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { SinonSandbox } from 'sinon';
 import { expect } from 'chai';
 import { NotFoundError } from '../../app/errors';
@@ -136,23 +136,21 @@ describe('UserController', () => {
         body: mockUser,
       } as Request;
 
-      const mockResponse = {} as Response;
+      // const mockResponse = {} as Response;
 
-      const response = await controller.checkAuth(mockRequest, mockResponse);
+      const response = await controller.checkAuth(mockRequest);
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
     });
 
     it('returns 200 if the user has a valid token', async () => {
-      const mockRequest = {} as Request;
-
-      const mockResponse = {
-        locals: {
+      const mockRequest = {
+        body: {
           user: mockUser,
         },
-      } as Response | any;
+      } as Request;
 
-      const response = await controller.checkAuth(mockRequest, mockResponse);
+      const response = await controller.checkAuth(mockRequest);
 
       expect(response.json).to.deep.equal(mockUser);
       expect(response).to.be.an.instanceof(results.JsonResult);

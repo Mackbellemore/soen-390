@@ -43,7 +43,7 @@ export const authenticateJWT = (req: Request, res: Response, next: NextFunction)
     delete decoded.exp;
     delete decoded.iat;
 
-    res.locals.user = decoded;
+    req.body.user = decoded;
 
     return next();
   });
