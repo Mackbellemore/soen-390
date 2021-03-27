@@ -42,7 +42,7 @@ const useShipmentForm = () => {
         shippingDate: shippingDate,
       });
       toast({
-        title: 'Request Sent',
+        title: 'Shipment Creation',
         description: 'Shipment has been created successfully',
         status: 'success',
         duration: 9000,

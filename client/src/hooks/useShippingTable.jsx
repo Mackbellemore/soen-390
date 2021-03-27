@@ -50,7 +50,7 @@ const useShippingTable = () => {
     try {
       await deleteShipment(selected);
       toast({
-        title: 'Deleted',
+        title: 'Shipment Deletion',
         description: 'Shipment have been deleted successfully',
         status: 'success',
         duration: 9000,
@@ -77,7 +77,7 @@ const useShippingTable = () => {
           status: e.currentTarget.value,
         });
         toast({
-          title: 'Deleted',
+          title: 'Shipment Status Update',
           description: 'Shipment have been updated successfully',
           status: 'success',
           duration: 9000,

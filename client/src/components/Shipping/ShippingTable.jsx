@@ -134,7 +134,7 @@ const ShippingTable = () => {
                           {shipment._id}
                         </Checkbox>
                       </StyledTableCell>
-                      <StyledTableCell id={shipment._id}>
+                      <StyledTableCell>
                         <Menu>
                           <MenuButton as={Button} rightIcon={<ChevronDownIcon />} mr={3}>
                             {shipment.status}
@@ -143,7 +143,6 @@ const ShippingTable = () => {
                             {shippingStates.map((status) => (
                               <MenuItem
                                 key={status}
-                                id={shipment._id}
                                 value={status}
                                 onClick={handleShpmtStateChange}
                               >
