@@ -1,6 +1,6 @@
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
-import { IDefect } from './../models/DefectModel';
+import { IDefect, IBikeDefect } from './../models/DefectModel';
 import { IPart } from '../models/PartModel';
 import { DefectRepository } from './../repository/DefectRepository';
 import { PartService } from './PartService';
@@ -22,9 +22,9 @@ export class DefectService {
     return this.defectRepo.getList();
   }
 
-  public async getBikeDefects(): Promise<unknown[]> {
+  public async getBikeDefects(): Promise<IBikeDefect[]> {
     const bikes = await this.bikeService.getBikes();
-    const bikeDefects: unknown[] = [];
+    const bikeDefects: IBikeDefect[] = [];
     await Promise.all(
       bikes.map(async (bike) => {
         const defects = [];
@@ -34,7 +34,8 @@ export class DefectService {
 
             if (part.defectId) defects.push(await this.defectRepo.findById(part.defectId));
           }
-          if (defects.length !== 0) bikeDefects.push({ bike: bike.name, defects: defects });
+          if (defects.length !== 0)
+            bikeDefects.push({ bike: bike.name, defects: defects as IDefect[] });
         }
       })
     );

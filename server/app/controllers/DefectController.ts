@@ -1,4 +1,4 @@
-import { IDefect } from './../models/DefectModel';
+import { IDefect, IBikeDefect } from './../models/DefectModel';
 import { DefectService } from './../services/DefectService';
 import { Request } from 'express';
 import { inject } from 'inversify';
@@ -47,7 +47,7 @@ export class DefectController extends BaseController {
   @httpGet('/bikes')
   public async getBikeDefects(): Promise<results.JsonResult> {
     try {
-      const defects = await this.defectService.getBikeDefects();
+      const defects: IBikeDefect[] = await this.defectService.getBikeDefects();
       return this.json(defects);
     } catch (err) {
       return this.handleError(err);

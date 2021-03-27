@@ -1,5 +1,9 @@
 import { Document, Schema } from 'mongoose';
 
+export interface IBikeDefect {
+  bike: string;
+  defects: IDefect[];
+}
 export interface IDefect extends Document {
   id: number;
   type: 'Broken' | 'Reparable';
