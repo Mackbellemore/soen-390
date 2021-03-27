@@ -26,6 +26,7 @@ import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
 import { getBikes } from 'utils/api/bikes.js';
 import AboutBike from './AboutBike.jsx';
+import { TextField } from '@material-ui/core';
 
 const SalesModal = ({ showButton = false }) => {
   const { isSuccess, data } = useQuery('bikes', getBikes);
@@ -34,6 +35,9 @@ const SalesModal = ({ showButton = false }) => {
     isSaleModalOpen,
     onSaleModalOpen,
     onSaleModalClose,
+    handleDeliveryDateInput,
+    handleShippingDateInput,
+    handleLocationInput,
     emailRef,
     setSelectedBikeId,
     setName,
@@ -42,6 +46,9 @@ const SalesModal = ({ showButton = false }) => {
     name,
     quantityRef,
     bikeMaxStock,
+    deliveryDate,
+    shippingDate,
+    location,
   } = useSales();
   const { isValidEmail, handleEmailInput } = useEmailValidation();
 
@@ -110,12 +117,24 @@ const SalesModal = ({ showButton = false }) => {
                 </NumberInputStepper>
               </NumberInput>
             </FormControl>
+            <FormControl isRequired mt={4}>
+              <FormLabel>Location</FormLabel>
+              <Input onChange={handleLocationInput} />
+            </FormControl>
+            <FormControl mt={4} isRequired>
+              <FormLabel>Shipping Date</FormLabel>
+              <TextField onChange={handleShippingDateInput} type="date" value={shippingDate} />
+            </FormControl>
+            <FormControl mt={4} isRequired>
+              <FormLabel>Delivery Date</FormLabel>
+              <TextField onChange={handleDeliveryDateInput} type="date" value={deliveryDate} />
+            </FormControl>
             {selectedBikeId && <AboutBike bikeId={selectedBikeId} />}
           </ModalBody>
           <ModalFooter>
             <Button
               isLoading={isLoadingButton}
-              isDisabled={!(isValidEmail && name)}
+              isDisabled={!(isValidEmail && name && shippingDate && deliveryDate && location)}
               onClick={handleSubmit}
               colorScheme="blue"
               mr={3}
