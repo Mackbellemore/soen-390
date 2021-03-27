@@ -15,7 +15,7 @@ const useAccountingCharts = () => {
   const [ledgerData, setLedgerData] = useState([]);
   const [expenseIncomeData, setExpenseIncomeData] = useState([]);
   const [bikeData, setBikeData] = useState(new Map());
-  const { data: orderData, isSuccess: isOrderSuccess } = useQuery('orders', getOrders);
+  const { isSuccess: isOrderSuccess, data: orderData } = useQuery('orders', getOrders);
   const { isSuccess: isSalesSuccess, data: salesData } = useQuery('sales', getSales);
   const { isSuccess: isBikesSuccess, data: bikesData } = useQuery('bikes', getBikes);
 
