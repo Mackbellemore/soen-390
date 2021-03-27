@@ -6,6 +6,7 @@ import {
   MdAddShoppingCart,
   MdLocalShipping,
   MdVerifiedUser,
+  MdAccountBalance,
 } from 'react-icons/md';
 import Logo from './components/common/Logo.jsx';
 export const hq = {
@@ -114,6 +115,15 @@ export const appRoutes = [
     path: '/sales',
     component: lazy(() => import('components/views/Sales')),
     icon: MdAttachMoney,
+    active: false,
+  },
+  {
+    name: 'Accounting',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/accounting',
+    component: lazy(() => import('components/views/Accounting')),
+    icon: MdAccountBalance,
     active: false,
   },
   {
