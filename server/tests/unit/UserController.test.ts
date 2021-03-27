@@ -136,8 +136,6 @@ describe('UserController', () => {
         body: mockUser,
       } as Request;
 
-      // const mockResponse = {} as Response;
-
       const response = await controller.checkAuth(mockRequest);
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(200);
