@@ -62,12 +62,12 @@ const AddShipmentForm = ({ showButton = false }) => {
           <ModalBody pb={6}>
             <FormControl isRequired>
               <FormLabel>Company</FormLabel>
-              <Input onChange={handleCompanyInput} value={company} />
+              <Input onChange={handleCompanyInput} />
             </FormControl>
 
             <FormControl isRequired mt={4}>
               <FormLabel>Location</FormLabel>
-              <Input onChange={handleLocationInput} value={location} />
+              <Input onChange={handleLocationInput} />
             </FormControl>
 
             <FormControl mt={4} isRequired>
@@ -79,11 +79,11 @@ const AddShipmentForm = ({ showButton = false }) => {
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Shipping Date</FormLabel>
-              <TextField onChange={handleShippingDateInput} type="date" value={shippingDate} />
+              <TextField onChange={handleShippingDateInput} type="date" />
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Delivery Date</FormLabel>
-              <TextField onChange={handleDeliveryDateInput} type="date" value={deliveryDate} />
+              <TextField onChange={handleDeliveryDateInput} type="date" />
             </FormControl>
           </ModalBody>
 

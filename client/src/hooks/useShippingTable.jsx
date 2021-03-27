@@ -11,6 +11,7 @@ const useShippingTable = () => {
   const { map } = useContext(MapContext);
   const [currentRow, setCurrentRow] = useState('');
   const [selected, setSelected] = useState([]);
+
   const toast = useToast();
 
   const isSelected = (_id) => selected.indexOf(_id) !== -1;

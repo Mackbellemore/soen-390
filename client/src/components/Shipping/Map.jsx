@@ -50,6 +50,7 @@ const ShippingMap = () => {
       <ReactMapGL
         {...viewport}
         ref={mapRef}
+        mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX}
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
       >

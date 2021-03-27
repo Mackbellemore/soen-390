@@ -23,6 +23,7 @@ import {
 import useOrderForm from 'hooks/useOrderForm.jsx';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
+import { TextField } from '@material-ui/core';
 
 const FormModal = ({ showButton = false }) => {
   // TODO: use the endpoint to get this constant list of materials rather than hard coding
@@ -30,6 +31,8 @@ const FormModal = ({ showButton = false }) => {
   const {
     handleMaterial,
     handleSubmit,
+    handleDeliveryDateInput,
+    handleShippingDateInput,
     manufacturer,
     location,
     note,
@@ -38,6 +41,8 @@ const FormModal = ({ showButton = false }) => {
     onOpen,
     onClose,
     material,
+    deliveryDate,
+    shippingDate,
   } = useOrderForm();
 
   return (
@@ -91,13 +96,26 @@ const FormModal = ({ showButton = false }) => {
               <FormLabel>Location</FormLabel>
               <Input placeholder="Location" ref={location} />
             </FormControl>
+            <FormControl mt={4} isRequired>
+              <FormLabel>Shipping Date</FormLabel>
+              <TextField onChange={handleShippingDateInput} type="date" value={shippingDate} />
+            </FormControl>
+            <FormControl mt={4} isRequired>
+              <FormLabel>Delivery Date</FormLabel>
+              <TextField onChange={handleDeliveryDateInput} type="date" value={deliveryDate} />
+            </FormControl>
             <FormControl mt={4}>
               <FormLabel>Note to the manufacturer</FormLabel>
               <Textarea placeholder="Note" ref={note} />
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit} isDisabled={material === null}>
+            <Button
+              colorScheme="blue"
+              mr={3}
+              onClick={handleSubmit}
+              isDisabled={!(material && deliveryDate && shippingDate)}
+            >
               Submit
             </Button>
             <Button onClick={onClose}>Cancel</Button>
