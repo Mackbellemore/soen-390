@@ -1,23 +1,45 @@
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
-import { IDefect } from './../models/DefectModel';
+import { IDefect, IBikeDefect } from './../models/DefectModel';
 import { IPart } from '../models/PartModel';
 import { DefectRepository } from './../repository/DefectRepository';
 import { PartService } from './PartService';
-import { NotFoundError, ConflictError } from '../errors';
+import { BikeService } from './BikeService';
+import { NotFoundError, ConflictError, BadRequestError } from '../errors';
 
 @injectable()
 export class DefectService {
   ticketIdCount: number;
   constructor(
     @inject(TYPES.DefectRepository) private defectRepo: DefectRepository,
-    @inject(TYPES.PartService) private partService: PartService
+    @inject(TYPES.PartService) private partService: PartService,
+    @inject(TYPES.BikeService) private bikeService: BikeService
   ) {
     this.ticketIdCount = 0;
   }
 
   public async getDefects(): Promise<IDefect[]> {
     return this.defectRepo.getList();
+  }
+
+  public async getBikeDefects(): Promise<IBikeDefect[]> {
+    const bikes = await this.bikeService.getBikes();
+    const bikeDefects: IBikeDefect[] = [];
+    await Promise.all(
+      bikes.map(async (bike) => {
+        const defects = [];
+        if (bike.parts) {
+          for (const partId of Object.values(bike.parts)) {
+            const part = (await this.partService.get(partId)) as IPart;
+
+            if (part.defectId) defects.push(await this.defectRepo.findById(part.defectId));
+          }
+          if (defects.length !== 0)
+            bikeDefects.push({ bike: bike.name, defects: defects as IDefect[] });
+        }
+      })
+    );
+    return bikeDefects;
   }
 
   public async createDefect(body: IDefect): Promise<IDefect> {
@@ -38,6 +60,20 @@ export class DefectService {
       defectId: defect._id,
     });
     return defect;
+  }
+
+  public async updateDefect(body: IDefect): Promise<IDefect | null> {
+    if (!body._id) throw new BadRequestError(`Missing Defect ID`);
+
+    const defect = await this.defectRepo.findById(body._id);
+
+    if (!defect) throw new NotFoundError(`Cannot find defect with ID ${body._id}`);
+
+    const updatedDefect = await this.defectRepo.update(body._id, {
+      status: body.status ? body.status : defect.status,
+      description: body.description ? body.description : defect.description,
+    } as IDefect);
+    return updatedDefect;
   }
 
   public async deleteDefects(body: string[]): Promise<(IDefect | null)[]> {
