@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import {
   Checkbox,
   Table,
@@ -19,15 +19,15 @@ import { shippingStates } from 'constants.js';
 import { ChevronDownIcon, DeleteIcon } from '@chakra-ui/icons';
 import AddShipmentForm from './AddShipmentForm.jsx';
 import useShippingTable from 'hooks/useShippingTable.jsx';
-import { NoResultImage } from 'components/common/Image.jsx';
 import { formatDate } from 'utils/dateFunctions.js';
 import Loader from 'components/common/Loader.jsx';
 import Head from 'next/head';
+import usePagination from 'hooks/usePagination.jsx';
 
 const ShippingHeader = () => (
   <>
     <Head>
-      <title>ERP - Orders</title>
+      <title>ERP - Shipping</title>
     </Head>
     <Heading fontSize={{ base: '12px', sm: '26px' }} textAlign="center" mt={5}>
       Shippings
@@ -48,17 +48,7 @@ const ShippingTable = () => {
     selected,
   } = useShippingTable();
 
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
 
   if (isLoading) {
     return <Loader />;
@@ -72,13 +62,13 @@ const ShippingTable = () => {
           No shippings found.
         </Heading>
         <AddShipmentForm showButton={true} />
-
-        <NoResultImage />
       </>
     );
   }
   return (
     <>
+      <ShippingHeader />
+
       <AddShipmentForm />
       <IconButton
         colorScheme="blue"
