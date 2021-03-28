@@ -20,6 +20,7 @@ import useShipmentForm from 'hooks/useShipmentForm.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { TextField } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
 
 const AddShipmentForm = ({ showButton = false }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -109,4 +110,4 @@ AddShipmentForm.propTypes = {
   showButton: PropTypes.bool,
 };
 
-export default AddShipmentForm;
+export default observer(AddShipmentForm);

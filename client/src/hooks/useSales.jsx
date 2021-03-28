@@ -1,9 +1,12 @@
 import { useDisclosure, useToast } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useContext } from 'react';
 import { useQuery } from 'react-query';
 import { createSale, getSales, updateSale } from 'utils/api/sales.js';
 import { getOneBike } from 'utils/api/bikes.js';
 import { createShipment } from 'utils/api/shippings.js';
+import { sendEmail } from 'utils/api/system.js';
+import { RootStoreContext } from 'stores/stores.jsx';
+import { formatDate } from 'utils/dateFunctions.js';
 
 const useSales = (sale) => {
   const {
@@ -13,6 +16,7 @@ const useSales = (sale) => {
   } = useDisclosure();
   const toast = useToast();
   const { refetch } = useQuery('sales', getSales);
+  const { userStore } = useContext(RootStoreContext);
   const [isLoadingButton, setIsLoadingButton] = useState(false);
   const [name, setName] = useState(undefined);
   const emailRef = useRef('');
@@ -60,10 +64,22 @@ const useSales = (sale) => {
 
   const handleStatusChange = async (newStatus) => {
     try {
-      await updateSale({
+      const { data: newSaleInfo } = await updateSale({
         _id: sale._id,
         status: newStatus,
         bikeId: sale.bikeId,
+      });
+      await sendEmail({
+        to: [userStore.email, newSaleInfo.customerEmail],
+        subject: `ERP Sales: Sale ${newSaleInfo._id} Update`,
+        emailBody: `Information about the sale update\n\nSale Id: ${newSaleInfo._id} \nCustomer: ${newSaleInfo.customerName} \nBike Id: ${newSaleInfo.bikeId} \nquantity: ${newSaleInfo.quantity} \nSale Status: ${newSaleInfo.status}`,
+      });
+      toast({
+        title: 'Sale Status Update',
+        description: 'The sale have been updated',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
       });
       refetch();
     } catch (err) {
@@ -81,18 +97,34 @@ const useSales = (sale) => {
   const handleSubmit = async () => {
     setIsLoadingButton(true);
     try {
-      await createSale({
+      const { data: saleInfo } = await createSale({
         bikeId: selectedBikeId,
         customerEmail: emailRef.current.value,
         customerName: name,
         quantity: quantityRef.current.value,
       });
-      await createShipment({
+      const { data: shpmtInfo } = await createShipment({
         company: name,
         location: location,
         status: 'Ordered',
         deliveryDate: deliveryDate,
         shippingDate: shippingDate,
+      });
+      await sendEmail({
+        to: [userStore.email, saleInfo.customerEmail],
+        subject: `ERP Sales: Sale ${saleInfo._id} Placed`,
+        emailBody: `Information about the sale\n\nSale Id: ${saleInfo._id} \nCustomer: ${saleInfo.customerName} \nBike Id: ${saleInfo.bikeId} \nquantity: ${saleInfo.quantity} \nSale Status: ${saleInfo.status}`,
+      });
+      await sendEmail({
+        to: [userStore.email, saleInfo.customerEmail],
+        subject: `ERP Shipping: New Shipment ${shpmtInfo._id}`,
+        emailBody: `Information about the new shipment\n\nSale Id: ${saleInfo._id} \nCompany: ${
+          shpmtInfo.company
+        } \nLocation: ${shpmtInfo.location} \nStatus: ${
+          shpmtInfo.status
+        } \nDelivery Date: ${formatDate(shpmtInfo.deliveryDate)} \nShipping Date: ${formatDate(
+          shpmtInfo.shippingDate
+        )}`,
       });
       toast({
         title: 'Sale/Shipment Placed',
