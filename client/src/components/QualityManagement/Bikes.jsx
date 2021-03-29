@@ -6,7 +6,7 @@ import Loader from 'components/common/Loader';
 import usePagination from 'hooks/usePagination.jsx';
 import { useQuery } from 'react-query';
 import { getBikeDefects } from 'utils/api/defect.js';
-import DefectsTable from './DefectsTable';
+import DefectsTable from './DefectsTable.jsx';
 
 const Bikes = () => {
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();

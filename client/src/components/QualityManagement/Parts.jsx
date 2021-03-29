@@ -93,7 +93,7 @@ const Parts = () => {
               <StyledTableHeader>Defect Type</StyledTableHeader>
               <StyledTableHeader>Status of Defect</StyledTableHeader>
               <StyledTableHeader>Desc of Solution</StyledTableHeader>
-              <StyledTableHeader></StyledTableHeader>
+              <StyledTableHeader />
             </Tr>
           </Thead>
           <Tbody>

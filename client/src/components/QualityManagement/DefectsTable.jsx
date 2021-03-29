@@ -42,7 +42,7 @@ const DefectsTable = ({ bike, defects }) => {
       <Modal isOpen={isOpen} onClose={onClose} size="4xl" scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{bike}'s Defect List</ModalHeader>
+          <ModalHeader>{bike}&lsquo;s Defect List</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6} overflowX="auto">
             <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">

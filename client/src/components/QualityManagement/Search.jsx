@@ -1,6 +1,7 @@
 import { InputGroup, Input, InputRightElement, Flex, IconButton } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 import { useRef } from 'react';
+import PropTypes from 'prop-types';
 
 const Search = ({ handleSearch }) => {
   const input = useRef('');
@@ -20,6 +21,10 @@ const Search = ({ handleSearch }) => {
       </InputGroup>
     </Flex>
   );
+};
+
+Search.propTypes = {
+  handleSearch: PropTypes.func,
 };
 
 export default Search;
