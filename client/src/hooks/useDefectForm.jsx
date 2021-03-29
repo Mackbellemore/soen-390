@@ -1,10 +1,11 @@
 import { useToast } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
-import { createDefect, getDefects } from 'utils/api/defect.js';
+import { createDefect, getDefects, getBikeDefects } from 'utils/api/defect.js';
 
 const useDefectForm = () => {
   const { refetch } = useQuery('defects', getDefects);
+  const { refetch: refetchBikeDefects } = useQuery('bikeDefects', getBikeDefects);
 
   const [partName, setPartName] = useState('');
   const type = useRef('');
@@ -35,6 +36,7 @@ const useDefectForm = () => {
         isClosable: true,
       });
       refetch();
+      refetchBikeDefects();
     } catch (err) {
       toast({
         title: 'Error',
