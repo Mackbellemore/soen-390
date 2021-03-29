@@ -2,7 +2,7 @@ import 'reflect-metadata';
 import { UserController } from './../../app/controllers/UserController';
 import * as sinon from 'sinon';
 import { results } from 'inversify-express-utils';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { SinonSandbox } from 'sinon';
 import { expect } from 'chai';
 import { NotFoundError } from '../../app/errors';
@@ -132,23 +132,26 @@ describe('UserController', () => {
 
   describe('authCheck endpoint', () => {
     it('returns 200 if the user has a valid token', async () => {
-      const mockRequest = {
-        body: mockUser,
-      } as Request;
+      const mockRequest = {} as Request;
 
-      const response = await controller.checkAuth(mockRequest);
+      const mockResponse = {} as Response;
+
+      const response = await controller.checkAuth(mockRequest, mockResponse);
       expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.deep.equal(200);
       expect(response.statusCode).to.equal(200);
     });
 
-    it('returns 200 if the user has a valid token', async () => {
-      const mockRequest = {
-        body: {
+    it('returns 200 with user in body if the user has a valid token', async () => {
+      const mockRequest = {} as Request;
+
+      const mockResponse = {
+        locals: {
           user: mockUser,
         },
-      } as Request;
+      } as Response | any;
 
-      const response = await controller.checkAuth(mockRequest);
+      const response = await controller.checkAuth(mockRequest, mockResponse);
 
       expect(response.json).to.deep.equal(mockUser);
       expect(response).to.be.an.instanceof(results.JsonResult);
