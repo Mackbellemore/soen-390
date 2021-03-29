@@ -72,7 +72,7 @@ const useSales = (sale) => {
       await sendEmail({
         to: [userStore.email, newSaleInfo.customerEmail],
         subject: `ERP Sales: Sale ${newSaleInfo._id} Update`,
-        emailBody: `Information about the sale update\n\nSale Id: ${newSaleInfo._id} \nCustomer: ${newSaleInfo.customerName} \nBike Id: ${newSaleInfo.bikeId} \nquantity: ${newSaleInfo.quantity} \nSale Status: ${newSaleInfo.status}`,
+        emailBody: `Information about the sale update\n\nSale Id: ${newSaleInfo._id} \nCustomer: ${newSaleInfo.customerName} \nBike Id: ${newSaleInfo.bikeId} \nQuantity: ${newSaleInfo.quantity} \nSale Status: ${newSaleInfo.status}`,
       });
       toast({
         title: 'Sale Status Update',
