@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { createSale, getSales, updateSale } from 'utils/api/sales.js';
 import { getOneBike } from 'utils/api/bikes.js';
+import { createShipment } from 'utils/api/shippings.js';
 
 const useSales = (sale) => {
   const {
@@ -18,6 +19,10 @@ const useSales = (sale) => {
   const [selectedBikeId, setSelectedBikeId] = useState(undefined);
   const quantityRef = useRef(1);
   const [bikeMaxStock, setBikeMaxStock] = useState(1);
+  const [shippingDate, setShippingDate] = useState('');
+  const [deliveryDate, setDeliveryDate] = useState('');
+  const [location, setLocation] = useState('');
+
   const {
     isOpen: isSaleModalOpen,
     onOpen: onSaleModalOpen,
@@ -40,6 +45,17 @@ const useSales = (sale) => {
       case 'Cancelled':
         return 'red';
     }
+  };
+
+  const handleLocationInput = (e) => {
+    setLocation(e.target.value);
+  };
+  const handleDeliveryDateInput = (e) => {
+    setDeliveryDate(e.target.value);
+  };
+
+  const handleShippingDateInput = (e) => {
+    setShippingDate(e.target.value);
   };
 
   const handleStatusChange = async (newStatus) => {
@@ -71,6 +87,20 @@ const useSales = (sale) => {
         customerName: name,
         quantity: quantityRef.current.value,
       });
+      await createShipment({
+        company: name,
+        location: location,
+        status: 'Ordered',
+        deliveryDate: deliveryDate,
+        shippingDate: shippingDate,
+      });
+      toast({
+        title: 'Sale/Shipment Placed',
+        description: 'The sale and shipment have been placed',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
       refetch();
     } catch (err) {
       toast({
@@ -94,6 +124,9 @@ const useSales = (sale) => {
     handleStatusColor,
     handleStatusChange,
     handleSubmit,
+    handleDeliveryDateInput,
+    handleShippingDateInput,
+    handleLocationInput,
     isSaleModalOpen,
     onSaleModalOpen,
     onSaleModalClose,
@@ -105,6 +138,9 @@ const useSales = (sale) => {
     name,
     quantityRef,
     bikeMaxStock,
+    deliveryDate,
+    shippingDate,
+    location,
   };
 };
 
