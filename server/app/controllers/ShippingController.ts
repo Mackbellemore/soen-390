@@ -45,7 +45,7 @@ export class ShippingController extends BaseController {
    * @param request
    * @returns       Shipping Json Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const shipment: IShipping = await this.shippingService.createShipment(request.body);

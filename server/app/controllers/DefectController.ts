@@ -62,7 +62,7 @@ export class DefectController extends BaseController {
    * @param request
    * @returns       Defect Json Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const defect: IDefect = await this.defectService.createDefect(request.body);

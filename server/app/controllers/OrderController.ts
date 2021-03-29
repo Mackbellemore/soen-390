@@ -46,7 +46,7 @@ export class OrderController extends BaseController {
    * @param request
    * @returns       Order JSON Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const order: IOrder = await this.orderService.createOrder(request.body);
@@ -83,7 +83,7 @@ export class OrderController extends BaseController {
    * @param request
    * @returns       Order JSON Format
    */
-  @httpPatch('/:id')
+  @httpPatch('/:id', TYPES.LoggerMiddleware)
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const order: IOrder | null = await this.orderService.updateOrder(
@@ -133,7 +133,7 @@ export class OrderController extends BaseController {
    * @param request
    * @returns       Order JSON Format
    */
-  @httpPost('/approved')
+  @httpPost('/approved', TYPES.LoggerMiddleware)
   public async approve(request: Request): Promise<results.JsonResult> {
     try {
       const order: IOrder | null = await this.orderService.approveOrder(request.body);

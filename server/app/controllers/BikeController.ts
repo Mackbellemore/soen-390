@@ -46,7 +46,7 @@ export class BikeController extends BaseController {
    * @param request
    * @returns       Bike Json Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const validBikeBody = await BikeEntity.validate(request.body, 'post');
@@ -84,7 +84,7 @@ export class BikeController extends BaseController {
    * @param request
    * @returns       Bike Json Format
    */
-  @httpPatch('/:id')
+  @httpPatch('/:id', TYPES.LoggerMiddleware)
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const validBikeBody = await BikeEntity.validate(request.body, 'patch');

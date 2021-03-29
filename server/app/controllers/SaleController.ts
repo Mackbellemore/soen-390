@@ -38,7 +38,7 @@ export class SaleController extends BaseController {
    * @param request
    * @returns       Sale Json Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const sale: ISale = await this.saleService.createSale(request.body);

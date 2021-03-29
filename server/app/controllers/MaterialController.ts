@@ -21,7 +21,7 @@ export class MaterialController extends BaseController {
    * @param req
    * @returns     Material Json Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(req: Request): Promise<results.JsonResult> {
     try {
       const material = await this.materialService.createMaterial(req.body);
@@ -57,7 +57,7 @@ export class MaterialController extends BaseController {
    * @param req
    * @returns     Material Json Format
    */
-  @httpPatch('/:name')
+  @httpPatch('/:name', TYPES.LoggerMiddleware)
   public async updateByName(req: Request): Promise<results.JsonResult> {
     try {
       const updatedMaterial: IMaterial = await this.materialService.updateMaterial(
