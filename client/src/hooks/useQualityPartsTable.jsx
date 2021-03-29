@@ -10,7 +10,7 @@ const useQualityPartsTable = () => {
   const toast = useToast();
   const newDescription = useRef('');
   const newStatus = useRef('');
-  const [Editing, setEditing] = useState('');
+  const [editing, setEditing] = useState('');
 
   const handleStatusColor = (status) => {
     switch (status) {
@@ -80,13 +80,13 @@ const useQualityPartsTable = () => {
   };
 
   const isEditing = (_id) => {
-    return _id === Editing;
+    return _id === editing;
   };
 
   const handleEdit = async () => {
     try {
       await updateDefect({
-        _id: Editing,
+        _id: editing,
         status: newStatus.current.value,
         description: newDescription.current.value,
       });
