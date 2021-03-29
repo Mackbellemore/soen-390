@@ -14,10 +14,10 @@ export class LogController extends BaseController {
 
   @Doc('Get logs')
   /**
-   * @desc        Get all defect
-   * @route       GET /defects
+   * @desc        Get all logs
+   * @route       GET /logs
    * @access      Public
-   * @returns     List Defects Json Format
+   * @returns     List logs Json Format
    */
   @httpGet('/')
   public async get(): Promise<results.JsonResult> {
