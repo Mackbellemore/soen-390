@@ -84,8 +84,8 @@ export class ShippingController extends BaseController {
   @httpDelete('/')
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
-      const shipment: IShipping | null = await this.shippingService.deleteShipment(
-        request.body._id
+      const shipment: (IShipping | null)[] = await this.shippingService.deleteShipment(
+        request.body
       );
       return this.json(shipment);
     } catch (err) {
