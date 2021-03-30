@@ -23,6 +23,7 @@ import { formatDate } from 'utils/dateFunctions.js';
 import Loader from 'components/common/Loader.jsx';
 import Head from 'next/head';
 import usePagination from 'hooks/usePagination.jsx';
+import { observer } from 'mobx-react-lite';
 
 const ShippingHeader = () => (
   <>
@@ -166,4 +167,4 @@ const ShippingTable = () => {
   );
 };
 
-export default ShippingTable;
+export default observer(ShippingTable);

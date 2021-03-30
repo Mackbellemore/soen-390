@@ -27,6 +27,7 @@ import { useQuery } from 'react-query';
 import { getBikes } from 'utils/api/bikes.js';
 import AboutBike from './AboutBike.jsx';
 import { TextField } from '@material-ui/core';
+import { observer } from 'mobx-react-lite';
 
 const SalesModal = ({ showButton = false }) => {
   const { isSuccess, data } = useQuery('bikes', getBikes);
@@ -153,4 +154,4 @@ SalesModal.propTypes = {
   showButton: PropTypes.bool,
 };
 
-export default SalesModal;
+export default observer(SalesModal);

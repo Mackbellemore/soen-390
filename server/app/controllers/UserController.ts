@@ -113,7 +113,7 @@ export class UserController extends BaseHttpController {
    * @param request
    * @returns       User JSON Format
    */
-  @httpDelete('/')
+  @httpDelete('/', TYPES.LoggerMiddleware)
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
       const user: IUserEntity | null = await this.userService.deleteUser(request.body);
@@ -131,7 +131,7 @@ export class UserController extends BaseHttpController {
    * @param request
    * @returns       User JSON Format
    */
-  @httpPatch('/:username')
+  @httpPatch('/:username', TYPES.LoggerMiddleware)
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const updatedUser: IUserEntity | null = await this.userService.updateUser(
