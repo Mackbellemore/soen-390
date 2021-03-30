@@ -5,9 +5,13 @@ import { getShippings, deleteShipment, updateShipmentStatus } from 'utils/api/sh
 import { MapContext } from 'react-map-gl';
 import { getShipment } from 'utils/shippingFunctions.js';
 import { mapLayerID, shippingStatesHide } from 'constants.js';
+import { sendEmail } from 'utils/api/system.js';
+import { RootStoreContext } from 'stores/stores.jsx';
+import { formatDate } from 'utils/dateFunctions.js';
 
 const useShippingTable = () => {
   const { isLoading, isSuccess, data, refetch } = useQuery('shippings', getShippings);
+  const { userStore } = useContext(RootStoreContext);
   const { map } = useContext(MapContext);
   const [currentRow, setCurrentRow] = useState('');
   const [selected, setSelected] = useState([]);
@@ -72,10 +76,25 @@ const useShippingTable = () => {
   const handleShpmtStateChange = async (e) => {
     if (map._fullyLoaded) {
       try {
-        await updateShipmentStatus({
+        const { data: newShpmtInfo } = await updateShipmentStatus({
           ...getShipment(data.data, currentRow),
           status: e.currentTarget.value,
         });
+
+        if (newShpmtInfo.status === 'Delayed' || newShpmtInfo.status === 'Cancelled') {
+          await sendEmail({
+            to: [userStore.email],
+            subject: `ERP Shipping: Shipment ${newShpmtInfo._id} Status Update`,
+            emailBody: `Information about the new shipment status \n\nCompany: ${
+              newShpmtInfo.company
+            } \nLocation: ${newShpmtInfo.location} \nStatus: ${
+              newShpmtInfo.status
+            } \nDelivery Date: ${formatDate(
+              newShpmtInfo.deliveryDate
+            )} \nShipping Date: ${formatDate(newShpmtInfo.shippingDate)}`,
+          });
+        }
+
         toast({
           title: 'Shipment Status Update',
           description: 'Shipment have been updated successfully',

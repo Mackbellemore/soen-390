@@ -20,6 +20,7 @@ import {
 import useDefectForm from 'hooks/useDefectForm.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { observer } from 'mobx-react-lite';
 
 const AddDefectModal = ({ showButton = false }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -104,4 +105,4 @@ AddDefectModal.propTypes = {
   showButton: PropTypes.bool,
 };
 
-export default AddDefectModal;
+export default observer(AddDefectModal);
