@@ -1,31 +1,44 @@
 import { Document, Schema } from 'mongoose';
 
 export interface IProduction extends Document {
+  type: string;
+  componentDetail: {
+    name: string;
+    description: string;
+    quality: string;
+    color: string;
+    type: string;
+    finish: string;
+    grade: string;
+  };
   status: string;
-  orderID: number;
-  component: string;
-  option1: string;
-  option2: string;
   quantity: string;
-  expectStartDate: Date;
-  expectedEndDate: Date;
-  actualStartDate: Date;
-  actualEndDate: Date;
-  manufacture: string;
+  startDate: Date;
+  endDate: Date;
+  assemblyMachine: string;
   note: string;
 }
 
 export const ProductionSchema: Schema = new Schema({
-  status: { type: Schema.Types.String, required: true, enum: ['Ongoing', 'Complete', 'Idle'] },
-  orderID: { type: Schema.Types.Number, required: true, unique: true, immutable: true },
-  component: { type: Schema.Types.String, required: true },
-  option1: { type: Schema.Types.String, required: false },
-  option2: { type: Schema.Types.String, required: false },
-  quantity: { type: Schema.Types.String, required: true },
-  expectedStartDate: { type: Schema.Types.Date, required: true },
-  expectedEndDate: { type: Schema.Types.Date, required: true },
-  actualStartDate: { type: Schema.Types.Date, required: true },
-  actualEndDate: { type: Schema.Types.Date, required: true },
-  manufacture: { type: Schema.Types.String, required: true },
+  type: { type: Schema.Types.String, required: true, enum: ['Bike', 'Part'] },
+  componentDetail: {
+    name: { type: Schema.Types.String, required: true },
+    description: { type: Schema.Types.String, required: false },
+    quality: { type: Schema.Types.String, required: false },
+    color: { type: Schema.Types.String, required: false },
+    parts: { type: Schema.Types.Mixed, required: false },
+    type: { type: Schema.Types.String, required: false },
+    finish: { type: Schema.Types.String, required: false },
+    grade: { type: Schema.Types.String, required: false },
+  },
+  status: {
+    type: Schema.Types.String,
+    required: true,
+    enum: ['Ongoing', 'Complete', 'Idle', 'Cancelled'],
+  },
+  quantity: { type: Schema.Types.Number, required: true },
+  startDate: { type: Schema.Types.Date, required: false },
+  endDate: { type: Schema.Types.Date, required: false },
+  assemblyMachine: { type: Schema.Types.String, required: false },
   note: { type: Schema.Types.String, required: false },
 });

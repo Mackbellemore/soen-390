@@ -1,6 +1,6 @@
 import { inject } from 'inversify';
 import TYPES from '../constants/types';
-import { ProductionService } from '../services/ProductionService';
+import { ProductionService } from './../services/ProductionService';
 import {
   controller,
   httpDelete,
