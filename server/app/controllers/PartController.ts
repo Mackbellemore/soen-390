@@ -52,7 +52,7 @@ export class PartController extends BaseController {
    * @param req
    * @returns     Part Json Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(req: Request): Promise<results.JsonResult> {
     try {
       const validPartBody = await PartEntity.validate(req.body, 'post');
@@ -71,7 +71,7 @@ export class PartController extends BaseController {
    * @param req   Parameter name
    * @returns     Part Json Format
    */
-  @httpPatch('/:name')
+  @httpPatch('/:name', TYPES.LoggerMiddleware)
   public async patch(req: Request): Promise<results.JsonResult> {
     try {
       const validPartBody = await PartEntity.validate(req.body, 'patch');
@@ -90,7 +90,7 @@ export class PartController extends BaseController {
    * @param req   Parameter name
    * @returns     Part Json Format
    */
-  @httpDelete('/:name')
+  @httpDelete('/:name', TYPES.LoggerMiddleware)
   public async delete(req: Request): Promise<results.JsonResult> {
     try {
       const part = await this.partService.deletePart(req.params.name);
