@@ -63,7 +63,7 @@ export class ShippingController extends BaseController {
    * @param request
    * @returns       Shipping Json Format
    */
-  @httpPatch('/')
+  @httpPatch('/', TYPES.LoggerMiddleware)
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const shipment: IShipping | null = await this.shippingService.updateShipment(request.body);
@@ -81,7 +81,7 @@ export class ShippingController extends BaseController {
    * @param request
    * @returns       Shipping JSON Format
    */
-  @httpDelete('/')
+  @httpDelete('/', TYPES.LoggerMiddleware)
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
       const shipment: (IShipping | null)[] = await this.shippingService.deleteShipment(

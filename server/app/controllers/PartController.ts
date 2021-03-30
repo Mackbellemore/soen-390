@@ -90,7 +90,7 @@ export class PartController extends BaseController {
    * @param req   Parameter name
    * @returns     Part Json Format
    */
-  @httpDelete('/:name')
+  @httpDelete('/:name', TYPES.LoggerMiddleware)
   public async delete(req: Request): Promise<results.JsonResult> {
     try {
       const part = await this.partService.deletePart(req.params.name);

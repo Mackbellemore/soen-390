@@ -65,7 +65,7 @@ export class SchedulingController extends BaseController {
    * @param request
    * @returns       Scheduling JSON Format
    */
-  @httpDelete('/')
+  @httpDelete('/', TYPES.LoggerMiddleware)
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
       const scheduling: IScheduling | null = await this.schedulingService.deleteScheduling(

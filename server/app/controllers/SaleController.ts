@@ -56,7 +56,7 @@ export class SaleController extends BaseController {
    * @param request
    * @returns       Sale Json Format
    */
-  @httpPatch('/')
+  @httpPatch('/', TYPES.LoggerMiddleware)
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const sale: ISale | null = await this.saleService.updateSale(request.body);

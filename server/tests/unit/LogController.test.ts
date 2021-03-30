@@ -4,17 +4,18 @@ import { results } from 'inversify-express-utils';
 import * as sinon from 'sinon';
 import { SinonSandbox } from 'sinon';
 import { LogController } from './../../app/controllers/LogController';
-import { ILog } from '../../app/models/LogModel';
+import { Request } from 'express';
 
 const logService: any = {
   getLogs: Function,
+  addLog: Function,
 };
 const mockLog = {
   action: 'Created a bike',
   date: 'some date string',
   mongoCollection: 'bikes',
   email: 'mack@mack.mack',
-} as ILog;
+};
 
 let sandbox: SinonSandbox;
 let controller: LogController;
@@ -30,6 +31,37 @@ describe('LogController', () => {
 
   afterEach(() => {
     sandbox.restore();
+  });
+
+  describe('Post Endpoint', () => {
+    it('creates a log success', async () => {
+      const mockRequest = {
+        body: mockLog,
+      } as Request;
+
+      const logServiceStub = sandbox.stub(logService, 'addLog');
+      const response = await controller.post(mockRequest);
+
+      sinon.assert.calledOnce(logServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('returns 500 if an unexpected error occurs', async () => {
+      const mockRequest = {
+        body: mockLog,
+      } as Request;
+
+      const logServiceStub = sandbox.stub(logService, 'addLog').throws(new Error('some bs error'));
+      const response = await controller.post(mockRequest);
+
+      sinon.assert.calledOnce(logServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.equal('some bs error');
+      expect(response.statusCode).to.equal(500);
+    });
   });
 
   describe('Get /logs endpoint', () => {

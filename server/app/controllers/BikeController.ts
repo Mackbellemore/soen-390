@@ -65,7 +65,7 @@ export class BikeController extends BaseController {
    * @param request
    * @returns       Bike Json Format
    */
-  @httpDelete('/')
+  @httpDelete('/', TYPES.LoggerMiddleware)
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
       const bike: IBike | null = await this.bikeService.deleteBike(request.body);

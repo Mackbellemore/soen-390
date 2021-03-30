@@ -9,7 +9,11 @@ export class LogService {
   constructor(@inject(TYPES.LogRepository) private logRepo: LogRepository) {}
 
   public async addLog(log: ILog): Promise<void> {
-    this.logRepo.create(log);
+    if (!log.date) {
+      log.date = new Date().toLocaleString('en-US', { timeZone: 'America/Toronto' });
+    }
+
+    await this.logRepo.create(log);
   }
 
   public async getLogs(): Promise<ILog[]> {

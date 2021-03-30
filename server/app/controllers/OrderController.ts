@@ -64,7 +64,7 @@ export class OrderController extends BaseController {
    * @param request
    * @returns       Order JSON Format
    */
-  @httpDelete('/')
+  @httpDelete('/', TYPES.LoggerMiddleware)
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
       const order: IOrder | null = await this.orderService.deleteOrder(request.body);

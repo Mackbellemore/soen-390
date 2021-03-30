@@ -80,7 +80,7 @@ export class DefectController extends BaseController {
    * @param req
    * @returns       Defect Json Format
    */
-  @httpDelete('/')
+  @httpDelete('/', TYPES.LoggerMiddleware)
   public async delete(req: Request): Promise<results.JsonResult> {
     try {
       const defect = await this.defectService.deleteDefects(req.body);
@@ -98,7 +98,7 @@ export class DefectController extends BaseController {
    * @param request
    * @returns       Defect Json Format
    */
-  @httpPatch('/')
+  @httpPatch('/', TYPES.LoggerMiddleware)
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const defect: IDefect | null = await this.defectService.updateDefect(request.body);
