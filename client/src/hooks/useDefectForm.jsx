@@ -39,7 +39,7 @@ const useDefectForm = () => {
         duration: 9000,
         isClosable: true,
       });
-      console.log('[userStore.email]: ', [userStore.email]);
+
       if (type.current.value === 'Broken') {
         await sendEmail({
           to: [userStore.email],
