@@ -132,18 +132,17 @@ describe('UserController', () => {
 
   describe('authCheck endpoint', () => {
     it('returns 200 if the user has a valid token', async () => {
-      const mockRequest = {
-        body: mockUser,
-      } as Request;
+      const mockRequest = {} as Request;
 
       const mockResponse = {} as Response;
 
       const response = await controller.checkAuth(mockRequest, mockResponse);
       expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.deep.equal(200);
       expect(response.statusCode).to.equal(200);
     });
 
-    it('returns 200 if the user has a valid token', async () => {
+    it('returns 200 with user in body if the user has a valid token', async () => {
       const mockRequest = {} as Request;
 
       const mockResponse = {

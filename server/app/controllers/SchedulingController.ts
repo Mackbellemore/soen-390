@@ -46,7 +46,7 @@ export class SchedulingController extends BaseController {
    * @param request
    * @returns       Scheduling JSON Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const validPartBody = await SchedulingEntity.validate(request.body, 'post');
@@ -65,7 +65,7 @@ export class SchedulingController extends BaseController {
    * @param request
    * @returns       Scheduling JSON Format
    */
-  @httpDelete('/')
+  @httpDelete('/', TYPES.LoggerMiddleware)
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
       const scheduling: IScheduling | null = await this.schedulingService.deleteScheduling(
@@ -86,7 +86,7 @@ export class SchedulingController extends BaseController {
    * @param request
    * @returns       Scheduling JSON Format
    */
-  @httpPatch('/:id')
+  @httpPatch('/:id', TYPES.LoggerMiddleware)
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const validPartBody = await SchedulingEntity.validate(request.body, 'patch');
