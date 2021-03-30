@@ -23,6 +23,7 @@ import PropTypes from 'prop-types';
 import { useQuery } from 'react-query';
 import { getOneBike } from 'utils/api/bikes.js';
 import AboutBike from './AboutBike.jsx';
+import { observer } from 'mobx-react-lite';
 
 const SaleRow = ({ sale }) => {
   const { isLoading, data } = useQuery(`bikes/${sale.bikeId}`, () => getOneBike(sale.bikeId));
@@ -106,4 +107,4 @@ SaleRow.propTypes = {
   sale: PropTypes.object.isRequired,
 };
 
-export default SaleRow;
+export default observer(SaleRow);
