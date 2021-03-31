@@ -1,5 +1,11 @@
+import { useContext } from 'react';
+import { addLog } from 'utils/api/auditTrail';
+import { RootStoreContext } from 'stores/stores.jsx';
+
 const useExportCSV = (section, data) => {
-  const handleExportCSV = () => {
+  const { userStore } = useContext(RootStoreContext);
+
+  const handleExportCSV = async () => {
     const dateTime = getDateTime();
     const arrData = data;
 
@@ -52,6 +58,12 @@ const useExportCSV = (section, data) => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    await addLog({
+      action: `Downloaded ${section} csv`,
+      mongoCollection: 'None',
+      email: userStore.email,
+    });
   };
 
   const getDateTime = () => {
