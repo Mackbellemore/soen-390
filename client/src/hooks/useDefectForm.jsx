@@ -1,12 +1,13 @@
 import { useToast } from '@chakra-ui/react';
 import { useRef, useState, useContext } from 'react';
 import { useQuery } from 'react-query';
-import { createDefect, getDefects } from 'utils/api/defect.js';
+import { createDefect, getDefects, getBikeDefects } from 'utils/api/defect.js';
 import { sendEmail } from 'utils/api/system.js';
 import { RootStoreContext } from 'stores/stores.jsx';
 
 const useDefectForm = () => {
   const { refetch } = useQuery('defects', getDefects);
+  const { refetch: refetchBikeDefects } = useQuery('bikeDefects', getBikeDefects);
   const { userStore } = useContext(RootStoreContext);
 
   const [partName, setPartName] = useState('');
@@ -31,6 +32,14 @@ const useDefectForm = () => {
         description: description.current.value,
       });
 
+      toast({
+        title: 'Request Sent',
+        description: 'Defect has been created successfully',
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      });
+
       if (type.current.value === 'Broken') {
         await sendEmail({
           to: [userStore.email],
@@ -39,14 +48,8 @@ const useDefectForm = () => {
         });
       }
 
-      toast({
-        title: 'Request Sent',
-        description: 'Defect has been created successfully',
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-      });
       refetch();
+      refetchBikeDefects();
     } catch (err) {
       toast({
         title: 'Error',

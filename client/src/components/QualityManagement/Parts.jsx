@@ -1,5 +1,17 @@
-import { DeleteIcon } from '@chakra-ui/icons';
-import { Box, Checkbox, Heading, IconButton, Table, Tag, Tbody, Thead, Tr } from '@chakra-ui/react';
+import { DeleteIcon, EditIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Checkbox,
+  Heading,
+  IconButton,
+  Select,
+  Textarea,
+  Table,
+  Tag,
+  Tbody,
+  Thead,
+  Tr,
+} from '@chakra-ui/react';
 import { Paper, TableContainer, TablePagination } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
 import Loader from 'components/common/Loader';
@@ -8,6 +20,9 @@ import AddDefectModal from 'components/QualityManagement/AddDefectModal.jsx';
 import useQualityPartsTable from 'hooks/useQualityPartsTable.jsx';
 import { Fragment } from 'react';
 import usePagination from 'hooks/usePagination.jsx';
+import DefectsFilter from './DefectsFilter.jsx';
+import useDefectSearchFilter from 'hooks/useDefectSearchFilter.jsx';
+import Search from './Search.jsx';
 
 const Parts = () => {
   const {
@@ -16,12 +31,18 @@ const Parts = () => {
     handleSelectAllClick,
     handleOnChange,
     handleDelete,
+    handleEdit,
+    isEditing,
+    setEditing,
     isLoading,
     isSuccess,
     data,
     selected,
+    newDescription,
+    newStatus,
   } = useQualityPartsTable();
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
+  const { handleFilter, handleSearch, searchFilterData } = useDefectSearchFilter();
 
   if (isLoading) {
     return <Loader />;
@@ -42,6 +63,7 @@ const Parts = () => {
   return (
     <Box overflowX="auto">
       <AddDefectModal />
+      <DefectsFilter handleFilter={handleFilter} />
       <IconButton
         colorScheme="blue"
         variant="outline"
@@ -52,6 +74,8 @@ const Parts = () => {
         onClick={handleDelete}
         isDisabled={selected.length === 0}
       />
+      <Search handleSearch={handleSearch} />
+
       <TableContainer component={Paper}>
         <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
           <Thead>
@@ -69,11 +93,12 @@ const Parts = () => {
               <StyledTableHeader>Defect Type</StyledTableHeader>
               <StyledTableHeader>Status of Defect</StyledTableHeader>
               <StyledTableHeader>Desc of Solution</StyledTableHeader>
+              <StyledTableHeader />
             </Tr>
           </Thead>
           <Tbody>
             {isSuccess &&
-              data.data
+              searchFilterData(data.data)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((defect) => (
                   <Fragment key={defect._id}>
@@ -97,15 +122,57 @@ const Parts = () => {
                         </Tag>
                       </StyledTableCell>
                       <StyledTableCell>
-                        <Tag
-                          size="md"
-                          variant="solid"
-                          colorScheme={handleStatusColor(defect.status)}
-                        >
-                          {defect.status}
-                        </Tag>
+                        {isEditing(defect._id) ? (
+                          <Select ref={newStatus} size="sm" defaultValue={defect.status}>
+                            <option value="Solved">Solved</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Ongoing">Ongoing</option>
+                          </Select>
+                        ) : (
+                          <Tag
+                            size="md"
+                            variant="solid"
+                            colorScheme={handleStatusColor(defect.status)}
+                          >
+                            {defect.status}
+                          </Tag>
+                        )}
                       </StyledTableCell>
-                      <StyledTableCell>{defect.description}</StyledTableCell>
+                      <StyledTableCell width="30%">
+                        {isEditing(defect._id) ? (
+                          <Textarea
+                            size="sm"
+                            rows="2"
+                            ref={newDescription}
+                            defaultValue={defect.description}
+                          />
+                        ) : (
+                          defect.description
+                        )}
+                      </StyledTableCell>
+                      <StyledTableCell width="10%">
+                        {isEditing(defect._id) ? (
+                          <>
+                            <IconButton
+                              size="xs"
+                              mr="2"
+                              icon={<CheckIcon />}
+                              onClick={handleEdit}
+                            />
+                            <IconButton
+                              size="xs"
+                              icon={<CloseIcon />}
+                              onClick={() => setEditing('')}
+                            />
+                          </>
+                        ) : (
+                          <IconButton
+                            size="sm"
+                            icon={<EditIcon />}
+                            onClick={() => setEditing(defect._id)}
+                          />
+                        )}
+                      </StyledTableCell>
                     </StyledTableRow>
                   </Fragment>
                 ))}
