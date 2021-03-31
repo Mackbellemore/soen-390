@@ -31,15 +31,20 @@ export class PartRepository extends BaseRepository<IPart> {
 
   public async deletePart(name: string): Promise<IPart | null> {
     try {
-      return await this.model.findOneAndDelete({ name }).then((deleteDocument) => {
-        if (deleteDocument) {
-          this.logger.info(`Successfully deleted document: ${deleteDocument}`);
+      return await this.model
+        .findOneAndDelete({ name })
+        .then((deleteDocument) => {
+          if (deleteDocument) {
+            this.logger.info(`Successfully deleted document: ${deleteDocument}`);
+            return deleteDocument;
+          } else {
+            this.logger.info(`No such document found`);
+          }
           return deleteDocument;
-        } else {
-          this.logger.info(`No such document found`);
-        }
-        return deleteDocument;
-      });
+        })
+        .catch((err) => {
+          return this.manageRepositoryError(err);
+        });
     } catch (err) {
       return this.manageRepositoryError(err);
     }

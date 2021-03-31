@@ -23,7 +23,7 @@ export abstract class BaseRepository<T extends Document> {
   }
 
   protected manageRepositoryError(e: Error): never {
-    // log errors and eventually conver mongo errors to more readable errors
+    // log errors and eventually convert mongo errors to more readable errors
     this.logger.warn(e.message);
     throw new BadRequestError(e.message);
   }
@@ -36,9 +36,10 @@ export abstract class BaseRepository<T extends Document> {
 
   // Abstracted repository CRUD functions that can be used for any collection
 
-  public async getList(): Promise<T[]> {
+  public async getList(order: 'asc' | 'desc' = 'desc'): Promise<T[]> {
     try {
-      return await this.model.find().exec();
+      const sort = order === 'asc' ? 1 : -1;
+      return this.model.find().sort({ _id: sort }).exec();
     } catch (e) {
       this.manageRepositoryError(e);
     }

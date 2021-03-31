@@ -8,6 +8,7 @@ export interface IScheduling extends Document {
   operatingTime: Date;
   machineName: string;
 }
+
 export const SchedulingSchema: Schema = new Schema({
   partType: { type: Schema.Types.String, required: true, immutable: true },
   quantity: { type: Schema.Types.Number, required: true, min: 1 },

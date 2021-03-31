@@ -11,6 +11,7 @@ export interface IBike extends Document {
   parts: Record<string, string>;
   stock: number;
 }
+
 export const BikeSchema: Schema = new Schema({
   name: { type: Schema.Types.String, required: true },
   description: { type: Schema.Types.String },

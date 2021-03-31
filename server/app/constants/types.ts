@@ -11,6 +11,9 @@ const TYPES = {
   OrderService: Symbol.for('OrderService'),
   SchedulingService: Symbol.for('SchedulingService'),
   MachineService: Symbol.for('MachineService'),
+  SaleService: Symbol.for('SaleService'),
+  ShippingService: Symbol.for('ShippingService'),
+  LogService: Symbol.for('LogService'),
 
   // Repository
   UserRepository: Symbol.for('UserRepository'),
@@ -21,6 +24,12 @@ const TYPES = {
   OrderRepository: Symbol.for('OrderRepository'),
   SchedulingRepository: Symbol.for('SchedulingRepository'),
   MachineRepository: Symbol.for('MachineRepository'),
+  SaleRepository: Symbol.for('SaleRepository'),
+  ShippingRepository: Symbol.for('ShippingRepository'),
+  LogRepository: Symbol.for('LogRepository'),
+
+  // Middlewares
+  LoggerMiddleware: Symbol.for('LoggerMiddleware'),
 
   // Mongo
   MongoConnection: Symbol.for('MongoConnection'),

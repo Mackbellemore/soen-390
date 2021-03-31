@@ -12,6 +12,7 @@ export interface IOrder extends Document {
   status: string;
   note: string;
 }
+
 export const OrderSchema: Schema = new Schema({
   materialType: { type: Schema.Types.String, enum: MaterialTypes, required: true },
   cost: { type: Schema.Types.Number },
