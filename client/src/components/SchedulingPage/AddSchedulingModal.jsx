@@ -22,8 +22,8 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { getPartMaterialList } from 'utils/api/parts.js';
 import Loader from 'components/common/Loader.jsx';
-import { DateTimePicker } from '@progress/kendo-react-dateinputs';
 import { getMachines } from 'utils/api/machines.js';
+import TextField from '@material-ui/core/TextField';
 
 const AddSchedulingModal = ({ showButton = false }) => {
   const { isLoading, data: partsData } = useQuery('parts/materialList', getPartMaterialList);
@@ -84,7 +84,7 @@ const AddSchedulingModal = ({ showButton = false }) => {
               <FormLabel>Machine</FormLabel>
               <Select placeholder="Select a machine" ref={machineName}>
                 {Object.values(machineData.data).map((val) => (
-                  <option key={val.machineName} value={val.machineName}>
+                  <option key={val._id} value={val.machineName}>
                     {val.machineName}
                   </option>
                 ))}
@@ -103,9 +103,9 @@ const AddSchedulingModal = ({ showButton = false }) => {
               <FormLabel>Cost</FormLabel>
               <Input type="number" onChange={handleCostInput} value={cost} placeholder="Cost" />
             </FormControl>
-            <FormControl isRequired>
+            <FormControl>
               <FormLabel>Operating Time</FormLabel>
-              <DateTimePicker onChange={handleOperatingTime} value={operatingTime} />
+              <TextField type="datetime-local" onChange={handleOperatingTime} />
             </FormControl>
           </ModalBody>
 

@@ -6,7 +6,6 @@ import RootStore from '../stores/stores.jsx';
 import theme from '../theme.js';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { QueryClient, QueryClientProvider } from 'react-query';
-import 'styles.css';
 
 const queryClient = new QueryClient();
 

@@ -7,19 +7,7 @@ const formatDate = (date) => {
 
 const formatDateAndTime = (dateTime) => {
   const currentDatetime = new Date(dateTime);
-  const formattedDate =
-    currentDatetime.getFullYear() +
-    '-' +
-    (currentDatetime.getMonth() + 1) +
-    '-' +
-    currentDatetime.getDate() +
-    ' ' +
-    currentDatetime.getHours() +
-    ':' +
-    currentDatetime.getMinutes() +
-    ':' +
-    currentDatetime.getSeconds();
-
+  const formattedDate = currentDatetime.toLocaleString('en-Ca', { timeZone: 'UTC' });
   return formattedDate;
 };
 
