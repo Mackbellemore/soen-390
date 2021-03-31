@@ -8,6 +8,7 @@ import {
   MdVerifiedUser,
   MdAccountBalance,
   MdGavel,
+  MdToday,
 } from 'react-icons/md';
 import Logo from './components/common/Logo.jsx';
 export const hq = {
@@ -141,6 +142,7 @@ export const appRoutes = [
     protected: true,
     allowedRoles: rolesAvailable,
     path: '/schedulings',
+    icon: MdToday,
     component: lazy(() => import('components/views/SchedulingPage')),
   },
   {

@@ -7,6 +7,7 @@ import { NoResultImage } from 'components/common/Image.jsx';
 import { DeleteIcon } from '@chakra-ui/icons';
 import AddSchedulingModal from 'components/SchedulingPage/AddSchedulingModal.jsx';
 import useSchedulingTable from 'hooks/useSchedulingTable.jsx';
+import { formatDateAndTime } from 'utils/dateFunctions.js';
 
 const Schedulings = () => {
   const {
@@ -87,7 +88,9 @@ const Schedulings = () => {
                           {scheduling._id.substr(scheduling._id.length - 3)}
                         </Checkbox>
                       </StyledTableCell>
-                      <StyledTableCell>{scheduling.operatingTime}</StyledTableCell>
+                      <StyledTableCell>
+                        {formatDateAndTime(scheduling.operatingTime)}
+                      </StyledTableCell>
                       <StyledTableCell>{scheduling.machineName}</StyledTableCell>
                       <StyledTableCell>{scheduling.quantity}</StyledTableCell>
                       <StyledTableCell>{scheduling.partType}</StyledTableCell>

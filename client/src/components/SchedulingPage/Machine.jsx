@@ -66,7 +66,7 @@ const Machines = () => {
                 </Checkbox>
               </StyledTableHeader>
               <StyledTableHeader>Machine name</StyledTableHeader>
-              <StyledTableHeader>Duraton</StyledTableHeader>
+              <StyledTableHeader>Duration</StyledTableHeader>
             </Tr>
           </Thead>
           <Tbody>

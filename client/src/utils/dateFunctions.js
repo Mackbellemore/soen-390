@@ -5,4 +5,22 @@ const formatDate = (date) => {
   return displayDate.toLocaleDateString(undefined, dateFormat);
 };
 
-export { formatDate };
+const formatDateAndTime = (dateTime) => {
+  const currentDatetime = new Date(dateTime);
+  const formattedDate =
+    currentDatetime.getFullYear() +
+    '-' +
+    (currentDatetime.getMonth() + 1) +
+    '-' +
+    currentDatetime.getDate() +
+    ' ' +
+    currentDatetime.getHours() +
+    ':' +
+    currentDatetime.getMinutes() +
+    ':' +
+    currentDatetime.getSeconds();
+
+  return formattedDate;
+};
+
+export { formatDate, formatDateAndTime };

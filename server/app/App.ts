@@ -158,12 +158,9 @@ export class App {
     await container.get<DefectRepository>(TYPES.DefectRepository).initialize();
     await container.get<OrderRepository>(TYPES.OrderRepository).initialize();
     await container.get<SchedulingRepository>(TYPES.SchedulingRepository).initialize();
-<<<<<<< HEAD
     await container.get<MachineRepository>(TYPES.MachineRepository).initialize();
-=======
     await container.get<SaleRepository>(TYPES.SaleRepository).initialize();
     await container.get<ShippingRepository>(TYPES.ShippingRepository).initialize();
     await container.get<LogRepository>(TYPES.LogRepository).initialize();
->>>>>>> develop
   }
 }

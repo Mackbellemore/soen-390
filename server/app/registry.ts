@@ -38,13 +38,10 @@ import { BikeService } from './services/BikeService';
 import { DefectService } from './services/DefectService';
 import { OrderService } from './services/OrderService';
 import { SchedulingService } from './services/SchedulingService';
-<<<<<<< HEAD
 import { MachineService } from './services/MachineService';
-=======
 import { SaleService } from './services/SaleService';
 import { LogService } from './services/LogService';
 import { ShippingService } from './services/ShippingService';
->>>>>>> develop
 
 // Repositories
 import { UserRepository } from './repository/UserRepository';
@@ -54,23 +51,17 @@ import { BikeRepository } from './repository/BikeRepository';
 import { DefectRepository } from './repository/DefectRepository';
 import { OrderRepository } from './repository/OrderRepository';
 import { SchedulingRepository } from './repository/SchedulingRepository';
-<<<<<<< HEAD
 import { MachineRepository } from './repository/MachineRepository';
-=======
 import { SaleRepository } from './repository/SaleRepository';
 import { ShippingRepository } from './repository/ShippingRepository';
 import { LogRepository } from './repository/LogRepository';
 
 // Middlewares
 import { LoggerMiddleware } from './middlewares/LoggerMiddleware';
->>>>>>> develop
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore because types don't exist for this library
 import LogdnaWinston from 'logdna-winston';
-import { LogRepository } from './repository/LogRepository';
-import { SaleRepository } from './repository/SaleRepository';
-import { ShippingRepository } from './repository/ShippingRepository';
 
 /**
  * @constant logger
@@ -123,13 +114,10 @@ container.bind<BikeService>(TYPES.BikeService).to(BikeService).inSingletonScope(
 container.bind<DefectService>(TYPES.DefectService).to(DefectService).inSingletonScope();
 container.bind<OrderService>(TYPES.OrderService).to(OrderService).inSingletonScope();
 container.bind<SchedulingService>(TYPES.SchedulingService).to(SchedulingService).inSingletonScope();
-<<<<<<< HEAD
 container.bind<MachineService>(TYPES.MachineService).to(MachineService).inSingletonScope();
-=======
 container.bind<SaleService>(TYPES.SaleService).to(SaleService).inSingletonScope();
 container.bind<ShippingService>(TYPES.ShippingService).to(ShippingService).inSingletonScope();
 container.bind<LogService>(TYPES.LogService).to(LogService).inSingletonScope();
->>>>>>> develop
 
 // Repository
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
