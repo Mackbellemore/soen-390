@@ -104,7 +104,7 @@ const FormModal = ({ showButton = false }) => {
                 onChange={handleLocationSelect}
                 isClearable={true}
                 value={location}
-              />{' '}
+              />
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Shipping Date</FormLabel>
@@ -124,7 +124,7 @@ const FormModal = ({ showButton = false }) => {
               colorScheme="blue"
               mr={3}
               onClick={handleSubmit}
-              isDisabled={!(material && deliveryDate && shippingDate)}
+              isDisabled={!(material && deliveryDate && shippingDate && location)}
             >
               Submit
             </Button>

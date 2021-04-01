@@ -6,6 +6,7 @@ import { sendEmail } from 'utils/api/system.js';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { formatDate } from 'utils/dateFunctions.js';
 import { getSearchResults } from 'utils/api/mapbox.js';
+import { useDebouncedCallback } from 'use-debounce';
 
 const useShipmentForm = () => {
   const { refetch } = useQuery('shippings', getShippings);
@@ -27,12 +28,12 @@ const useShipmentForm = () => {
     e ? setLocation(e) : setLocation(null);
   };
 
-  const handleLocationInput = (e) => {
+  const handleLocationInput = useDebouncedCallback((e) => {
     const searchLocation = e;
     if (searchLocation) {
       return getSearchResults(searchLocation);
     }
-  };
+  }, 500);
 
   const handleDeliveryDateInput = (e) => {
     setDeliveryDate(e.target.value);

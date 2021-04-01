@@ -122,7 +122,7 @@ const ShippingTable = () => {
                           isChecked={isSelected(shipment._id)}
                           onChange={(event) => handleOnChange(event, shipment._id)}
                         >
-                          {shipment._id}
+                          {shipment._id.slice(10)}
                         </Checkbox>
                       </StyledTableCell>
                       <StyledTableCell>

@@ -72,8 +72,8 @@ const AddShipmentForm = ({ showButton = false }) => {
               <FormLabel>Location</FormLabel>
               <AsyncSelect
                 cacheOptions
-                loadOptions={handleLocationInput}
-                onInputChange={handleLocationInput}
+                loadOptions={(e) => handleLocationInput(e)}
+                onInputChange={(e) => handleLocationInput(e)}
                 onChange={handleLocationSelect}
                 isClearable={true}
                 value={location}

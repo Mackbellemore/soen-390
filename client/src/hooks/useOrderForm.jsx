@@ -4,6 +4,7 @@ import { useQuery } from 'react-query';
 import { getMaterialList, getOrders, postOrders } from 'utils/api/orders.js';
 import { createShipment } from 'utils/api/shippings.js';
 import { getSearchResults } from 'utils/api/mapbox.js';
+import { useDebouncedCallback } from 'use-debounce';
 
 const useOrderForm = () => {
   const toast = useToast();
@@ -38,12 +39,12 @@ const useOrderForm = () => {
     e ? setLocation(e) : setLocation(null);
   };
 
-  const handleLocationInput = (e) => {
+  const handleLocationInput = useDebouncedCallback((e) => {
     const searchLocation = e;
     if (searchLocation) {
       return getSearchResults(searchLocation);
     }
-  };
+  }, 500);
 
   const handleSubmit = async () => {
     const orderTime = new Date();

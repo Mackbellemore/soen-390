@@ -129,7 +129,7 @@ const SalesModal = ({ showButton = false }) => {
                 onChange={handleLocationSelect}
                 isClearable={true}
                 value={location}
-              />{' '}
+              />
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Shipping Date</FormLabel>
