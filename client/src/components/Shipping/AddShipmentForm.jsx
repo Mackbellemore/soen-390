@@ -14,35 +14,38 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  useDisclosure,
 } from '@chakra-ui/react';
 import useShipmentForm from 'hooks/useShipmentForm.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { TextField } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
+import AsyncSelect from 'react-select/async';
 
 const AddShipmentForm = ({ showButton = false }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     handleCompanyInput,
     handleLocationInput,
     handleDeliveryDateInput,
     handleShippingDateInput,
     handleSubmit,
+    handleLocationSelect,
     isLoadingButton,
     status,
     company,
     location,
     deliveryDate,
     shippingDate,
+    onShippingModalClose,
+    onShippingModalOpen,
+    isShippingModalOpen,
   } = useShipmentForm();
 
   return (
     <>
       {showButton ? (
         <Center mt={4}>
-          <Button onClick={onOpen}>Add Shipment</Button>
+          <Button onClick={onShippingModalOpen}>Add Shipment</Button>
         </Center>
       ) : (
         <IconButton
@@ -52,10 +55,10 @@ const AddShipmentForm = ({ showButton = false }) => {
           float="right"
           m={2}
           icon={<SmallAddIcon />}
-          onClick={onOpen}
+          onClick={onShippingModalOpen}
         />
       )}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isShippingModalOpen} onClose={onShippingModalClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add a new Shipment</ModalHeader>
@@ -63,12 +66,19 @@ const AddShipmentForm = ({ showButton = false }) => {
           <ModalBody pb={6}>
             <FormControl isRequired>
               <FormLabel>Company</FormLabel>
-              <Input onChange={handleCompanyInput} />
+              <Input onChange={handleCompanyInput} value={company} />
             </FormControl>
 
             <FormControl isRequired mt={4}>
               <FormLabel>Location</FormLabel>
-              <Input onChange={handleLocationInput} />
+              <AsyncSelect
+                cacheOptions
+                loadOptions={(e) => handleLocationInput(e)}
+                onInputChange={(e) => handleLocationInput(e)}
+                onChange={handleLocationSelect}
+                isClearable={true}
+                value={location}
+              />
             </FormControl>
 
             <FormControl mt={4} isRequired>
@@ -80,11 +90,11 @@ const AddShipmentForm = ({ showButton = false }) => {
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Shipping Date</FormLabel>
-              <TextField onChange={handleShippingDateInput} type="date" />
+              <TextField value={shippingDate} onChange={handleShippingDateInput} type="date" />
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Delivery Date</FormLabel>
-              <TextField onChange={handleDeliveryDateInput} type="date" />
+              <TextField value={deliveryDate} onChange={handleDeliveryDateInput} type="date" />
             </FormControl>
           </ModalBody>
 
@@ -98,7 +108,7 @@ const AddShipmentForm = ({ showButton = false }) => {
             >
               Add
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onShippingModalClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
