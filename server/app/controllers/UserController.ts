@@ -14,7 +14,7 @@ import {
 } from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import config from 'config';
-import { checkAdminRole } from '../middlewares/authorization';
+import { wrappedCheckRole } from '../middlewares/authorization';
 import { Doc } from 'inversify-express-doc';
 
 @controller('/user')
@@ -95,7 +95,7 @@ export class UserController extends BaseHttpController {
    * @access      Public
    * @returns     User JSON Format
    */
-  @httpGet('/', checkAdminRole)
+  @httpGet('/', wrappedCheckRole([]))
   public async get(): Promise<results.JsonResult> {
     try {
       const users: IUserEntity[] = await this.userService.getUsers();

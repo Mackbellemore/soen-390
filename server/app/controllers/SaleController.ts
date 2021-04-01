@@ -6,7 +6,7 @@ import { BaseController } from './BaseController';
 import { Doc } from 'inversify-express-doc';
 import { ISale } from '../models/SaleModel';
 import { Request } from 'express';
-
+import { wrappedCheckRole } from '../middlewares/authorization';
 @controller('/sales')
 export class SaleController extends BaseController {
   constructor(@inject(TYPES.SaleService) private saleService: SaleService) {
@@ -38,7 +38,7 @@ export class SaleController extends BaseController {
    * @param request
    * @returns       Sale Json Format
    */
-  @httpPost('/')
+  @httpPost('/', wrappedCheckRole(['Finance']))
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const sale: ISale = await this.saleService.createSale(request.body);
@@ -56,7 +56,7 @@ export class SaleController extends BaseController {
    * @param request
    * @returns       Sale Json Format
    */
-  @httpPatch('/')
+  @httpPatch('/', wrappedCheckRole(['Finance']))
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const sale: ISale | null = await this.saleService.updateSale(request.body);

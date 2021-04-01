@@ -23,7 +23,7 @@ export const shippingStates = [
   'Delayed',
 ];
 export const shippingStatesHide = ['Delivered', 'Cancelled'];
-export const rolesAvailable = ['Admin', 'General'];
+export const rolesAvailable = ['Admin', 'General', 'Finance', 'Manufacturing'];
 export const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export const carouselContent = [
   {
@@ -75,7 +75,7 @@ export const appRoutes = [
   {
     name: 'Inventory',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'General', 'Manufacturing'],
     path: '/inventory',
     component: lazy(() => import('components/views/Inventory')),
     icon: MdDescription,
@@ -84,7 +84,7 @@ export const appRoutes = [
   {
     name: 'Orders',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'Finance', 'Manufacturing'],
     path: '/orders',
     component: lazy(() => import('components/views/Orders')),
     icon: MdAddShoppingCart,
@@ -93,7 +93,7 @@ export const appRoutes = [
   {
     name: 'Quality Management',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'Manufacturing'],
     path: '/quality-management',
     component: lazy(() => import('components/views/QualityManagement')),
     icon: MdAssignmentTurnedIn,
@@ -102,7 +102,7 @@ export const appRoutes = [
   {
     name: 'Shipping',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'General', 'Manufacturing'],
     path: '/shipping',
     component: lazy(() => import('components/views/Shipping')),
     icon: MdLocalShipping,
@@ -111,7 +111,7 @@ export const appRoutes = [
   {
     name: 'Sales',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'Finance'],
     path: '/sales',
     component: lazy(() => import('components/views/Sales')),
     icon: MdAttachMoney,
@@ -120,7 +120,7 @@ export const appRoutes = [
   {
     name: 'Accounting',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'Finance'],
     path: '/accounting',
     component: lazy(() => import('components/views/Accounting')),
     icon: MdAccountBalance,

@@ -13,6 +13,7 @@ import { BaseController } from './BaseController';
 import { Doc } from 'inversify-express-doc';
 import { IShipping } from '../models/ShippingModel';
 import { Request } from 'express';
+import { wrappedCheckRole } from '../middlewares/authorization';
 
 @controller('/shipping')
 export class ShippingController extends BaseController {
@@ -45,7 +46,7 @@ export class ShippingController extends BaseController {
    * @param request
    * @returns       Shipping Json Format
    */
-  @httpPost('/')
+  @httpPost('/', wrappedCheckRole(['Manufacturing', 'General']))
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const shipment: IShipping = await this.shippingService.createShipment(request.body);

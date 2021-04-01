@@ -14,7 +14,7 @@ import { OrderService } from '../services/OrderService';
 import { IOrder } from '../models/OrderModel';
 import { materialCost } from '../entities/Material';
 import { Doc } from 'inversify-express-doc';
-
+import { wrappedCheckRole } from '../middlewares/authorization';
 @controller('/orders')
 export class OrderController extends BaseController {
   constructor(@inject(TYPES.OrderService) private orderService: OrderService) {
@@ -46,7 +46,7 @@ export class OrderController extends BaseController {
    * @param request
    * @returns       Order JSON Format
    */
-  @httpPost('/')
+  @httpPost('/', wrappedCheckRole(['Finance', 'Manufacturing']))
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const order: IOrder = await this.orderService.createOrder(request.body);
