@@ -21,6 +21,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { TextField } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
+import AsyncSelect from 'react-select/async';
 
 const AddShipmentForm = ({ showButton = false }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -30,6 +31,7 @@ const AddShipmentForm = ({ showButton = false }) => {
     handleDeliveryDateInput,
     handleShippingDateInput,
     handleSubmit,
+    handleLocationSelect,
     isLoadingButton,
     status,
     company,
@@ -63,12 +65,19 @@ const AddShipmentForm = ({ showButton = false }) => {
           <ModalBody pb={6}>
             <FormControl isRequired>
               <FormLabel>Company</FormLabel>
-              <Input onChange={handleCompanyInput} />
+              <Input onChange={handleCompanyInput} value={company} />
             </FormControl>
 
             <FormControl isRequired mt={4}>
               <FormLabel>Location</FormLabel>
-              <Input onChange={handleLocationInput} />
+              <AsyncSelect
+                cacheOptions
+                loadOptions={handleLocationInput}
+                onInputChange={handleLocationInput}
+                onChange={handleLocationSelect}
+                isClearable={true}
+                value={location}
+              />
             </FormControl>
 
             <FormControl mt={4} isRequired>
@@ -80,11 +89,11 @@ const AddShipmentForm = ({ showButton = false }) => {
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Shipping Date</FormLabel>
-              <TextField onChange={handleShippingDateInput} type="date" />
+              <TextField value={shippingDate} onChange={handleShippingDateInput} type="date" />
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Delivery Date</FormLabel>
-              <TextField onChange={handleDeliveryDateInput} type="date" />
+              <TextField value={deliveryDate} onChange={handleDeliveryDateInput} type="date" />
             </FormControl>
           </ModalBody>
 

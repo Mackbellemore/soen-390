@@ -5,6 +5,7 @@ import { createShipment, getShippings } from 'utils/api/shippings.js';
 import { sendEmail } from 'utils/api/system.js';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { formatDate } from 'utils/dateFunctions.js';
+import { getSearchResults } from 'utils/api/mapbox.js';
 
 const useShipmentForm = () => {
   const { refetch } = useQuery('shippings', getShippings);
@@ -15,15 +16,25 @@ const useShipmentForm = () => {
   const [shippingDate, setShippingDate] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
+  const [locationResults, setLocationResults] = useState([]);
+
   const status = useRef('');
   const toast = useToast();
 
   const handleCompanyInput = (e) => {
     setCompany(e.target.value);
   };
+  const handleLocationSelect = (e) => {
+    e ? setLocation(e) : setLocation(null);
+  };
 
-  const handleLocationInput = (e) => {
-    setLocation(e.target.value);
+  const handleLocationInput = async (e) => {
+    const searchLocation = e;
+    if (searchLocation) {
+      const res = await getSearchResults(searchLocation);
+      setLocationResults(res);
+      return res;
+    }
   };
 
   const handleDeliveryDateInput = (e) => {
@@ -40,7 +51,7 @@ const useShipmentForm = () => {
     try {
       const { data: shpmtInfo } = await createShipment({
         company: company,
-        location: location,
+        location: location.label,
         status: status.current.value,
         deliveryDate: deliveryDate,
         shippingDate: shippingDate,
@@ -84,12 +95,14 @@ const useShipmentForm = () => {
     handleDeliveryDateInput,
     handleShippingDateInput,
     handleSubmit,
+    handleLocationSelect,
     isLoadingButton,
     status,
     company,
     location,
     deliveryDate,
     shippingDate,
+    locationResults,
   };
 };
 

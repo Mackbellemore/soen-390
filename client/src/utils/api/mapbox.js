@@ -3,7 +3,7 @@ import { hq } from 'constants.js';
 const mapbox = 'https://api.mapbox.com';
 const token = process.env.NEXT_PUBLIC_MAPBOX;
 
-const getDestinationCoor = async (dest) => {
+const getLocationInfo = (dest) => {
   const encodeStr = encodeURI(dest);
   const options = {
     method: 'get',
@@ -12,11 +12,25 @@ const getDestinationCoor = async (dest) => {
       access_token: token,
     },
   };
-  const res = await axios(options);
+  return axios(options);
+};
 
+const getSearchResults = async (dest) => {
+  try {
+    const { data: res } = await getLocationInfo(dest);
+    return res.features.map((feature) => ({
+      label: feature.place_name,
+    }));
+  } catch (e) {
+    return [];
+  }
+};
+
+const getDestinationCoor = async (dest) => {
+  const { data: res } = await getLocationInfo(dest);
   return {
-    longitude: res.data.features[0].center[0],
-    latitude: res.data.features[0].center[1],
+    longitude: res.features[0].center[0],
+    latitude: res.features[0].center[1],
   };
 };
 
@@ -88,4 +102,4 @@ const generateRandomColor = () => {
   );
 };
 
-export { createRoutes };
+export { createRoutes, getSearchResults };
