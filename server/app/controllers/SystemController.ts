@@ -21,7 +21,7 @@ export class SystemController extends BaseController {
    * @param req
    * @returns       Email JSON Format
    */
-  @httpPost('/email')
+  @httpPost('/email', TYPES.LoggerMiddleware)
   public async email(req: Request): Promise<results.JsonResult> {
     try {
       const info: SentMessageInfo = await this.systemService.sendEmail(req.body);

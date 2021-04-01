@@ -14,31 +14,35 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  Textarea,
   useDisclosure,
 } from '@chakra-ui/react';
-import useDefectForm from 'hooks/useDefectForm.jsx';
+import useShipmentForm from 'hooks/useShipmentForm.jsx';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { TextField } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
 
-const AddDefectModal = ({ showButton = false }) => {
+const AddShipmentForm = ({ showButton = false }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
-    handlePartNameInput,
+    handleCompanyInput,
+    handleLocationInput,
+    handleDeliveryDateInput,
+    handleShippingDateInput,
     handleSubmit,
     isLoadingButton,
-    type,
     status,
-    description,
-    partName,
-  } = useDefectForm();
+    company,
+    location,
+    deliveryDate,
+    shippingDate,
+  } = useShipmentForm();
 
   return (
     <>
       {showButton ? (
         <Center mt={4}>
-          <Button onClick={onOpen}>Add Defect</Button>
+          <Button onClick={onOpen}>Add Shipment</Button>
         </Center>
       ) : (
         <IconButton
@@ -54,39 +58,40 @@ const AddDefectModal = ({ showButton = false }) => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add a new Defect</ModalHeader>
+          <ModalHeader>Add a new Shipment</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <FormControl isRequired>
-              <FormLabel>Part Name</FormLabel>
-              <Input onChange={handlePartNameInput} value={partName} placeholder="Part name" />
+              <FormLabel>Company</FormLabel>
+              <Input onChange={handleCompanyInput} />
             </FormControl>
 
-            <FormControl mt={4}>
-              <FormLabel>Defect Type</FormLabel>
-              <Select ref={type}>
-                <option>Broken</option>
-                <option>Reparable</option>
-              </Select>
+            <FormControl isRequired mt={4}>
+              <FormLabel>Location</FormLabel>
+              <Input onChange={handleLocationInput} />
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Defect Status</FormLabel>
+
+            <FormControl mt={4} isRequired>
+              <FormLabel>Shipment Status</FormLabel>
               <Select ref={status}>
-                <option>Solved</option>
-                <option>Pending</option>
-                <option>Ongoing</option>
+                <option>Ordered</option>
+                <option>Packaged</option>
               </Select>
             </FormControl>
-            <FormControl mt={4}>
-              <FormLabel>Description</FormLabel>
-              <Textarea ref={description} placeholder="Description" />
+            <FormControl mt={4} isRequired>
+              <FormLabel>Shipping Date</FormLabel>
+              <TextField onChange={handleShippingDateInput} type="date" />
+            </FormControl>
+            <FormControl mt={4} isRequired>
+              <FormLabel>Delivery Date</FormLabel>
+              <TextField onChange={handleDeliveryDateInput} type="date" />
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
             <Button
               isLoading={isLoadingButton}
-              isDisabled={!partName}
+              isDisabled={!(company && location && shippingDate && deliveryDate && status)}
               onClick={handleSubmit}
               colorScheme="blue"
               mr={3}
@@ -101,8 +106,8 @@ const AddDefectModal = ({ showButton = false }) => {
   );
 };
 
-AddDefectModal.propTypes = {
+AddShipmentForm.propTypes = {
   showButton: PropTypes.bool,
 };
 
-export default observer(AddDefectModal);
+export default observer(AddShipmentForm);

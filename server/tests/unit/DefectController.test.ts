@@ -1,4 +1,3 @@
-/* global describe it */
 import 'reflect-metadata';
 import { expect } from 'chai';
 import { Request } from 'express';
@@ -10,7 +9,9 @@ import { BadRequestError, NotFoundError, ConflictError } from '../../app/errors'
 
 const defectService: any = {
   getDefects: Function,
+  getBikeDefects: Function,
   createDefect: Function,
+  updateDefect: Function,
   deleteDefects: Function,
 };
 
@@ -78,6 +79,41 @@ describe('DefectController', () => {
     });
   });
 
+  // GET ALL BIKE DEFECTS
+  describe('Get Bike Defect list request', () => {
+    it('Should return a list of bike names with a list of defects on success from the service layer', async () => {
+      const mockBikeDefectList = [
+        {
+          bike: 'bike name',
+          defects: [mockDefect],
+        },
+      ];
+      const defectServiceStub = sandbox
+        .stub(defectService, 'getBikeDefects')
+        .returns(mockBikeDefectList);
+
+      const res = await controller.getBikeDefects();
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(defectServiceStub.calledOnceWith()).to.equal(true);
+      expect(res.statusCode).to.equal(200);
+      expect(res.json).to.deep.equal(mockBikeDefectList);
+    });
+
+    it('Should return a 500 when the service layer throws an error', async () => {
+      const defectServiceStub = sandbox
+        .stub(defectService, 'getBikeDefects')
+        .throws(new Error('Random defect failure!!!'));
+
+      const res = await controller.getBikeDefects();
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(defectServiceStub.calledOnceWith()).to.equal(true);
+      expect(res.statusCode).to.equal(500);
+      expect(res.json).to.deep.equal('Random defect failure!!!');
+    });
+  });
+
   // POST
   describe('Post Request', async () => {
     it('Should return a defect on success from the service layer', async () => {
@@ -107,7 +143,7 @@ describe('DefectController', () => {
       const res = await controller.post(mockRequest);
 
       expect(res).to.be.an.instanceof(results.JsonResult);
-      expect(defectServiceStub.calledOnceWith(mockDefect)).to.equal(true);
+      expect(defectServiceStub.calledOnceWith()).to.equal(true);
       expect(res.statusCode).to.equal(500);
       expect(res.json).to.deep.equal('Random Defect failure!!');
     });
@@ -124,7 +160,7 @@ describe('DefectController', () => {
       const res = await controller.post(mockRequest);
 
       expect(res).to.be.an.instanceof(results.JsonResult);
-      expect(defectServiceStub.calledOnceWith(mockDefect)).to.equal(true);
+      expect(defectServiceStub.calledOnceWith()).to.equal(true);
       expect(res.statusCode).to.equal(404);
       expect(res.json).to.deep.equal('parName not found!');
     });
@@ -141,9 +177,50 @@ describe('DefectController', () => {
       const res = await controller.post(mockRequest);
 
       expect(res).to.be.an.instanceof(results.JsonResult);
-      expect(defectServiceStub.calledOnceWith(mockDefect)).to.equal(true);
+      expect(defectServiceStub.calledOnceWith()).to.equal(true);
       expect(res.statusCode).to.equal(409);
       expect(res.json).to.deep.equal('parName already has a defect!');
+    });
+  });
+
+  // PATCH
+  describe('Patch Request', () => {
+    it('Should return a 200 with updated defect', async () => {
+      const mockRequest = {
+        body: mockDefect,
+        params: {
+          name: 'wheel',
+        },
+      } as Request | any;
+
+      const defectServiceStub = sandbox.stub(defectService, 'updateDefect').returns(mockDefect);
+
+      const res = await controller.update(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(defectServiceStub.calledOnceWith(mockDefect)).to.equal(true);
+      expect(res.statusCode).to.equal(200);
+      expect(res.json).to.deep.equal(mockDefect);
+    });
+
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const mockRequest = {
+        body: mockDefect,
+        params: {
+          name: 'wheel',
+        },
+      } as Request | any;
+
+      const defectServiceStub = sandbox
+        .stub(defectService, 'updateDefect')
+        .throws(new NotFoundError('Not found error'));
+
+      const res = await controller.update(mockRequest);
+
+      expect(res).to.be.an.instanceof(results.JsonResult);
+      expect(defectServiceStub.calledOnceWith()).to.equal(true);
+      expect(res.statusCode).to.equal(404);
+      expect(res.json).to.deep.equal('Not found error');
     });
   });
 

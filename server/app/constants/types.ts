@@ -12,6 +12,7 @@ const TYPES = {
   SchedulingService: Symbol.for('SchedulingService'),
   SaleService: Symbol.for('SaleService'),
   ShippingService: Symbol.for('ShippingService'),
+  LogService: Symbol.for('LogService'),
 
   // Repository
   UserRepository: Symbol.for('UserRepository'),
@@ -23,6 +24,10 @@ const TYPES = {
   SchedulingRepository: Symbol.for('SchedulingRepository'),
   SaleRepository: Symbol.for('SaleRepository'),
   ShippingRepository: Symbol.for('ShippingRepository'),
+  LogRepository: Symbol.for('LogRepository'),
+
+  // Middlewares
+  LoggerMiddleware: Symbol.for('LoggerMiddleware'),
 
   // Mongo
   MongoConnection: Symbol.for('MongoConnection'),

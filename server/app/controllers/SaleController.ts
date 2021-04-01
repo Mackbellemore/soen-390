@@ -38,7 +38,7 @@ export class SaleController extends BaseController {
    * @param request
    * @returns       Sale Json Format
    */
-  @httpPost('/', wrappedCheckRole(['Finance']))
+  @httpPost('/', TYPES.LoggerMiddleware, wrappedCheckRole(['Finance']))
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const sale: ISale = await this.saleService.createSale(request.body);
@@ -56,7 +56,7 @@ export class SaleController extends BaseController {
    * @param request
    * @returns       Sale Json Format
    */
-  @httpPatch('/', wrappedCheckRole(['Finance']))
+  @httpPatch('/', TYPES.LoggerMiddleware, wrappedCheckRole(['Finance']))
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const sale: ISale | null = await this.saleService.updateSale(request.body);

@@ -7,6 +7,7 @@ import {
   MdLocalShipping,
   MdVerifiedUser,
   MdAccountBalance,
+  MdGavel,
 } from 'react-icons/md';
 import Logo from './components/common/Logo.jsx';
 export const hq = {
@@ -124,6 +125,15 @@ export const appRoutes = [
     path: '/accounting',
     component: lazy(() => import('components/views/Accounting')),
     icon: MdAccountBalance,
+    active: false,
+  },
+  {
+    name: 'Audit Trail',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/audit',
+    component: lazy(() => import('components/views/AuditTrail')),
+    icon: MdGavel,
     active: false,
   },
   {

@@ -9,13 +9,7 @@ import { useQuery } from 'react-query';
 import { getOrders } from 'utils/api/orders.js';
 import Head from 'next/head';
 import usePagination from 'hooks/usePagination.jsx';
-
-const formatDate = (date) => {
-  const displayDate = new Date(date);
-  const dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-  return displayDate.toLocaleDateString(undefined, dateFormat);
-};
+import { formatDate } from 'utils/dateFunctions.js';
 
 const OrdersHeader = () => (
   <>
