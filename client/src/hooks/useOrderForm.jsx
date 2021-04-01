@@ -44,7 +44,7 @@ const useOrderForm = () => {
     if (searchLocation) {
       return getSearchResults(searchLocation);
     }
-  }, 500);
+  }, 100);
 
   const handleSubmit = async () => {
     const orderTime = new Date();

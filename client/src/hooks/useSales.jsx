@@ -58,7 +58,7 @@ const useSales = (sale) => {
     if (searchLocation) {
       return getSearchResults(searchLocation);
     }
-  }, 500);
+  }, 100);
 
   const handleLocationSelect = (e) => {
     e ? setLocation(e) : setLocation(null);

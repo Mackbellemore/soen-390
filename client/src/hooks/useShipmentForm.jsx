@@ -33,7 +33,7 @@ const useShipmentForm = () => {
     if (searchLocation) {
       return getSearchResults(searchLocation);
     }
-  }, 500);
+  }, 100);
 
   const handleDeliveryDateInput = (e) => {
     setDeliveryDate(e.target.value);
