@@ -66,7 +66,9 @@ const Schedulings = () => {
                   Schedule ID
                 </Checkbox>
               </StyledTableHeader>
-              <StyledTableHeader>Operating Time</StyledTableHeader>
+              <StyledTableHeader>Start Time</StyledTableHeader>
+              <StyledTableHeader>End Time</StyledTableHeader>
+              <StyledTableHeader>Frequency</StyledTableHeader>
               <StyledTableHeader>Machine Name</StyledTableHeader>
               <StyledTableHeader>Quantity</StyledTableHeader>
               <StyledTableHeader>Production Part</StyledTableHeader>
@@ -88,9 +90,9 @@ const Schedulings = () => {
                           {scheduling._id.substr(scheduling._id.length - 3)}
                         </Checkbox>
                       </StyledTableCell>
-                      <StyledTableCell>
-                        {formatDateAndTime(scheduling.operatingTime)}
-                      </StyledTableCell>
+                      <StyledTableCell>{formatDateAndTime(scheduling.startTime)}</StyledTableCell>
+                      <StyledTableCell>{formatDateAndTime(scheduling.endTime)}</StyledTableCell>
+                      <StyledTableCell>{scheduling.frequency}</StyledTableCell>
                       <StyledTableCell>{scheduling.machineName}</StyledTableCell>
                       <StyledTableCell>{scheduling.quantity}</StyledTableCell>
                       <StyledTableCell>{scheduling.partType}</StyledTableCell>

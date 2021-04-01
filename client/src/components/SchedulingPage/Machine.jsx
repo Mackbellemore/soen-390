@@ -66,7 +66,7 @@ const Machines = () => {
                 </Checkbox>
               </StyledTableHeader>
               <StyledTableHeader>Machine name</StyledTableHeader>
-              <StyledTableHeader>Duration</StyledTableHeader>
+              <StyledTableHeader>Duration (minutes)</StyledTableHeader>
             </Tr>
           </Thead>
           <Tbody>

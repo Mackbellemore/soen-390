@@ -9,7 +9,9 @@ export default class SchedulingEntity {
     partType: Joi.string().valid(...PartTypes),
     quantity: Joi.number().integer().greater(-1),
     cost: Joi.number().integer().greater(-1),
-    operatingTime: Joi.string(),
+    startTime: Joi.string(),
+    endTime: Joi.string(),
+    frequency: Joi.string(),
     machineName: Joi.string(),
   });
 

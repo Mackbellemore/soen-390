@@ -33,12 +33,15 @@ const AddSchedulingModal = ({ showButton = false }) => {
   const {
     handleQuantityInput,
     handleCostInput,
-    handleOperatingTime,
+    handleStartTime,
+    handleEndTime,
     handleSubmit,
     isLoadingButton,
     quantity,
     cost,
-    operatingTime,
+    startTime,
+    endTime,
+    frequency,
     partType,
     machineName,
   } = useSchedulingForm();
@@ -103,16 +106,30 @@ const AddSchedulingModal = ({ showButton = false }) => {
               <FormLabel>Cost</FormLabel>
               <Input type="number" onChange={handleCostInput} value={cost} placeholder="Cost" />
             </FormControl>
-            <FormControl>
-              <FormLabel>Operating Time</FormLabel>
-              <TextField type="datetime-local" onChange={handleOperatingTime} />
+            <FormControl isRequired>
+              <FormLabel>Start Time</FormLabel>
+              <TextField type="datetime-local" onChange={handleStartTime} value={startTime} />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>End Time</FormLabel>
+              <TextField type="datetime-local" onChange={handleEndTime} value={endTime} />
+            </FormControl>
+            <FormControl isRequired>
+              <FormLabel>Frequency</FormLabel>
+              <Select ref={frequency}>
+                <option>Daily</option>
+                <option>Weekly</option>
+                <option>Monthly</option>
+              </Select>
             </FormControl>
           </ModalBody>
 
           <ModalFooter>
             <Button
               isLoading={isLoadingButton}
-              isDisabled={!partType && !machineName && !quantity && !cost && !operatingTime}
+              isDisabled={
+                !(partType && machineName && quantity && cost && startTime && endTime && frequency)
+              }
               onClick={handleSubmit}
               colorScheme="blue"
               mr={3}

@@ -58,7 +58,7 @@ const AddMachineModal = ({ showButton = false }) => {
               <Input onChange={handleMachineName} value={machineName} placeholder="Machine Name" />
             </FormControl>
             <FormControl isRequired>
-              <FormLabel>Duration</FormLabel>
+              <FormLabel>Duration (minutes)</FormLabel>
               <Input
                 type="number"
                 onChange={handleDuration}
@@ -71,7 +71,7 @@ const AddMachineModal = ({ showButton = false }) => {
           <ModalFooter>
             <Button
               isLoading={isLoadingButton}
-              isDisabled={!machineName && !duration}
+              isDisabled={!(machineName && duration)}
               onClick={handleSubmit}
               colorScheme="blue"
               mr={3}
