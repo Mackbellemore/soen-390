@@ -7,6 +7,7 @@ import { createShipment } from 'utils/api/shippings.js';
 import { sendEmail } from 'utils/api/system.js';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { formatDate } from 'utils/dateFunctions.js';
+import { getSearchResults } from 'utils/api/mapbox.js';
 
 const useSales = (sale) => {
   const {
@@ -52,7 +53,14 @@ const useSales = (sale) => {
   };
 
   const handleLocationInput = (e) => {
-    setLocation(e.target.value);
+    const searchLocation = e;
+    if (searchLocation) {
+      return getSearchResults(searchLocation);
+    }
+  };
+
+  const handleLocationSelect = (e) => {
+    e ? setLocation(e) : setLocation(null);
   };
   const handleDeliveryDateInput = (e) => {
     setDeliveryDate(e.target.value);
@@ -159,6 +167,7 @@ const useSales = (sale) => {
     handleDeliveryDateInput,
     handleShippingDateInput,
     handleLocationInput,
+    handleLocationSelect,
     isSaleModalOpen,
     onSaleModalOpen,
     onSaleModalClose,

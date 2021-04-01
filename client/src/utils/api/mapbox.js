@@ -5,11 +5,13 @@ const token = process.env.NEXT_PUBLIC_MAPBOX;
 
 const getLocationInfo = (dest) => {
   const encodeStr = encodeURI(dest);
+  const encodeCountries = encodeURI('ca,us,mx');
   const options = {
     method: 'get',
     url: mapbox + '/geocoding/v5/mapbox.places/' + encodeStr + '.json',
     params: {
       access_token: token,
+      country: encodeCountries,
     },
   };
   return axios(options);

@@ -28,6 +28,7 @@ import { getBikes } from 'utils/api/bikes.js';
 import AboutBike from './AboutBike.jsx';
 import { TextField } from '@material-ui/core';
 import { observer } from 'mobx-react-lite';
+import AsyncSelect from 'react-select/async';
 
 const SalesModal = ({ showButton = false }) => {
   const { isSuccess, data } = useQuery('bikes', getBikes);
@@ -39,6 +40,7 @@ const SalesModal = ({ showButton = false }) => {
     handleDeliveryDateInput,
     handleShippingDateInput,
     handleLocationInput,
+    handleLocationSelect,
     emailRef,
     setSelectedBikeId,
     setName,
@@ -120,7 +122,14 @@ const SalesModal = ({ showButton = false }) => {
             </FormControl>
             <FormControl isRequired mt={4}>
               <FormLabel>Location</FormLabel>
-              <Input onChange={handleLocationInput} />
+              <AsyncSelect
+                cacheOptions
+                loadOptions={handleLocationInput}
+                onInputChange={handleLocationInput}
+                onChange={handleLocationSelect}
+                isClearable={true}
+                value={location}
+              />{' '}
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Shipping Date</FormLabel>

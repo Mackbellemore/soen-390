@@ -16,7 +16,6 @@ const useShipmentForm = () => {
   const [shippingDate, setShippingDate] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
-  const [locationResults, setLocationResults] = useState([]);
 
   const status = useRef('');
   const toast = useToast();
@@ -28,12 +27,10 @@ const useShipmentForm = () => {
     e ? setLocation(e) : setLocation(null);
   };
 
-  const handleLocationInput = async (e) => {
+  const handleLocationInput = (e) => {
     const searchLocation = e;
     if (searchLocation) {
-      const res = await getSearchResults(searchLocation);
-      setLocationResults(res);
-      return res;
+      return getSearchResults(searchLocation);
     }
   };
 
@@ -102,7 +99,6 @@ const useShipmentForm = () => {
     location,
     deliveryDate,
     shippingDate,
-    locationResults,
   };
 };
 

@@ -24,6 +24,7 @@ import useOrderForm from 'hooks/useOrderForm.jsx';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { TextField } from '@material-ui/core';
+import AsyncSelect from 'react-select/async';
 
 const FormModal = ({ showButton = false }) => {
   // TODO: use the endpoint to get this constant list of materials rather than hard coding
@@ -33,6 +34,8 @@ const FormModal = ({ showButton = false }) => {
     handleSubmit,
     handleDeliveryDateInput,
     handleShippingDateInput,
+    handleLocationInput,
+    handleLocationSelect,
     manufacturer,
     location,
     note,
@@ -94,7 +97,14 @@ const FormModal = ({ showButton = false }) => {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Location</FormLabel>
-              <Input placeholder="Location" ref={location} />
+              <AsyncSelect
+                cacheOptions
+                loadOptions={handleLocationInput}
+                onInputChange={handleLocationInput}
+                onChange={handleLocationSelect}
+                isClearable={true}
+                value={location}
+              />{' '}
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Shipping Date</FormLabel>
