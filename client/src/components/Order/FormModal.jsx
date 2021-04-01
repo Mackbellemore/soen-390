@@ -40,9 +40,9 @@ const FormModal = ({ showButton = false }) => {
     location,
     note,
     quantityRef,
-    isOpen,
-    onOpen,
-    onClose,
+    onOrderModalClose,
+    onOrderModalOpen,
+    isOrderModalOpen,
     material,
     deliveryDate,
     shippingDate,
@@ -52,7 +52,7 @@ const FormModal = ({ showButton = false }) => {
     <>
       {showButton ? (
         <Center mt={4}>
-          <Button onClick={onOpen}>Place an order</Button>
+          <Button onClick={onOrderModalOpen}>Place an order</Button>
         </Center>
       ) : (
         <Button
@@ -60,12 +60,12 @@ const FormModal = ({ showButton = false }) => {
           colorScheme="blue"
           variant="solid"
           leftIcon={<SmallAddIcon />}
-          onClick={onOpen}
+          onClick={onOrderModalOpen}
         >
           Place an order
         </Button>
       )}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOrderModalOpen} onClose={onOrderModalClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Place an order</ModalHeader>
@@ -128,7 +128,7 @@ const FormModal = ({ showButton = false }) => {
             >
               Submit
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onOrderModalOpen}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

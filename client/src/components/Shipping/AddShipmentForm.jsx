@@ -14,7 +14,6 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
-  useDisclosure,
 } from '@chakra-ui/react';
 import useShipmentForm from 'hooks/useShipmentForm.jsx';
 import PropTypes from 'prop-types';
@@ -24,7 +23,6 @@ import { observer } from 'mobx-react-lite';
 import AsyncSelect from 'react-select/async';
 
 const AddShipmentForm = ({ showButton = false }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     handleCompanyInput,
     handleLocationInput,
@@ -38,13 +36,16 @@ const AddShipmentForm = ({ showButton = false }) => {
     location,
     deliveryDate,
     shippingDate,
+    onShippingModalClose,
+    onShippingModalOpen,
+    isShippingModalOpen,
   } = useShipmentForm();
 
   return (
     <>
       {showButton ? (
         <Center mt={4}>
-          <Button onClick={onOpen}>Add Shipment</Button>
+          <Button onClick={onShippingModalOpen}>Add Shipment</Button>
         </Center>
       ) : (
         <IconButton
@@ -54,10 +55,10 @@ const AddShipmentForm = ({ showButton = false }) => {
           float="right"
           m={2}
           icon={<SmallAddIcon />}
-          onClick={onOpen}
+          onClick={onShippingModalOpen}
         />
       )}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isShippingModalOpen} onClose={onShippingModalClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add a new Shipment</ModalHeader>
@@ -107,7 +108,7 @@ const AddShipmentForm = ({ showButton = false }) => {
             >
               Add
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onShippingModalClose}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

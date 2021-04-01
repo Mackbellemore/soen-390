@@ -1,4 +1,4 @@
-import { useToast } from '@chakra-ui/react';
+import { useDisclosure, useToast } from '@chakra-ui/react';
 import { useRef, useState, useContext } from 'react';
 import { useQuery } from 'react-query';
 import { createShipment, getShippings } from 'utils/api/shippings.js';
@@ -11,7 +11,11 @@ import { useDebouncedCallback } from 'use-debounce';
 const useShipmentForm = () => {
   const { refetch } = useQuery('shippings', getShippings);
   const { userStore } = useContext(RootStoreContext);
-
+  const {
+    isOpen: isShippingModalOpen,
+    onOpen: onShippingModalOpen,
+    onClose: onShippingModalClose,
+  } = useDisclosure();
   const [company, setCompany] = useState('');
   const [location, setLocation] = useState('');
   const [shippingDate, setShippingDate] = useState('');
@@ -85,6 +89,7 @@ const useShipmentForm = () => {
       });
     }
     setIsLoadingButton(false);
+    onShippingModalClose();
   };
 
   return {
@@ -100,6 +105,9 @@ const useShipmentForm = () => {
     location,
     deliveryDate,
     shippingDate,
+    onShippingModalClose,
+    onShippingModalOpen,
+    isShippingModalOpen,
   };
 };
 
