@@ -1,5 +1,5 @@
 import { useToast } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useQuery } from 'react-query';
 import { createMachine, getMachines } from 'utils/api/machines.js';
 
@@ -8,16 +8,12 @@ const useMachineForm = () => {
 
   // Modal (add new machine)
   const [machineName, setMachineName] = useState('');
-  const [duration, setDuration] = useState('');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
+  const status = useRef('');
   const toast = useToast();
 
   const handleMachineName = (e) => {
     setMachineName(e.target.value);
-  };
-
-  const handleDuration = (e) => {
-    setDuration(e.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -27,7 +23,7 @@ const useMachineForm = () => {
     try {
       await createMachine({
         machineName: machineName,
-        duration: duration,
+        status: status.current.value,
       });
       toast({
         title: 'Request Sent',
@@ -50,11 +46,10 @@ const useMachineForm = () => {
   };
   return {
     handleMachineName,
-    handleDuration,
     handleSubmit,
     isLoadingButton,
     machineName,
-    duration,
+    status,
   };
 };
 export default useMachineForm;

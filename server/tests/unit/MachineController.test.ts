@@ -18,7 +18,7 @@ const machineService: any = {
 const mockMachine = {
   id: 1,
   machineName: 'monster',
-  duration: 90,
+  status: 'Active',
 };
 
 let sandbox: SinonSandbox;

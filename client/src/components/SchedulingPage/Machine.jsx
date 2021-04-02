@@ -66,7 +66,7 @@ const Machines = () => {
                 </Checkbox>
               </StyledTableHeader>
               <StyledTableHeader>Machine name</StyledTableHeader>
-              <StyledTableHeader>Duration (minutes)</StyledTableHeader>
+              <StyledTableHeader>Status</StyledTableHeader>
             </Tr>
           </Thead>
           <Tbody>
@@ -85,7 +85,7 @@ const Machines = () => {
                         </Checkbox>
                       </StyledTableCell>
                       <StyledTableCell>{machine.machineName}</StyledTableCell>
-                      <StyledTableCell>{machine.duration}</StyledTableCell>
+                      <StyledTableCell>{machine.status}</StyledTableCell>
                     </StyledTableRow>
                   </Fragment>
                 ))}

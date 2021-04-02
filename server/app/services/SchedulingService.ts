@@ -22,6 +22,11 @@ export class SchedulingService {
     if (!machine) {
       throw new NotFoundError(`${body.machineName} is not found`);
     }
+
+    if (machine.status !== 'Active') {
+      throw new Error(`${body.machineName} is not Active`);
+    }
+
     return this.schedulingRepo.create(body);
   }
 
@@ -30,6 +35,10 @@ export class SchedulingService {
 
     if (!machine) {
       throw new NotFoundError(`${body.machineName} is not found`);
+    }
+
+    if (machine.status !== 'Active') {
+      throw new Error(`${body.machineName} is not Active`);
     }
 
     const updateScheduling = await this.schedulingRepo.update(id, body);

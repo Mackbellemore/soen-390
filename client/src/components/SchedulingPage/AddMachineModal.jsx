@@ -13,6 +13,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Select,
   useDisclosure,
 } from '@chakra-ui/react';
 import useMachineForm from 'hooks/useMachineForm';
@@ -23,11 +24,10 @@ const AddMachineModal = ({ showButton = false }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
     handleMachineName,
-    handleDuration,
     handleSubmit,
     isLoadingButton,
     machineName,
-    duration,
+    status,
   } = useMachineForm();
 
   return (
@@ -57,21 +57,19 @@ const AddMachineModal = ({ showButton = false }) => {
               <FormLabel>Machine name</FormLabel>
               <Input onChange={handleMachineName} value={machineName} placeholder="Machine Name" />
             </FormControl>
-            <FormControl isRequired>
-              <FormLabel>Duration (minutes)</FormLabel>
-              <Input
-                type="number"
-                onChange={handleDuration}
-                value={duration}
-                placeholder="Duration"
-              />
+            <FormControl isRequired mt={4}>
+              <FormLabel>Status</FormLabel>
+              <Select ref={status}>
+                <option>Active</option>
+                <option>Maintenance</option>
+                <option>Inactive</option>
+              </Select>
             </FormControl>
           </ModalBody>
-
           <ModalFooter>
             <Button
               isLoading={isLoadingButton}
-              isDisabled={!(machineName && duration)}
+              isDisabled={!(machineName && status)}
               onClick={handleSubmit}
               colorScheme="blue"
               mr={3}
