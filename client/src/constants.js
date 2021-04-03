@@ -8,6 +8,7 @@ import {
   MdVerifiedUser,
   MdAccountBalance,
   MdGavel,
+  MdInsertChart,
 } from 'react-icons/md';
 import Logo from './components/common/Logo.jsx';
 export const hq = {
@@ -134,6 +135,15 @@ export const appRoutes = [
     path: '/audit',
     component: lazy(() => import('components/views/AuditTrail')),
     icon: MdGavel,
+    active: false,
+  },
+  {
+    name: 'Planning',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/planning',
+    component: lazy(() => import('components/views/Planning')),
+    icon: MdInsertChart,
     active: false,
   },
   {
