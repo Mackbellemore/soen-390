@@ -34,8 +34,6 @@ export default class BikeEntity {
       'weightType',
       'stock',
       'color',
-      'costPrice',
-      'sellingPrice',
       'parts.handle_bar',
       'parts.wheels',
       'parts.chain',
@@ -47,9 +45,9 @@ export default class BikeEntity {
     (schema) => schema.required()
   );
 
-  public static async validate(body: unknown, method: 'patch' | 'post'): Promise<IBike> {
+  public static async validate(body: unknown, method: 'update' | 'create'): Promise<IBike> {
     try {
-      const schema = method === 'patch' ? this.optionalSchema : this.requiredSchema;
+      const schema = method === 'update' ? this.optionalSchema : this.requiredSchema;
       const bikeEntity = await schema.validateAsync(body);
       return bikeEntity as IBike;
     } catch (err) {

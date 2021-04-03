@@ -28,6 +28,8 @@ export default class PartEntity {
     detail: Joi.string(),
     stock: Joi.number().integer().greater(-1).less(100),
     defectId: Joi.string(),
+    costPrice: Joi.number().greater(0),
+    sellingPrice: Joi.number().greater(0),
   });
 
   // create a second schema purely just for POST requests
@@ -36,9 +38,9 @@ export default class PartEntity {
     (schema) => schema.required()
   );
 
-  public static async validate(body: unknown, method: 'patch' | 'post'): Promise<IPart> {
+  public static async validate(body: unknown, method: 'update' | 'create'): Promise<IPart> {
     try {
-      const schema = method === 'patch' ? this.optionalSchema : this.requiredSchema;
+      const schema = method === 'update' ? this.optionalSchema : this.requiredSchema;
       const partEntity = await schema.validateAsync(body);
       return partEntity as IPart;
     } catch (err) {

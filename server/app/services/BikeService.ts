@@ -52,10 +52,15 @@ export class BikeService {
 
   private async handlePartStock(body: IBike): Promise<void> {
     const callStack = [];
+    let totalPrice = 0;
     const { stock: bikeStock } = body;
     for (const [partName, partId] of Object.entries(body.parts)) {
       // weird type converting here to escape the optional array return type
-      const { stock: partStock, name } = (await (this.partService.get(partId) as unknown)) as IPart;
+      const { stock: partStock, costPrice, name } = (await (this.partService.get(
+        partId
+      ) as unknown)) as IPart;
+
+      totalPrice += costPrice;
 
       if (partStock < bikeStock) {
         throw new BadRequestError(`${partName} ${name} does not have enough stock allocated`);
@@ -67,5 +72,8 @@ export class BikeService {
     }
 
     await Promise.all(callStack.map((update) => update()));
+    body.costPrice = totalPrice;
+    // 30% profit from cost price
+    body.sellingPrice = totalPrice * 1.3;
   }
 }

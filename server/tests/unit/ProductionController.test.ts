@@ -15,13 +15,30 @@ const productionService: any = {
 };
 
 const mockProduction = {
-  status: 'Completed',
-  OrderId: '123',
-  component: 'Frame',
-  quantity: '10',
-  expectedStartDate: '2020-01-01',
-  expectedEndDate: '2020-01-03',
-  manufacture: 'A',
+  type: 'Bike',
+  componentDetail: {
+    name: 'carbon road bike',
+    description: 'some_description',
+    weightAmount: 5,
+    weightType: 'kg',
+    color: 'blue',
+    parts: {
+      handle_bar: '6067e869bb33d1d88855e396',
+      wheels: '6067e869bb33d1d88855e397',
+      chain: '6067e869bb33d1d88855e398',
+      frame: '6067e869bb33d1d88855e399',
+      pedal: '6067e869bb33d1d88855e39a',
+      brakes: '6067e869bb33d1d88855e39b',
+      seat: '6067e869bb33d1d88855e39c',
+      fork: '6067e869bb33d1d88855e39d',
+    },
+  },
+  status: 'Ongoing',
+  quantity: 2,
+  startDate: '2021-01-01',
+  endDate: '2021-01-03',
+  assemblyMachine: 'A',
+  note: 'B',
 };
 
 let sandbox: SinonSandbox;
@@ -66,17 +83,7 @@ describe('ProductionController', () => {
       sinon.assert.calledOnce(productionServiceStub);
 
       expect(response).to.be.an.instanceof(results.JsonResult);
-      expect(response.json).to.deep.equal([
-        {
-          status: 'Completed',
-          OrderId: '123',
-          component: 'Frame',
-          quantity: '10',
-          expectedStartDate: '2020-01-01',
-          expectedEndDate: '2020-01-03',
-          manufacture: 'A',
-        },
-      ]);
+      expect(response.json).to.deep.equal([mockProduction]);
       expect(response.statusCode).to.equal(200);
     });
 

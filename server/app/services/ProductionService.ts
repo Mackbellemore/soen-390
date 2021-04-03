@@ -3,17 +3,17 @@ import { IProduction } from './../models/ProductionModel';
 import { inject, injectable } from 'inversify';
 import { ProductionRepository } from './../repository/ProductionRepository';
 import { BadRequestError, NotFoundError } from '../errors';
+import { BikeService } from './BikeService';
+import { PartService } from './PartService';
 import PartEntity from './../entities/Part';
 import BikeEntity from './../entities/Bike';
-import { PartRepository } from './../repository/PartRepository';
-import { BikeRepository } from './../repository/BikeRepository';
 
 @injectable()
 export class ProductionService {
   constructor(
     @inject(TYPES.ProductionRepository) private productionRepository: ProductionRepository,
-    @inject(TYPES.PartRepository) private partRepository: PartRepository,
-    @inject(TYPES.BikeRepository) private bikeRepository: BikeRepository
+    @inject(TYPES.BikeService) private bikeService: BikeService,
+    @inject(TYPES.PartService) private partService: PartService
   ) {}
 
   /**
@@ -33,44 +33,36 @@ export class ProductionService {
     if (body.type === 'Part') {
       const partEntity = {
         name: body.componentDetail.name,
-        description: body.componentDetail.description,
         quality: body.componentDetail.quality,
+        description: body.componentDetail.description,
         type: body.componentDetail.type,
+        color: body.componentDetail.color,
+        finish: body.componentDetail.finish,
+        grade: body.componentDetail.grade,
+        detail: body.componentDetail.detail,
         stock: body.quantity,
-        // sellingPrice: ?,
-        // costPrice: ?,
       };
-      try {
-        const validPart = await PartEntity.validate(partEntity, 'post');
-        await this.partRepository.create(validPart);
-        return this.productionRepository.create(body);
-      } catch (error) {
-        throw new BadRequestError('Invalid Part for Production');
-      }
+      const validPart = await PartEntity.validate(partEntity, 'create');
+      await this.partService.createPart(validPart);
+      return this.productionRepository.create(body);
     }
 
     if (body.type === 'Bike') {
       const bikeEntity = {
         name: body.componentDetail.name,
         description: body.componentDetail.description,
-        // weightAmount: ?,
-        // weightType : ?,
-        // sellingPrice: ?,
-        // costPrice: ?,
+        weightAmount: body.componentDetail.weightAmount,
+        weightType: body.componentDetail.weightType,
         color: body.componentDetail.color,
         stock: body.quantity,
-        // parts: ?
+        parts: body.componentDetail.parts,
       };
-      try {
-        const validBike = await BikeEntity.validate(bikeEntity, 'post');
-        await this.bikeRepository.create(validBike);
-        return this.productionRepository.create(body);
-      } catch (error) {
-        throw new BadRequestError('Invalid Bike for Production');
-      }
+      const validBike = await BikeEntity.validate(bikeEntity, 'create');
+      await this.bikeService.createBike(validBike);
+      return this.productionRepository.create(body);
     }
 
-    throw new BadRequestError('Invalid Production require type of Bike or Part');
+    throw new BadRequestError('Invalid Production');
   }
 
   /**

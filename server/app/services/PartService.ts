@@ -8,6 +8,7 @@ import { IMaterial } from '../models/MaterialModel';
 import { partTypeMaterials } from '../validation/parts/partTypes';
 import { partType } from './../entities/Part';
 import { DefectRepository } from './../repository/DefectRepository';
+
 @injectable()
 export class PartService {
   constructor(
@@ -43,7 +44,10 @@ export class PartService {
   }
 
   public async createPart(body: IPart): Promise<IPart> {
-    await this.handleMaterialStockUpdates(body.stock, body.type);
+    const price = await this.handleMaterialStockUpdates(body.stock, body.type);
+    body.costPrice = price;
+    // 30% profit from cost price
+    body.sellingPrice = price * 1.3;
     const part = await this.partRepo.create(body);
 
     return part;
@@ -54,7 +58,11 @@ export class PartService {
 
     // if were increasing the stock, then make sure we have the materials for it
     if (body.stock > originalPart.stock) {
-      await this.handleMaterialStockUpdates(body.stock - originalPart.stock, originalPart.type);
+      const price = await this.handleMaterialStockUpdates(
+        body.stock - originalPart.stock,
+        originalPart.type
+      );
+      body.costPrice = price;
     }
 
     return this.partRepo.updateByName(name, body);
@@ -70,9 +78,10 @@ export class PartService {
   }
 
   // function to validate and update material stocks when creating a new part
-  public async handleMaterialStockUpdates(partStock: number, partType: partType): Promise<void> {
+  public async handleMaterialStockUpdates(partStock: number, partType: partType): Promise<number> {
     // list of material and stock needed defined under app/validation/parts/partTypes.ts
     const materialList = partTypeMaterials[partType];
+    let totalPrice = 0;
 
     // loop over all the materials to check stock availability and update stocks accordingly
     const callStack = [];
@@ -80,7 +89,8 @@ export class PartService {
       // multiply the material stock by the amount of parts we want to add
       const neededStock = Number(materialStock) * partStock;
 
-      const { stock } = await this.materialService.findMaterial(materialName);
+      const { stock, price } = await this.materialService.findMaterial(materialName);
+      totalPrice += price;
 
       // check if we have the amount of stock needed for each required material to create the part
       if (stock < Number(neededStock)) {
@@ -99,5 +109,6 @@ export class PartService {
 
     // Call all the updates stored in the callStack
     await Promise.all(callStack.map((update) => update()));
+    return totalPrice;
   }
 }

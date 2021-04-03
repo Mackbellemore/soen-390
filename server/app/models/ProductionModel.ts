@@ -7,9 +7,13 @@ export interface IProduction extends Document {
     description: string;
     quality: string;
     color: string;
+    parts: Record<string, string>;
     type: string;
     finish: string;
     grade: string;
+    weightAmount: number;
+    weightType: string;
+    detail: string;
   };
   status: string;
   quantity: string;
@@ -30,6 +34,9 @@ export const ProductionSchema: Schema = new Schema({
     type: { type: Schema.Types.String, required: false },
     finish: { type: Schema.Types.String, required: false },
     grade: { type: Schema.Types.String, required: false },
+    weightAmount: { type: Schema.Types.Number, required: false },
+    weightType: { type: Schema.Types.String, required: false, enum: ['kg', 'lb'] },
+    detail: { type: Schema.Types.String, required: false },
   },
   status: {
     type: Schema.Types.String,
