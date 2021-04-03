@@ -20,7 +20,7 @@ export class UserRepository extends BaseRepository<IUser> {
 
   public async updateByUsername(username: string, model: IUser): Promise<IUser | null> {
     try {
-      return await this.model.findOneAndUpdate({ username }, model, {
+      return this.model.findOneAndUpdate({ username }, model, {
         returnOriginal: false,
         runValidators: true,
       });
@@ -31,7 +31,7 @@ export class UserRepository extends BaseRepository<IUser> {
 
   public async deleteByEmail(userBody: IUser): Promise<IUser | null> {
     try {
-      return await this.model.findOneAndRemove({ email: userBody.email });
+      return this.model.findOneAndRemove({ email: userBody.email });
     } catch (e) {
       this.manageRepositoryError(e);
     }

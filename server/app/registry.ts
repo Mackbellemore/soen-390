@@ -1,6 +1,6 @@
 /**
  * This file is used to setup our dependency injection container provided by inversifyJS.
- * Any class, function, logger etc that needs to be injected annywhere in our app is first
+ * Any class, function, logger etc that needs to be injected anywhere in our app is first
  * binded in our container and can then be injected.
  */
 
@@ -25,6 +25,9 @@ import './controllers/DefectController';
 import './controllers/OrderController';
 import './controllers/SchedulingController';
 import './controllers/ProductionController';
+import './controllers/SaleController';
+import './controllers/ShippingController';
+import './controllers/LogController';
 
 // Services (make sure to bind it to a singleton)
 import { UserService } from './services/UserService';
@@ -36,6 +39,9 @@ import { DefectService } from './services/DefectService';
 import { OrderService } from './services/OrderService';
 import { SchedulingService } from './services/SchedulingService';
 import { ProductionService } from './services/ProductionService';
+import { SaleService } from './services/SaleService';
+import { LogService } from './services/LogService';
+import { ShippingService } from './services/ShippingService';
 
 // Repositories
 import { UserRepository } from './repository/UserRepository';
@@ -46,6 +52,12 @@ import { DefectRepository } from './repository/DefectRepository';
 import { OrderRepository } from './repository/OrderRepository';
 import { SchedulingRepository } from './repository/SchedulingRepository';
 import { ProductionRepository } from './repository/ProductionRepository';
+import { SaleRepository } from './repository/SaleRepository';
+import { ShippingRepository } from './repository/ShippingRepository';
+import { LogRepository } from './repository/LogRepository';
+
+// Middlewares
+import { LoggerMiddleware } from './middlewares/LoggerMiddleware';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore because types don't exist for this library
@@ -103,6 +115,9 @@ container.bind<DefectService>(TYPES.DefectService).to(DefectService).inSingleton
 container.bind<OrderService>(TYPES.OrderService).to(OrderService).inSingletonScope();
 container.bind<SchedulingService>(TYPES.SchedulingService).to(SchedulingService).inSingletonScope();
 container.bind<ProductionService>(TYPES.ProductionService).to(ProductionService).inSingletonScope();
+container.bind<SaleService>(TYPES.SaleService).to(SaleService).inSingletonScope();
+container.bind<ShippingService>(TYPES.ShippingService).to(ShippingService).inSingletonScope();
+container.bind<LogService>(TYPES.LogService).to(LogService).inSingletonScope();
 
 // Repository
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
@@ -122,5 +137,13 @@ container
   .bind<ProductionRepository>(TYPES.ProductionRepository)
   .to(ProductionRepository)
   .inSingletonScope();
+container.bind<SaleRepository>(TYPES.SaleRepository).to(SaleRepository).inSingletonScope();
+container
+  .bind<ShippingRepository>(TYPES.ShippingRepository)
+  .to(ShippingRepository)
+  .inSingletonScope();
+container.bind<LogRepository>(TYPES.LogRepository).to(LogRepository).inSingletonScope();
+
+container.bind<LoggerMiddleware>(TYPES.LoggerMiddleware).to(LoggerMiddleware).inSingletonScope();
 
 export { container };

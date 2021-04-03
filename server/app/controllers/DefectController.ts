@@ -1,8 +1,15 @@
-import { IDefect } from './../models/DefectModel';
+import { IDefect, IBikeDefect } from './../models/DefectModel';
 import { DefectService } from './../services/DefectService';
 import { Request } from 'express';
 import { inject } from 'inversify';
-import { controller, httpGet, httpPost, httpDelete, results } from 'inversify-express-utils';
+import {
+  controller,
+  httpGet,
+  httpPost,
+  httpDelete,
+  httpPatch,
+  results,
+} from 'inversify-express-utils';
 import TYPES from '../constants/types';
 import { BaseController } from './BaseController';
 import { Doc } from 'inversify-express-doc';
@@ -30,6 +37,23 @@ export class DefectController extends BaseController {
     }
   }
 
+  @Doc('Get All Bike Defect')
+  /**
+   * @desc        Get all defect
+   * @route       GET /defects/bikes
+   * @access      Public
+   * @returns     List Defects Json Format
+   */
+  @httpGet('/bikes')
+  public async getBikeDefects(): Promise<results.JsonResult> {
+    try {
+      const defects: IBikeDefect[] = await this.defectService.getBikeDefects();
+      return this.json(defects);
+    } catch (err) {
+      return this.handleError(err);
+    }
+  }
+
   @Doc('Create new Defect')
   /**
    * @desc          Create new Defect
@@ -38,7 +62,7 @@ export class DefectController extends BaseController {
    * @param request
    * @returns       Defect Json Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const defect: IDefect = await this.defectService.createDefect(request.body);
@@ -56,10 +80,28 @@ export class DefectController extends BaseController {
    * @param req
    * @returns       Defect Json Format
    */
-  @httpDelete('/')
+  @httpDelete('/', TYPES.LoggerMiddleware)
   public async delete(req: Request): Promise<results.JsonResult> {
     try {
       const defect = await this.defectService.deleteDefects(req.body);
+      return this.json(defect);
+    } catch (err) {
+      return this.handleError(err);
+    }
+  }
+
+  @Doc('Update Defect by ID')
+  /**
+   * @desc          Update Defect by ID
+   * @route         PATCH /defects
+   * @access        Public
+   * @param request
+   * @returns       Defect Json Format
+   */
+  @httpPatch('/', TYPES.LoggerMiddleware)
+  public async update(request: Request): Promise<results.JsonResult> {
+    try {
+      const defect: IDefect | null = await this.defectService.updateDefect(request.body);
       return this.json(defect);
     } catch (err) {
       return this.handleError(err);

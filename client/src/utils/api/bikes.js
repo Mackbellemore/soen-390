@@ -4,4 +4,8 @@ const getBikes = async () => {
   return makeGetRequest('bikes');
 };
 
-export { getBikes };
+const getOneBike = async (id) => {
+  return makeGetRequest(`bikes/${id}`);
+};
+
+export { getBikes, getOneBike };

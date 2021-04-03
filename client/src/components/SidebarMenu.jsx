@@ -12,19 +12,22 @@ const sidebarStyles = {
     height: '100%',
   },
   bmMenu: {
-    background: '#373a47',
-    padding: '2.5em 1.5em 0',
+    background: '#F5F5F5',
     fontSize: '1.15em',
+    borderRight: '1px solid black',
   },
   bmMorphShape: {
     fill: '#373a47',
   },
   bmItemList: {
     color: '#b8b7ad',
-    padding: '0.8em',
+    paddingTop: '20px',
   },
   bmItem: {
-    display: 'inline-block',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bmOverlay: {
     background: 'rgba(0, 0, 0, 0.3)',
@@ -35,12 +38,27 @@ const SidebarMenu = () => {
   const { uiStore, userStore } = useContext(RootStoreContext);
   const menuItems = [];
 
+  const handleClick = (e) => {
+    appRoutes.forEach((route) => {
+      route.active = false;
+    });
+    e.active = true;
+    uiStore.closeSidebar();
+  };
+
   appRoutes.forEach((route) => {
+    const { icon: Icon } = route;
     if (route.name !== undefined && route.allowedRoles.includes(userStore.role)) {
       menuItems.push(
         <Flex key={route.path}>
-          <ChakraLink as={Link} to={route.path} onClick={uiStore.closeSidebar} _focus={{}}>
-            {route.name}
+          <ChakraLink
+            as={Link}
+            to={route.path}
+            onClick={() => handleClick(route)}
+            _focus={{}}
+            my="20px"
+          >
+            <Icon color={route.active ? 'green' : 'black'} />
           </ChakraLink>
         </Flex>
       );
@@ -50,13 +68,17 @@ const SidebarMenu = () => {
   return (
     <Menu
       styles={sidebarStyles}
-      pageWrapId={'page-wrap'}
+      pageWrapId="page-wrap"
       customBurgerIcon={false}
       customCrossIcon={false}
       isOpen={uiStore.sidebarState}
       onClose={uiStore.closeSidebar}
+      display="flex"
+      width="80px"
     >
-      <Flex direction="column">{menuItems}</Flex>
+      <Flex _focus={{ outline: 'none' }} direction="column">
+        {menuItems}
+      </Flex>
     </Menu>
   );
 };
