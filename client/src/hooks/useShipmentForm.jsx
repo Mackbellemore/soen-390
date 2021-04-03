@@ -1,30 +1,43 @@
-import { useToast } from '@chakra-ui/react';
+import { useDisclosure, useToast } from '@chakra-ui/react';
 import { useRef, useState, useContext } from 'react';
 import { useQuery } from 'react-query';
 import { createShipment, getShippings } from 'utils/api/shippings.js';
 import { sendEmail } from 'utils/api/system.js';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { formatDate } from 'utils/dateFunctions.js';
+import { getSearchResults } from 'utils/api/mapbox.js';
+import { useDebouncedCallback } from 'use-debounce';
 
 const useShipmentForm = () => {
   const { refetch } = useQuery('shippings', getShippings);
   const { userStore } = useContext(RootStoreContext);
-
+  const {
+    isOpen: isShippingModalOpen,
+    onOpen: onShippingModalOpen,
+    onClose: onShippingModalClose,
+  } = useDisclosure();
   const [company, setCompany] = useState('');
   const [location, setLocation] = useState('');
   const [shippingDate, setShippingDate] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
   const [isLoadingButton, setIsLoadingButton] = useState(false);
+
   const status = useRef('');
   const toast = useToast();
 
   const handleCompanyInput = (e) => {
     setCompany(e.target.value);
   };
-
-  const handleLocationInput = (e) => {
-    setLocation(e.target.value);
+  const handleLocationSelect = (e) => {
+    e ? setLocation(e) : setLocation(null);
   };
+
+  const handleLocationInput = useDebouncedCallback((e) => {
+    const searchLocation = e;
+    if (searchLocation) {
+      return getSearchResults(searchLocation);
+    }
+  }, 100);
 
   const handleDeliveryDateInput = (e) => {
     setDeliveryDate(e.target.value);
@@ -40,7 +53,7 @@ const useShipmentForm = () => {
     try {
       const { data: shpmtInfo } = await createShipment({
         company: company,
-        location: location,
+        location: location.label,
         status: status.current.value,
         deliveryDate: deliveryDate,
         shippingDate: shippingDate,
@@ -76,6 +89,7 @@ const useShipmentForm = () => {
       });
     }
     setIsLoadingButton(false);
+    onShippingModalClose();
   };
 
   return {
@@ -84,12 +98,16 @@ const useShipmentForm = () => {
     handleDeliveryDateInput,
     handleShippingDateInput,
     handleSubmit,
+    handleLocationSelect,
     isLoadingButton,
     status,
     company,
     location,
     deliveryDate,
     shippingDate,
+    onShippingModalClose,
+    onShippingModalOpen,
+    isShippingModalOpen,
   };
 };
 

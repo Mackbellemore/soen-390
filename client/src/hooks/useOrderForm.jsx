@@ -3,21 +3,26 @@ import { useRef, useState } from 'react';
 import { useQuery } from 'react-query';
 import { getMaterialList, getOrders, postOrders } from 'utils/api/orders.js';
 import { createShipment } from 'utils/api/shippings.js';
+import { getSearchResults } from 'utils/api/mapbox.js';
+import { useDebouncedCallback } from 'use-debounce';
 
 const useOrderForm = () => {
   const toast = useToast();
   const manufacturer = useRef('');
-  const location = useRef('');
   const note = useRef('');
   const quantityRef = useRef(1);
+  const [location, setLocation] = useState('');
   const [material, setMaterial] = useState(null);
   const [cost, setCost] = useState(0);
   const [shippingDate, setShippingDate] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
   const materialCost = useQuery('orders/materialList', getMaterialList);
   const { refetch } = useQuery('orders', getOrders);
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const {
+    isOpen: isOrderModalOpen,
+    onOpen: onOrderModalOpen,
+    onClose: onOrderModalClose,
+  } = useDisclosure();
   // sets material and cost states
   const handleMaterial = (e) => {
     const choice = e.target.value;
@@ -33,6 +38,17 @@ const useOrderForm = () => {
     setShippingDate(e.target.value);
   };
 
+  const handleLocationSelect = (e) => {
+    e ? setLocation(e) : setLocation(null);
+  };
+
+  const handleLocationInput = useDebouncedCallback((e) => {
+    const searchLocation = e;
+    if (searchLocation) {
+      return getSearchResults(searchLocation);
+    }
+  }, 100);
+
   const handleSubmit = async () => {
     const orderTime = new Date();
 
@@ -44,13 +60,13 @@ const useOrderForm = () => {
         deliveryDate: deliveryDate,
         orderDate: orderTime,
         manufacturerName: manufacturer.current.value,
-        vendorLocation: location.current.value,
+        vendorLocation: location.label,
         status: 'Pending',
         note: note.current.value,
       });
       await createShipment({
         company: manufacturer.current.value,
-        location: location.current.value,
+        location: location.label,
         status: 'Ordered',
         deliveryDate: deliveryDate,
         shippingDate: shippingDate,
@@ -73,8 +89,8 @@ const useOrderForm = () => {
       });
     }
     refetch();
-    onClose();
     setMaterial(null);
+    onOrderModalClose();
   };
 
   return {
@@ -82,16 +98,18 @@ const useOrderForm = () => {
     handleSubmit,
     handleDeliveryDateInput,
     handleShippingDateInput,
+    handleLocationInput,
+    handleLocationSelect,
     manufacturer,
     location,
     note,
     quantityRef,
-    isOpen,
-    onOpen,
-    onClose,
     material,
     deliveryDate,
     shippingDate,
+    onOrderModalClose,
+    onOrderModalOpen,
+    isOrderModalOpen,
   };
 };
 
