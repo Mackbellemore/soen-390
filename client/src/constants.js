@@ -130,7 +130,7 @@ export const appRoutes = [
   {
     name: 'Audit Trail',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin'],
     path: '/audit',
     component: lazy(() => import('components/views/AuditTrail')),
     icon: MdGavel,
