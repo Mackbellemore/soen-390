@@ -71,7 +71,6 @@ export const appRoutes = [
     path: '/admin',
     component: lazy(() => import('components/views/AdminPage.jsx')),
     icon: MdVerifiedUser,
-    active: false,
   },
   {
     name: 'Inventory',
@@ -80,7 +79,6 @@ export const appRoutes = [
     path: '/inventory',
     component: lazy(() => import('components/views/Inventory')),
     icon: MdDescription,
-    active: false,
   },
   {
     name: 'Orders',
@@ -98,7 +96,6 @@ export const appRoutes = [
     path: '/quality-management',
     component: lazy(() => import('components/views/QualityManagement')),
     icon: MdAssignmentTurnedIn,
-    active: false,
   },
   {
     name: 'Shipping',
@@ -107,7 +104,6 @@ export const appRoutes = [
     path: '/shipping',
     component: lazy(() => import('components/views/Shipping')),
     icon: MdLocalShipping,
-    active: false,
   },
   {
     name: 'Sales',
@@ -116,7 +112,6 @@ export const appRoutes = [
     path: '/sales',
     component: lazy(() => import('components/views/Sales')),
     icon: MdAttachMoney,
-    active: false,
   },
   {
     name: 'Accounting',
@@ -125,7 +120,6 @@ export const appRoutes = [
     path: '/accounting',
     component: lazy(() => import('components/views/Accounting')),
     icon: MdAccountBalance,
-    active: false,
   },
   {
     name: 'Audit Trail',
@@ -134,7 +128,6 @@ export const appRoutes = [
     path: '/audit',
     component: lazy(() => import('components/views/AuditTrail')),
     icon: MdGavel,
-    active: false,
   },
   {
     protected: false,
