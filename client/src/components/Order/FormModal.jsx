@@ -24,6 +24,7 @@ import useOrderForm from 'hooks/useOrderForm.jsx';
 import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { TextField } from '@material-ui/core';
+import AsyncSelect from 'react-select/async';
 
 const FormModal = ({ showButton = false }) => {
   // TODO: use the endpoint to get this constant list of materials rather than hard coding
@@ -33,13 +34,15 @@ const FormModal = ({ showButton = false }) => {
     handleSubmit,
     handleDeliveryDateInput,
     handleShippingDateInput,
+    handleLocationInput,
+    handleLocationSelect,
     manufacturer,
     location,
     note,
     quantityRef,
-    isOpen,
-    onOpen,
-    onClose,
+    onOrderModalClose,
+    onOrderModalOpen,
+    isOrderModalOpen,
     material,
     deliveryDate,
     shippingDate,
@@ -49,7 +52,7 @@ const FormModal = ({ showButton = false }) => {
     <>
       {showButton ? (
         <Center mt={4}>
-          <Button onClick={onOpen}>Place an order</Button>
+          <Button onClick={onOrderModalOpen}>Place an order</Button>
         </Center>
       ) : (
         <Button
@@ -57,12 +60,12 @@ const FormModal = ({ showButton = false }) => {
           colorScheme="blue"
           variant="solid"
           leftIcon={<SmallAddIcon />}
-          onClick={onOpen}
+          onClick={onOrderModalOpen}
         >
           Place an order
         </Button>
       )}
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOrderModalOpen} onClose={onOrderModalClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Place an order</ModalHeader>
@@ -94,7 +97,14 @@ const FormModal = ({ showButton = false }) => {
             </FormControl>
             <FormControl mt={4}>
               <FormLabel>Location</FormLabel>
-              <Input placeholder="Location" ref={location} />
+              <AsyncSelect
+                cacheOptions
+                loadOptions={handleLocationInput}
+                onInputChange={handleLocationInput}
+                onChange={handleLocationSelect}
+                isClearable={true}
+                value={location}
+              />
             </FormControl>
             <FormControl mt={4} isRequired>
               <FormLabel>Shipping Date</FormLabel>
@@ -114,11 +124,11 @@ const FormModal = ({ showButton = false }) => {
               colorScheme="blue"
               mr={3}
               onClick={handleSubmit}
-              isDisabled={!(material && deliveryDate && shippingDate)}
+              isDisabled={!(material && deliveryDate && shippingDate && location)}
             >
               Submit
             </Button>
-            <Button onClick={onClose}>Cancel</Button>
+            <Button onClick={onOrderModalOpen}>Cancel</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

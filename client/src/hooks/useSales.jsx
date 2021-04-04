@@ -7,6 +7,8 @@ import { createShipment } from 'utils/api/shippings.js';
 import { sendEmail } from 'utils/api/system.js';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { formatDate } from 'utils/dateFunctions.js';
+import { getSearchResults } from 'utils/api/mapbox.js';
+import { useDebouncedCallback } from 'use-debounce';
 
 const useSales = (sale) => {
   const {
@@ -51,8 +53,15 @@ const useSales = (sale) => {
     }
   };
 
-  const handleLocationInput = (e) => {
-    setLocation(e.target.value);
+  const handleLocationInput = useDebouncedCallback((e) => {
+    const searchLocation = e;
+    if (searchLocation) {
+      return getSearchResults(searchLocation);
+    }
+  }, 100);
+
+  const handleLocationSelect = (e) => {
+    e ? setLocation(e) : setLocation(null);
   };
   const handleDeliveryDateInput = (e) => {
     setDeliveryDate(e.target.value);
@@ -105,7 +114,7 @@ const useSales = (sale) => {
       });
       const { data: shpmtInfo } = await createShipment({
         company: name,
-        location: location,
+        location: location.label,
         status: 'Ordered',
         deliveryDate: deliveryDate,
         shippingDate: shippingDate,
@@ -159,6 +168,7 @@ const useSales = (sale) => {
     handleDeliveryDateInput,
     handleShippingDateInput,
     handleLocationInput,
+    handleLocationSelect,
     isSaleModalOpen,
     onSaleModalOpen,
     onSaleModalClose,
