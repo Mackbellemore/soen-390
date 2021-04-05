@@ -67,4 +67,12 @@ export class UserService {
 
     return UserEntity.buildUser(updatedUser);
   }
+
+  public async forgotPassword(body: IUser) {
+    try {
+      await this.userRepo.findByEmail(body);
+    } catch (err) {
+      throw new NotFoundError(`User with email ${body.email} was not found`);
+    }
+  }
 }

@@ -1,19 +1,15 @@
-import { Flex, FormLabel, Icon, Input, Box, useToast, Divider } from '@chakra-ui/react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Flex, FormLabel, Icon, Input, Box, useToast } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import Head from 'next/head';
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { GrLock, GrMailOption } from 'react-icons/gr';
+import { GrLock } from 'react-icons/gr';
 import { useHistory, Redirect } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
-import { userLogin } from 'utils/api/users.js';
-import { Heading, Text } from '../common/Typography.jsx';
-import RegisterUserModal from 'components/Login/RegisterUserModal.jsx';
-import ForgotPasswordModal from 'components/Login/ForgotPasswordModal.jsx';
+import { Heading } from '../common/Typography.jsx';
 import { FormButton } from '../common/Button.jsx';
 import { StyledForm } from '../common/Form.jsx';
-import useLoggedInUser from 'hooks/useLoggedInUser.jsx';
-import Loader from '../common/Loader.jsx';
-import PropTypes from 'prop-types';
+
+import axios from 'axios';
 
 const Container = styled(Box)`
   width: 100%;
@@ -24,7 +20,7 @@ const Container = styled(Box)`
   left: 50%;
   align-items: center;
   transform: translate(-50%, -50%);
-  background-color: #fffcfc;
+  background-color: white;
   padding: 10px;
   max-width: 560px;
 `;
@@ -58,15 +54,14 @@ const StyledFormLabel = styled(FormLabel)`
   font-size: 12px;
 `;
 
-const Login = ({ location: { state } }) => {
+const ResetPasswordPage = (props) => {
   const { userStore } = useContext(RootStoreContext);
   const [isLoading, setIsLoading] = useState(false);
   const [shouldRenderForm, setShouldRenderForm] = useState(true);
-  const passwordRef = useRef('');
-  const emailRef = useRef('');
+  const resetPasswordRef = useRef('');
+  const confirmResetPasswordRef = useRef('');
   const history = useHistory();
   const toast = useToast();
-  const { isCheckDone } = useLoggedInUser();
 
   useEffect(() => {
     if (localStorage.getItem('jwt')) {
@@ -78,59 +73,52 @@ const Login = ({ location: { state } }) => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      const res = await userLogin({
-        email: emailRef.current.value,
-        password: passwordRef.current.value,
-      });
-
-      localStorage.setItem('jwt', res.data.jwt);
-
-      const { username, email, role } = res.data.user;
-      userStore.setUsername(username);
-      userStore.setEmail(email);
-      userStore.setRole(role);
-
-      userStore.logIn();
-
-      history.push('/main');
-    } catch {
+    if (resetPasswordRef.current.value !== confirmResetPasswordRef.current.value) {
       toast({
-        position: 'top',
-        title: 'An error occurred.',
-        description: 'Unable to log in',
+        title: 'ERROR',
+        description: 'The passwords does not match',
         status: 'error',
         duration: 2000,
         isClosable: true,
       });
-
-      passwordRef.current.value = '';
       setIsLoading(false);
+      return;
     }
-  };
 
-  if (!isCheckDone) {
-    return <Loader />;
-  }
+    const token = window.location.href.split('/').pop();
+    console.log('token: ' + token);
+
+    // RESET PASSWORD
+
+    toast({
+      title: 'SUCESS',
+      description: 'The passwords has been reseted',
+      status: 'success',
+      duration: 2000,
+      isClosable: true,
+    });
+
+    setIsLoading(false);
+  };
 
   return (
     <>
       <Head>
-        <title>ERP - Login</title>
+        <title>ERP - Reset Password</title>
       </Head>
       {shouldRenderForm ? (
         <Container top={{ base: '66%', sm: '50%' }}>
           <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
-            Log in
+            Reset Password
           </Heading>
           <StyledForm onSubmit={handleSubmit}>
             <InputContainer>
               <Flex alignItems="center">
-                <InputIcon as={GrMailOption} />
+                <InputIcon as={GrLock} />
               </Flex>
               <Flex direction="column">
-                <StyledFormLabel px={4}>Email address</StyledFormLabel>
-                <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
+                <StyledFormLabel px={4}>Password</StyledFormLabel>
+                <UnstyledInput type="password" focusBorderColor="none" ref={resetPasswordRef} />
               </Flex>
             </InputContainer>
             <InputContainer mt={7}>
@@ -138,22 +126,20 @@ const Login = ({ location: { state } }) => {
                 <InputIcon as={GrLock} />
               </Flex>
               <Flex direction="column">
-                <StyledFormLabel>Password</StyledFormLabel>
-                <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
+                <StyledFormLabel>Confirm Password</StyledFormLabel>
+                <UnstyledInput
+                  type="password"
+                  focusBorderColor="none"
+                  ref={confirmResetPasswordRef}
+                />
               </Flex>
             </InputContainer>
             <Flex direction="row" width="100%" maxWidth="380px">
               <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
-                Login
+                Reset Password
               </FormButton>
             </Flex>
           </StyledForm>
-          <ForgotPasswordModal />
-          <Divider orientation="horizontal" borderColor="#D4D4D4" opacity="1" width="90%" mt={5} />
-          <Text mt={4} fontSize="12px">
-            New User?
-          </Text>
-          <RegisterUserModal />
         </Container>
       ) : (
         <Redirect
@@ -166,8 +152,4 @@ const Login = ({ location: { state } }) => {
   );
 };
 
-Login.propTypes = {
-  location: PropTypes.object,
-};
-
-export default Login;
+export default ResetPasswordPage;
