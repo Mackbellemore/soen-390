@@ -27,8 +27,8 @@ const RegisterUserModal = () => {
     passwordRef,
     emailRef,
     roleRef,
-    passwordIsValidated,
-    emailIsValidated,
+    passwordIsNotValid,
+    emailIsNotValid,
     buttonIsDisabled,
     isLoading,
     registerHandleSubmit,
@@ -57,8 +57,8 @@ const RegisterUserModal = () => {
                 size="sm"
                 type="email"
                 ref={emailRef}
-                focusBorderColor={emailIsValidated ? 'red' : 'blue.500'}
-                isInvalid={emailIsValidated}
+                focusBorderColor={emailIsNotValid ? 'red' : 'blue.500'}
+                isInvalid={emailIsNotValid}
                 onChange={registerHandleEmailValidation}
                 required
               />
@@ -67,8 +67,8 @@ const RegisterUserModal = () => {
                 placeholder="Create Password"
                 size="sm"
                 type="password"
-                focusBorderColor={passwordIsValidated ? 'red' : 'blue.500'}
-                isInvalid={passwordIsValidated}
+                focusBorderColor={passwordIsNotValid ? 'red' : 'blue.500'}
+                isInvalid={passwordIsNotValid}
                 onChange={registerHandlePasswordValidation}
                 ref={passwordRef}
                 required
