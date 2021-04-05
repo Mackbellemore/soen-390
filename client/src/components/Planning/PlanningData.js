@@ -1,4 +1,4 @@
-//Mock data for Planning Graphs
+// Mock data for Planning Graphs
 
 export const productionData = [
   {
