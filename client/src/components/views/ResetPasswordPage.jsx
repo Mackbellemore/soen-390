@@ -9,8 +9,6 @@ import { Heading } from '../common/Typography.jsx';
 import { FormButton } from '../common/Button.jsx';
 import { StyledForm } from '../common/Form.jsx';
 
-import axios from 'axios';
-
 const Container = styled(Box)`
   width: 100%;
   height: 456px;

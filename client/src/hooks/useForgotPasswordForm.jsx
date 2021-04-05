@@ -14,7 +14,6 @@ const useForgotPasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isAnEmail } = useEmailValidation();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const forgotPasswordHandleSubmit = async (e) => {
     e.preventDefault();
@@ -27,14 +26,6 @@ const useForgotPasswordForm = () => {
       await userForgotPassword({
         id,
         email: email,
-      });
-      toast({
-        title: 'Request Sent',
-        description: 'The request has been sent to ' + email,
-        status: 'success',
-        duration: 9000,
-        isClosable: true,
-        onCloseComplete: onClose,
       });
 
       const url = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
@@ -63,16 +54,18 @@ const useForgotPasswordForm = () => {
         });
       }
     } catch (err) {
-      toast({
-        title: 'Error',
-        description: 'No user found',
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
-      });
+      // User Not Found, but do not tell it to the user.
     }
 
-    setIsSubmitting(false);
+    toast({
+      title: 'Request Sent',
+      description: 'The request has been sent to ' + email,
+      status: 'success',
+      duration: 9000,
+      isClosable: true,
+      onCloseComplete: onClose,
+    });
+
     setIsLoading(false);
   };
 

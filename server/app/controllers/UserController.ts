@@ -71,7 +71,7 @@ export class UserController extends BaseHttpController {
 
   @Doc('Forgot password')
   /**
-   * @desc        Verify existing user
+   * @desc         Verify existing user
    * @route       POST /user/forgot
    * @access      Public
    * @param req
@@ -81,9 +81,9 @@ export class UserController extends BaseHttpController {
   public async email(req: Request): Promise<results.JsonResult> {
     try {
       await this.userService.forgotPassword(req.body);
-      return this.json(req.body);
+      return this.json(req.body, 200);
     } catch (err) {
-      return this.json(err.message, 400);
+      return this.json(err.message, 300);
     }
   }
 
