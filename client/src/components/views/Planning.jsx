@@ -1,6 +1,6 @@
 import { Heading, SimpleGrid, Text, Center, Box } from '@chakra-ui/react';
 import useWindowSize from 'hooks/useWindowSize';
-import { productionData, plData } from 'components/Planning/PlanningData.ts';
+import { productionData, plData } from 'components/Planning/PlanningData.js';
 import Head from 'next/head';
 import React from 'react';
 import { Bar, BarChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis } from 'recharts';
