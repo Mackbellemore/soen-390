@@ -23,7 +23,6 @@ const makeGetRequest = async (endpoint) => {
 };
 
 const makePostRequest = async (endpoint, body = {}) => {
-  console.log('base.post()' + endpoint);
   return makeRequest('post', endpoint, body);
 };
 
