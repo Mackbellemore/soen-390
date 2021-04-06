@@ -8,6 +8,7 @@ import {
   MdVerifiedUser,
   MdAccountBalance,
   MdGavel,
+  MdRowing,
 } from 'react-icons/md';
 import Logo from './components/common/Logo.jsx';
 export const hq = {
@@ -80,6 +81,15 @@ export const appRoutes = [
     path: '/inventory',
     component: lazy(() => import('components/views/Inventory')),
     icon: MdDescription,
+    active: false,
+  },
+  {
+    name: 'Production',
+    protected: true,
+    allowedRoles: rolesAvailable,
+    path: '/production',
+    component: lazy(() => import('components/views/Production')),
+    icon: MdRowing,
     active: false,
   },
   {
