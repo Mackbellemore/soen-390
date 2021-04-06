@@ -46,6 +46,7 @@ const ProductionModal = () => {
     assemblyMachineRef,
     noteRef,
     qualityRef,
+    profitMarginRef,
     gradeRef,
     finishRef,
     weightAmountRef,
@@ -97,7 +98,13 @@ const ProductionModal = () => {
       <div style={formStyle}>
         <FormControl isRequired style={elementStyle}>
           <FormLabel>Weight Amount</FormLabel>
-          <Input ref={weightAmountRef} />
+          <NumberInput min={1} defaultValue={1}>
+            <NumberInputField ref={weightAmountRef} />
+            <NumberInputStepper>
+              <NumberIncrementStepper />
+              <NumberDecrementStepper />
+            </NumberInputStepper>
+          </NumberInput>
         </FormControl>
         <FormControl isRequired style={elementStyle}>
           <FormLabel>Weight Type</FormLabel>
@@ -268,6 +275,16 @@ const ProductionModal = () => {
                 <FormLabel>Quantity</FormLabel>
                 <NumberInput min={1} defaultValue={1}>
                   <NumberInputField ref={quantityRef} />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+              </FormControl>
+              <FormControl isRequired style={elementStyle}>
+                <FormLabel>Profit Margin</FormLabel>
+                <NumberInput min={1.1} defaultValue={1.1}>
+                  <NumberInputField ref={profitMarginRef} />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
                     <NumberDecrementStepper />

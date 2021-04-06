@@ -12,14 +12,19 @@ const ProductionTable = () => {
     isLoadingProduction,
     isSuccessProduction,
     dataProduction,
+    isLoadingPart,
+    isSuccessPart,
+    isLoadingBike,
+    isSuccessBike,
     page,
     rowsPerPage,
+    findEntity,
     handleChangePage,
     handleChangeRowsPerPage,
     formatDate,
   } = useProductionTable();
 
-  if (isLoadingProduction) {
+  if (isLoadingProduction && isLoadingBike && isLoadingPart) {
     return <Loader />;
   }
 
@@ -53,13 +58,17 @@ const ProductionTable = () => {
         </Thead>
         <Tbody>
           {isSuccessProduction &&
+            isSuccessPart &&
+            isSuccessBike &&
             dataProduction.data
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((production) => (
                 <Fragment key={production._id}>
                   <StyledTableRow>
                     <StyledTableCell>{production.status}</StyledTableCell>
-                    <StyledTableCell>{production.componentDetail.name}</StyledTableCell>
+                    <StyledTableCell>
+                      {findEntity(production.type, production.componentId).name}
+                    </StyledTableCell>
                     <StyledTableCell>{production.quantity}</StyledTableCell>
                     <StyledTableCell>{formatDate(production.startDate)}</StyledTableCell>
                     <StyledTableCell>{formatDate(production.endDate)}</StyledTableCell>

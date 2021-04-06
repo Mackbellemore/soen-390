@@ -21,6 +21,7 @@ const useProductionModal = () => {
   const assemblyMachineRef = useRef();
   const noteRef = useRef();
   const qualityRef = useRef();
+  const profitMarginRef = useRef();
   const gradeRef = useRef();
   const finishRef = useRef();
   const weightAmountRef = useRef();
@@ -67,6 +68,7 @@ const useProductionModal = () => {
             color: colorRef.current.value,
             grade: gradeRef.current.value,
             finish: finishRef.current.value,
+            profitMargin: profitMarginRef.current.value,
           },
           status: statusRef.current.value,
           quantity: quantityRef.current.value,
@@ -85,6 +87,7 @@ const useProductionModal = () => {
             weightAmount: weightAmountRef.current.value,
             weightType: weightTypeRef.current.value,
             color: colorRef.current.value,
+            profitMargin: profitMarginRef.current.value,
             parts: {
               handle_bar: handleBarRef.current.value,
               wheels: wheelRef.current.value,
@@ -145,6 +148,7 @@ const useProductionModal = () => {
     assemblyMachineRef,
     noteRef,
     qualityRef,
+    profitMarginRef,
     gradeRef,
     finishRef,
     weightAmountRef,
