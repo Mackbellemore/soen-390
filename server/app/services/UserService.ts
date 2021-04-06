@@ -9,7 +9,7 @@ import validator from 'validator';
 import { BadRequestError, NotApprovedError, NotFoundError } from '../errors';
 import { generateToken } from '../middlewares/authentication';
 
-const requests = new Array();
+let requests: any[] = [];
 
 @injectable()
 export class UserService {
@@ -71,6 +71,7 @@ export class UserService {
   }
 
   public async forgotPassword(body: IUser): Promise<string> {
+    console.log('forgotPassword');
     const email = body.email;
 
     try {
@@ -91,6 +92,7 @@ export class UserService {
       if (!existed) {
         requests.push({ email, accessToken });
         existed = false;
+        console.log(requests);
       }
       return accessToken;
     } catch (err) {
@@ -117,7 +119,6 @@ export class UserService {
       try {
         await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
         for (const i in requests) if (requests[i].email === email) requests.splice(parseInt(i), 1);
-
         found = false;
       } catch (err) {
         throw new NotFoundError('Bad Token Request');
