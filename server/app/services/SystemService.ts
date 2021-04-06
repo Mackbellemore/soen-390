@@ -10,8 +10,6 @@ export class SystemService {
   constructor(@inject(TYPES.Mail) private transporter: Mail) {}
 
   public async sendEmail(body: IEmail): Promise<SentMessageInfo> {
-    console.log('SystemService.sendEmail');
-    console.log(body);
     const emailList = body.to.join(', ');
 
     const emailDetails = {

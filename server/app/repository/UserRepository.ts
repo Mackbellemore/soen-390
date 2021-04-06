@@ -29,6 +29,17 @@ export class UserRepository extends BaseRepository<IUser> {
     }
   }
 
+  public async updateByEmail(email: string, model: IUser): Promise<IUser | null> {
+    try {
+      return this.model.findOneAndUpdate({ email }, model, {
+        returnOriginal: false,
+        runValidators: true,
+      });
+    } catch (e) {
+      this.manageRepositoryError(e);
+    }
+  }
+
   public async deleteByEmail(userBody: IUser): Promise<IUser | null> {
     try {
       return this.model.findOneAndRemove({ email: userBody.email });

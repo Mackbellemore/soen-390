@@ -20,5 +20,8 @@
   "homepage": "https://github.com/gordonpn/soen-390#readme",
   "devDependencies": {
     "husky": "^5.0.6"
+  },
+  "dependencies": {
+    "react-idle-timer": "^4.5.6"
   }
 }

@@ -2,7 +2,6 @@ import { useDisclosure, useToast } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import useEmailValidation from 'hooks/useEmailValidation.jsx';
 import { userForgotPassword } from 'utils/api/users.js';
-import { v1 as uuidv1 } from 'uuid';
 import { sendEmail } from 'utils/api/system.js';
 
 const useForgotPasswordForm = () => {
@@ -22,20 +21,16 @@ const useForgotPasswordForm = () => {
     const email = emailRef.current.value;
 
     try {
-      const id = uuidv1();
-      await userForgotPassword({
-        id,
+      const promise = await userForgotPassword({
         email: email,
       });
-
       const url = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
 
-      // Send email
       try {
         await sendEmail({
           to: [email],
           subject: 'ERP Password Reset',
-          emailBody: `Reset your password using the following link: ${url}/reset/${id}`,
+          emailBody: `This is the ERP Team07,\n\nPlease reset your password using the following link: ${url}/reset/${promise.data}\n\nRegards.`,
         });
         toast({
           title: 'Email',

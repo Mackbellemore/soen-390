@@ -7,6 +7,9 @@ import bcrypt from 'bcryptjs';
 import { IConfig } from 'config';
 import validator from 'validator';
 import { BadRequestError, NotApprovedError, NotFoundError } from '../errors';
+import { generateToken } from '../middlewares/authentication';
+
+const requests = new Array();
 
 @injectable()
 export class UserService {
@@ -64,15 +67,64 @@ export class UserService {
     if (!updatedUser) {
       throw new NotFoundError(`User with username ${username} was not found`);
     }
-
     return UserEntity.buildUser(updatedUser);
   }
 
-  public async forgotPassword(body: IUser) {
+  public async forgotPassword(body: IUser): Promise<string> {
+    const email = body.email;
+
     try {
       await this.userRepo.findByEmail(body);
+
+      const user: IUserEntity = UserEntity.buildUser(await this.userRepo.findByEmail(body));
+      const accessToken = generateToken(user);
+
+      let existed = false;
+      for (const i in requests) {
+        if (email === requests[i].email) {
+          requests[i].accessToken = accessToken;
+          existed = true;
+          break;
+        }
+      }
+
+      if (!existed) {
+        requests.push({ email, accessToken });
+        existed = false;
+      }
+      return accessToken;
     } catch (err) {
       throw new NotFoundError(`User with email ${body.email} was not found`);
+    }
+  }
+
+  public async resetPassword(token: string, pass: string): Promise<string> {
+    let email;
+    let found = false;
+
+    for (const i in requests) {
+      if (requests[i].accessToken === token) {
+        found = true;
+        email = requests[i].email;
+        break;
+      }
+    }
+
+    if (found) {
+      const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
+      const hash = await bcrypt.hash(pass, salt);
+      const newPass = hash;
+      try {
+        await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
+        for (const i in requests) if (requests[i].email === email) requests.splice(parseInt(i), 1);
+
+        found = false;
+      } catch (err) {
+        throw new NotFoundError('Bad Token Request');
+      }
+      return email;
+    } else {
+      throw new NotFoundError('Bad Token Request');
     }
   }
 }

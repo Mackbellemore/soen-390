@@ -18,6 +18,10 @@ const userForgotPassword = async (body) => {
   return makePostRequest(`${baseEndpoint}/forgot`, body);
 };
 
+const userResetPassword = async (body) => {
+  return makePostRequest(`${baseEndpoint}/reset`, body);
+};
+
 const getUsers = async () => {
   return makeGetRequest(baseEndpoint);
 };
@@ -38,4 +42,5 @@ export {
   deleteUser,
   updateUser,
   userForgotPassword,
+  userResetPassword,
 };

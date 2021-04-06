@@ -37,7 +37,7 @@ const NavBar = () => {
     location.pathname === '/no-access' ||
     location.pathname === '/bye' ||
     !allPaths.includes(location.pathname);
-  const shouldRenderLoginButton = location.pathname === '/' || location.pathname === '/reset';
+  const shouldRenderLoginButton = location.pathname === '/';
   const onOther = !(shouldRenderHomeButton || shouldRenderLoginButton);
 
   return (
