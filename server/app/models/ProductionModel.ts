@@ -3,8 +3,22 @@ import { Document, Schema } from 'mongoose';
 export interface IProduction extends Document {
   type: string;
   componentId: string;
+  componentDetail: {
+    name: string;
+    quality: string;
+    description: string;
+    type: string;
+    color: string;
+    finish: string;
+    grade: string;
+    detail: string;
+    profitMargin: number;
+    weightAmount: number;
+    weightType: string;
+    parts: Record<string, string>;
+  };
   status: string;
-  quantity: string;
+  quantity: number;
   startDate: Date;
   endDate: Date;
   assemblyMachine: string;

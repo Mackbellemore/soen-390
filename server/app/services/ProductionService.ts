@@ -31,7 +31,7 @@ export class ProductionService {
    * @param body production json obj
    * @returns production json obj
    */
-  public async createProduction(body: any): Promise<IProduction> {
+  public async createProduction(body: IProduction): Promise<IProduction> {
     if (body.type === 'Part') {
       const partEntity = {
         name: body.componentDetail.name,
