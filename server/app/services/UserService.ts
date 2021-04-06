@@ -9,7 +9,7 @@ import validator from 'validator';
 import { BadRequestError, NotApprovedError, NotFoundError } from '../errors';
 import { generateToken } from '../middlewares/authentication';
 
-let requests: any[] = [];
+const requests: any[] = [];
 
 @injectable()
 export class UserService {
