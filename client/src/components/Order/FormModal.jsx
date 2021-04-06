@@ -5,6 +5,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -60,15 +61,15 @@ const FormModal = ({ showButton = false }) => {
           <Button onClick={onOrderModalOpen}>Place an order</Button>
         </Center>
       ) : (
-        <Button
-          margin={1}
+        <IconButton
           colorScheme="blue"
-          variant="solid"
-          leftIcon={<SmallAddIcon />}
+          variant="outline"
+          aria-label="add"
+          float="right"
+          m={2}
+          icon={<SmallAddIcon />}
           onClick={onOrderModalOpen}
-        >
-          Place an order
-        </Button>
+        />
       )}
       <Modal isOpen={isOrderModalOpen} onClose={onOrderModalClose}>
         <ModalOverlay />
