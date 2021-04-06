@@ -43,6 +43,7 @@ export class ProductionService {
         grade: body.componentDetail.grade,
         detail: body.componentDetail.detail,
         stock: body.quantity,
+        profitMargin: body.componentDetail.profitMargin,
       } as IPart;
       const validPart = await PartEntity.validate(partEntity, 'create');
       const partCreated = await this.partService.createPart(validPart);
@@ -59,6 +60,7 @@ export class ProductionService {
         color: body.componentDetail.color,
         parts: body.componentDetail.parts,
         stock: body.quantity,
+        profitMargin: body.componentDetail.profitMargin,
       } as IBike;
       const validBike = await BikeEntity.validate(bikeEntity, 'create');
       const bikeCreated = await this.bikeService.createBike(validBike);

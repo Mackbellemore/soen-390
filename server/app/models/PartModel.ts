@@ -14,6 +14,7 @@ export interface IPart extends Document {
   sellingPrice: number;
   costPrice: number;
   defectId: string;
+  profitMargin: number;
 }
 
 export const PartSchema: Schema = new Schema({

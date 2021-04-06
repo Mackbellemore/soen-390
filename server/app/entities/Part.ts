@@ -30,6 +30,7 @@ export default class PartEntity {
     defectId: Joi.string(),
     costPrice: Joi.number().greater(0),
     sellingPrice: Joi.number().greater(0),
+    profitMargin: Joi.number().greater(1),
   });
 
   // create a second schema purely just for POST requests

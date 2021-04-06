@@ -46,8 +46,9 @@ export class PartService {
   public async createPart(body: IPart): Promise<IPart> {
     const price = await this.handleMaterialStockUpdates(body.stock, body.type);
     body.costPrice = price;
-    // 30% profit from cost price
-    body.sellingPrice = price * 1.3;
+    if (body.profitMargin > 0) {
+      body.sellingPrice = price * body.profitMargin;
+    }
     const part = await this.partRepo.create(body);
 
     return part;
