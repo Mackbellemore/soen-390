@@ -84,7 +84,7 @@ export const appRoutes = [
   {
     name: 'Production',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'Manufacturing'],
     path: '/production',
     component: lazy(() => import('components/views/Production')),
     icon: MdRowing,
