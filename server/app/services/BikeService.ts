@@ -73,7 +73,8 @@ export class BikeService {
 
     await Promise.all(callStack.map((update) => update()));
     body.costPrice = totalPrice;
-    // 30% profit from cost price
-    body.sellingPrice = totalPrice * 1.3;
+    if (body.profitMargin > 0) {
+      body.sellingPrice = totalPrice * body.profitMargin;
+    }
   }
 }

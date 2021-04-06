@@ -2,21 +2,23 @@ import { Document, Schema } from 'mongoose';
 
 export interface IProduction extends Document {
   type: string;
+  componentId: string;
   componentDetail: {
     name: string;
-    description: string;
     quality: string;
-    color: string;
-    parts: Record<string, string>;
+    description: string;
     type: string;
+    color: string;
     finish: string;
     grade: string;
+    detail: string;
+    profitMargin: number;
     weightAmount: number;
     weightType: string;
-    detail: string;
+    parts: Record<string, string>;
   };
   status: string;
-  quantity: string;
+  quantity: number;
   startDate: Date;
   endDate: Date;
   assemblyMachine: string;
@@ -25,19 +27,7 @@ export interface IProduction extends Document {
 
 export const ProductionSchema: Schema = new Schema({
   type: { type: Schema.Types.String, required: true, enum: ['Bike', 'Part'] },
-  componentDetail: {
-    name: { type: Schema.Types.String, required: true },
-    description: { type: Schema.Types.String, required: false },
-    quality: { type: Schema.Types.String, required: false },
-    color: { type: Schema.Types.String, required: false },
-    parts: { type: Schema.Types.Mixed, required: false },
-    type: { type: Schema.Types.String, required: false },
-    finish: { type: Schema.Types.String, required: false },
-    grade: { type: Schema.Types.String, required: false },
-    weightAmount: { type: Schema.Types.Number, required: false },
-    weightType: { type: Schema.Types.String, required: false, enum: ['kg', 'lb'] },
-    detail: { type: Schema.Types.String, required: false },
-  },
+  componentId: { type: Schema.Types.String, required: true },
   status: {
     type: Schema.Types.String,
     required: true,

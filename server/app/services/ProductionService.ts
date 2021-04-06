@@ -7,6 +7,8 @@ import { BikeService } from './BikeService';
 import { PartService } from './PartService';
 import PartEntity from './../entities/Part';
 import BikeEntity from './../entities/Bike';
+import { IBike } from './../models/BikeModel';
+import { IPart } from './../models/PartModel';
 
 @injectable()
 export class ProductionService {
@@ -41,9 +43,11 @@ export class ProductionService {
         grade: body.componentDetail.grade,
         detail: body.componentDetail.detail,
         stock: body.quantity,
-      };
+        profitMargin: body.componentDetail.profitMargin,
+      } as IPart;
       const validPart = await PartEntity.validate(partEntity, 'create');
-      await this.partService.createPart(validPart);
+      const partCreated = await this.partService.createPart(validPart);
+      body.componentId = partCreated._id;
       return this.productionRepository.create(body);
     }
 
@@ -54,11 +58,13 @@ export class ProductionService {
         weightAmount: body.componentDetail.weightAmount,
         weightType: body.componentDetail.weightType,
         color: body.componentDetail.color,
-        stock: body.quantity,
         parts: body.componentDetail.parts,
-      };
+        stock: body.quantity,
+        profitMargin: body.componentDetail.profitMargin,
+      } as IBike;
       const validBike = await BikeEntity.validate(bikeEntity, 'create');
-      await this.bikeService.createBike(validBike);
+      const bikeCreated = await this.bikeService.createBike(validBike);
+      body.componentId = bikeCreated._id;
       return this.productionRepository.create(body);
     }
 
