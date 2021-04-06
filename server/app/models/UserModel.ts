@@ -33,7 +33,7 @@ export const UserSchema: Schema = new Schema({
   },
   role: {
     type: Schema.Types.String,
-    enum: ['General', 'Admin'],
+    enum: ['General', 'Admin', 'Finance', 'Manufacturing'],
     default: 'General',
   },
   approved: {
