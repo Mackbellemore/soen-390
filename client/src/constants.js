@@ -133,11 +133,10 @@ export const appRoutes = [
   {
     name: 'Planning',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'Finance'],
     path: '/planning',
     component: lazy(() => import('components/views/Planning')),
     icon: MdInsertChart,
-    active: false,
   },
   {
     protected: false,
