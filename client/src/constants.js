@@ -88,7 +88,6 @@ export const appRoutes = [
     path: '/production',
     component: lazy(() => import('components/views/Production')),
     icon: MdRowing,
-    active: false,
   },
   {
     name: 'Orders',
