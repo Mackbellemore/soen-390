@@ -41,14 +41,14 @@ const useProductionModal = () => {
 
   const formStyle = {
     display: 'flex',
-    'flex-direction': 'row',
+    flexDirection: 'row',
   };
 
   const elementStyle = {
-    'padding-top': '5px',
-    'padding-right': '10px',
-    'padding-bottom': '5px',
-    'padding-left': '0px',
+    paddingTop: '5px',
+    paddingRight: '10px',
+    paddingBottom: '5px',
+    paddingLeft: '0px',
   };
 
   const handleStartDateInput = (e) => {
