@@ -24,7 +24,7 @@ const ProductionTable = () => {
     formatDate,
   } = useProductionTable();
 
-  if (isLoadingProduction && isLoadingBike && isLoadingPart) {
+  if (isLoadingProduction || isLoadingBike || isLoadingPart) {
     return <Loader />;
   }
 
