@@ -71,7 +71,6 @@ export class UserService {
   }
 
   public async forgotPassword(body: IUser): Promise<string> {
-    console.log('forgotPassword');
     const email = body.email;
 
     try {
@@ -92,7 +91,6 @@ export class UserService {
       if (!existed) {
         requests.push({ email, accessToken });
         existed = false;
-        console.log(requests);
       }
       return accessToken;
     } catch (err) {
