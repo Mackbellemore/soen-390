@@ -2,8 +2,7 @@ import { useQuery } from 'react-query';
 import { getProductions } from 'utils/api/productions';
 import { getParts } from 'utils/api/parts';
 import { getBikes } from 'utils/api/bikes';
-
-import { useState } from 'react';
+import usePagination from 'hooks/usePagination';
 
 const useProductionTable = () => {
   const {
@@ -19,8 +18,6 @@ const useProductionTable = () => {
     'bikes',
     getBikes
   );
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   const findEntity = (type, id) => {
     if (type === 'Part') {
@@ -35,14 +32,7 @@ const useProductionTable = () => {
     }
   };
 
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+  const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
 
   const formatDate = (date) => {
     const displayDate = new Date(date);
@@ -62,9 +52,7 @@ const useProductionTable = () => {
     isSuccessBike,
     dataBike,
     page,
-    setPage,
     rowsPerPage,
-    setRowsPerPage,
     findEntity,
     handleChangePage,
     handleChangeRowsPerPage,
