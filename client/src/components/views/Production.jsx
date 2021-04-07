@@ -1,10 +1,16 @@
-import ProductionModal from 'components/Production/ProductionModal.jsx';
 import ProductionTable from 'components/Production/ProductionTable.jsx';
+import Head from 'next/head';
 
 const Productions = () => {
-  <ProductionModal />;
+  return (
+    <>
+      <Head>
+        <title>ERP - Production Page</title>
+      </Head>
 
-  return <ProductionTable />;
+      <ProductionTable />
+    </>
+  );
 };
 
 export default Productions;
