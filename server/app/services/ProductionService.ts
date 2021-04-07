@@ -33,36 +33,24 @@ export class ProductionService {
    */
   public async createProduction(body: IProduction): Promise<IProduction> {
     if (body.type === 'Part') {
-      const partEntity = {
-        name: body.componentDetail.name,
-        quality: body.componentDetail.quality,
-        description: body.componentDetail.description,
-        type: body.componentDetail.type,
-        color: body.componentDetail.color,
-        finish: body.componentDetail.finish,
-        grade: body.componentDetail.grade,
-        detail: body.componentDetail.detail,
-        stock: body.quantity,
-        profitMargin: body.componentDetail.profitMargin,
-      } as IPart;
-      const validPart = await PartEntity.validate(partEntity, 'create');
+      const validPart = await PartEntity.validate(
+        ({
+          ...body.componentDetail,
+          stock: body.quantity,
+          profitMargin: body.componentDetail.profitMargin,
+        } as unknown) as IPart,
+        'create'
+      );
       const partCreated = await this.partService.createPart(validPart);
       body.componentId = partCreated._id;
       return this.productionRepository.create(body);
     }
 
     if (body.type === 'Bike') {
-      const bikeEntity = {
-        name: body.componentDetail.name,
-        description: body.componentDetail.description,
-        weightAmount: body.componentDetail.weightAmount,
-        weightType: body.componentDetail.weightType,
-        color: body.componentDetail.color,
-        parts: body.componentDetail.parts,
-        stock: body.quantity,
-        profitMargin: body.componentDetail.profitMargin,
-      } as IBike;
-      const validBike = await BikeEntity.validate(bikeEntity, 'create');
+      const validBike = await BikeEntity.validate(
+        ({ ...body.componentDetail, stock: body.quantity } as unknown) as IBike,
+        'create'
+      );
       const bikeCreated = await this.bikeService.createBike(validBike);
       body.componentId = bikeCreated._id;
       return this.productionRepository.create(body);
