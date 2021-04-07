@@ -143,7 +143,7 @@ const ResetPasswordPage = () => {
             </Flex>
           </InputContainer>
           <ValidationText>
-            Password must be Minimum eight characters, at least one uppercase letter, one lowercase
+            Password must be minimum eight characters, at least one uppercase letter, one lowercase
             letter, one number and one special character:
           </ValidationText>
           <InputContainer mt={7}>
