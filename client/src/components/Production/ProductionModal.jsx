@@ -29,6 +29,7 @@ const ProductionModal = () => {
     dataPart,
     formStyle,
     elementStyle,
+    isSuccessPartType,
     partType,
     isOpen,
     onOpen,
@@ -69,11 +70,12 @@ const ProductionModal = () => {
       <FormControl isRequired style={elementStyle}>
         <FormLabel>Product</FormLabel>
         <Select placeholder="Select production" ref={productionRef}>
-          {partType.map((part) => (
-            <Fragment key={part}>
-              <option value={part}>{part}</option>
-            </Fragment>
-          ))}
+          {isSuccessPartType &&
+            Object.keys(partType.data).map((part) => (
+              <Fragment key={part}>
+                <option value={part}>{part}</option>
+              </Fragment>
+            ))}
         </Select>
       </FormControl>
       <div style={formStyle}>

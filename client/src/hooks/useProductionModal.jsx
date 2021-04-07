@@ -2,11 +2,15 @@ import { useToast, useDisclosure } from '@chakra-ui/react';
 import { useState, useRef } from 'react';
 import { postProductions } from 'utils/api/productions';
 import { useQuery } from 'react-query';
-import { getParts } from 'utils/api/parts';
+import { getParts, getMaterialList } from 'utils/api/parts';
 
 const useProductionModal = () => {
   const { isSuccess: isSuccessPart, data: dataPart } = useQuery('parts', getParts);
-  const partType = ['handle_bar', 'wheels', 'chain', 'frame', 'pedal', 'brakes', 'seat', 'fork'];
+  const { isSuccess: isSuccessPartType, data: partType } = useQuery(
+    'parts/MaterialList',
+    getMaterialList
+  );
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const [form, setForm] = useState('Part');
@@ -131,6 +135,7 @@ const useProductionModal = () => {
     dataPart,
     formStyle,
     elementStyle,
+    isSuccessPartType,
     partType,
     isOpen,
     onOpen,
