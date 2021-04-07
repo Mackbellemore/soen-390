@@ -37,7 +37,6 @@ export class ProductionService {
         ({
           ...body.componentDetail,
           stock: body.quantity,
-          profitMargin: body.componentDetail.profitMargin,
         } as unknown) as IPart,
         'create'
       );
