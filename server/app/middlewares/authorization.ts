@@ -8,11 +8,13 @@ import config from 'config';
  * (refer authentication.ts file for more info). This middleware simply checks the decoded user from
  * from the json web token provided from the previous authenticateJWT middleware.
  */
-export const checkAdminRole = (_req: Request, res: Response, next: NextFunction): void => {
-  if (!config.get<boolean>('server.authEnabled')) return next();
-
-  if (res.locals?.user?.role !== 'Admin')
+export function wrappedCheckRole(roles: string[]) {
+  return (_req: Request, res: Response, next: NextFunction): void => {
+    if (!config.get<boolean>('server.authEnabled')) return next();
+    if (res.locals?.user?.role === 'Admin') return next();
+    for (const role of roles) {
+      if (role === res.locals?.user?.role) return next();
+    }
     res.status(403).send('Permission denied, you do not have Admin rights');
-
-  return next();
-};
+  };
+}

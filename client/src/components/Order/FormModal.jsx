@@ -5,6 +5,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -25,11 +26,12 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { TextField } from '@material-ui/core';
 import AsyncSelect from 'react-select/async';
+import Loader from 'components/common/Loader.jsx';
 
 const FormModal = ({ showButton = false }) => {
-  // TODO: use the endpoint to get this constant list of materials rather than hard coding
-  const materialTypes = ['rubber', 'aluminum', 'steel', 'copper', 'plastic', 'leather'];
   const {
+    isLoading,
+    materialCost,
     handleMaterial,
     handleSubmit,
     handleDeliveryDateInput,
@@ -48,6 +50,10 @@ const FormModal = ({ showButton = false }) => {
     shippingDate,
   } = useOrderForm();
 
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <>
       {showButton ? (
@@ -55,15 +61,15 @@ const FormModal = ({ showButton = false }) => {
           <Button onClick={onOrderModalOpen}>Place an order</Button>
         </Center>
       ) : (
-        <Button
-          margin={1}
+        <IconButton
           colorScheme="blue"
-          variant="solid"
-          leftIcon={<SmallAddIcon />}
+          variant="outline"
+          aria-label="add"
+          float="right"
+          m={2}
+          icon={<SmallAddIcon />}
           onClick={onOrderModalOpen}
-        >
-          Place an order
-        </Button>
+        />
       )}
       <Modal isOpen={isOrderModalOpen} onClose={onOrderModalClose}>
         <ModalOverlay />
@@ -74,10 +80,10 @@ const FormModal = ({ showButton = false }) => {
             <FormControl isRequired>
               <FormLabel>Material</FormLabel>
               <Select placeholder="Select an option" onChange={handleMaterial}>
-                {materialTypes.map((thisMaterial) => (
-                  <Fragment key={thisMaterial}>
-                    <option value={thisMaterial}>{thisMaterial}</option>
-                  </Fragment>
+                {Object.keys(materialCost.data).map((thisMaterial) => (
+                  <option key={thisMaterial} value={thisMaterial}>
+                    {thisMaterial}
+                  </option>
                 ))}
               </Select>
             </FormControl>

@@ -13,6 +13,7 @@ import {
 import TYPES from '../constants/types';
 import { BaseController } from './BaseController';
 import { Doc } from 'inversify-express-doc';
+import { wrappedCheckRole } from '../middlewares/authorization';
 
 @controller('/defects')
 export class DefectController extends BaseController {
@@ -62,7 +63,7 @@ export class DefectController extends BaseController {
    * @param request
    * @returns       Defect Json Format
    */
-  @httpPost('/', TYPES.LoggerMiddleware)
+  @httpPost('/', TYPES.LoggerMiddleware, wrappedCheckRole(['Manufacturing']))
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const defect: IDefect = await this.defectService.createDefect(request.body);
@@ -80,7 +81,7 @@ export class DefectController extends BaseController {
    * @param req
    * @returns       Defect Json Format
    */
-  @httpDelete('/', TYPES.LoggerMiddleware)
+  @httpDelete('/', TYPES.LoggerMiddleware, wrappedCheckRole(['Manufacturing']))
   public async delete(req: Request): Promise<results.JsonResult> {
     try {
       const defect = await this.defectService.deleteDefects(req.body);
