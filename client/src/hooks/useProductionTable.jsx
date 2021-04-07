@@ -3,6 +3,7 @@ import { getProductions } from 'utils/api/productions';
 import { getParts } from 'utils/api/parts';
 import { getBikes } from 'utils/api/bikes';
 import usePagination from 'hooks/usePagination';
+import { formatDate } from 'utils/dateFunctions';
 
 const useProductionTable = () => {
   const {
@@ -18,6 +19,7 @@ const useProductionTable = () => {
     'bikes',
     getBikes
   );
+  const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
 
   const findEntity = (type, id) => {
     if (type === 'Part') {
@@ -30,15 +32,6 @@ const useProductionTable = () => {
         return bike._id === id;
       });
     }
-  };
-
-  const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
-
-  const formatDate = (date) => {
-    const displayDate = new Date(date);
-    const dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-    return displayDate.toLocaleDateString(undefined, dateFormat);
   };
 
   return {
