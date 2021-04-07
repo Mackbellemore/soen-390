@@ -103,7 +103,7 @@ const ResetPasswordPage = () => {
           pass,
         });
         toast({
-          title: 'SUCESS',
+          title: 'SUCCESS',
           description: 'The passwords has been reset',
           status: 'success',
           duration: 2000,
