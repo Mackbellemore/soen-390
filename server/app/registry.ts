@@ -24,6 +24,7 @@ import './controllers/MaterialController';
 import './controllers/DefectController';
 import './controllers/OrderController';
 import './controllers/SchedulingController';
+import './controllers/MachineController';
 import './controllers/SaleController';
 import './controllers/ShippingController';
 import './controllers/LogController';
@@ -37,6 +38,7 @@ import { BikeService } from './services/BikeService';
 import { DefectService } from './services/DefectService';
 import { OrderService } from './services/OrderService';
 import { SchedulingService } from './services/SchedulingService';
+import { MachineService } from './services/MachineService';
 import { SaleService } from './services/SaleService';
 import { LogService } from './services/LogService';
 import { ShippingService } from './services/ShippingService';
@@ -49,6 +51,7 @@ import { BikeRepository } from './repository/BikeRepository';
 import { DefectRepository } from './repository/DefectRepository';
 import { OrderRepository } from './repository/OrderRepository';
 import { SchedulingRepository } from './repository/SchedulingRepository';
+import { MachineRepository } from './repository/MachineRepository';
 import { SaleRepository } from './repository/SaleRepository';
 import { ShippingRepository } from './repository/ShippingRepository';
 import { LogRepository } from './repository/LogRepository';
@@ -111,6 +114,7 @@ container.bind<BikeService>(TYPES.BikeService).to(BikeService).inSingletonScope(
 container.bind<DefectService>(TYPES.DefectService).to(DefectService).inSingletonScope();
 container.bind<OrderService>(TYPES.OrderService).to(OrderService).inSingletonScope();
 container.bind<SchedulingService>(TYPES.SchedulingService).to(SchedulingService).inSingletonScope();
+container.bind<MachineService>(TYPES.MachineService).to(MachineService).inSingletonScope();
 container.bind<SaleService>(TYPES.SaleService).to(SaleService).inSingletonScope();
 container.bind<ShippingService>(TYPES.ShippingService).to(ShippingService).inSingletonScope();
 container.bind<LogService>(TYPES.LogService).to(LogService).inSingletonScope();
@@ -137,5 +141,7 @@ container
 container.bind<LogRepository>(TYPES.LogRepository).to(LogRepository).inSingletonScope();
 
 container.bind<LoggerMiddleware>(TYPES.LoggerMiddleware).to(LoggerMiddleware).inSingletonScope();
+
+container.bind<MachineRepository>(TYPES.MachineRepository).to(MachineRepository).inSingletonScope();
 
 export { container };
