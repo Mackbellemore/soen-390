@@ -6,6 +6,7 @@ import { RootStoreContext } from 'stores/stores.jsx';
 import { Flex, Link as ChakraLink, Icon, Text } from '@chakra-ui/react';
 import { appRoutes } from 'constants.js';
 import { motion, AnimatePresence } from 'framer-motion';
+import PropTypes from 'prop-types';
 
 const sidebarStyles = {
   bmMenuWrap: {
@@ -116,6 +117,12 @@ const SidebarMenu = () => {
       </Flex>
     </Menu>
   );
+};
+
+SidebarText.displayName = 'SidebarText';
+
+SidebarText.propTypes = {
+  routeName: PropTypes.string.isRequired,
 };
 
 export default observer(SidebarMenu);
