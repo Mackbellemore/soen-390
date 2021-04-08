@@ -8,7 +8,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 const useOrderForm = () => {
   const toast = useToast();
-  const manufacturer = useRef('');
+  const [manufacturer, setManufacturer] = useState(undefined);
   const note = useRef('');
   const quantityRef = useRef(1);
   const [location, setLocation] = useState('');
@@ -42,6 +42,10 @@ const useOrderForm = () => {
     e ? setLocation(e) : setLocation(null);
   };
 
+  const handleManufacturerInput = (e) => {
+    setManufacturer(e.target.value);
+  };
+
   const handleLocationInput = useDebouncedCallback((e) => {
     const searchLocation = e;
     if (searchLocation) {
@@ -59,13 +63,13 @@ const useOrderForm = () => {
         quantity: quantityRef.current.value,
         deliveryDate: deliveryDate,
         orderDate: orderTime,
-        manufacturerName: manufacturer.current.value,
+        manufacturerName: manufacturer,
         vendorLocation: location.label,
         status: 'Pending',
         note: note.current.value,
       });
       await createShipment({
-        company: manufacturer.current.value,
+        company: manufacturer,
         location: location.label,
         status: 'Ordered',
         deliveryDate: deliveryDate,
@@ -102,6 +106,7 @@ const useOrderForm = () => {
     handleShippingDateInput,
     handleLocationInput,
     handleLocationSelect,
+    handleManufacturerInput,
     manufacturer,
     location,
     note,
