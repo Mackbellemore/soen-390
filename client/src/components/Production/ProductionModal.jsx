@@ -22,21 +22,18 @@ import {
 import { TextField } from '@material-ui/core';
 import { Fragment } from 'react';
 import useProductionModal from 'hooks/useProductionModal';
+import ProductionModalPart from 'components/Production/ProductionModalPart.jsx';
+import ProductionModalBike from 'components/Production/ProductionModalBike.jsx';
 
 const ProductionModal = () => {
   const {
-    isSuccessPart,
-    dataPart,
     formStyle,
     elementStyle,
-    isSuccessPartType,
-    partType,
     isOpen,
     onOpen,
     onClose,
     form,
     setForm,
-    productionRef,
     colorRef,
     quantityRef,
     statusRef,
@@ -46,190 +43,13 @@ const ProductionModal = () => {
     endDate,
     assemblyMachineRef,
     noteRef,
-    qualityRef,
     profitMarginRef,
-    gradeRef,
-    finishRef,
-    weightAmountRef,
-    weightTypeRef,
-    handleBarRef,
-    wheelRef,
-    chainRef,
-    frameRef,
-    pedalRef,
-    brakesRef,
-    seatRef,
-    forkRef,
+    partRefs,
+    bikeRefs,
     handleStartDateInput,
     handleEndDateInput,
     handleSubmit,
   } = useProductionModal();
-
-  const formPart = (
-    <>
-      <FormControl isRequired style={elementStyle}>
-        <FormLabel>Product</FormLabel>
-        <Select placeholder="Select production" ref={productionRef}>
-          {isSuccessPartType &&
-            Object.keys(partType.data).map((part) => (
-              <Fragment key={part}>
-                <option value={part}>{part}</option>
-              </Fragment>
-            ))}
-        </Select>
-      </FormControl>
-      <div style={formStyle}>
-        <FormControl isRequired style={elementStyle}>
-          <FormLabel>Quality</FormLabel>
-          <Input ref={qualityRef} />
-        </FormControl>
-        <FormControl isRequired style={elementStyle}>
-          <FormLabel>Grade</FormLabel>
-          <Input ref={gradeRef} />
-        </FormControl>
-        <FormControl isRequired style={elementStyle}>
-          <FormLabel>Finish</FormLabel>
-          <Input ref={finishRef} />
-        </FormControl>
-      </div>
-    </>
-  );
-
-  const formBike = (
-    <>
-      <div style={formStyle}>
-        <FormControl isRequired style={elementStyle}>
-          <FormLabel>Weight Amount</FormLabel>
-          <NumberInput min={1} defaultValue={1}>
-            <NumberInputField ref={weightAmountRef} />
-            <NumberInputStepper>
-              <NumberIncrementStepper />
-              <NumberDecrementStepper />
-            </NumberInputStepper>
-          </NumberInput>
-        </FormControl>
-        <FormControl isRequired style={elementStyle}>
-          <FormLabel>Weight Type</FormLabel>
-          <Select ref={weightTypeRef}>
-            <Fragment>
-              <option>kg</option>
-              <option>lb</option>
-            </Fragment>
-          </Select>
-        </FormControl>
-      </div>
-      <div style={formStyle}>
-        <FormControl style={elementStyle}>
-          <FormLabel>Handle Bar</FormLabel>
-          <Select ref={handleBarRef}>
-            {isSuccessPart &&
-              dataPart.data
-                .filter((part) => part.type === 'handle_bar')
-                .map((part) => (
-                  <Fragment key={part._id}>
-                    <option value={part._id}>{part.name}</option>
-                  </Fragment>
-                ))}
-          </Select>
-        </FormControl>
-        <FormControl style={elementStyle}>
-          <FormLabel>Wheels</FormLabel>
-          <Select ref={wheelRef}>
-            {isSuccessPart &&
-              dataPart.data
-                .filter((part) => part.type === 'wheels')
-                .map((part) => (
-                  <Fragment key={part._id}>
-                    <option value={part._id}>{part.name}</option>
-                  </Fragment>
-                ))}
-          </Select>
-        </FormControl>
-      </div>
-      <div style={formStyle}>
-        <FormControl style={elementStyle}>
-          <FormLabel>Chain</FormLabel>
-          <Select ref={chainRef}>
-            {isSuccessPart &&
-              dataPart.data
-                .filter((part) => part.type === 'chain')
-                .map((part) => (
-                  <Fragment key={part._id}>
-                    <option value={part._id}>{part.name}</option>
-                  </Fragment>
-                ))}
-          </Select>
-        </FormControl>
-        <FormControl style={elementStyle}>
-          <FormLabel>Frame</FormLabel>
-          <Select ref={frameRef}>
-            {isSuccessPart &&
-              dataPart.data
-                .filter((part) => part.type === 'frame')
-                .map((part) => (
-                  <Fragment key={part._id}>
-                    <option value={part._id}>{part.name}</option>
-                  </Fragment>
-                ))}
-          </Select>
-        </FormControl>
-        <FormControl style={elementStyle}>
-          <FormLabel>Pedal</FormLabel>
-          <Select ref={pedalRef}>
-            {isSuccessPart &&
-              dataPart.data
-                .filter((part) => part.type === 'pedal')
-                .map((part) => (
-                  <Fragment key={part._id}>
-                    <option value={part._id}>{part.name}</option>
-                  </Fragment>
-                ))}
-          </Select>
-        </FormControl>
-      </div>
-      <div style={formStyle}>
-        <FormControl style={elementStyle}>
-          <FormLabel>Brakes</FormLabel>
-          <Select ref={brakesRef}>
-            {isSuccessPart &&
-              dataPart.data
-                .filter((part) => part.type === 'brakes')
-                .map((part) => (
-                  <Fragment key={part._id}>
-                    <option value={part._id}>{part.name}</option>
-                  </Fragment>
-                ))}
-          </Select>
-        </FormControl>
-        <FormControl style={elementStyle}>
-          <FormLabel>Seat</FormLabel>
-          <Select ref={seatRef}>
-            {isSuccessPart &&
-              dataPart.data
-                .filter((part) => part.type === 'seat')
-                .map((part) => (
-                  <Fragment key={part._id}>
-                    <option value={part._id}>{part.name}</option>
-                  </Fragment>
-                ))}
-          </Select>
-        </FormControl>
-        <FormControl style={elementStyle}>
-          <FormLabel>Fork</FormLabel>
-          <Select ref={forkRef}>
-            {isSuccessPart &&
-              dataPart.data
-                .filter((part) => part.type === 'fork')
-                .map((part) => (
-                  <Fragment key={part._id}>
-                    <option value={part._id}>{part.name}</option>
-                  </Fragment>
-                ))}
-          </Select>
-        </FormControl>
-      </div>
-    </>
-  );
 
   return (
     <>
@@ -267,7 +87,11 @@ const ProductionModal = () => {
                 <Input ref={descriptionRef} />
               </FormControl>
             </div>
-            {form === 'Part' ? formPart : formBike}
+            {form === 'Part' ? (
+              <ProductionModalPart ref={partRefs} />
+            ) : (
+              <ProductionModalBike ref={bikeRefs} />
+            )}
             <div style={formStyle}>
               <FormControl isRequired style={elementStyle}>
                 <FormLabel>Color</FormLabel>

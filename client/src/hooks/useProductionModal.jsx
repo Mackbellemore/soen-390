@@ -51,6 +51,26 @@ const useProductionModal = () => {
     paddingLeft: '0px',
   };
 
+  const partRefs = {
+    productionRef: productionRef,
+    qualityRef: qualityRef,
+    gradeRef: gradeRef,
+    finishRef: finishRef,
+  };
+
+  const bikeRefs = {
+    weightAmountRef: weightAmountRef,
+    weightTypeRef: weightTypeRef,
+    handleBarRef: handleBarRef,
+    wheelRef: wheelRef,
+    chainRef: chainRef,
+    frameRef: frameRef,
+    pedalRef: pedalRef,
+    brakesRef: brakesRef,
+    seatRef: seatRef,
+    forkRef: forkRef,
+  };
+
   const handleStartDateInput = (e) => {
     setStartDate(e.target.value);
   };
@@ -166,6 +186,8 @@ const useProductionModal = () => {
     brakesRef,
     seatRef,
     forkRef,
+    partRefs,
+    bikeRefs,
     handleStartDateInput,
     handleEndDateInput,
     handleSubmit,
