@@ -262,7 +262,7 @@ const ProductionModal = () => {
                 <FormLabel>Name</FormLabel>
                 <Input ref={nameRef} />
               </FormControl>
-              <FormControl style={elementStyle}>
+              <FormControl isRequired style={elementStyle}>
                 <FormLabel>Description</FormLabel>
                 <Input ref={descriptionRef} />
               </FormControl>
