@@ -59,7 +59,7 @@ export const salesStatus = ['Fulfilled', 'Placed', 'Cancelled', 'Processing'];
 
 export const appRoutes = [
   {
-    name: 'Dashboard',
+    name: '',
     protected: true,
     allowedRoles: rolesAvailable,
     path: '/main',
