@@ -38,6 +38,7 @@ const FormModal = ({ showButton = false }) => {
     handleShippingDateInput,
     handleLocationInput,
     handleLocationSelect,
+    handleManufacturerInput,
     manufacturer,
     location,
     note,
@@ -97,11 +98,11 @@ const FormModal = ({ showButton = false }) => {
                 </NumberInputStepper>
               </NumberInput>
             </FormControl>
-            <FormControl mt={4}>
+            <FormControl mt={4} isRequired>
               <FormLabel>Manufacturer</FormLabel>
-              <Input placeholder="Manufacturer" ref={manufacturer} />
+              <Input placeholder="Manufacturer" onChange={handleManufacturerInput} />
             </FormControl>
-            <FormControl mt={4}>
+            <FormControl mt={4} isRequired>
               <FormLabel>Location</FormLabel>
               <AsyncSelect
                 cacheOptions
@@ -130,7 +131,7 @@ const FormModal = ({ showButton = false }) => {
               colorScheme="blue"
               mr={3}
               onClick={handleSubmit}
-              isDisabled={!(material && deliveryDate && shippingDate && location)}
+              isDisabled={!(material && deliveryDate && shippingDate && location && manufacturer)}
             >
               Submit
             </Button>
