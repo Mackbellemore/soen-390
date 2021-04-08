@@ -5,4 +5,10 @@ const formatDate = (date) => {
   return displayDate.toLocaleDateString(undefined, dateFormat);
 };
 
-export { formatDate };
+const formatDateAndTime = (dateTime) => {
+  const currentDatetime = new Date(dateTime);
+  const formattedDate = currentDatetime.toLocaleString('en-Ca', { timeZone: 'UTC' });
+  return formattedDate;
+};
+
+export { formatDate, formatDateAndTime };

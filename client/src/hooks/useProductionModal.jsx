@@ -2,13 +2,13 @@ import { useToast, useDisclosure } from '@chakra-ui/react';
 import { useState, useRef } from 'react';
 import { postProductions } from 'utils/api/productions';
 import { useQuery } from 'react-query';
-import { getParts, getMaterialList } from 'utils/api/parts';
+import { getParts, getPartMaterialList } from 'utils/api/parts';
 
 const useProductionModal = () => {
   const { isSuccess: isSuccessPart, data: dataPart } = useQuery('parts', getParts);
   const { isSuccess: isSuccessPartType, data: partType } = useQuery(
     'parts/MaterialList',
-    getMaterialList
+    getPartMaterialList
   );
 
   const { isOpen, onOpen, onClose } = useDisclosure();

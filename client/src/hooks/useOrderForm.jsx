@@ -16,18 +16,18 @@ const useOrderForm = () => {
   const [cost, setCost] = useState(0);
   const [shippingDate, setShippingDate] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
-  const materialCost = useQuery('orders/materialList', getMaterialList);
+  const { isLoading, data: materialCost } = useQuery('orders/materialList', getMaterialList);
   const { refetch } = useQuery('orders', getOrders);
   const {
     isOpen: isOrderModalOpen,
     onOpen: onOrderModalOpen,
     onClose: onOrderModalClose,
   } = useDisclosure();
-  // sets material and cost states
+
   const handleMaterial = (e) => {
     const choice = e.target.value;
     setMaterial(choice);
-    setCost(materialCost.data.data[choice].cost);
+    setCost(materialCost.data[choice].cost);
   };
 
   const handleDeliveryDateInput = (e) => {
@@ -94,6 +94,8 @@ const useOrderForm = () => {
   };
 
   return {
+    isLoading,
+    materialCost,
     handleMaterial,
     handleSubmit,
     handleDeliveryDateInput,
