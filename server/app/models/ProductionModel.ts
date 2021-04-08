@@ -2,7 +2,6 @@ import { Document, Schema } from 'mongoose';
 
 export interface IProduction extends Document {
   type: string;
-  componentId: string;
   componentDetail: {
     name: string;
     quality: string;
