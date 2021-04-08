@@ -41,8 +41,10 @@ export class ProductionService {
         'create'
       );
       const partCreated = await this.partService.createPart(validPart);
-      body.componentId = partCreated._id;
-      return this.productionRepository.create(body);
+      return this.productionRepository.create(({
+        componentId: partCreated._id,
+        ...body,
+      } as unknown) as IProduction);
     }
 
     if (body.type === 'Bike') {
@@ -51,8 +53,10 @@ export class ProductionService {
         'create'
       );
       const bikeCreated = await this.bikeService.createBike(validBike);
-      body.componentId = bikeCreated._id;
-      return this.productionRepository.create(body);
+      return this.productionRepository.create(({
+        componentId: bikeCreated._id,
+        ...body,
+      } as unknown) as IProduction);
     }
 
     throw new BadRequestError('Invalid Production');
