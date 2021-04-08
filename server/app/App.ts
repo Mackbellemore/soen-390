@@ -24,10 +24,11 @@ import { MaterialRepository } from './repository/MaterialRepository';
 import { DefectRepository } from './repository/DefectRepository';
 import { OrderRepository } from './repository/OrderRepository';
 import { SchedulingRepository } from './repository/SchedulingRepository';
+import { ProductionRepository } from './repository/ProductionRepository';
+import { LogRepository } from './repository/LogRepository';
 import { MachineRepository } from './repository/MachineRepository';
 import { SaleRepository } from './repository/SaleRepository';
 import { ShippingRepository } from './repository/ShippingRepository';
-import { LogRepository } from './repository/LogRepository';
 
 export class App {
   private config: IConfig;
@@ -158,6 +159,7 @@ export class App {
     await container.get<DefectRepository>(TYPES.DefectRepository).initialize();
     await container.get<OrderRepository>(TYPES.OrderRepository).initialize();
     await container.get<SchedulingRepository>(TYPES.SchedulingRepository).initialize();
+    await container.get<ProductionRepository>(TYPES.ProductionRepository).initialize();
     await container.get<MachineRepository>(TYPES.MachineRepository).initialize();
     await container.get<SaleRepository>(TYPES.SaleRepository).initialize();
     await container.get<ShippingRepository>(TYPES.ShippingRepository).initialize();

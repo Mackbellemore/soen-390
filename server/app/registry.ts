@@ -24,6 +24,7 @@ import './controllers/MaterialController';
 import './controllers/DefectController';
 import './controllers/OrderController';
 import './controllers/SchedulingController';
+import './controllers/ProductionController';
 import './controllers/MachineController';
 import './controllers/SaleController';
 import './controllers/ShippingController';
@@ -38,6 +39,7 @@ import { BikeService } from './services/BikeService';
 import { DefectService } from './services/DefectService';
 import { OrderService } from './services/OrderService';
 import { SchedulingService } from './services/SchedulingService';
+import { ProductionService } from './services/ProductionService';
 import { MachineService } from './services/MachineService';
 import { SaleService } from './services/SaleService';
 import { LogService } from './services/LogService';
@@ -51,6 +53,7 @@ import { BikeRepository } from './repository/BikeRepository';
 import { DefectRepository } from './repository/DefectRepository';
 import { OrderRepository } from './repository/OrderRepository';
 import { SchedulingRepository } from './repository/SchedulingRepository';
+import { ProductionRepository } from './repository/ProductionRepository';
 import { MachineRepository } from './repository/MachineRepository';
 import { SaleRepository } from './repository/SaleRepository';
 import { ShippingRepository } from './repository/ShippingRepository';
@@ -114,6 +117,7 @@ container.bind<BikeService>(TYPES.BikeService).to(BikeService).inSingletonScope(
 container.bind<DefectService>(TYPES.DefectService).to(DefectService).inSingletonScope();
 container.bind<OrderService>(TYPES.OrderService).to(OrderService).inSingletonScope();
 container.bind<SchedulingService>(TYPES.SchedulingService).to(SchedulingService).inSingletonScope();
+container.bind<ProductionService>(TYPES.ProductionService).to(ProductionService).inSingletonScope();
 container.bind<MachineService>(TYPES.MachineService).to(MachineService).inSingletonScope();
 container.bind<SaleService>(TYPES.SaleService).to(SaleService).inSingletonScope();
 container.bind<ShippingService>(TYPES.ShippingService).to(ShippingService).inSingletonScope();
@@ -132,6 +136,10 @@ container.bind<OrderRepository>(TYPES.OrderRepository).to(OrderRepository).inSin
 container
   .bind<SchedulingRepository>(TYPES.SchedulingRepository)
   .to(SchedulingRepository)
+  .inSingletonScope();
+container
+  .bind<ProductionRepository>(TYPES.ProductionRepository)
+  .to(ProductionRepository)
   .inSingletonScope();
 container.bind<SaleRepository>(TYPES.SaleRepository).to(SaleRepository).inSingletonScope();
 container
