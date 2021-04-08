@@ -83,11 +83,11 @@ const ProductionModal = () => {
           <FormLabel>Quality</FormLabel>
           <Input ref={qualityRef} />
         </FormControl>
-        <FormControl style={elementStyle}>
+        <FormControl isRequired style={elementStyle}>
           <FormLabel>Grade</FormLabel>
           <Input ref={gradeRef} />
         </FormControl>
-        <FormControl style={elementStyle}>
+        <FormControl isRequired style={elementStyle}>
           <FormLabel>Finish</FormLabel>
           <Input ref={finishRef} />
         </FormControl>
