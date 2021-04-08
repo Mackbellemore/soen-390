@@ -34,7 +34,7 @@ const ProductionTable = () => {
         <Heading size="xl" textAlign="center" mt={5}>
           No Productions
         </Heading>
-        <ProductionModal />;
+        <ProductionModal />
         <NoResultImage />
       </>
     );
