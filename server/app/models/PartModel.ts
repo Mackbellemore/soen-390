@@ -11,7 +11,10 @@ export interface IPart extends Document {
   grade: string;
   detail: string;
   stock: number;
+  sellingPrice: number;
+  costPrice: number;
   defectId: string;
+  profitMargin: number;
 }
 
 export const PartSchema: Schema = new Schema({
@@ -24,5 +27,7 @@ export const PartSchema: Schema = new Schema({
   grade: { type: Schema.Types.String, required: false },
   detail: { type: Schema.Types.String, required: false },
   stock: { type: Schema.Types.Number, required: true },
+  sellingPrice: { type: Schema.Types.Number, required: true, min: 1 },
+  costPrice: { type: Schema.Types.Number, required: true, min: 1 },
   defectId: { type: Schema.Types.String, required: false },
 });

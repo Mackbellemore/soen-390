@@ -10,6 +10,7 @@ export interface IBike extends Document {
   color: string;
   parts: Record<string, string>;
   stock: number;
+  profitMargin: number;
 }
 
 export const BikeSchema: Schema = new Schema({
