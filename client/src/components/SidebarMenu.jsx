@@ -120,7 +120,6 @@ const SidebarMenu = () => {
 };
 
 SidebarText.displayName = 'SidebarText';
-
 SidebarText.propTypes = {
   routeName: PropTypes.string.isRequired,
 };
