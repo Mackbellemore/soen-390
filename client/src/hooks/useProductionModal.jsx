@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import { postProductions } from 'utils/api/productions';
 import { useQuery } from 'react-query';
 import { getParts, getPartMaterialList } from 'utils/api/parts';
+import useProductionTable from './useProductionTable.jsx';
 
 const useProductionModal = () => {
   const { isSuccess: isSuccessPart, data: dataPart } = useQuery('parts', getParts);
@@ -38,6 +39,7 @@ const useProductionModal = () => {
   const brakesRef = useRef();
   const seatRef = useRef();
   const forkRef = useRef();
+  const { refectchProductions, refectchParts, refectchBikes } = useProductionTable();
 
   const formStyle = {
     display: 'flex',
@@ -138,6 +140,9 @@ const useProductionModal = () => {
         duration: 9000,
         isClosable: true,
       });
+      refectchProductions();
+      refectchParts();
+      refectchBikes();
     } catch {
       toast({
         position: 'top',

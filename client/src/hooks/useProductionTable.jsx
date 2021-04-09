@@ -10,15 +10,20 @@ const useProductionTable = () => {
     isLoading: isLoadingProduction,
     isSuccess: isSuccessProduction,
     data: dataProduction,
+    refetch: refectchProductions,
   } = useQuery('productions', getProductions);
-  const { isLoading: isLoadingPart, isSuccess: isSuccessPart, data: dataPart } = useQuery(
-    'parts',
-    getParts
-  );
-  const { isLoading: isLoadingBike, isSuccess: isSuccessBike, data: dataBike } = useQuery(
-    'bikes',
-    getBikes
-  );
+  const {
+    isLoading: isLoadingPart,
+    isSuccess: isSuccessPart,
+    data: dataPart,
+    refetch: refectchParts,
+  } = useQuery('parts', getParts);
+  const {
+    isLoading: isLoadingBike,
+    isSuccess: isSuccessBike,
+    data: dataBike,
+    refetch: refectchBikes,
+  } = useQuery('bikes', getBikes);
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
 
   const findEntity = (type, id) => {
@@ -38,12 +43,15 @@ const useProductionTable = () => {
     isLoadingProduction,
     isSuccessProduction,
     dataProduction,
+    refectchProductions,
     isLoadingPart,
     isSuccessPart,
     dataPart,
+    refectchParts,
     isLoadingBike,
     isSuccessBike,
     dataBike,
+    refectchBikes,
     page,
     rowsPerPage,
     findEntity,

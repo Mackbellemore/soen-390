@@ -67,7 +67,7 @@ const ProductionTable = () => {
                   <StyledTableRow>
                     <StyledTableCell>{production.status}</StyledTableCell>
                     <StyledTableCell>
-                      {findEntity(production.type, production.componentId).name}
+                      {findEntity(production.type, production.componentId)?.name}
                     </StyledTableCell>
                     <StyledTableCell>{production.quantity}</StyledTableCell>
                     <StyledTableCell>{formatDate(production.startDate)}</StyledTableCell>
