@@ -69,10 +69,12 @@ const ProductionModal = () => {
           <ModalHeader>Production</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Button mr={3} onClick={onClickPart}>
+            <Button mr={3} onClick={onClickPart} colorScheme="teal">
               Part
             </Button>
-            <Button onClick={onClickBike}>Bike</Button>
+            <Button onClick={onClickBike} colorScheme="teal">
+              Bike
+            </Button>
             <div style={formStyle}>
               <FormControl isRequired style={elementStyle}>
                 <FormLabel>Status</FormLabel>
