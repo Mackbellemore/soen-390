@@ -4,7 +4,6 @@ const useSearch = () => {
   const [searchInput, setSearchInput] = useState('');
 
   const objectSearch = (obj) => {
-    console.log('obj: ', obj);
     for (const property in obj) {
       const notWantedProperty = property === '_id' || property === '__v';
       if (
@@ -19,14 +18,9 @@ const useSearch = () => {
     return false;
   };
 
-  const searchArray = (objects) => {
-    return objects.filter((obj) => objectSearch(obj));
-  };
-
   const searchData = (data) => {
-    console.log('data: ', data);
     if (searchInput !== '') {
-      data = searchArray(data);
+      return data.filter((obj) => objectSearch(obj));
     }
     return data;
   };
