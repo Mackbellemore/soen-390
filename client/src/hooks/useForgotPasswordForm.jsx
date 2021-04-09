@@ -2,7 +2,6 @@ import { useDisclosure, useToast } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import useEmailValidation from 'hooks/useEmailValidation.jsx';
 import { userForgotPassword } from 'utils/api/users.js';
-import { sendEmail } from 'utils/api/system.js';
 
 const useForgotPasswordForm = () => {
   const emailRef = useRef('');
@@ -19,35 +18,13 @@ const useForgotPasswordForm = () => {
     setIsLoading(true);
 
     const email = emailRef.current.value;
+    const url = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
 
     try {
-      const promise = await userForgotPassword({
+      await userForgotPassword({
         email: email,
+        url: url,
       });
-      const url = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
-
-      try {
-        await sendEmail({
-          to: [email],
-          subject: 'ERP Password Reset',
-          emailBody: `This is the ERP Team07,\n\nPlease reset your password using the following link: ${url}/reset/${promise.data}\n\nRegards.`,
-        });
-        toast({
-          title: 'Email',
-          description: 'Email Sent',
-          status: 'success',
-          duration: 9000,
-          isClosable: true,
-        });
-      } catch (err) {
-        toast({
-          title: 'Error',
-          description: 'An error occured while sending the email',
-          status: 'error',
-          duration: 9000,
-          isClosable: true,
-        });
-      }
     } catch (err) {
       // User Not Found, but do not tell it to the user.
     }

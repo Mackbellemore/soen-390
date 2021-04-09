@@ -10,7 +10,7 @@ import {
   Checkbox,
 } from '@chakra-ui/react';
 import { FormButton } from 'components/common/Button.jsx';
-import useRegisterForm from 'hooks/useForgotPasswordForm.jsx';
+import useForgotPasswordForm from 'hooks/useForgotPasswordForm.jsx';
 import React from 'react';
 import { Text } from '../common/Typography.jsx';
 
@@ -26,7 +26,7 @@ const ForgotPasswordModal = () => {
     isOpen,
     onOpen,
     onClose,
-  } = useRegisterForm();
+  } = useForgotPasswordForm();
 
   return (
     <>

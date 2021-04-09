@@ -80,7 +80,7 @@ export class UserController extends BaseHttpController {
   @httpPost('/forgot')
   public async forgot(req: Request): Promise<results.JsonResult> {
     try {
-      const promise = await this.userService.forgotPassword(req.body);
+      const promise = await this.userService.forgotPassword(req.body.url, req.body);
       return this.json(promise, 200);
     } catch (err) {
       return this.json(err.message, 300);

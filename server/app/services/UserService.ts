@@ -8,12 +8,15 @@ import { IConfig } from 'config';
 import validator from 'validator';
 import { BadRequestError, NotApprovedError, NotFoundError } from '../errors';
 import { generateToken } from '../middlewares/authentication';
+import { SystemService } from './../services/SystemService';
+import { SentMessageInfo } from 'nodemailer';
 
-const requests: any[] = [];
+let requestMap = new Map();
 
 @injectable()
 export class UserService {
   @inject(TYPES.config) private config: IConfig;
+  @inject(TYPES.SystemService) private systemService: SystemService;
   constructor(@inject(TYPES.UserRepository) private userRepo: UserRepository) {}
 
   public async registerUser(body: IUser): Promise<IUserEntity> {
@@ -70,29 +73,19 @@ export class UserService {
     return UserEntity.buildUser(updatedUser);
   }
 
-  public async forgotPassword(body: IUser): Promise<string> {
+  public async forgotPassword(url: string, body: IUser): Promise<string> {
     const email = body.email;
-
     try {
-      await this.userRepo.findByEmail(body);
-
       const user: IUserEntity = UserEntity.buildUser(await this.userRepo.findByEmail(body));
       const accessToken = generateToken(user);
+      requestMap.set(email, accessToken);
 
-      let existed = false;
-      for (const i in requests) {
-        if (email === requests[i].email) {
-          requests[i].accessToken = accessToken;
-          existed = true;
-          break;
-        }
-      }
-
-      if (!existed) {
-        requests.push({ email, accessToken });
-        existed = false;
-      }
-      return accessToken;
+      const info: SentMessageInfo = await this.systemService.sendEmail({
+        to: [email],
+        subject: 'ERP Password Reset',
+        emailBody: `This is the ERP Team07,\n\nPlease reset your password using the following link: ${url}/reset/${accessToken}\n\nRegards.`,
+      });
+      return info;
     } catch (err) {
       throw new NotFoundError(`User with email ${body.email} was not found`);
     }
@@ -102,27 +95,27 @@ export class UserService {
     let email;
     let found = false;
 
-    for (const i in requests) {
-      if (requests[i].accessToken === token) {
+    for (let [_email, _token] of requestMap.entries()) {
+      if (_token === token) {
         found = true;
-        email = requests[i].email;
+        email = _email;
         break;
       }
     }
 
-    if (found) {
-      const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
-      const hash = await bcrypt.hash(pass, salt);
-      const newPass = hash;
-      try {
+    try {
+      if (found) {
+        const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
+        const hash = await bcrypt.hash(pass, salt);
+        const newPass = hash;
+
         await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
-        for (const i in requests) if (requests[i].email === email) requests.splice(parseInt(i), 1);
+        requestMap.delete(email);
         found = false;
-      } catch (err) {
-        throw new NotFoundError('Bad Token Request');
-      }
-      return email;
-    } else {
+
+        return email;
+      } else throw new NotFoundError('Bad Token Request');
+    } catch (err) {
       throw new NotFoundError('Bad Token Request');
     }
   }
