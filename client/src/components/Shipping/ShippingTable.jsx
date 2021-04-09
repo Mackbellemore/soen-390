@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import {
   Checkbox,
+  Box,
   Table,
   Thead,
   Tbody,
@@ -24,6 +25,8 @@ import Loader from 'components/common/Loader.jsx';
 import Head from 'next/head';
 import usePagination from 'hooks/usePagination.jsx';
 import { observer } from 'mobx-react-lite';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const ShippingHeader = () => (
   <>
@@ -50,6 +53,7 @@ const ShippingTable = () => {
   } = useShippingTable();
 
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -69,7 +73,6 @@ const ShippingTable = () => {
   return (
     <>
       <ShippingHeader />
-
       <AddShipmentForm />
       <IconButton
         colorScheme="blue"
@@ -81,6 +84,7 @@ const ShippingTable = () => {
         onClick={handleDelete}
         isDisabled={selected.length === 0}
       />
+      <Search handleSearch={setSearchInput} />
       {data ? (
         <>
           <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
@@ -103,7 +107,7 @@ const ShippingTable = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {data.data
+              {searchData(data.data)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((shipment) => (
                   <Fragment key={shipment._id}>

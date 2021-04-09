@@ -7,10 +7,13 @@ import usePagination from 'hooks/usePagination';
 import { TablePagination } from '@material-ui/core';
 import { getAuditTrail } from 'utils/api/auditTrail.js';
 import AuditTrailTableRow from '../AuditTrail/AuditTrailTableRow.jsx';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const AuditTrailTable = () => {
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
   const { isLoading, isSuccess, data } = useQuery('audit', getAuditTrail);
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -28,6 +31,7 @@ const AuditTrailTable = () => {
 
   return (
     <>
+      <Search handleSearch={setSearchInput} />
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
         <Thead>
           <Tr>
@@ -39,7 +43,7 @@ const AuditTrailTable = () => {
         </Thead>
         <Tbody>
           {isSuccess &&
-            data.data
+            searchData(data.data)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((log, index) => (
                 <Fragment key={index}>

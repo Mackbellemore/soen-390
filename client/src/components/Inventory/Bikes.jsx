@@ -8,10 +8,13 @@ import { TablePagination } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
 import ExportFiles from 'components/common/ExportFiles.jsx';
 import usePagination from 'hooks/usePagination.jsx';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const Bikes = () => {
   const { isLoading, isSuccess, data } = useQuery('bikes', getBikes);
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -29,8 +32,8 @@ const Bikes = () => {
   }
   return (
     <>
+      <Search handleSearch={setSearchInput} />
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <TableCaption placement="top">List of bike products</TableCaption>
         <Thead>
           <Tr>
             <StyledTableHeader>Name</StyledTableHeader>
@@ -44,19 +47,21 @@ const Bikes = () => {
         </Thead>
         <Tbody>
           {isSuccess &&
-            data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((bike) => (
-              <Fragment key={bike._id}>
-                <StyledTableRow>
-                  <StyledTableCell>{bike.name}</StyledTableCell>
-                  <StyledTableCell>{bike.description}</StyledTableCell>
-                  <StyledTableCell>{bike.weightAmount}</StyledTableCell>
-                  <StyledTableCell>{bike.weightType}</StyledTableCell>
-                  <StyledTableCell>{bike.sellingPrice}</StyledTableCell>
-                  <StyledTableCell>{bike.costPrice}</StyledTableCell>
-                  <StyledTableCell>{bike.color}</StyledTableCell>
-                </StyledTableRow>
-              </Fragment>
-            ))}
+            searchData(data.data)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((bike) => (
+                <Fragment key={bike._id}>
+                  <StyledTableRow>
+                    <StyledTableCell>{bike.name}</StyledTableCell>
+                    <StyledTableCell>{bike.description}</StyledTableCell>
+                    <StyledTableCell>{bike.weightAmount}</StyledTableCell>
+                    <StyledTableCell>{bike.weightType}</StyledTableCell>
+                    <StyledTableCell>{bike.sellingPrice}</StyledTableCell>
+                    <StyledTableCell>{bike.costPrice}</StyledTableCell>
+                    <StyledTableCell>{bike.color}</StyledTableCell>
+                  </StyledTableRow>
+                </Fragment>
+              ))}
         </Tbody>
       </Table>
       <TablePagination

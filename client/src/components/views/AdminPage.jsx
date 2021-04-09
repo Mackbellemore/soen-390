@@ -8,11 +8,14 @@ import Loader from '../common/Loader.jsx';
 import Head from 'next/head';
 import { StyledTableHeader, StyledTableCell } from '../common/Table.jsx';
 import { NoResultImage } from '../common/Image.jsx';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const AdminPage = () => {
   const { isLoading, isSuccess, data, refetch } = useQuery('users', getUsers);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
+  const { setSearchInput, searchData } = useSearch();
 
   const handleDeny = async (email) => {
     setIsSubmitting(true);
@@ -102,8 +105,8 @@ const AdminPage = () => {
   return (
     <>
       <AdminTabTitle />
+      <Search handleSearch={setSearchInput} />
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <TableCaption placement="top">List of users</TableCaption>
         <Thead>
           <Tr>
             <StyledTableHeader>Username</StyledTableHeader>
@@ -114,7 +117,7 @@ const AdminPage = () => {
         </Thead>
         <Tbody>
           {isSuccess &&
-            data.data
+            searchData(data.data)
               .filter((user) => !user.approved)
               .map((user) => (
                 <Fragment key={user.username}>

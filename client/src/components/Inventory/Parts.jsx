@@ -8,10 +8,13 @@ import usePagination from 'hooks/usePagination.jsx';
 import { Fragment } from 'react';
 import { useQuery } from 'react-query';
 import { getParts } from 'utils/api/parts.js';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const Parts = () => {
   const { isLoading, isSuccess, data } = useQuery('parts', getParts);
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -30,8 +33,8 @@ const Parts = () => {
 
   return (
     <>
+      <Search handleSearch={setSearchInput} />
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <TableCaption placement="top">List of parts</TableCaption>
         <Thead>
           <Tr>
             <StyledTableHeader>Name</StyledTableHeader>
@@ -46,20 +49,22 @@ const Parts = () => {
         </Thead>
         <Tbody>
           {isSuccess &&
-            data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((part) => (
-              <Fragment key={part._id}>
-                <StyledTableRow>
-                  <StyledTableCell>{part.name}</StyledTableCell>
-                  <StyledTableCell>{part.description}</StyledTableCell>
-                  <StyledTableCell>{part.quality}</StyledTableCell>
-                  <StyledTableCell>{part.type}</StyledTableCell>
-                  <StyledTableCell>{part.color}</StyledTableCell>
-                  <StyledTableCell>{part.finish}</StyledTableCell>
-                  <StyledTableCell>{part.grade}</StyledTableCell>
-                  <StyledTableCell>{part.detail}</StyledTableCell>
-                </StyledTableRow>
-              </Fragment>
-            ))}
+            searchData(data.data)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((part) => (
+                <Fragment key={part._id}>
+                  <StyledTableRow>
+                    <StyledTableCell>{part.name}</StyledTableCell>
+                    <StyledTableCell>{part.description}</StyledTableCell>
+                    <StyledTableCell>{part.quality}</StyledTableCell>
+                    <StyledTableCell>{part.type}</StyledTableCell>
+                    <StyledTableCell>{part.color}</StyledTableCell>
+                    <StyledTableCell>{part.finish}</StyledTableCell>
+                    <StyledTableCell>{part.grade}</StyledTableCell>
+                    <StyledTableCell>{part.detail}</StyledTableCell>
+                  </StyledTableRow>
+                </Fragment>
+              ))}
         </Tbody>
       </Table>
       <TablePagination

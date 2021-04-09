@@ -8,6 +8,8 @@ import { DeleteIcon } from '@chakra-ui/icons';
 import AddSchedulingModal from 'components/SchedulingPage/AddSchedulingModal.jsx';
 import useSchedulingTable from 'hooks/useSchedulingTable.jsx';
 import { formatDateAndTime } from 'utils/dateFunctions.js';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const Schedulings = () => {
   const {
@@ -24,6 +26,7 @@ const Schedulings = () => {
     data,
     selected,
   } = useSchedulingTable();
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -53,6 +56,7 @@ const Schedulings = () => {
         onClick={handleDelete}
         isDisabled={selected.length === 0}
       />
+      <Search handleSearch={setSearchInput} />
       <TableContainer component={Paper}>
         <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
           <Thead>
@@ -77,7 +81,7 @@ const Schedulings = () => {
           </Thead>
           <Tbody>
             {isSuccess &&
-              data.data
+              searchData(data.data)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((scheduling) => (
                   <Fragment key={scheduling._id}>
