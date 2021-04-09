@@ -116,7 +116,7 @@ const ProductionModal = () => {
               </FormControl>
               <FormControl isRequired style={elementStyle}>
                 <FormLabel>Profit Margin</FormLabel>
-                <NumberInput min={1.1} defaultValue={1.1}>
+                <NumberInput min={1.1} defaultValue={1.1} step={0.1}>
                   <NumberInputField ref={profitMarginRef} />
                   <NumberInputStepper>
                     <NumberIncrementStepper />
