@@ -39,7 +39,7 @@ const useProductionModal = () => {
   const brakesRef = useRef();
   const seatRef = useRef();
   const forkRef = useRef();
-  const { refectchProductions, refectchParts, refectchBikes } = useProductionTable();
+  const { refetchProductions, refetchParts, refetchBikes } = useProductionTable();
 
   const [isEmptyField, setIsEmptyField] = useState(true);
 
@@ -176,9 +176,9 @@ const useProductionModal = () => {
         duration: 9000,
         isClosable: true,
       });
-      refectchProductions();
-      refectchParts();
-      refectchBikes();
+      refetchProductions();
+      refetchParts();
+      refetchBikes();
     } catch {
       toast({
         position: 'top',
