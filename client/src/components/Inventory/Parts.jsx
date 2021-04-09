@@ -1,4 +1,4 @@
-import { Heading, Table, TableCaption, Tbody, Thead, Tr } from '@chakra-ui/react';
+import { Heading, Table, Tbody, Thead, Tr } from '@chakra-ui/react';
 import { TablePagination } from '@material-ui/core';
 import ExportFiles from 'components/common/ExportFiles.jsx';
 import { NoResultImage } from 'components/common/Image.jsx';

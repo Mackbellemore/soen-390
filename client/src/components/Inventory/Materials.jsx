@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Table, Thead, Tbody, Tr, TableCaption, Heading } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Heading } from '@chakra-ui/react';
 import Loader from 'components/common/Loader';
 import { getMaterials } from 'utils/api/materials.js';
 import { useQuery } from 'react-query';

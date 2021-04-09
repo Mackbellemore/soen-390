@@ -1,4 +1,4 @@
-import { Table, Thead, Tbody, Tr, TableCaption, useToast, Heading } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, useToast, Heading } from '@chakra-ui/react';
 import React, { Fragment, useState } from 'react';
 import { getUsers, updateUser, deleteUser } from 'utils/api/users.js';
 import { sendEmail } from 'utils/api/system.js';

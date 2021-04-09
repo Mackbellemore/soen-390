@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import {
   Checkbox,
-  Box,
   Table,
   Thead,
   Tbody,
