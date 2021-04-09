@@ -14,6 +14,15 @@ import useLoggedInUser from 'hooks/useLoggedInUser.jsx';
 import Loader from '../common/Loader.jsx';
 import PropTypes from 'prop-types';
 
+const BackgroundImageContainer = styled(Box)`
+  background-image: url('https://images4.alphacoders.com/940/940722.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+`;
+
 const Container = styled(Box)`
   width: 100%;
   height: 456px;
@@ -26,6 +35,12 @@ const Container = styled(Box)`
   background-color: #fffcfc;
   padding: 10px;
   max-width: 560px;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
 `;
 
 const InputContainer = styled(Flex)`
@@ -118,41 +133,51 @@ const Login = ({ location: { state } }) => {
         <title>ERP - Login</title>
       </Head>
       {shouldRenderForm ? (
-        <Container top={{ base: '66%', sm: '50%' }}>
-          <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
-            Log in
-          </Heading>
-          <StyledForm onSubmit={handleSubmit}>
-            <InputContainer>
-              <Flex alignItems="center">
-                <InputIcon as={GrMailOption} />
-              </Flex>
-              <Flex direction="column">
-                <StyledFormLabel px={4}>Email address</StyledFormLabel>
-                <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
-              </Flex>
-            </InputContainer>
-            <InputContainer mt={7}>
-              <Flex alignItems="center">
-                <InputIcon as={GrLock} />
-              </Flex>
-              <Flex direction="column">
-                <StyledFormLabel>Password</StyledFormLabel>
-                <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
-              </Flex>
-            </InputContainer>
-            <Flex direction="row" width="100%" maxWidth="380px">
-              <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
-                Login
-              </FormButton>
-            </Flex>
-          </StyledForm>
-          <Divider orientation="horizontal" borderColor="#D4D4D4" opacity="1" width="90%" mt={9} />
-          <Text mt={4} fontSize="12px">
-            New User?
-          </Text>
-          <RegisterUserModal />
-        </Container>
+        <>
+          <BackgroundImageContainer>
+            <Container top={{ base: '66%', sm: '50%' }}>
+              <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
+                Log in
+              </Heading>
+              <StyledForm onSubmit={handleSubmit}>
+                <InputContainer>
+                  <Flex alignItems="center">
+                    <InputIcon as={GrMailOption} />
+                  </Flex>
+                  <Flex direction="column">
+                    <StyledFormLabel px={4}>Email address</StyledFormLabel>
+                    <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
+                  </Flex>
+                </InputContainer>
+                <InputContainer mt={7}>
+                  <Flex alignItems="center">
+                    <InputIcon as={GrLock} />
+                  </Flex>
+                  <Flex direction="column">
+                    <StyledFormLabel>Password</StyledFormLabel>
+                    <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
+                  </Flex>
+                </InputContainer>
+                <Flex direction="row" width="100%" maxWidth="380px">
+                  <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
+                    Login
+                  </FormButton>
+                </Flex>
+              </StyledForm>
+              <Divider
+                orientation="horizontal"
+                borderColor="#D4D4D4"
+                opacity="1"
+                width="90%"
+                mt={9}
+              />
+              <Text mt={4} fontSize="12px">
+                New User?
+              </Text>
+              <RegisterUserModal />
+            </Container>
+          </BackgroundImageContainer>
+        </>
       ) : (
         <Redirect
           to={{
