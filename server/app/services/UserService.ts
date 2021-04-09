@@ -11,7 +11,7 @@ import { generateToken } from '../middlewares/authentication';
 import { SystemService } from './../services/SystemService';
 import { SentMessageInfo } from 'nodemailer';
 
-let requestMap = new Map();
+const requestMap = new Map();
 
 @injectable()
 export class UserService {
@@ -95,7 +95,7 @@ export class UserService {
     let email;
     let found = false;
 
-    for (let [_email, _token] of requestMap.entries()) {
+    for (const [_email, _token] of requestMap.entries()) {
       if (_token === token) {
         found = true;
         email = _email;
