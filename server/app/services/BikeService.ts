@@ -62,7 +62,7 @@ export class BikeService {
 
       totalPrice += costPrice;
 
-      if (partStock < bikeStock) {
+      if (partStock <= bikeStock) {
         throw new BadRequestError(`${partName} ${name} does not have enough stock allocated`);
       }
 
