@@ -1,10 +1,16 @@
 import { FormControl, FormLabel, Input, Select } from '@chakra-ui/react';
 import { Fragment, forwardRef } from 'react';
 import useProductionModal from 'hooks/useProductionModal';
+import PropTypes from 'prop-types';
 
 const ProductionModalPart = forwardRef((props, partRefs) => {
   const { formStyle, elementStyle, isSuccessPartType, partType } = useProductionModal();
   const { productionRef, qualityRef, gradeRef, finishRef } = partRefs;
+
+  // props validation
+  ProductionModalPart.propTypes = {
+    handleChange: PropTypes.func.isRequired,
+  };
 
   return (
     <>
@@ -22,15 +28,15 @@ const ProductionModalPart = forwardRef((props, partRefs) => {
       <div style={formStyle}>
         <FormControl isRequired style={elementStyle}>
           <FormLabel>Quality</FormLabel>
-          <Input ref={qualityRef} />
+          <Input ref={qualityRef} onChange={props.handleChange} />
         </FormControl>
         <FormControl isRequired style={elementStyle}>
           <FormLabel>Grade</FormLabel>
-          <Input ref={gradeRef} />
+          <Input ref={gradeRef} onChange={props.handleChange} />
         </FormControl>
         <FormControl isRequired style={elementStyle}>
           <FormLabel>Finish</FormLabel>
-          <Input ref={finishRef} />
+          <Input ref={finishRef} onChange={props.handleChange} />
         </FormControl>
       </div>
     </>

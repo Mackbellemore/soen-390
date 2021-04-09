@@ -20,7 +20,7 @@ import {
   NumberInputStepper,
 } from '@chakra-ui/react';
 import { TextField } from '@material-ui/core';
-import { Fragment } from 'react';
+import { Fragment, useEffect } from 'react';
 import useProductionModal from 'hooks/useProductionModal';
 import ProductionModalPart from 'components/Production/ProductionModalPart.jsx';
 import ProductionModalBike from 'components/Production/ProductionModalBike.jsx';
@@ -33,7 +33,6 @@ const ProductionModal = () => {
     onOpen,
     onClose,
     form,
-    setForm,
     colorRef,
     quantityRef,
     statusRef,
@@ -46,10 +45,18 @@ const ProductionModal = () => {
     profitMarginRef,
     partRefs,
     bikeRefs,
+    isEmptyField,
+    onClickPart,
+    onClickBike,
+    handleChange,
     handleStartDateInput,
     handleEndDateInput,
     handleSubmit,
   } = useProductionModal();
+
+  useEffect(() => {
+    handleChange();
+  }, [form, startDate, endDate, handleChange]);
 
   return (
     <>
@@ -62,10 +69,10 @@ const ProductionModal = () => {
           <ModalHeader>Production</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Button mr={3} onClick={() => setForm('Part')}>
+            <Button mr={3} onClick={onClickPart}>
               Part
             </Button>
-            <Button onClick={() => setForm('Bike')}>Bike</Button>
+            <Button onClick={onClickBike}>Bike</Button>
             <div style={formStyle}>
               <FormControl isRequired style={elementStyle}>
                 <FormLabel>Status</FormLabel>
@@ -80,22 +87,22 @@ const ProductionModal = () => {
               </FormControl>
               <FormControl isRequired style={elementStyle}>
                 <FormLabel>Name</FormLabel>
-                <Input ref={nameRef} />
+                <Input ref={nameRef} onChange={handleChange} />
               </FormControl>
               <FormControl isRequired style={elementStyle}>
                 <FormLabel>Description</FormLabel>
-                <Input ref={descriptionRef} />
+                <Input ref={descriptionRef} onChange={handleChange} />
               </FormControl>
             </div>
             {form === 'Part' ? (
-              <ProductionModalPart ref={partRefs} />
+              <ProductionModalPart ref={partRefs} handleChange={handleChange} />
             ) : (
-              <ProductionModalBike ref={bikeRefs} />
+              <ProductionModalBike ref={bikeRefs} handleChange={handleChange} />
             )}
             <div style={formStyle}>
               <FormControl isRequired style={elementStyle}>
                 <FormLabel>Color</FormLabel>
-                <Input ref={colorRef} />
+                <Input ref={colorRef} onChange={handleChange} />
               </FormControl>
               <FormControl isRequired style={elementStyle}>
                 <FormLabel>Quantity</FormLabel>
@@ -130,7 +137,7 @@ const ProductionModal = () => {
             </div>
             <FormControl isRequired style={elementStyle}>
               <FormLabel>Assembly Machine</FormLabel>
-              <Input ref={assemblyMachineRef} />
+              <Input ref={assemblyMachineRef} onChange={handleChange} />
             </FormControl>
             <FormControl style={elementStyle}>
               <FormLabel>Note</FormLabel>
@@ -138,7 +145,7 @@ const ProductionModal = () => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
+            <Button colorScheme="blue" mr={3} disabled={isEmptyField} onClick={handleSubmit}>
               Submit
             </Button>
             <Button onClick={onClose}>Cancel</Button>

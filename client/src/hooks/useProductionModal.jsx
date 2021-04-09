@@ -16,19 +16,19 @@ const useProductionModal = () => {
   const toast = useToast();
   const [form, setForm] = useState('Part');
   const productionRef = useRef();
-  const colorRef = useRef();
+  const colorRef = useRef('');
   const quantityRef = useRef();
   const statusRef = useRef();
-  const nameRef = useRef();
-  const descriptionRef = useRef();
+  const nameRef = useRef('');
+  const descriptionRef = useRef('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
-  const assemblyMachineRef = useRef();
+  const assemblyMachineRef = useRef('');
   const noteRef = useRef();
-  const qualityRef = useRef();
+  const qualityRef = useRef('');
   const profitMarginRef = useRef();
-  const gradeRef = useRef();
-  const finishRef = useRef();
+  const gradeRef = useRef('');
+  const finishRef = useRef('');
   const weightAmountRef = useRef();
   const weightTypeRef = useRef();
   const handleBarRef = useRef();
@@ -40,6 +40,34 @@ const useProductionModal = () => {
   const seatRef = useRef();
   const forkRef = useRef();
   const { refectchProductions, refectchParts, refectchBikes } = useProductionTable();
+
+  const [isEmptyField, setIsEmptyField] = useState(true);
+
+  const handleChange = () => {
+    // general inputs
+    if (
+      nameRef.current?.value === '' ||
+      descriptionRef.current?.value === '' ||
+      colorRef.current?.value === '' ||
+      assemblyMachineRef.current?.value === '' ||
+      startDate === '' ||
+      endDate === ''
+    ) {
+      setIsEmptyField(true);
+    } else {
+      setIsEmptyField(false);
+    }
+
+    // part specific inputs
+    if (
+      form === 'Part' &&
+      (qualityRef.current?.value === '' ||
+        gradeRef.current?.value === '' ||
+        finishRef.current?.value === '')
+    ) {
+      setIsEmptyField(true);
+    }
+  };
 
   const formStyle = {
     display: 'flex',
@@ -71,6 +99,14 @@ const useProductionModal = () => {
     brakesRef: brakesRef,
     seatRef: seatRef,
     forkRef: forkRef,
+  };
+
+  const onClickPart = () => {
+    setForm('Part');
+  };
+
+  const onClickBike = () => {
+    setForm('Bike');
   };
 
   const handleStartDateInput = (e) => {
@@ -193,6 +229,10 @@ const useProductionModal = () => {
     forkRef,
     partRefs,
     bikeRefs,
+    isEmptyField,
+    onClickPart,
+    onClickBike,
+    handleChange,
     handleStartDateInput,
     handleEndDateInput,
     handleSubmit,
