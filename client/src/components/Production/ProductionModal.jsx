@@ -67,19 +67,13 @@ const ProductionModal = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Production modal for {form}</ModalHeader>
+          <ModalHeader>Production for {form}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <div style={styleBtn}>
-              {form === 'Bike' ? (
-                <Button onClick={onClickPart} colorScheme="teal">
-                  Part
-                </Button>
-              ) : (
-                <Button onClick={onClickBike} colorScheme="teal">
-                  Bike
-                </Button>
-              )}
+              <Button onClick={form === 'Bike' ? onClickPart : onClickBike} colorScheme="teal">
+                {form === 'Bike' ? 'Part' : 'Bike'}
+              </Button>
             </div>
             <div style={formStyle}>
               <FormControl isRequired style={elementStyle}>
