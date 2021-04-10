@@ -18,7 +18,7 @@ const BackgroundImageContainer = styled(Box)`
   background-image: url('https://images4.alphacoders.com/940/940722.jpg');
   background-repeat: no-repeat;
   background-size: cover;
-  position: absolute;
+  position: fixed;
   height: 100vh;
   width: 100vw;
 `;
