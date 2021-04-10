@@ -56,7 +56,7 @@ const ProductionModalBike = forwardRef((props, bikeRefs) => {
           <Select ref={handleBarRef}>
             {isSuccessPart &&
               dataPart.data
-                .filter((part) => part.type === 'handle_bar')
+                .filter((part) => part.type === 'handle_bar' && part.stock > 0)
                 .map((part) => (
                   <Fragment key={part._id}>
                     <option value={part._id}>{part.name}</option>
@@ -69,7 +69,7 @@ const ProductionModalBike = forwardRef((props, bikeRefs) => {
           <Select ref={wheelRef}>
             {isSuccessPart &&
               dataPart.data
-                .filter((part) => part.type === 'wheels')
+                .filter((part) => part.type === 'wheels' && part.stock > 0)
                 .map((part) => (
                   <Fragment key={part._id}>
                     <option value={part._id}>{part.name}</option>
@@ -84,7 +84,7 @@ const ProductionModalBike = forwardRef((props, bikeRefs) => {
           <Select ref={chainRef}>
             {isSuccessPart &&
               dataPart.data
-                .filter((part) => part.type === 'chain')
+                .filter((part) => part.type === 'chain' && part.stock > 0)
                 .map((part) => (
                   <Fragment key={part._id}>
                     <option value={part._id}>{part.name}</option>
@@ -97,7 +97,7 @@ const ProductionModalBike = forwardRef((props, bikeRefs) => {
           <Select ref={frameRef}>
             {isSuccessPart &&
               dataPart.data
-                .filter((part) => part.type === 'frame')
+                .filter((part) => part.type === 'frame' && part.stock > 0)
                 .map((part) => (
                   <Fragment key={part._id}>
                     <option value={part._id}>{part.name}</option>
@@ -110,7 +110,7 @@ const ProductionModalBike = forwardRef((props, bikeRefs) => {
           <Select ref={pedalRef}>
             {isSuccessPart &&
               dataPart.data
-                .filter((part) => part.type === 'pedal')
+                .filter((part) => part.type === 'pedal' && part.stock > 0)
                 .map((part) => (
                   <Fragment key={part._id}>
                     <option value={part._id}>{part.name}</option>
@@ -125,7 +125,7 @@ const ProductionModalBike = forwardRef((props, bikeRefs) => {
           <Select ref={brakesRef}>
             {isSuccessPart &&
               dataPart.data
-                .filter((part) => part.type === 'brakes')
+                .filter((part) => part.type === 'brakes' && part.stock > 0)
                 .map((part) => (
                   <Fragment key={part._id}>
                     <option value={part._id}>{part.name}</option>
@@ -138,7 +138,7 @@ const ProductionModalBike = forwardRef((props, bikeRefs) => {
           <Select ref={seatRef}>
             {isSuccessPart &&
               dataPart.data
-                .filter((part) => part.type === 'seat')
+                .filter((part) => part.type === 'seat' && part.stock > 0)
                 .map((part) => (
                   <Fragment key={part._id}>
                     <option value={part._id}>{part.name}</option>
@@ -151,7 +151,7 @@ const ProductionModalBike = forwardRef((props, bikeRefs) => {
           <Select ref={forkRef}>
             {isSuccessPart &&
               dataPart.data
-                .filter((part) => part.type === 'fork')
+                .filter((part) => part.type === 'fork' && part.stock > 0)
                 .map((part) => (
                   <Fragment key={part._id}>
                     <option value={part._id}>{part.name}</option>
