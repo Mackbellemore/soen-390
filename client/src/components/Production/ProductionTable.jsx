@@ -1,5 +1,5 @@
-import { Table, Thead, Tbody, Tr, Th, TableCaption, Heading } from '@chakra-ui/react';
-import { StyledTableRow, StyledTableCell } from 'components/common/Table.jsx';
+import { Table, Thead, Tbody, Tr, TableCaption, Heading } from '@chakra-ui/react';
+import { StyledTableRow, StyledTableCell, StyledTableHeader } from 'components/common/Table.jsx';
 import ProductionModal from 'components/Production/ProductionModal.jsx';
 import { TablePagination } from '@material-ui/core';
 import { Fragment } from 'react';
@@ -47,13 +47,13 @@ const ProductionTable = () => {
         <TableCaption placement="top">List of productions</TableCaption>
         <Thead>
           <Tr>
-            <Th>Status</Th>
-            <Th>Component</Th>
-            <Th>Quantity</Th>
-            <Th>Start Date</Th>
-            <Th>End Date</Th>
-            <Th>Assembly Machine</Th>
-            <Th>Note</Th>
+            <StyledTableHeader>Status</StyledTableHeader>
+            <StyledTableHeader>Component</StyledTableHeader>
+            <StyledTableHeader>Quantity</StyledTableHeader>
+            <StyledTableHeader>Start Date</StyledTableHeader>
+            <StyledTableHeader>End Date</StyledTableHeader>
+            <StyledTableHeader>Assembly Machine</StyledTableHeader>
+            <StyledTableHeader>Note</StyledTableHeader>
           </Tr>
         </Thead>
         <Tbody>
