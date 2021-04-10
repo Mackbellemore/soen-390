@@ -26,6 +26,7 @@ import { Fragment, useEffect } from 'react';
 import useProductionModal from 'hooks/useProductionModal';
 import ProductionModalPart from 'components/Production/ProductionModalPart.jsx';
 import ProductionModalBike from 'components/Production/ProductionModalBike.jsx';
+import PropTypes from 'prop-types';
 
 const ProductionModal = ({ showButton = false }) => {
   const {
@@ -171,4 +172,9 @@ const ProductionModal = ({ showButton = false }) => {
     </>
   );
 };
+
+ProductionModal.propTypes = {
+  showButton: PropTypes.bool,
+};
+
 export default ProductionModal;
