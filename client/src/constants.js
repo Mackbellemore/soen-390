@@ -142,7 +142,7 @@ export const appRoutes = [
   {
     name: 'Schedulings',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'Manufacturing'],
     path: '/schedulings',
     icon: MdToday,
     component: lazy(() => import('components/views/SchedulingPage')),
