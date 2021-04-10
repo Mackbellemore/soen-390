@@ -7,10 +7,13 @@ import usePagination from 'hooks/usePagination.jsx';
 import { useQuery } from 'react-query';
 import { getBikeDefects } from 'utils/api/defect.js';
 import DefectsTable from './DefectsTable.jsx';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const Bikes = () => {
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
   const { isLoading, isSuccess, data } = useQuery('bikeDefects', getBikeDefects);
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -29,6 +32,7 @@ const Bikes = () => {
 
   return (
     <Box overflowX="auto">
+      <Search handleSearch={setSearchInput} />
       <TableContainer component={Paper}>
         <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
           <Thead>
@@ -40,7 +44,7 @@ const Bikes = () => {
           </Thead>
           <Tbody>
             {isSuccess &&
-              data.data
+              searchData(data.data)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((bikeDefect) => (
                   <StyledTableRow key={bikeDefect.bike}>

@@ -1,6 +1,7 @@
 import {
   Center,
   Button,
+  IconButton,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -19,13 +20,14 @@ import {
   NumberInputField,
   NumberInputStepper,
 } from '@chakra-ui/react';
+import { SmallAddIcon } from '@chakra-ui/icons';
 import { TextField } from '@material-ui/core';
 import { Fragment, useEffect } from 'react';
 import useProductionModal from 'hooks/useProductionModal';
 import ProductionModalPart from 'components/Production/ProductionModalPart.jsx';
 import ProductionModalBike from 'components/Production/ProductionModalBike.jsx';
 
-const ProductionModal = () => {
+const ProductionModal = ({ showButton = false }) => {
   const {
     formStyle,
     elementStyle,
@@ -61,9 +63,21 @@ const ProductionModal = () => {
 
   return (
     <>
-      <Center mt={4}>
-        <Button onClick={onOpen}>Produce</Button>
-      </Center>
+      {showButton ? (
+        <Center mt={4}>
+          <Button onClick={onOpen}>Produce</Button>
+        </Center>
+      ) : (
+        <IconButton
+          colorScheme="blue"
+          variant="outline"
+          aria-label="add"
+          float="right"
+          m={2}
+          icon={<SmallAddIcon />}
+          onClick={onOpen}
+        />
+      )}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
