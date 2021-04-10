@@ -1,10 +1,13 @@
 import { useToast } from '@chakra-ui/react';
-import { useState, useRef } from 'react';
+import { useState, useRef, useContext } from 'react';
 import { useQuery } from 'react-query';
 import { createMachine, getMachines } from 'utils/api/machines.js';
+import { sendEmail } from 'utils/api/system.js';
+import { RootStoreContext } from 'stores/stores.jsx';
 
 const useMachineForm = () => {
   const { refetch } = useQuery('machine', getMachines);
+  const { userStore } = useContext(RootStoreContext);
 
   // Modal (add new machine)
   const [machineName, setMachineName] = useState('');
@@ -21,10 +24,19 @@ const useMachineForm = () => {
     setIsLoadingButton(true);
 
     try {
-      await createMachine({
+      const { data: machineInfo } = await createMachine({
         machineName: machineName,
         status: status.current.value,
       });
+
+      if (machineInfo.status === 'Maintenance') {
+        await sendEmail({
+          to: [userStore.email],
+          subject: `ERP Machine: New Machine ${machineInfo._id}`,
+          emailBody: `Information about the new machine\n\nMachine Name: ${machineInfo.machineName} \nStatus: ${machineInfo.status}`,
+        });
+      }
+
       toast({
         title: 'Request Sent',
         description: 'Machine has been created successfully',
