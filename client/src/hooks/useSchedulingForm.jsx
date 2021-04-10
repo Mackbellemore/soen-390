@@ -1,10 +1,14 @@
 import { useToast } from '@chakra-ui/react';
-import { useRef, useState } from 'react';
+import { useRef, useState, useContext } from 'react';
 import { useQuery } from 'react-query';
 import { createScheduling, getSchedulings } from 'utils/api/schedulings.js';
+import { sendEmail } from 'utils/api/system.js';
+import { RootStoreContext } from 'stores/stores.jsx';
+import { formatDate } from 'utils/dateFunctions.js';
 
 const useSchedulingForm = () => {
   const { refetch } = useQuery('scheduling', getSchedulings);
+  const { userStore } = useContext(RootStoreContext);
 
   // Modal (add new scheduling)
   const [quantity, setQuantity] = useState('');
@@ -46,7 +50,7 @@ const useSchedulingForm = () => {
     setIsLoadingButton(true);
 
     try {
-      await createScheduling({
+      const { data: schedulingInfo } = await createScheduling({
         partType: partType.current.value,
         quantity: quantity,
         cost: cost,
@@ -54,6 +58,20 @@ const useSchedulingForm = () => {
         endTime: endTime,
         machineName: machineName.current.value,
         frequency: frequency.current.value,
+      });
+
+      await sendEmail({
+        to: [userStore.email],
+        subject: `ERP Scheduling: New Scheduling ${schedulingInfo._id}`,
+        emailBody: `Information about the new scheduling\n\nMachine: ${
+          schedulingInfo.machineName
+        }\nPart: ${schedulingInfo.partType}\nMachine: ${schedulingInfo.machineName}\nQuantity: ${
+          schedulingInfo.quatity
+        }\nCost: ${schedulingInfo.cost}\nStart Time: ${formatDate(
+          schedulingInfo.startTime
+        )}\nEnd Time: ${formatDate(schedulingInfo.endTime)} \nFrequency: ${
+          schedulingInfo.frequency
+        }`,
       });
       toast({
         title: 'Request Sent',

@@ -38,7 +38,7 @@ export class MachineController extends BaseController {
    * @param request
    * @returns       Machine JSON Format
    */
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const machine: IMachine = await this.machineService.createMachine(request.body);
@@ -56,7 +56,7 @@ export class MachineController extends BaseController {
    * @param request
    * @returns       Machine JSON Format
    */
-  @httpDelete('/')
+  @httpDelete('/', TYPES.LoggerMiddleware)
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
       const machine = await this.machineService.deleteMachine(request.body);

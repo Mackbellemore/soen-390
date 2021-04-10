@@ -8,6 +8,7 @@ import {
   MdVerifiedUser,
   MdAccountBalance,
   MdGavel,
+  MdBuild,
   MdToday,
   MdInsertChart,
 } from 'react-icons/md';
@@ -83,6 +84,14 @@ export const appRoutes = [
     icon: MdDescription,
   },
   {
+    name: 'Production',
+    protected: true,
+    allowedRoles: ['Admin', 'Manufacturing'],
+    path: '/production',
+    component: lazy(() => import('components/views/Production')),
+    icon: MdBuild,
+  },
+  {
     name: 'Orders',
     protected: true,
     allowedRoles: ['Admin', 'Finance', 'Manufacturing'],
@@ -142,7 +151,7 @@ export const appRoutes = [
   {
     name: 'Schedulings',
     protected: true,
-    allowedRoles: rolesAvailable,
+    allowedRoles: ['Admin', 'Manufacturing'],
     path: '/schedulings',
     icon: MdToday,
     component: lazy(() => import('components/views/SchedulingPage')),
