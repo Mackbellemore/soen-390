@@ -45,6 +45,7 @@ const ProductionModal = () => {
     profitMarginRef,
     partRefs,
     bikeRefs,
+    styleBtn,
     isEmptyField,
     onClickPart,
     onClickBike,
@@ -66,15 +67,20 @@ const ProductionModal = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Production</ModalHeader>
+          <ModalHeader>Production modal for {form}</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
-            <Button mr={3} onClick={onClickPart} colorScheme="teal">
-              Part
-            </Button>
-            <Button onClick={onClickBike} colorScheme="teal">
-              Bike
-            </Button>
+            <div style={styleBtn}>
+              {form === 'Bike' ? (
+                <Button onClick={onClickPart} colorScheme="teal">
+                  Part
+                </Button>
+              ) : (
+                <Button onClick={onClickBike} colorScheme="teal">
+                  Bike
+                </Button>
+              )}
+            </div>
             <div style={formStyle}>
               <FormControl isRequired style={elementStyle}>
                 <FormLabel>Status</FormLabel>

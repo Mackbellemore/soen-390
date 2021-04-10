@@ -69,6 +69,8 @@ const useProductionModal = () => {
     }
   };
 
+  const styleBtn = { display: 'flex', flexDirection: 'row-reverse' };
+
   const formStyle = {
     display: 'flex',
     flexDirection: 'row',
@@ -229,6 +231,7 @@ const useProductionModal = () => {
     forkRef,
     partRefs,
     bikeRefs,
+    styleBtn,
     isEmptyField,
     onClickPart,
     onClickBike,
