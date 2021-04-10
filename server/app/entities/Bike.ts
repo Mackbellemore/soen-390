@@ -24,7 +24,7 @@ export default class BikeEntity {
       pedal: Joi.string(),
     }),
     stock: Joi.number().integer().greater(-1).less(100),
-    profitMargin: Joi.number().integer().greater(1),
+    profitMargin: Joi.number().greater(1),
   });
 
   // create a second schema purely just for POST requests
