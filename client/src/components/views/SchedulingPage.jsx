@@ -11,7 +11,7 @@ const SchedulingPage = () => {
         <title>ERP - Scheduling</title>
       </Head>
       <Heading fontSize={{ base: '12px', sm: '26px' }} textAlign="center" mt={5}>
-        Production
+        Scheduling
       </Heading>
       <Tabs>
         <TabList>
