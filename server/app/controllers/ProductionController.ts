@@ -38,7 +38,7 @@ export class ProductionController extends BaseController {
   // @desc        Create new production
   // @route       POST /productions
   // @access      Public
-  @httpPost('/')
+  @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
       const production = await this.productionService.createProduction(request.body);
@@ -52,7 +52,7 @@ export class ProductionController extends BaseController {
   // @desc        Delete production by ID
   // @route       DELETE /productions/:id
   // @access      Public
-  @httpDelete('/:id')
+  @httpDelete('/:id', TYPES.LoggerMiddleware)
   public async delete(request: Request): Promise<results.JsonResult> {
     try {
       const production = await this.productionService.deleteProduction(request.params.id);
@@ -66,7 +66,7 @@ export class ProductionController extends BaseController {
   // @desc        update production by ID
   // @route       PATCH /productions/:id
   // @access      Public
-  @httpPatch('/:id')
+  @httpPatch('/:id', TYPES.LoggerMiddleware)
   public async update(request: Request): Promise<results.JsonResult> {
     try {
       const production = await this.productionService.updateProduction(

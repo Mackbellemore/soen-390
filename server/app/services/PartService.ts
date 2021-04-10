@@ -94,7 +94,7 @@ export class PartService {
       totalPrice += price;
 
       // check if we have the amount of stock needed for each required material to create the part
-      if (stock < Number(neededStock)) {
+      if (stock <= Number(neededStock)) {
         throw new BadRequestError(
           `Unable to create this part, required ${neededStock} ${materialName} but only found ${stock} in stock`
         );
