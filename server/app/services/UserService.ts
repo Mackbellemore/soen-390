@@ -76,23 +76,19 @@ export class UserService {
 
   public async forgotPassword(url: string, body: IUser): Promise<string> {
     const email = body.email;
-    try {
-      const user: IUserEntity = UserEntity.buildUser(await this.userRepo.findByEmail(body));
-      const accessToken = generateToken(user);
-      requestMap.set(email, accessToken);
+    const user: IUserEntity = UserEntity.buildUser(await this.userRepo.findByEmail(body));
+    const accessToken = generateToken(user);
+    requestMap.set(email, accessToken);
 
-      const info: SentMessageInfo = await this.systemService.sendEmail({
-        to: [email],
-        subject: 'ERP Password Reset',
-        emailBody: `This is the ERP Team07,\n\nPlease reset your password using the following link: ${url}/reset/${accessToken}\n\nRegards.`,
-      });
-      return info;
-    } catch (err) {
-      throw new NotFoundError(`User with email ${body.email} was not found`);
-    }
+    const info: SentMessageInfo = await this.systemService.sendEmail({
+      to: [email],
+      subject: 'ERP Password Reset',
+      emailBody: `This is the ERP Team07,\n\nPlease reset your password using the following link: ${url}/reset/${accessToken}\n\nRegards.`,
+    });
+    return info;
   }
 
-  public async resetPassword(token: string, pass: string): Promise<string> {
+  public async resetPassword(token: string, pass: string) {
     let email = '';
     let found = false;
 
@@ -116,18 +112,14 @@ export class UserService {
       return err;
     }
 
-    try {
-      if (found) {
-        if (requestMap.get(email) !== token) throw new NotFoundError('Bad Token Request');
-        const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
-        const hash = await bcrypt.hash(pass, salt);
-        const newPass = hash;
-        await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
-        requestMap.delete(email);
-        return email;
-      } else throw new NotFoundError('Bad Token Request');
-    } catch (err) {
-      throw new NotFoundError('Bad Token Request');
+    if (found) {
+      if (requestMap.get(email) !== token) throw new NotFoundError('Bad Token Request');
+      const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
+      const hash = await bcrypt.hash(pass, salt);
+      const newPass = hash;
+      await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
+      requestMap.delete(email);
+      return email;
     }
   }
 }
