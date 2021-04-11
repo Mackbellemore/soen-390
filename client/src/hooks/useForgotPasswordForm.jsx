@@ -18,7 +18,7 @@ const useForgotPasswordForm = () => {
     setIsLoading(true);
 
     const email = emailRef.current.value;
-    const url = window.location.href.substr(0, window.location.href.lastIndexOf('/'));
+    const url = window.location.origin;
 
     try {
       await userForgotPassword({
