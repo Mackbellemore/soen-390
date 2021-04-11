@@ -101,7 +101,7 @@ export class BikeController extends BaseController {
   }
 
   @httpPatch('/image/:id', TYPES.UploadMiddleware, TYPES.LoggerMiddleware)
-  public async updateBikeImage(request: Request & { file: File }): Promise<results.JsonResult> {
+  public async updateImage(request: Request & { file: File }): Promise<results.JsonResult> {
     try {
       if (!request.file) {
         // technically uncessessary but keeping here for extra safety
