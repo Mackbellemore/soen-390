@@ -1,4 +1,4 @@
-import { Heading, Table, Tbody, Thead, Tr } from '@chakra-ui/react';
+import { Heading, Table, Tbody, Thead, Tr, Box } from '@chakra-ui/react';
 import Loader from 'components/common/Loader.jsx';
 import { StyledTableHeader } from 'components/common/Table.jsx';
 import { Fragment } from 'react';
@@ -32,26 +32,28 @@ const AuditTrailTable = () => {
   return (
     <>
       <Search handleSearch={setSearchInput} />
-      <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <Thead>
-          <Tr>
-            <StyledTableHeader>User</StyledTableHeader>
-            <StyledTableHeader>Action</StyledTableHeader>
-            <StyledTableHeader>Date</StyledTableHeader>
-            <StyledTableHeader>More Info</StyledTableHeader>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {isSuccess &&
-            searchData(data.data)
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((log, index) => (
-                <Fragment key={index}>
-                  <AuditTrailTableRow log={log} />
-                </Fragment>
-              ))}
-        </Tbody>
-      </Table>
+      <Box overflowX="auto">
+        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+          <Thead>
+            <Tr>
+              <StyledTableHeader>User</StyledTableHeader>
+              <StyledTableHeader>Action</StyledTableHeader>
+              <StyledTableHeader>Date</StyledTableHeader>
+              <StyledTableHeader>More Info</StyledTableHeader>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isSuccess &&
+              searchData(data.data)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((log, index) => (
+                  <Fragment key={index}>
+                    <AuditTrailTableRow log={log} />
+                  </Fragment>
+                ))}
+          </Tbody>
+        </Table>
+      </Box>
       <TablePagination
         rowsPerPageOptions={[10, 20]}
         component="div"

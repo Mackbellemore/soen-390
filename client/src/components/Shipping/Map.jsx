@@ -53,6 +53,7 @@ const ShippingMap = () => {
         mapStyle="mapbox://styles/mapbox/streets-v11"
         mapboxApiAccessToken={process.env.NEXT_PUBLIC_MAPBOX}
         onViewportChange={(nextViewport) => setViewport(nextViewport)}
+        width="100%"
       >
         {!isLoading && data.data.length && destinations.length
           ? destinations.map((dest) => {
