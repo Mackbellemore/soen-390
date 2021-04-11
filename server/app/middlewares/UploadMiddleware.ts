@@ -14,7 +14,7 @@ export class UploadMiddleware extends BaseMiddleware {
     this.upload.single('file')(req, res, async () => {
       try {
         if (!req.file) {
-          throw new Error('No file key provided in form/multidata');
+          throw new Error('No file key provided in multipart/form-data');
         }
         this.logger.info(`Processing File ${req.file.originalname}`);
         next();
