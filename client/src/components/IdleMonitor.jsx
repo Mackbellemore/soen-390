@@ -17,7 +17,7 @@ const IdleMonitor = () => {
     userStore.logOut();
   };
 
-  return <IdleTimer timeout={1000 * 60 * 1} onIdle={handleOnIdle} debounce={500} />;
+  return <IdleTimer timeout={1000 * 60 * 5} onIdle={handleOnIdle} debounce={500} />;
 };
 
 export default observer(IdleMonitor);

@@ -1,4 +1,4 @@
-import { Heading, Table, TableCaption, Tbody, Thead, Tr } from '@chakra-ui/react';
+import { Heading, Table, Tbody, Thead, Tr } from '@chakra-ui/react';
 import { TablePagination } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
 import Loader from 'components/common/Loader.jsx';
@@ -10,6 +10,8 @@ import { getOrders } from 'utils/api/orders.js';
 import Head from 'next/head';
 import usePagination from 'hooks/usePagination.jsx';
 import { formatDate } from 'utils/dateFunctions.js';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const OrdersHeader = () => (
   <>
@@ -25,6 +27,7 @@ const OrdersHeader = () => (
 const Orders = () => {
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
   const { isLoading, isSuccess, data } = useQuery('orders', getOrders);
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -47,8 +50,8 @@ const Orders = () => {
     <>
       <OrdersHeader />
       <FormModal />
+      <Search handleSearch={setSearchInput} />
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <TableCaption placement="top">List of orders</TableCaption>
         <Thead>
           <Tr>
             <StyledTableHeader>Material</StyledTableHeader>
@@ -64,21 +67,23 @@ const Orders = () => {
         </Thead>
         <Tbody>
           {isSuccess &&
-            data.data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((order) => (
-              <Fragment key={order._id}>
-                <StyledTableRow>
-                  <StyledTableCell>{order.materialType}</StyledTableCell>
-                  <StyledTableCell>{order.quantity}</StyledTableCell>
-                  <StyledTableCell>{order.cost}</StyledTableCell>
-                  <StyledTableCell>{formatDate(order.orderDate)}</StyledTableCell>
-                  <StyledTableCell>{order.manufacturerName}</StyledTableCell>
-                  <StyledTableCell>{order.vendorLocation}</StyledTableCell>
-                  <StyledTableCell>{formatDate(order.deliveryDate)}</StyledTableCell>
-                  <StyledTableCell>{order.status}</StyledTableCell>
-                  <StyledTableCell>{order.note}</StyledTableCell>
-                </StyledTableRow>
-              </Fragment>
-            ))}
+            searchData(data.data)
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((order) => (
+                <Fragment key={order._id}>
+                  <StyledTableRow>
+                    <StyledTableCell>{order.materialType}</StyledTableCell>
+                    <StyledTableCell>{order.quantity}</StyledTableCell>
+                    <StyledTableCell>{order.cost}</StyledTableCell>
+                    <StyledTableCell>{formatDate(order.orderDate)}</StyledTableCell>
+                    <StyledTableCell>{order.manufacturerName}</StyledTableCell>
+                    <StyledTableCell>{order.vendorLocation}</StyledTableCell>
+                    <StyledTableCell>{formatDate(order.deliveryDate)}</StyledTableCell>
+                    <StyledTableCell>{order.status}</StyledTableCell>
+                    <StyledTableCell>{order.note}</StyledTableCell>
+                  </StyledTableRow>
+                </Fragment>
+              ))}
         </Tbody>
       </Table>
       <TablePagination

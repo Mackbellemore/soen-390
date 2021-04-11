@@ -1,4 +1,4 @@
-import { Table, Thead, Tbody, Tr, TableCaption, Heading } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Heading } from '@chakra-ui/react';
 import { StyledTableRow, StyledTableCell, StyledTableHeader } from 'components/common/Table.jsx';
 import ProductionModal from 'components/Production/ProductionModal.jsx';
 import { TablePagination } from '@material-ui/core';
@@ -6,6 +6,8 @@ import { Fragment } from 'react';
 import Loader from 'components/common/Loader';
 import { NoResultImage } from 'components/common/Image.jsx';
 import useProductionTable from 'hooks/useProductionTable';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const ProductionTable = () => {
   const {
@@ -23,6 +25,7 @@ const ProductionTable = () => {
     handleChangeRowsPerPage,
     formatDate,
   } = useProductionTable();
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoadingProduction || isLoadingBike || isLoadingPart) {
     return <Loader />;
@@ -34,7 +37,7 @@ const ProductionTable = () => {
         <Heading size="xl" textAlign="center" mt={5}>
           No Productions
         </Heading>
-        <ProductionModal />
+        <ProductionModal showButton={true} />
         <NoResultImage />
       </>
     );
@@ -43,8 +46,8 @@ const ProductionTable = () => {
   return (
     <>
       <ProductionModal />
+      <Search handleSearch={setSearchInput} />
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <TableCaption placement="top">List of productions</TableCaption>
         <Thead>
           <Tr>
             <StyledTableHeader>Status</StyledTableHeader>
@@ -60,7 +63,7 @@ const ProductionTable = () => {
           {isSuccessProduction &&
             isSuccessPart &&
             isSuccessBike &&
-            dataProduction.data
+            searchData(dataProduction.data)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((production) => (
                 <Fragment key={production._id}>

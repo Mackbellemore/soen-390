@@ -7,6 +7,8 @@ import { NoResultImage } from 'components/common/Image.jsx';
 import { DeleteIcon } from '@chakra-ui/icons';
 import AddMachineModal from 'components/SchedulingPage/AddMachineModal.jsx';
 import useMachineTable from 'hooks/useMachineTable.jsx';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const Machines = () => {
   const {
@@ -23,6 +25,7 @@ const Machines = () => {
     data,
     selected,
   } = useMachineTable();
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -52,6 +55,7 @@ const Machines = () => {
         onClick={handleDelete}
         isDisabled={selected.length === 0}
       />
+      <Search handleSearch={setSearchInput} />
       <TableContainer component={Paper}>
         <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
           <Thead>
@@ -71,7 +75,7 @@ const Machines = () => {
           </Thead>
           <Tbody>
             {isSuccess &&
-              data.data
+              searchData(data.data)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((machine) => (
                   <Fragment key={machine._id}>
