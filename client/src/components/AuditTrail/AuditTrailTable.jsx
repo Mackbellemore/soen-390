@@ -9,6 +9,7 @@ import { getAuditTrail } from 'utils/api/auditTrail.js';
 import AuditTrailTableRow from '../AuditTrail/AuditTrailTableRow.jsx';
 import Search from '../common/Search.jsx';
 import useSearch from 'hooks/useSearch.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const AuditTrailTable = () => {
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
@@ -61,6 +62,7 @@ const AuditTrailTable = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ExportFiles section="audits" data={data.data} />
     </>
   );
 };
