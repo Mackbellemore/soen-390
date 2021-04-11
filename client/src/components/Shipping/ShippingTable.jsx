@@ -107,55 +107,53 @@ const ShippingTable = () => {
               </Tr>
             </Thead>
             <Tbody>
-              {isSuccess &&
-                data.data.length > 0 &&
-                searchData(data.data)
-                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((shipment) => (
-                    <Fragment key={shipment._id}>
-                      <StyledTableRow
-                        id={shipment._id}
-                        onMouseOver={(e) => {
-                          handleHover(e, 'over');
-                        }}
-                        onMouseOut={(e) => {
-                          handleHover(e, 'out');
-                        }}
-                      >
-                        <StyledTableCell>
-                          {' '}
-                          <Checkbox
-                            isChecked={isSelected(shipment._id)}
-                            onChange={(event) => handleOnChange(event, shipment._id)}
-                          >
-                            {shipment._id.slice(10)}
-                          </Checkbox>
-                        </StyledTableCell>
-                        <StyledTableCell>
-                          <Menu>
-                            <MenuButton as={Button} rightIcon={<ChevronDownIcon />} mr={3}>
-                              {shipment.status}
-                            </MenuButton>
-                            <MenuList>
-                              {shippingStates.map((status) => (
-                                <MenuItem
-                                  key={status}
-                                  value={status}
-                                  onClick={handleShpmtStateChange}
-                                >
-                                  {status}
-                                </MenuItem>
-                              ))}
-                            </MenuList>
-                          </Menu>
-                        </StyledTableCell>
-                        <StyledTableCell>{shipment.company}</StyledTableCell>
-                        <StyledTableCell>{shipment.location}</StyledTableCell>
-                        <StyledTableCell>{formatDate(shipment.shippingDate)}</StyledTableCell>
-                        <StyledTableCell>{formatDate(shipment.deliveryDate)}</StyledTableCell>
-                      </StyledTableRow>
-                    </Fragment>
-                  ))}
+              {searchData(data.data)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((shipment) => (
+                  <Fragment key={shipment._id}>
+                    <StyledTableRow
+                      id={shipment._id}
+                      onMouseOver={(e) => {
+                        handleHover(e, 'over');
+                      }}
+                      onMouseOut={(e) => {
+                        handleHover(e, 'out');
+                      }}
+                    >
+                      <StyledTableCell>
+                        {' '}
+                        <Checkbox
+                          isChecked={isSelected(shipment._id)}
+                          onChange={(event) => handleOnChange(event, shipment._id)}
+                        >
+                          {shipment._id.slice(10)}
+                        </Checkbox>
+                      </StyledTableCell>
+                      <StyledTableCell>
+                        <Menu>
+                          <MenuButton as={Button} rightIcon={<ChevronDownIcon />} mr={3}>
+                            {shipment.status}
+                          </MenuButton>
+                          <MenuList>
+                            {shippingStates.map((status) => (
+                              <MenuItem
+                                key={status}
+                                value={status}
+                                onClick={handleShpmtStateChange}
+                              >
+                                {status}
+                              </MenuItem>
+                            ))}
+                          </MenuList>
+                        </Menu>
+                      </StyledTableCell>
+                      <StyledTableCell>{shipment.company}</StyledTableCell>
+                      <StyledTableCell>{shipment.location}</StyledTableCell>
+                      <StyledTableCell>{formatDate(shipment.shippingDate)}</StyledTableCell>
+                      <StyledTableCell>{formatDate(shipment.deliveryDate)}</StyledTableCell>
+                    </StyledTableRow>
+                  </Fragment>
+                ))}
             </Tbody>
           </Table>
           <TablePagination
