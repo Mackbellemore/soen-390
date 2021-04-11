@@ -4,12 +4,13 @@ import { UserRepository } from './../repository/UserRepository';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
 import bcrypt from 'bcryptjs';
-import { IConfig } from 'config';
+import config, { IConfig } from 'config';
 import validator from 'validator';
 import { BadRequestError, NotApprovedError, NotFoundError } from '../errors';
 import { generateToken } from '../middlewares/authentication';
 import { SystemService } from './../services/SystemService';
 import { SentMessageInfo } from 'nodemailer';
+import jwt from 'jsonwebtoken';
 
 const requestMap = new Map();
 
@@ -92,27 +93,37 @@ export class UserService {
   }
 
   public async resetPassword(token: string, pass: string): Promise<string> {
-    let email;
+    let email = '';
     let found = false;
 
-    for (const [_email, _token] of requestMap.entries()) {
-      if (_token === token) {
+    try {
+      jwt.verify(token, config.get<string>('jwt.secret'), function (
+        err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        decoded: any | IUserEntity
+      ) {
+        if (err) throw new BadRequestError('Invalid jwt token');
+
+        if (!(decoded.username && decoded.email && decoded.id && decoded.role))
+          throw new BadRequestError('Invalid jwt token');
+        delete decoded.exp;
+        delete decoded.iat;
+
+        email = decoded.email;
         found = true;
-        email = _email;
-        break;
-      }
+      });
+    } catch (err) {
+      return err;
     }
 
     try {
       if (found) {
+        if (requestMap.get(email) !== token) throw new NotFoundError('Bad Token Request');
         const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
         const hash = await bcrypt.hash(pass, salt);
         const newPass = hash;
-
         await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
         requestMap.delete(email);
-        found = false;
-
         return email;
       } else throw new NotFoundError('Bad Token Request');
     } catch (err) {

@@ -2,6 +2,7 @@ import { useDisclosure, useToast } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import { userRegister } from 'utils/api/users.js';
 import useEmailValidation from 'hooks/useEmailValidation.jsx';
+import usePasswordValidation from 'hooks/usePasswordValidation';
 
 const useRegisterForm = () => {
   const usernameRef = useRef('');
@@ -15,6 +16,7 @@ const useRegisterForm = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isAnEmail } = useEmailValidation();
+  const { isGoodPassword } = usePasswordValidation();
 
   const registerHandleSubmit = async (e) => {
     e.preventDefault();
@@ -52,10 +54,7 @@ const useRegisterForm = () => {
   // Validates Password
   const registerHandlePasswordValidation = (e) => {
     const pass = e.target.value;
-    // min 8 characters one uppercase, one lowercase, one number, one special character
-    const regex = /^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$/;
-    const isOk = regex.test(pass);
-    if (!isOk) {
+    if (!isGoodPassword(pass)) {
       setpasswordIsNotValid(true);
       setButtonIsDisabled(true);
     } else {

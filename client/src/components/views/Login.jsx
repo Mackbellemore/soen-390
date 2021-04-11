@@ -1,5 +1,4 @@
-import { Flex, FormLabel, Icon, Input, Box, useToast, Divider } from '@chakra-ui/react';
-import styled from '@emotion/styled';
+import { Flex, useToast, Divider } from '@chakra-ui/react';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { GrLock, GrMailOption } from 'react-icons/gr';
@@ -10,53 +9,17 @@ import { Heading, Text } from '../common/Typography.jsx';
 import RegisterUserModal from 'components/Login/RegisterUserModal.jsx';
 import ForgotPasswordModal from 'components/Login/ForgotPasswordModal.jsx';
 import { FormButton } from '../common/Button.jsx';
-import { StyledForm } from '../common/Form.jsx';
+import {
+  StyledForm,
+  Container,
+  InputContainer,
+  UnstyledInput,
+  InputIcon,
+  StyledFormLabel,
+} from '../common/Form.jsx';
 import useLoggedInUser from 'hooks/useLoggedInUser.jsx';
 import Loader from '../common/Loader.jsx';
 import PropTypes from 'prop-types';
-
-const Container = styled(Box)`
-  width: 100%;
-  height: 456px;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  left: 50%;
-  align-items: center;
-  transform: translate(-50%, -50%);
-  background-color: #fffcfc;
-  padding: 10px;
-  max-width: 560px;
-`;
-
-const InputContainer = styled(Flex)`
-  flex-direction: row;
-  background-color: white;
-  border: 1px solid #d5d5d5;
-  border-radius: 4px;
-  width: 100%;
-  max-width: 380px;
-  font-family: Montserrat;
-  font-size: 14px;
-`;
-
-const UnstyledInput = styled(Input)`
-  border: none;
-`;
-
-const InputIcon = styled(Icon)`
-  width: 30px;
-  height: 30px;
-  margin: 15px;
-`;
-
-const StyledFormLabel = styled(FormLabel)`
-  padding: 0 1rem;
-  margin-top: 10px;
-  margin-bottom: unset;
-  color: #9c9c9c;
-  font-size: 12px;
-`;
 
 const Login = ({ location: { state } }) => {
   const { userStore } = useContext(RootStoreContext);
