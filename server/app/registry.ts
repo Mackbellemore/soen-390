@@ -88,6 +88,8 @@ logger.add(
 const isDeployed =
   config.get<string>('zeetEnv') === 'main' || config.get<string>('zeetEnv') === 'develop';
 
+const idDev = config.get<string>('env') === 'development';
+
 // only log to Logdna, our third part logging manager when deployed to save resources.
 if (isDeployed) {
   logger.add(new LogdnaWinston(config.get<string>('logdna')));
@@ -105,8 +107,8 @@ const storage = multer.memoryStorage();
 const upload = multer({ storage });
 
 const S3Client = new S3({
-  s3ForcePathStyle: !isDeployed,
-  endpoint: isDeployed ? undefined : config.get<string>('aws.localEndpoint'),
+  s3ForcePathStyle: true,
+  endpoint: idDev ? undefined : config.get<string>('aws.localEndpoint'),
   region: config.get<string>('aws.region'),
 });
 
