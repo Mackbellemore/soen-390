@@ -14,6 +14,7 @@ import TYPES from '../constants/types';
 import { BaseController } from './BaseController';
 import BikeEntity from '../entities/Bike';
 import { Doc } from 'inversify-express-doc';
+import { BadRequestError } from '../errors';
 
 @controller('/bikes')
 export class BikeController extends BaseController {
@@ -91,6 +92,24 @@ export class BikeController extends BaseController {
       const bike: IBike | null = await this.bikeService.updateBike(
         request.params.id,
         validBikeBody
+      );
+      return this.json(bike);
+    } catch (err) {
+      return this.handleError(err);
+    }
+  }
+
+  @httpPatch('/image/:id', TYPES.UploadMiddleware, TYPES.LoggerMiddleware)
+  public async updateBikeImage(request: Request): Promise<results.JsonResult> {
+    try {
+      if (!request.file) {
+        // technically uncessessary but keeping here for extra safety
+        throw new BadRequestError('No file provided');
+      }
+
+      const bike: IBike | null = await this.bikeService.updateBikeImage(
+        request.params.id,
+        request.file
       );
       return this.json(bike);
     } catch (err) {

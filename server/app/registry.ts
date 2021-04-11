@@ -10,10 +10,12 @@ import { Container } from 'inversify';
 
 // Utils
 import winston, { Logger } from 'winston';
+import multer, { Multer } from 'multer';
 import { MongoConnection } from './utils/MongoConnection';
 import TYPES from './constants/types';
 import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
+import { S3 } from 'aws-sdk';
 
 // Controllers import autobinds them to the application
 import './controllers/BikeController';
@@ -43,6 +45,7 @@ import { ProductionService } from './services/ProductionService';
 import { MachineService } from './services/MachineService';
 import { SaleService } from './services/SaleService';
 import { LogService } from './services/LogService';
+import { S3Service } from './services/S3Service';
 import { ShippingService } from './services/ShippingService';
 
 // Repositories
@@ -61,6 +64,7 @@ import { LogRepository } from './repository/LogRepository';
 
 // Middlewares
 import { LoggerMiddleware } from './middlewares/LoggerMiddleware';
+import { UploadMiddleware } from './middlewares/UploadMiddleware';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore because types don't exist for this library
@@ -97,12 +101,23 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+const S3Client = new S3({
+  s3ForcePathStyle: !isDeployed,
+  endpoint: isDeployed ? undefined : config.get<string>('aws.localEndpoint'),
+  region: config.get<string>('aws.region'),
+});
+
 // Global container
 const container = new Container();
 
+container.bind<S3>(TYPES.S3Client).toConstantValue(S3Client);
 container.bind<IConfig>(TYPES.config).toConstantValue(config);
 container.bind<Logger>(TYPES.logger).toConstantValue(logger);
 container.bind<Mail>(TYPES.Mail).toConstantValue(transporter);
+container.bind<Multer>(TYPES.MulterUpload).toConstantValue(upload);
 
 // Mongo
 const mongoConnection = new MongoConnection(config);
@@ -122,6 +137,7 @@ container.bind<MachineService>(TYPES.MachineService).to(MachineService).inSingle
 container.bind<SaleService>(TYPES.SaleService).to(SaleService).inSingletonScope();
 container.bind<ShippingService>(TYPES.ShippingService).to(ShippingService).inSingletonScope();
 container.bind<LogService>(TYPES.LogService).to(LogService).inSingletonScope();
+container.bind<S3Service>(TYPES.S3Service).to(S3Service).inSingletonScope();
 
 // Repository
 container.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
@@ -147,9 +163,10 @@ container
   .to(ShippingRepository)
   .inSingletonScope();
 container.bind<LogRepository>(TYPES.LogRepository).to(LogRepository).inSingletonScope();
-
-container.bind<LoggerMiddleware>(TYPES.LoggerMiddleware).to(LoggerMiddleware).inSingletonScope();
-
 container.bind<MachineRepository>(TYPES.MachineRepository).to(MachineRepository).inSingletonScope();
+
+// Middlewares
+container.bind<LoggerMiddleware>(TYPES.LoggerMiddleware).to(LoggerMiddleware).inSingletonScope();
+container.bind<UploadMiddleware>(TYPES.UploadMiddleware).to(UploadMiddleware).inSingletonScope();
 
 export { container };

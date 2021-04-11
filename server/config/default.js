@@ -34,4 +34,11 @@ module.exports = {
     handleExceptions: true,
     level: 'info',
   },
+  aws: {
+    secret: process.env.AWS_SECRET_ACCESS_KEY || 'test',
+    access: process.env.AWS_ACCESS_KEY_ID || 'test',
+    bucket: process.env.AWS_BUCKET || 'soen-390-dev',
+    region: process.env.AWS_REGION || 'us-east-1',
+    localEndpoint: 'http://aws-localstack:4566',
+  },
 };
