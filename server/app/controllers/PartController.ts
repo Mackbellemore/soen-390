@@ -55,7 +55,7 @@ export class PartController extends BaseController {
   @httpPost('/', TYPES.LoggerMiddleware)
   public async post(req: Request): Promise<results.JsonResult> {
     try {
-      const validPartBody = await PartEntity.validate(req.body, 'post');
+      const validPartBody = await PartEntity.validate(req.body, 'create');
       const part = await this.partService.createPart(validPartBody);
       return this.json(part);
     } catch (err) {
@@ -74,7 +74,7 @@ export class PartController extends BaseController {
   @httpPatch('/:name', TYPES.LoggerMiddleware)
   public async patch(req: Request): Promise<results.JsonResult> {
     try {
-      const validPartBody = await PartEntity.validate(req.body, 'patch');
+      const validPartBody = await PartEntity.validate(req.body, 'update');
       const part = await this.partService.updatePart(req.params.name, validPartBody);
       return this.json(part);
     } catch (err) {

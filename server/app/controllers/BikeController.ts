@@ -49,7 +49,7 @@ export class BikeController extends BaseController {
   @httpPost('/', TYPES.LoggerMiddleware)
   public async post(request: Request): Promise<results.JsonResult> {
     try {
-      const validBikeBody = await BikeEntity.validate(request.body, 'post');
+      const validBikeBody = await BikeEntity.validate(request.body, 'create');
       const bike: IBike = await this.bikeService.createBike(validBikeBody);
       return this.json(bike);
     } catch (err) {
@@ -87,7 +87,7 @@ export class BikeController extends BaseController {
   @httpPatch('/:id', TYPES.LoggerMiddleware)
   public async update(request: Request): Promise<results.JsonResult> {
     try {
-      const validBikeBody = await BikeEntity.validate(request.body, 'patch');
+      const validBikeBody = await BikeEntity.validate(request.body, 'update');
       const bike: IBike | null = await this.bikeService.updateBike(
         request.params.id,
         validBikeBody

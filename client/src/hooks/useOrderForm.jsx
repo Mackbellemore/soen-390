@@ -8,7 +8,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 const useOrderForm = () => {
   const toast = useToast();
-  const manufacturer = useRef('');
+  const [manufacturer, setManufacturer] = useState(undefined);
   const note = useRef('');
   const quantityRef = useRef(1);
   const [location, setLocation] = useState('');
@@ -16,18 +16,18 @@ const useOrderForm = () => {
   const [cost, setCost] = useState(0);
   const [shippingDate, setShippingDate] = useState('');
   const [deliveryDate, setDeliveryDate] = useState('');
-  const materialCost = useQuery('orders/materialList', getMaterialList);
+  const { isLoading, data: materialCost } = useQuery('orders/materialList', getMaterialList);
   const { refetch } = useQuery('orders', getOrders);
   const {
     isOpen: isOrderModalOpen,
     onOpen: onOrderModalOpen,
     onClose: onOrderModalClose,
   } = useDisclosure();
-  // sets material and cost states
+
   const handleMaterial = (e) => {
     const choice = e.target.value;
     setMaterial(choice);
-    setCost(materialCost.data.data[choice].cost);
+    setCost(materialCost.data[choice].cost);
   };
 
   const handleDeliveryDateInput = (e) => {
@@ -40,6 +40,10 @@ const useOrderForm = () => {
 
   const handleLocationSelect = (e) => {
     e ? setLocation(e) : setLocation(null);
+  };
+
+  const handleManufacturerInput = (e) => {
+    setManufacturer(e.target.value);
   };
 
   const handleLocationInput = useDebouncedCallback((e) => {
@@ -59,13 +63,13 @@ const useOrderForm = () => {
         quantity: quantityRef.current.value,
         deliveryDate: deliveryDate,
         orderDate: orderTime,
-        manufacturerName: manufacturer.current.value,
+        manufacturerName: manufacturer,
         vendorLocation: location.label,
         status: 'Pending',
         note: note.current.value,
       });
       await createShipment({
-        company: manufacturer.current.value,
+        company: manufacturer,
         location: location.label,
         status: 'Ordered',
         deliveryDate: deliveryDate,
@@ -94,12 +98,15 @@ const useOrderForm = () => {
   };
 
   return {
+    isLoading,
+    materialCost,
     handleMaterial,
     handleSubmit,
     handleDeliveryDateInput,
     handleShippingDateInput,
     handleLocationInput,
     handleLocationSelect,
+    handleManufacturerInput,
     manufacturer,
     location,
     note,

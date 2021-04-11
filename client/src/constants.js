@@ -8,6 +8,9 @@ import {
   MdVerifiedUser,
   MdAccountBalance,
   MdGavel,
+  MdBuild,
+  MdToday,
+  MdInsertChart,
 } from 'react-icons/md';
 import Logo from './components/common/Logo.jsx';
 export const hq = {
@@ -56,7 +59,7 @@ export const salesStatus = ['Fulfilled', 'Placed', 'Cancelled', 'Processing'];
 
 export const appRoutes = [
   {
-    name: 'Dashboard',
+    name: '',
     protected: true,
     allowedRoles: rolesAvailable,
     path: '/main',
@@ -79,6 +82,14 @@ export const appRoutes = [
     path: '/inventory',
     component: lazy(() => import('components/views/Inventory')),
     icon: MdDescription,
+  },
+  {
+    name: 'Production',
+    protected: true,
+    allowedRoles: ['Admin', 'Manufacturing'],
+    path: '/production',
+    component: lazy(() => import('components/views/Production')),
+    icon: MdBuild,
   },
   {
     name: 'Orders',
@@ -128,6 +139,22 @@ export const appRoutes = [
     path: '/audit',
     component: lazy(() => import('components/views/AuditTrail')),
     icon: MdGavel,
+  },
+  {
+    name: 'Planning',
+    protected: true,
+    allowedRoles: ['Admin', 'Finance'],
+    path: '/planning',
+    component: lazy(() => import('components/views/Planning')),
+    icon: MdInsertChart,
+  },
+  {
+    name: 'Schedulings',
+    protected: true,
+    allowedRoles: ['Admin', 'Manufacturing'],
+    path: '/schedulings',
+    icon: MdToday,
+    component: lazy(() => import('components/views/SchedulingPage')),
   },
   {
     protected: false,

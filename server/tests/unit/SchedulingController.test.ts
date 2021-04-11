@@ -23,6 +23,7 @@ const mockScheduling = ({
   cost: 50,
   operatingTime: 'January 1, 1970 00:00:00 UTC',
   id: '12312313',
+  machineName: 'ricardo',
 } as unknown) as IScheduling;
 
 let sandbox: SinonSandbox;

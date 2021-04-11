@@ -8,10 +8,13 @@ import { useQuery } from 'react-query';
 import { getSales } from 'utils/api/sales.js';
 import SalesModal from './Modal.jsx';
 import SaleRow from './Row.jsx';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const SalesTable = () => {
   const { isLoading, isSuccess, data } = useQuery('sales', getSales);
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -32,6 +35,7 @@ const SalesTable = () => {
   return (
     <Box overflowX="auto">
       <SalesModal />
+      <Search handleSearch={setSearchInput} />
       <TableContainer component={Paper}>
         <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
           <Thead>
@@ -46,7 +50,7 @@ const SalesTable = () => {
           </Thead>
           <Tbody>
             {isSuccess &&
-              data.data
+              searchData(data.data)
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((sale) => <SaleRow key={sale._id} sale={sale} />)}
           </Tbody>

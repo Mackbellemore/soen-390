@@ -11,6 +11,6 @@ export const StyledTableCell = styled(Td)`
 
 export const StyledTableRow = styled(Tr)`
   &:hover {
-    background-color: #d6d6d6;
+    background-color: #d9e6f1;
   }
 `;

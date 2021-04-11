@@ -4,4 +4,8 @@ const getParts = async () => {
   return makeGetRequest('parts');
 };
 
-export { getParts };
+const getPartMaterialList = async () => {
+  return makeGetRequest('parts/materialList');
+};
+
+export { getParts, getPartMaterialList };

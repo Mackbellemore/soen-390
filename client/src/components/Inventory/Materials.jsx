@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Table, Thead, Tbody, Tr, TableCaption, Heading } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Heading } from '@chakra-ui/react';
 import Loader from 'components/common/Loader';
 import { getMaterials } from 'utils/api/materials.js';
 import { useQuery } from 'react-query';
@@ -8,10 +8,13 @@ import { TablePagination } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
 import ExportFiles from 'components/common/ExportFiles.jsx';
 import usePagination from 'hooks/usePagination.jsx';
+import Search from '../common/Search.jsx';
+import useSearch from 'hooks/useSearch.jsx';
 
 const Materials = () => {
   const { isLoading, isSuccess, data } = useQuery('materials', getMaterials);
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
+  const { setSearchInput, searchData } = useSearch();
 
   if (isLoading) {
     return <Loader />;
@@ -30,8 +33,8 @@ const Materials = () => {
 
   return (
     <>
+      <Search handleSearch={setSearchInput} />
       <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <TableCaption placement="top">List of materials</TableCaption>
         <Thead>
           <Tr>
             <StyledTableHeader>Name</StyledTableHeader>
@@ -43,7 +46,7 @@ const Materials = () => {
         </Thead>
         <Tbody>
           {isSuccess &&
-            data.data
+            searchData(data.data)
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
               .map((material) => (
                 <Fragment key={material._id}>

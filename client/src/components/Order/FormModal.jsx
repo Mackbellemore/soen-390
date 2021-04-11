@@ -26,17 +26,19 @@ import PropTypes from 'prop-types';
 import React, { Fragment } from 'react';
 import { TextField } from '@material-ui/core';
 import AsyncSelect from 'react-select/async';
+import Loader from 'components/common/Loader.jsx';
 
 const FormModal = ({ showButton = false }) => {
-  // TODO: use the endpoint to get this constant list of materials rather than hard coding
-  const materialTypes = ['rubber', 'aluminum', 'steel', 'copper', 'plastic', 'leather'];
   const {
+    isLoading,
+    materialCost,
     handleMaterial,
     handleSubmit,
     handleDeliveryDateInput,
     handleShippingDateInput,
     handleLocationInput,
     handleLocationSelect,
+    handleManufacturerInput,
     manufacturer,
     location,
     note,
@@ -48,6 +50,10 @@ const FormModal = ({ showButton = false }) => {
     deliveryDate,
     shippingDate,
   } = useOrderForm();
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <>
@@ -75,10 +81,10 @@ const FormModal = ({ showButton = false }) => {
             <FormControl isRequired>
               <FormLabel>Material</FormLabel>
               <Select placeholder="Select an option" onChange={handleMaterial}>
-                {materialTypes.map((thisMaterial) => (
-                  <Fragment key={thisMaterial}>
-                    <option value={thisMaterial}>{thisMaterial}</option>
-                  </Fragment>
+                {Object.keys(materialCost.data).map((thisMaterial) => (
+                  <option key={thisMaterial} value={thisMaterial}>
+                    {thisMaterial}
+                  </option>
                 ))}
               </Select>
             </FormControl>
@@ -92,11 +98,11 @@ const FormModal = ({ showButton = false }) => {
                 </NumberInputStepper>
               </NumberInput>
             </FormControl>
-            <FormControl mt={4}>
+            <FormControl mt={4} isRequired>
               <FormLabel>Manufacturer</FormLabel>
-              <Input placeholder="Manufacturer" ref={manufacturer} />
+              <Input placeholder="Manufacturer" onChange={handleManufacturerInput} />
             </FormControl>
-            <FormControl mt={4}>
+            <FormControl mt={4} isRequired>
               <FormLabel>Location</FormLabel>
               <AsyncSelect
                 cacheOptions
@@ -125,7 +131,7 @@ const FormModal = ({ showButton = false }) => {
               colorScheme="blue"
               mr={3}
               onClick={handleSubmit}
-              isDisabled={!(material && deliveryDate && shippingDate && location)}
+              isDisabled={!(material && deliveryDate && shippingDate && location && manufacturer)}
             >
               Submit
             </Button>

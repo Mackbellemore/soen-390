@@ -10,6 +10,7 @@ import RegisterUserModal from 'components/Login/RegisterUserModal.jsx';
 import ForgotPasswordModal from 'components/Login/ForgotPasswordModal.jsx';
 import { FormButton } from '../common/Button.jsx';
 import {
+  BackgroundImageContainer,
   StyledForm,
   Container,
   InputContainer,
@@ -82,42 +83,52 @@ const Login = ({ location: { state } }) => {
         <title>ERP - Login</title>
       </Head>
       {shouldRenderForm ? (
-        <Container top={{ base: '66%', sm: '50%' }}>
-          <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
-            Log in
-          </Heading>
-          <StyledForm onSubmit={handleSubmit}>
-            <InputContainer>
-              <Flex alignItems="center">
-                <InputIcon as={GrMailOption} />
-              </Flex>
-              <Flex direction="column">
-                <StyledFormLabel px={4}>Email address</StyledFormLabel>
-                <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
-              </Flex>
-            </InputContainer>
-            <InputContainer mt={7}>
-              <Flex alignItems="center">
-                <InputIcon as={GrLock} />
-              </Flex>
-              <Flex direction="column">
-                <StyledFormLabel>Password</StyledFormLabel>
-                <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
-              </Flex>
-            </InputContainer>
-            <Flex direction="row" width="100%" maxWidth="380px">
-              <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
-                Login
-              </FormButton>
-            </Flex>
-          </StyledForm>
-          <ForgotPasswordModal />
-          <Divider orientation="horizontal" borderColor="#D4D4D4" opacity="1" width="90%" mt={5} />
-          <Text mt={4} fontSize="12px">
-            New User?
-          </Text>
-          <RegisterUserModal />
-        </Container>
+        <>
+          <BackgroundImageContainer>
+            <Container top={{ base: '66%', sm: '50%' }}>
+              <Heading size="lg" textAlign="left" width="100%" maxWidth="380px" pb={8}>
+                Log in
+              </Heading>
+              <StyledForm onSubmit={handleSubmit}>
+                <InputContainer>
+                  <Flex alignItems="center">
+                    <InputIcon as={GrMailOption} />
+                  </Flex>
+                  <Flex direction="column">
+                    <StyledFormLabel px={4}>Email address</StyledFormLabel>
+                    <UnstyledInput type="email" focusBorderColor="none" ref={emailRef} />
+                  </Flex>
+                </InputContainer>
+                <InputContainer mt={7}>
+                  <Flex alignItems="center">
+                    <InputIcon as={GrLock} />
+                  </Flex>
+                  <Flex direction="column">
+                    <StyledFormLabel>Password</StyledFormLabel>
+                    <UnstyledInput type="password" focusBorderColor="none" ref={passwordRef} />
+                  </Flex>
+                </InputContainer>
+                <Flex direction="row" width="100%" maxWidth="380px">
+                  <FormButton mt={5} colorScheme="blue" isLoading={isLoading} type="submit">
+                    Login
+                  </FormButton>
+                </Flex>
+              </StyledForm>
+              <ForgotPasswordModal />
+              <Divider
+                orientation="horizontal"
+                borderColor="#D4D4D4"
+                opacity="1"
+                width="90%"
+                mt={5}
+              />
+              <Text mt={4} fontSize="12px">
+                New User?
+              </Text>
+              <RegisterUserModal />
+            </Container>
+          </BackgroundImageContainer>
+        </>
       ) : (
         <Redirect
           to={{

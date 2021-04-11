@@ -22,7 +22,7 @@ import { Fragment } from 'react';
 import usePagination from 'hooks/usePagination.jsx';
 import DefectsFilter from './DefectsFilter.jsx';
 import useDefectSearchFilter from 'hooks/useDefectSearchFilter.jsx';
-import Search from './Search.jsx';
+import Search from '../common/Search.jsx';
 
 const Parts = () => {
   const {
