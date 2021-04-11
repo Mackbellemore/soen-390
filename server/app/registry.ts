@@ -108,7 +108,7 @@ const upload = multer({ storage });
 
 const S3Client = new S3({
   s3ForcePathStyle: true,
-  endpoint: idDev ? undefined : config.get<string>('aws.localEndpoint'),
+  endpoint: idDev ? config.get<string>('aws.localEndpoint') : undefined,
   region: config.get<string>('aws.region'),
 });
 
