@@ -18,7 +18,7 @@ export class S3Service {
     try {
       const uploadParams = {
         Bucket: this.config.get<string>('aws.bucket'),
-        Key: key.toString(),
+        Key: `${key}.jpg`,
         Body: img.buffer,
       };
 
