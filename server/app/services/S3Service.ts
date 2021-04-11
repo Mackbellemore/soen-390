@@ -14,13 +14,14 @@ export class S3Service {
 
   public async uploadImage(key: string, img: File): Promise<string> {
     this.validateImage(img.mimetype);
-    const uploadParams = {
-      Bucket: this.config.get<string>('aws.bucket'),
-      Key: key.toString(),
-      Body: img.buffer,
-    };
 
     try {
+      const uploadParams = {
+        Bucket: this.config.get<string>('aws.bucket'),
+        Key: key.toString(),
+        Body: img.buffer,
+      };
+
       await this.s3Client.upload(uploadParams).promise();
     } catch (err) {
       this.logger.warn(JSON.stringify(err));
@@ -36,11 +37,11 @@ export class S3Service {
   }
 
   public contructUrl(key: string): string {
-    const isDev = this.config.get<boolean>('env');
+    const isDev = this.config.get<string>('env') === 'development';
     const bucket = this.config.get<string>('aws.bucket');
     let url = '';
     if (isDev) {
-      url = `${this.config.get<string>('aws.localEndpoint')}/${bucket}/${key}`;
+      url = `http://localhost:4566/${bucket}/${key}`;
     } else {
       url = `https://${bucket}.s3-${this.config.get<string>('aws.region')}.amazonaws.com/${key}`;
     }
