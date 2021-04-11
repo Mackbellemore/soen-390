@@ -15,6 +15,7 @@ import { BaseController } from './BaseController';
 import BikeEntity from '../entities/Bike';
 import { Doc } from 'inversify-express-doc';
 import { BadRequestError } from '../errors';
+import { File } from '../constants/common';
 
 @controller('/bikes')
 export class BikeController extends BaseController {
@@ -100,7 +101,7 @@ export class BikeController extends BaseController {
   }
 
   @httpPatch('/image/:id', TYPES.UploadMiddleware, TYPES.LoggerMiddleware)
-  public async updateBikeImage(request: Request): Promise<results.JsonResult> {
+  public async updateBikeImage(request: Request & { file: File }): Promise<results.JsonResult> {
     try {
       if (!request.file) {
         // technically uncessessary but keeping here for extra safety
