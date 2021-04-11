@@ -88,31 +88,25 @@ export class UserService {
     return info;
   }
 
-  public async resetPassword(token: string, pass: string) {
+  public async resetPassword(token: string, pass: string): Promise<string> {
     let email = '';
-    let found = false;
 
-    try {
-      jwt.verify(token, config.get<string>('jwt.secret'), function (
-        err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        decoded: any | IUserEntity
-      ) {
-        if (err) throw new BadRequestError('Invalid jwt token');
+    jwt.verify(token, config.get<string>('jwt.secret'), function (
+      err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      decoded: any | IUserEntity
+    ) {
+      if (err) throw new BadRequestError('Invalid jwt token');
 
-        if (!(decoded.username && decoded.email && decoded.id && decoded.role))
-          throw new BadRequestError('Invalid jwt token');
-        delete decoded.exp;
-        delete decoded.iat;
+      if (!(decoded.username && decoded.email && decoded.id && decoded.role))
+        throw new BadRequestError('Invalid jwt token');
+      delete decoded.exp;
+      delete decoded.iat;
 
-        email = decoded.email;
-        found = true;
-      });
-    } catch (err) {
-      return err;
-    }
+      email = decoded.email;
+    });
 
-    if (found) {
+    if (email) {
       if (requestMap.get(email) !== token) throw new NotFoundError('Bad Token Request');
       const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
       const hash = await bcrypt.hash(pass, salt);
@@ -120,6 +114,6 @@ export class UserService {
       await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
       requestMap.delete(email);
       return email;
-    }
+    } else throw new NotFoundError('Bad Token Request');
   }
 }

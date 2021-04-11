@@ -98,8 +98,8 @@ export class UserController extends BaseHttpController {
   @httpPost('/reset')
   public async reset(req: Request): Promise<results.JsonResult> {
     try {
-      const token = req.body.token;
-      const pass = req.body.pass;
+      const token = req.body?.token;
+      const pass = req.body?.pass;
       await this.userService.resetPassword(token, pass);
       return this.json(req.body, 200);
     } catch (err) {
