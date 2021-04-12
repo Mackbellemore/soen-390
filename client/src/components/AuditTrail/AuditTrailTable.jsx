@@ -16,6 +16,8 @@ const AuditTrailTable = () => {
   const { isLoading, isSuccess, data } = useQuery('audit', getAuditTrail);
   const { setSearchInput, searchData } = useSearch();
 
+  let exportData = [];
+
   if (isLoading) {
     return <Loader />;
   }
@@ -28,6 +30,11 @@ const AuditTrailTable = () => {
         </Heading>
       </>
     );
+  }
+
+  if (isSuccess) {
+    exportData = data.data;
+    delete exportData['meta'];
   }
 
   return (
@@ -62,7 +69,7 @@ const AuditTrailTable = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
-      <ExportFiles section="audits" data={data.data} />
+      <ExportFiles section="audits" data={exportData} />
     </>
   );
 };
