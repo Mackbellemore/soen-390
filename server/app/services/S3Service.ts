@@ -39,11 +39,12 @@ export class S3Service {
   public contructUrl(key: string): string {
     const isDev = this.config.get<string>('env') === 'development';
     const bucket = this.config.get<string>('aws.bucket');
-    let url = '';
+    const region = this.config.get<string>('aws.region');
+
+    let url = `https://${bucket}.s3-${region}.amazonaws.com/${key}.jpg`;
+
     if (isDev) {
-      url = `http://localhost:4566/${bucket}/${key}`;
-    } else {
-      url = `https://${bucket}.s3-${this.config.get<string>('aws.region')}.amazonaws.com/${key}`;
+      url = `http://localhost:4566/${bucket}/${key}.jpg`;
     }
     return url;
   }
