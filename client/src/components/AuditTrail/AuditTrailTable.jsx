@@ -34,7 +34,7 @@ const AuditTrailTable = () => {
 
   if (isSuccess) {
     exportData = data.data;
-    delete exportData['meta'];
+    delete exportData.meta;
   }
 
   return (
