@@ -25,6 +25,7 @@ export default class BikeEntity {
     }),
     stock: Joi.number().integer().greater(-1).less(100),
     profitMargin: Joi.number().greater(1),
+    imgUrl: Joi.string(),
   });
 
   // create a second schema purely just for POST requests
