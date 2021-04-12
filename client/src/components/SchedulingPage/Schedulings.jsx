@@ -10,6 +10,7 @@ import useSchedulingTable from 'hooks/useSchedulingTable.jsx';
 import { formatDateAndTime } from 'utils/dateFunctions.js';
 import Search from '../common/Search.jsx';
 import useSearch from 'hooks/useSearch.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const Schedulings = () => {
   const {
@@ -115,6 +116,7 @@ const Schedulings = () => {
           rowsPerPage={rowsPerPage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        <ExportFiles section="schedulings" data={data.data} />
       </TableContainer>
     </Box>
   );
