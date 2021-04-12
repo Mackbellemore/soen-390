@@ -91,7 +91,7 @@ export class UserService {
   public async resetPassword(token: string, pass: string): Promise<string> {
     let email = '';
 
-    jwt.verify(token, config.get<string>('jwt.secret'), function (
+    jwt.verify(token, this.config.get<string>('jwt.secret'), function (
       err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       decoded: any | IUserEntity
