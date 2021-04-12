@@ -1,4 +1,4 @@
-import { Box, Button as ChakraButton, Flex } from '@chakra-ui/react';
+import { Box, Button as ChakraButton, Flex, Image } from '@chakra-ui/react';
 import { observer } from 'mobx-react-lite';
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
@@ -51,8 +51,21 @@ const NavBar = () => {
       paddingY="2rem"
     >
       <Flex alignItems="center">{userStore.loggedIn ? <SidebarButton /> : null}</Flex>
-      <Heading fontSize={{ base: '14px', sm: '36px' }} lineHeight={{ base: '40px', sm: '1.5' }}>
-        Enterprise Resource Planning
+      <Heading
+        paddingLeft={userStore.loggedIn ? '3rem' : '7rem'}
+        fontSize={{ base: '14px', sm: '36px' }}
+        lineHeight={{ base: '40px', sm: '1.5' }}
+        textAlign="center"
+        display="flex"
+        flexDirection="column"
+      >
+        <Image
+          src="/images/headerLogo.png"
+          alt="No results illustration"
+          width="100px"
+          height="50px"
+          margin="auto"
+        />
       </Heading>
       <Flex>
         {shouldRenderHomeButton && <Button path="/" text="Home" />}
