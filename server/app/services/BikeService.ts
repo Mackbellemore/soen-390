@@ -1,8 +1,10 @@
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
+import { File } from '../constants/common';
 import { IBike } from './../models/BikeModel';
 import { BikeRepository } from './../repository/BikeRepository';
 import { PartService } from './PartService';
+import { S3Service } from './S3Service';
 import { BadRequestError, NotFoundError } from '../errors';
 import { IPart } from '../models/PartModel';
 
@@ -10,7 +12,8 @@ import { IPart } from '../models/PartModel';
 export class BikeService {
   constructor(
     @inject(TYPES.BikeRepository) private bikeRepo: BikeRepository,
-    @inject(TYPES.PartService) private partService: PartService
+    @inject(TYPES.PartService) private partService: PartService,
+    @inject(TYPES.S3Service) private s3Service: S3Service
   ) {}
 
   public async getBikes(): Promise<IBike[]> {
@@ -30,6 +33,14 @@ export class BikeService {
     }
 
     return updatedBike;
+  }
+
+  public async updateBikeImage(id: string, img: File): Promise<IBike> {
+    const bike = await this.findById(id);
+
+    const url = await this.s3Service.uploadImage(bike._id, img);
+
+    return this.updateBike(id, { imgUrl: url } as IBike);
   }
 
   public async deleteBike(body: IBike): Promise<IBike | null> {

@@ -27,6 +27,7 @@ services:
       - server_node_modules:/code/node_modules
     depends_on:
       - mongo
+      - aws-localstack
     # command: debug
 
   mongo:
@@ -51,6 +52,16 @@ services:
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
+
+  aws-localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
+    volumes:
+      - ./.docker/docker-entrypoint-initaws.d/startup.sh:/docker-entrypoint-initaws.d/startup.sh
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - './.docker/docker-entrypoint-initaws.d/localstack.env'
 
 volumes:
   client_node_modules:
