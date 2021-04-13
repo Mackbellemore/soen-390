@@ -32,7 +32,7 @@ const Bikes = () => {
   }
   return (
     <>
-      <Box overflowX="scroll">
+      <Box overflowX="auto">
         <Search handleSearch={setSearchInput} />
         <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
           <Thead>

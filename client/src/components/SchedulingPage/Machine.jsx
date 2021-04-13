@@ -43,7 +43,7 @@ const Machines = () => {
     );
   }
   return (
-    <Box overflowX="auto">
+    <>
       <AddMachineModal />
       <IconButton
         colorScheme="blue"
@@ -56,56 +56,58 @@ const Machines = () => {
         isDisabled={selected.length === 0}
       />
       <Search handleSearch={setSearchInput} />
-      <TableContainer component={Paper}>
-        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-          <Thead>
-            <Tr>
-              <StyledTableHeader>
-                <Checkbox
-                  isIndeterminate={selected.length > 0 && selected.length < data.data.length}
-                  isChecked={data.data.length > 0 && selected.length === data.data.length}
-                  onChange={handleSelectAllClick}
-                >
-                  Machine ID
-                </Checkbox>
-              </StyledTableHeader>
-              <StyledTableHeader>Machine name</StyledTableHeader>
-              <StyledTableHeader>Status</StyledTableHeader>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {isSuccess &&
-              searchData(data.data)
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((machine) => (
-                  <Fragment key={machine._id}>
-                    <StyledTableRow>
-                      <StyledTableCell>
-                        <Checkbox
-                          onChange={(event) => handleOnChange(event, machine._id)}
-                          isChecked={isSelected(machine._id)}
-                        >
-                          {machine._id.substr(machine._id.length - 3)}
-                        </Checkbox>
-                      </StyledTableCell>
-                      <StyledTableCell>{machine.machineName}</StyledTableCell>
-                      <StyledTableCell>{machine.status}</StyledTableCell>
-                    </StyledTableRow>
-                  </Fragment>
-                ))}
-          </Tbody>
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={[10, 20]}
-          component="div"
-          count={data.data.length}
-          page={page}
-          onChangePage={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </TableContainer>
-    </Box>
+      <Box overflowX="auto">
+        <TableContainer component={Paper}>
+          <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+            <Thead>
+              <Tr>
+                <StyledTableHeader>
+                  <Checkbox
+                    isIndeterminate={selected.length > 0 && selected.length < data.data.length}
+                    isChecked={data.data.length > 0 && selected.length === data.data.length}
+                    onChange={handleSelectAllClick}
+                  >
+                    Machine ID
+                  </Checkbox>
+                </StyledTableHeader>
+                <StyledTableHeader>Machine name</StyledTableHeader>
+                <StyledTableHeader>Status</StyledTableHeader>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {isSuccess &&
+                searchData(data.data)
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((machine) => (
+                    <Fragment key={machine._id}>
+                      <StyledTableRow>
+                        <StyledTableCell>
+                          <Checkbox
+                            onChange={(event) => handleOnChange(event, machine._id)}
+                            isChecked={isSelected(machine._id)}
+                          >
+                            {machine._id.substr(machine._id.length - 3)}
+                          </Checkbox>
+                        </StyledTableCell>
+                        <StyledTableCell>{machine.machineName}</StyledTableCell>
+                        <StyledTableCell>{machine.status}</StyledTableCell>
+                      </StyledTableRow>
+                    </Fragment>
+                  ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Box>
+      <TablePagination
+        rowsPerPageOptions={[10, 20]}
+        component="div"
+        count={data.data.length}
+        page={page}
+        onChangePage={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </>
   );
 };
 

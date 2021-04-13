@@ -49,6 +49,7 @@ const NavBar = () => {
       justifyContent="space-between"
       paddingX={{ md: '3rem' }}
       paddingY="2rem"
+      alignItems="center"
     >
       <Flex alignItems="center">{userStore.loggedIn ? <SidebarButton /> : null}</Flex>
       <Heading
@@ -59,13 +60,7 @@ const NavBar = () => {
         display="flex"
         flexDirection="column"
       >
-        <Image
-          src="/images/headerLogo.png"
-          alt="No results illustration"
-          width="100px"
-          height="50px"
-          margin="auto"
-        />
+        <Image src="/images/headerLogo.png" alt="ERP" width="100px" height="50px" margin="auto" />
       </Heading>
       <Flex>
         {shouldRenderHomeButton && <Button path="/" text="Home" />}

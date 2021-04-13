@@ -51,7 +51,7 @@ const Orders = () => {
       <OrdersHeader />
       <FormModal />
       <Search handleSearch={setSearchInput} />
-      <Box overflowX="scroll">
+      <Box overflowX="auto">
         <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
           <Thead>
             <Tr>

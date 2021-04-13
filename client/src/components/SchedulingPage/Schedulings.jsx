@@ -44,7 +44,7 @@ const Schedulings = () => {
     );
   }
   return (
-    <Box overflowX="auto">
+    <>
       <AddSchedulingModal />
       <IconButton
         colorScheme="blue"
@@ -57,66 +57,68 @@ const Schedulings = () => {
         isDisabled={selected.length === 0}
       />
       <Search handleSearch={setSearchInput} />
-      <TableContainer component={Paper}>
-        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-          <Thead>
-            <Tr>
-              <StyledTableHeader>
-                <Checkbox
-                  isIndeterminate={selected.length > 0 && selected.length < data.data.length}
-                  isChecked={data.data.length > 0 && selected.length === data.data.length}
-                  onChange={handleSelectAllClick}
-                >
-                  Schedule ID
-                </Checkbox>
-              </StyledTableHeader>
-              <StyledTableHeader>Start Time</StyledTableHeader>
-              <StyledTableHeader>End Time</StyledTableHeader>
-              <StyledTableHeader>Frequency</StyledTableHeader>
-              <StyledTableHeader>Machine Name</StyledTableHeader>
-              <StyledTableHeader>Quantity</StyledTableHeader>
-              <StyledTableHeader>Production Part</StyledTableHeader>
-              <StyledTableHeader>Cost</StyledTableHeader>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {isSuccess &&
-              searchData(data.data)
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((scheduling) => (
-                  <Fragment key={scheduling._id}>
-                    <StyledTableRow>
-                      <StyledTableCell>
-                        <Checkbox
-                          onChange={(event) => handleOnChange(event, scheduling._id)}
-                          isChecked={isSelected(scheduling._id)}
-                        >
-                          {scheduling._id.substr(scheduling._id.length - 3)}
-                        </Checkbox>
-                      </StyledTableCell>
-                      <StyledTableCell>{formatDateAndTime(scheduling.startTime)}</StyledTableCell>
-                      <StyledTableCell>{formatDateAndTime(scheduling.endTime)}</StyledTableCell>
-                      <StyledTableCell>{scheduling.frequency}</StyledTableCell>
-                      <StyledTableCell>{scheduling.machineName}</StyledTableCell>
-                      <StyledTableCell>{scheduling.quantity}</StyledTableCell>
-                      <StyledTableCell>{scheduling.partType}</StyledTableCell>
-                      <StyledTableCell>{scheduling.cost}</StyledTableCell>
-                    </StyledTableRow>
-                  </Fragment>
-                ))}
-          </Tbody>
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={[10, 20]}
-          component="div"
-          count={data.data.length}
-          page={page}
-          onChangePage={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-      </TableContainer>
-    </Box>
+      <Box overflowX="auto">
+        <TableContainer component={Paper}>
+          <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+            <Thead>
+              <Tr>
+                <StyledTableHeader>
+                  <Checkbox
+                    isIndeterminate={selected.length > 0 && selected.length < data.data.length}
+                    isChecked={data.data.length > 0 && selected.length === data.data.length}
+                    onChange={handleSelectAllClick}
+                  >
+                    Schedule ID
+                  </Checkbox>
+                </StyledTableHeader>
+                <StyledTableHeader>Start Time</StyledTableHeader>
+                <StyledTableHeader>End Time</StyledTableHeader>
+                <StyledTableHeader>Frequency</StyledTableHeader>
+                <StyledTableHeader>Machine Name</StyledTableHeader>
+                <StyledTableHeader>Quantity</StyledTableHeader>
+                <StyledTableHeader>Production Part</StyledTableHeader>
+                <StyledTableHeader>Cost</StyledTableHeader>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {isSuccess &&
+                searchData(data.data)
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((scheduling) => (
+                    <Fragment key={scheduling._id}>
+                      <StyledTableRow>
+                        <StyledTableCell>
+                          <Checkbox
+                            onChange={(event) => handleOnChange(event, scheduling._id)}
+                            isChecked={isSelected(scheduling._id)}
+                          >
+                            {scheduling._id.substr(scheduling._id.length - 3)}
+                          </Checkbox>
+                        </StyledTableCell>
+                        <StyledTableCell>{formatDateAndTime(scheduling.startTime)}</StyledTableCell>
+                        <StyledTableCell>{formatDateAndTime(scheduling.endTime)}</StyledTableCell>
+                        <StyledTableCell>{scheduling.frequency}</StyledTableCell>
+                        <StyledTableCell>{scheduling.machineName}</StyledTableCell>
+                        <StyledTableCell>{scheduling.quantity}</StyledTableCell>
+                        <StyledTableCell>{scheduling.partType}</StyledTableCell>
+                        <StyledTableCell>{scheduling.cost}</StyledTableCell>
+                      </StyledTableRow>
+                    </Fragment>
+                  ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Box>
+      <TablePagination
+        rowsPerPageOptions={[10, 20]}
+        component="div"
+        count={data.data.length}
+        page={page}
+        onChangePage={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+    </>
   );
 };
 
