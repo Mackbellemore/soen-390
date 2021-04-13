@@ -15,6 +15,7 @@ const bikeService: any = {
   deleteBike: Function,
   updateBike: Function,
   findById: Function,
+  updateBikeImage: Function,
 };
 const mockBike = {
   description: 'test',
@@ -259,7 +260,7 @@ describe('BikeController', () => {
     });
   });
 
-  describe('Update Endpoint', () => {
+  describe('Get by id Endpoint', () => {
     it('get a bike with requested id', async () => {
       const mockRequest = {
         params: {
@@ -325,6 +326,79 @@ describe('BikeController', () => {
       expect(response).to.be.an.instanceof(results.JsonResult);
       expect(response.statusCode).to.equal(500);
       expect(response.json).to.equal(expectedErrorMsg);
+    });
+  });
+
+  describe('Update image endpoint', () => {
+    const mockRequest = {
+      params: {
+        id: '12312313',
+      },
+      file: {
+        name: 'testFile',
+      },
+    } as Request | any;
+
+    it('update a bike with a valid file', async () => {
+      const bikeServiceStub = sandbox.stub(bikeService, 'updateBikeImage').returns(mockBike);
+
+      const response = await controller.updateImage(mockRequest);
+
+      sinon.assert.calledOnce(bikeServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(200);
+      expect(response.json).to.deep.equal({
+        description: 'test',
+        color: 'green',
+        weightAmount: 69,
+        id: '12312313',
+      });
+    });
+
+    it('Should throw a 404 when service throws a NotFoundError', async () => {
+      const expectedErrorMsg = 'Not found error gang';
+      const bikeServiceStub = sandbox
+        .stub(bikeService, 'updateBikeImage')
+        .returns(mockBike)
+        .throws(new NotFoundError(expectedErrorMsg));
+
+      const response = await controller.updateImage(mockRequest);
+
+      sinon.assert.calledOnce(bikeServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(404);
+      expect(response.json).to.equal(expectedErrorMsg);
+    });
+
+    it('Should throw a 500 when service throws an error', async () => {
+      const expectedErrorMsg = 'Some random error';
+      const bikeServiceStub = sandbox
+        .stub(bikeService, 'updateBikeImage')
+        .throws(new Error(expectedErrorMsg));
+
+      const response = await controller.updateImage(mockRequest);
+
+      sinon.assert.calledOnce(bikeServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(500);
+      expect(response.json).to.equal(expectedErrorMsg);
+    });
+
+    it('Should a file not provided error when request does not have file', async () => {
+      const mockRequest = {
+        params: {
+          id: '12312313',
+        },
+      } as Request | any;
+
+      const response = await controller.updateImage(mockRequest);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.statusCode).to.equal(400);
+      expect(response.json).to.equal('No file provided');
     });
   });
 });

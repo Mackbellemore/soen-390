@@ -9,6 +9,7 @@ import AddMachineModal from 'components/SchedulingPage/AddMachineModal.jsx';
 import useMachineTable from 'hooks/useMachineTable.jsx';
 import Search from '../common/Search.jsx';
 import useSearch from 'hooks/useSearch.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const Machines = () => {
   const {
@@ -107,6 +108,7 @@ const Machines = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ExportFiles section="machine" data={data.data} />
     </>
   );
 };

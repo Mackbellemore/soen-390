@@ -9,11 +9,14 @@ import { getAuditTrail } from 'utils/api/auditTrail.js';
 import AuditTrailTableRow from '../AuditTrail/AuditTrailTableRow.jsx';
 import Search from '../common/Search.jsx';
 import useSearch from 'hooks/useSearch.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const AuditTrailTable = () => {
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
   const { isLoading, isSuccess, data } = useQuery('audit', getAuditTrail);
   const { setSearchInput, searchData } = useSearch();
+
+  let exportData = [];
 
   if (isLoading) {
     return <Loader />;
@@ -27,6 +30,11 @@ const AuditTrailTable = () => {
         </Heading>
       </>
     );
+  }
+
+  if (isSuccess) {
+    exportData = data.data;
+    delete exportData.meta;
   }
 
   return (
@@ -63,6 +71,7 @@ const AuditTrailTable = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ExportFiles section="audits" data={exportData} />
     </>
   );
 };

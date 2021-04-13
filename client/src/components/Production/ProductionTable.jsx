@@ -8,6 +8,7 @@ import { NoResultImage } from 'components/common/Image.jsx';
 import useProductionTable from 'hooks/useProductionTable';
 import Search from '../common/Search.jsx';
 import useSearch from 'hooks/useSearch.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const ProductionTable = () => {
   const {
@@ -93,6 +94,7 @@ const ProductionTable = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ExportFiles section="production" data={dataProduction.data} />
     </>
   );
 };

@@ -23,6 +23,7 @@ import usePagination from 'hooks/usePagination.jsx';
 import DefectsFilter from './DefectsFilter.jsx';
 import useDefectSearchFilter from 'hooks/useDefectSearchFilter.jsx';
 import Search from '../common/Search.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const Parts = () => {
   const {
@@ -189,6 +190,7 @@ const Parts = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ExportFiles section="parts_defects" data={data.data} />
     </>
   );
 };

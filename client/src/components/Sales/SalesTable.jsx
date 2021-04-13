@@ -10,6 +10,7 @@ import SalesModal from './Modal.jsx';
 import SaleRow from './Row.jsx';
 import Search from '../common/Search.jsx';
 import useSearch from 'hooks/useSearch.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const SalesTable = () => {
   const { isLoading, isSuccess, data } = useQuery('sales', getSales);
@@ -67,6 +68,7 @@ const SalesTable = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ExportFiles section="sales" data={data.data} />
     </>
   );
 };

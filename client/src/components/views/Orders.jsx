@@ -12,6 +12,7 @@ import usePagination from 'hooks/usePagination.jsx';
 import { formatDate } from 'utils/dateFunctions.js';
 import Search from '../common/Search.jsx';
 import useSearch from 'hooks/useSearch.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const OrdersHeader = () => (
   <>
@@ -97,6 +98,7 @@ const Orders = () => {
         rowsPerPage={rowsPerPage}
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
+      <ExportFiles section="orders" data={data.data} />
     </>
   );
 };
