@@ -1,4 +1,4 @@
-import { Heading, SimpleGrid, Text, Center, Box, Flex } from '@chakra-ui/react';
+import { Heading, Text, Center, Box, Flex } from '@chakra-ui/react';
 import useAccountingCharts from 'hooks/useAccountingCharts';
 import useWindowSize from 'hooks/useWindowSize';
 import Head from 'next/head';
