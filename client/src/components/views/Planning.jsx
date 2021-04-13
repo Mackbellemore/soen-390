@@ -1,4 +1,4 @@
-import { Heading, SimpleGrid, Text, Center, Box } from '@chakra-ui/react';
+import { Heading, Flex, Text, Center, Box } from '@chakra-ui/react';
 import useWindowSize from 'hooks/useWindowSize';
 import { productionData, plData } from 'components/Planning/PlanningData.js';
 import Head from 'next/head';
@@ -22,7 +22,7 @@ const Planning = () => {
   return (
     <>
       <PlanningHeader />
-      <SimpleGrid columns={[1, null, 2]} spacing={5}>
+      <Flex flexDirection="column">
         <Box>
           <Text fontSize="2xl" align="center">
             Expected Production
@@ -30,15 +30,15 @@ const Planning = () => {
           {productionData.length > 0 && (
             <Center border="1px" borderColor="gray.200" ml={5} boxShadow="xl" borderTopRadius="xl">
               <BarChart
-                width={windowSize.width / 2.5}
-                height={windowSize.height / 2.5}
+                width={windowSize.width / 1.5}
+                height={windowSize.height / 1.5}
                 data={productionData}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="year" />
                 <YAxis />
                 <Tooltip />
-                <Legend verticalAlign="top" />
+                <Legend verticalAlign="top" margin="10px" />
                 <Bar name="Road Bike" dataKey="roadBike" fill="#5be7c4" />
                 <Bar name="Mountain Bike" dataKey="mountainBike" fill="#4fc1e9" />
                 <Bar name="Others" dataKey="others" fill="#7a57d1" />
@@ -53,8 +53,8 @@ const Planning = () => {
           {plData.length > 0 && (
             <Center border="1px" borderColor="gray.200" ml={5} boxShadow="xl" borderTopRadius="xl">
               <BarChart
-                width={windowSize.width / 2.5}
-                height={windowSize.height / 2.5}
+                width={windowSize.width / 1.5}
+                height={windowSize.height / 1.5}
                 data={plData}
               >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -69,7 +69,7 @@ const Planning = () => {
             </Center>
           )}
         </Box>
-      </SimpleGrid>
+      </Flex>
     </>
   );
 };
