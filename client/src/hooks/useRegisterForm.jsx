@@ -9,8 +9,8 @@ const useRegisterForm = () => {
   const passwordRef = useRef('');
   const emailRef = useRef('');
   const roleRef = useRef('');
-  const [passwordIsNotValid, setpasswordIsNotValid] = useState(false);
-  const [emailIsNotValid, setemailIsNotValid] = useState(false);
+  const [passwordIsNotValid, setPasswordIsNotValid] = useState(false);
+  const [emailIsNotValid, setEmailIsNotValid] = useState(false);
   const [buttonIsDisabled, setButtonIsDisabled] = useState(false);
   const toast = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -55,10 +55,10 @@ const useRegisterForm = () => {
   const registerHandlePasswordValidation = (e) => {
     const pass = e.target.value;
     if (!isGoodPassword(pass)) {
-      setpasswordIsNotValid(true);
+      setPasswordIsNotValid(true);
       setButtonIsDisabled(true);
     } else {
-      setpasswordIsNotValid(false);
+      setPasswordIsNotValid(false);
       if (emailIsNotValid === false) {
         setButtonIsDisabled(false);
       }
@@ -69,10 +69,10 @@ const useRegisterForm = () => {
   const registerHandleEmailValidation = (e) => {
     const email = e.target.value;
     if (!isAnEmail(email)) {
-      setemailIsNotValid(true);
+      setEmailIsNotValid(true);
       setButtonIsDisabled(true);
     } else {
-      setemailIsNotValid(false);
+      setEmailIsNotValid(false);
 
       if (passwordIsNotValid === false) {
         setButtonIsDisabled(false);
