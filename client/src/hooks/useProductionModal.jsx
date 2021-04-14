@@ -196,6 +196,7 @@ const useProductionModal = () => {
       refetchProductions();
       refetchParts();
       refetchBikes();
+      onClose();
     } catch {
       toast({
         position: 'top',
