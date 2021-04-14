@@ -27,6 +27,7 @@ const useForgotPasswordForm = () => {
       });
     } catch (err) {
       // User Not Found, but do not tell it to the user.
+      console.error('Fail for the email request');
     }
 
     toast({
