@@ -47,3 +47,6 @@ dbuild-server: ## Build Docker server image
 
 prune: ## Remove unused images and prune volumes
 	docker system prune --all --volumes --force
+
+list-S3-objects:
+	$(CMD_DOCKER_EXEC) aws-localstack sh -c 'aws --endpoint-url=http://localhost:4566 s3 ls soen-390-dev'

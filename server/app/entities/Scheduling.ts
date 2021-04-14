@@ -1,12 +1,11 @@
 import { BadRequestError } from '../errors';
 import Joi from 'joi';
-import { PartTypes } from './Part';
 import { IScheduling } from '../models/SchedulingModel';
 
 export default class SchedulingEntity {
   // Optional schema to validate Patch requests
   private static optionalSchema = Joi.object().keys({
-    partType: Joi.string().valid(...PartTypes),
+    partType: Joi.string(),
     quantity: Joi.number().integer().greater(-1),
     cost: Joi.number().integer().greater(-1),
     startTime: Joi.string(),

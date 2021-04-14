@@ -26,6 +26,7 @@ import usePagination from 'hooks/usePagination.jsx';
 import { observer } from 'mobx-react-lite';
 import Search from '../common/Search.jsx';
 import useSearch from 'hooks/useSearch.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const ShippingHeader = () => (
   <>
@@ -164,6 +165,7 @@ const ShippingTable = () => {
             rowsPerPage={rowsPerPage}
             onChangeRowsPerPage={handleChangeRowsPerPage}
           />
+          <ExportFiles section="shippings" data={data.data} />
         </>
       ) : null}
     </>

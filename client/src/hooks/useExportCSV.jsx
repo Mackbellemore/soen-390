@@ -7,7 +7,7 @@ const useExportCSV = (section, data) => {
 
   const handleExportCSV = async () => {
     const dateTime = getDateTime();
-    const arrData = data;
+    const arrData = JSON.parse(JSON.stringify(data));
 
     arrData.forEach(function (currentItem) {
       delete currentItem._id;

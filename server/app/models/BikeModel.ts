@@ -11,6 +11,7 @@ export interface IBike extends Document {
   parts: Record<string, string>;
   stock: number;
   profitMargin: number;
+  imgUrl?: string;
 }
 
 export const BikeSchema: Schema = new Schema({
@@ -23,4 +24,5 @@ export const BikeSchema: Schema = new Schema({
   color: { type: Schema.Types.String, required: true },
   stock: { type: Schema.Types.Number, required: true },
   parts: { type: Schema.Types.Mixed, required: true },
+  imgUrl: { type: Schema.Types.String, required: false, default: null },
 });
