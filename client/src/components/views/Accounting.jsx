@@ -36,7 +36,7 @@ const Accounting = () => {
             Expenses & Income
           </Text>
           {expenseIncomeData.length > 0 && (
-            <Center border="1px" borderColor="gray.200" ml={5} boxShadow="xl" borderTopRadius="xl">
+            <Center border="1px" borderColor="gray.200" boxShadow="xl" borderTopRadius="xl">
               <BarChart
                 width={windowSize.width / 1.5}
                 height={windowSize.height / 1.5}
@@ -58,7 +58,7 @@ const Accounting = () => {
             General Ledger
           </Text>
           {ledgerData.length > 0 && (
-            <Center border="1px" borderColor="gray.200" mr={5} boxShadow="xl" borderTopRadius="xl">
+            <Center border="1px" borderColor="gray.200" boxShadow="xl" borderTopRadius="xl">
               <PieChart width={windowSize.width / 1.5} height={windowSize.height / 1.5}>
                 <Legend verticalAlign="top" />
                 <Pie data={ledgerData} dataKey="value" fill="#82ca9d" label>
