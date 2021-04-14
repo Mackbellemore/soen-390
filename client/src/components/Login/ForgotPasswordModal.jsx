@@ -30,16 +30,8 @@ const ForgotPasswordModal = () => {
 
   return (
     <>
-      <Text
-        mt={3}
-        fontSize="13px"
-        href="#"
-        colorScheme="green"
-        onClick={onOpen}
-        color="#1F32CC"
-        style={{ cursor: 'pointer' }}
-      >
-        Forgot Password
+      <Text mt={3} fontSize="13px" onClick={onOpen} style={{ cursor: 'pointer' }}>
+        Forgot Password?
       </Text>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
@@ -54,7 +46,7 @@ const ForgotPasswordModal = () => {
                 size="sm"
                 type="email"
                 ref={emailRef}
-                focusBorderColor={emailIsValidated ? '#FFB533' : 'blue.500'}
+                focusBorderColor={emailIsValidated ? 'red' : 'blue.500'}
                 isInvalid={emailIsValidated}
                 onChange={forgotPasswordHandleEmailValidation}
                 required

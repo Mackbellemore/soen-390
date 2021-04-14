@@ -13,7 +13,6 @@ import {
   InputIcon,
   StyledFormLabel,
 } from '../common/Form.jsx';
-
 import useResetPasswordForm from 'hooks/useResetPasswordForm.jsx';
 
 const ResetPasswordPage = () => {
