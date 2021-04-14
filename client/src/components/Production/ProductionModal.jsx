@@ -89,7 +89,7 @@ const ProductionModal = ({ showButton = false }) => {
           <ModalBody pb={6}>
             <div style={styleBtn}>
               <Button onClick={form === 'Bike' ? onClickPart : onClickBike} colorScheme="teal">
-                {form === 'Bike' ? 'Part' : 'Bike'}
+                Change Production Type
               </Button>
             </div>
             <div style={formStyle}>
