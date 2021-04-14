@@ -9,11 +9,14 @@ import { getBikeDefects } from 'utils/api/defect.js';
 import DefectsTable from './DefectsTable.jsx';
 import Search from '../common/Search.jsx';
 import useSearch from 'hooks/useSearch.jsx';
+import ExportFiles from 'components/common/ExportFiles.jsx';
 
 const Bikes = () => {
   const { handleChangePage, handleChangeRowsPerPage, page, rowsPerPage } = usePagination();
   const { isLoading, isSuccess, data } = useQuery('bikeDefects', getBikeDefects);
   const { setSearchInput, searchData } = useSearch();
+
+  const exportData = [];
 
   if (isLoading) {
     return <Loader />;
@@ -28,6 +31,15 @@ const Bikes = () => {
         <NoResultImage />
       </>
     );
+  }
+
+  if (isSuccess) {
+    data.data.forEach((dataArr) => {
+      dataArr.defects.forEach((defect) => {
+        defect.bike = dataArr.bike;
+        exportData.push(defect);
+      });
+    });
   }
 
   return (
@@ -67,6 +79,7 @@ const Bikes = () => {
           rowsPerPage={rowsPerPage}
           onChangeRowsPerPage={handleChangeRowsPerPage}
         />
+        <ExportFiles section="bikes_defects" data={exportData} />
       </TableContainer>
     </Box>
   );

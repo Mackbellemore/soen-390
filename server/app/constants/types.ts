@@ -1,6 +1,7 @@
 const TYPES = {
   config: Symbol.for('config'),
   logger: Symbol.for('logger'),
+  S3Client: Symbol.for('S3Client'),
 
   // Service
   BikeService: Symbol.for('BikeService'),
@@ -15,6 +16,7 @@ const TYPES = {
   SaleService: Symbol.for('SaleService'),
   ShippingService: Symbol.for('ShippingService'),
   LogService: Symbol.for('LogService'),
+  S3Service: Symbol.for('S3Service'),
 
   // Repository
   UserRepository: Symbol.for('UserRepository'),
@@ -32,6 +34,8 @@ const TYPES = {
 
   // Middlewares
   LoggerMiddleware: Symbol.for('LoggerMiddleware'),
+  MulterUpload: Symbol.for('MulterUpload'),
+  UploadMiddleware: Symbol.for('UploadMiddleware'),
 
   // Mongo
   MongoConnection: Symbol.for('MongoConnection'),
