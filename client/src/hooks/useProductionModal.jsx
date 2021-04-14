@@ -3,7 +3,9 @@ import { useState, useRef } from 'react';
 import { postProductions } from 'utils/api/productions';
 import { useQuery } from 'react-query';
 import { getParts, getPartMaterialList } from 'utils/api/parts';
+import { getMachines } from 'utils/api/machines';
 import useProductionTable from './useProductionTable.jsx';
+import { createScheduling } from 'utils/api/schedulings.js';
 
 const useProductionModal = () => {
   const { isSuccess: isSuccessPart, data: dataPart } = useQuery('parts', getParts);
@@ -11,6 +13,7 @@ const useProductionModal = () => {
     'parts/MaterialList',
     getPartMaterialList
   );
+  const { isSuccess: isSuccessMachine, data: dataMachine } = useQuery('machine', getMachines);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -171,6 +174,18 @@ const useProductionModal = () => {
           note: noteRef.current.value,
         });
       }
+      // update scheduling page
+      await createScheduling({
+        partType: nameRef.current.value,
+        quantity: quantityRef.current.value,
+        // 1-to-1 price of working this machine to the quantity
+        cost: quantityRef.current.value,
+        startTime: startDate,
+        endTime: endDate,
+        machineName: assemblyMachineRef.current.value,
+        frequency: 'Daily',
+      });
+
       toast({
         title: 'Production placed',
         description: 'Production successfully placed',
@@ -181,6 +196,7 @@ const useProductionModal = () => {
       refetchProductions();
       refetchParts();
       refetchBikes();
+      onClose();
     } catch {
       toast({
         position: 'top',
@@ -196,6 +212,8 @@ const useProductionModal = () => {
   return {
     isSuccessPart,
     dataPart,
+    isSuccessMachine,
+    dataMachine,
     formStyle,
     elementStyle,
     isSuccessPartType,
