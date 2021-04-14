@@ -3,6 +3,7 @@ import { useState, useRef } from 'react';
 import { postProductions } from 'utils/api/productions';
 import { useQuery } from 'react-query';
 import { getParts, getPartMaterialList } from 'utils/api/parts';
+import { getMachines } from 'utils/api/machines';
 import useProductionTable from './useProductionTable.jsx';
 
 const useProductionModal = () => {
@@ -11,6 +12,7 @@ const useProductionModal = () => {
     'parts/MaterialList',
     getPartMaterialList
   );
+  const { isSuccess: isSuccessMachine, data: dataMachine } = useQuery('machine', getMachines);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -196,6 +198,8 @@ const useProductionModal = () => {
   return {
     isSuccessPart,
     dataPart,
+    isSuccessMachine,
+    dataMachine,
     formStyle,
     elementStyle,
     isSuccessPartType,

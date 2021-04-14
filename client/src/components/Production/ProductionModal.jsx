@@ -49,6 +49,8 @@ const ProductionModal = ({ showButton = false }) => {
     partRefs,
     bikeRefs,
     styleBtn,
+    isSuccessMachine,
+    dataMachine,
     isEmptyField,
     onClickPart,
     onClickBike,
@@ -154,7 +156,14 @@ const ProductionModal = ({ showButton = false }) => {
             </div>
             <FormControl isRequired style={elementStyle}>
               <FormLabel>Assembly Machine</FormLabel>
-              <Input ref={assemblyMachineRef} onChange={handleChange} />
+              <Select ref={assemblyMachineRef}>
+                {isSuccessMachine &&
+                  dataMachine.data.map((machine) => (
+                    <Fragment key={machine}>
+                      <option value={machine.machineName}>{machine.machineName}</option>
+                    </Fragment>
+                  ))}
+              </Select>
             </FormControl>
             <FormControl style={elementStyle}>
               <FormLabel>Note</FormLabel>
