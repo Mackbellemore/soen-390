@@ -1,17 +1,15 @@
 import { IUserEntity, UserEntity } from './../entities/User';
-import { IUser } from './../models/UserModel';
+import { IForgotPassword, IResetPassword, IUser } from './../models/UserModel';
 import { UserRepository } from './../repository/UserRepository';
 import { inject, injectable } from 'inversify';
 import TYPES from '../constants/types';
 import bcrypt from 'bcryptjs';
-import config, { IConfig } from 'config';
+import { IConfig } from 'config';
 import validator from 'validator';
 import { BadRequestError, NotApprovedError, NotFoundError } from '../errors';
 import { generateToken } from '../middlewares/authentication';
 import { SystemService } from './../services/SystemService';
-import { SentMessageInfo } from 'nodemailer';
 import jwt from 'jsonwebtoken';
-import { Request } from 'express';
 
 const requestMap = new Map();
 
@@ -75,26 +73,38 @@ export class UserService {
     return UserEntity.buildUser(updatedUser);
   }
 
-  public async forgotPassword(body: IUser, url: string): Promise<string> {
-    const email = body.email;
-    const user: IUserEntity = UserEntity.buildUser(await this.userRepo.findByEmail(body));
+  public async forgotPassword(body: IForgotPassword): Promise<void> {
+    if (!body.email) {
+      throw new BadRequestError('Email missing in body');
+    }
+    const { email } = body;
+    let potentialUser;
+
+    try {
+      potentialUser = await this.userRepo.findByEmail({ email } as IUser);
+    } catch (err) {
+      // User doesn't exist in database, the skip rest of the function
+      return;
+    }
+    const user: IUserEntity = UserEntity.buildUser(potentialUser);
     const accessToken = generateToken(user);
     requestMap.set(email, accessToken);
 
-    const info: SentMessageInfo = await this.systemService.sendEmail({
+    await this.systemService.sendEmail({
       to: [email],
       subject: 'ERP Password Reset',
-      emailBody: `This is the ERP Team07,\n\nPlease reset your password using the following link: ${url}/reset/${accessToken}\n\nRegards.`,
+      emailBody: `Hi ${user.username},\n\nPlease reset your password using the following link:\n${body.url}/reset/${accessToken}\n\nRegards.`,
     });
-    return info;
   }
 
-  public async resetPassword(req: Request): Promise<string> {
-    let email = '';
-    const token = req.body.token;
-    const pass = req.body.pass;
+  public async resetPassword(body: IResetPassword): Promise<string> {
+    let email;
+    if (!(body.token && body.pass)) {
+      throw new BadRequestError('Token and/or password missing in body');
+    }
+    const { token, pass } = body;
 
-    jwt.verify(token, config.get<string>('jwt.secret'), function (
+    jwt.verify(token, this.config.get<string>('jwt.secret'), function (
       err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       decoded: any | IUserEntity
@@ -111,9 +121,17 @@ export class UserService {
 
     if (email) {
       if (requestMap.get(email) !== token) throw new NotFoundError('Bad Token Request');
+
+      if (!validator.isStrongPassword(pass)) {
+        throw new BadRequestError(
+          'Password must contain a capital, a lower case, a number and a symbol.'
+        );
+      }
+
       const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
       const hash = await bcrypt.hash(pass, salt);
       const newPass = hash;
+
       await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
       requestMap.delete(email);
       return email;

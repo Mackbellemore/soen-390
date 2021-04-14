@@ -80,10 +80,10 @@ export class UserController extends BaseHttpController {
   @httpPost('/forgot')
   public async forgot(req: Request): Promise<results.JsonResult> {
     try {
-      const promise = await this.userService.forgotPassword(req.body, req.body.url);
+      const promise = await this.userService.forgotPassword(req.body);
       return this.json(promise, 200);
     } catch (err) {
-      return this.json(err.message, 300);
+      return this.json(err.message, 400);
     }
   }
 
@@ -98,7 +98,7 @@ export class UserController extends BaseHttpController {
   @httpPost('/reset')
   public async reset(req: Request): Promise<results.JsonResult> {
     try {
-      const promise = await this.userService.resetPassword(req);
+      const promise = await this.userService.resetPassword(req.body);
       return this.json(promise, 200);
     } catch (err) {
       return this.json(err.message, 400);
