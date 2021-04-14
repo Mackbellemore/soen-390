@@ -1,4 +1,4 @@
-import { Heading, SimpleGrid, Text, Center, Box } from '@chakra-ui/react';
+import { Heading, Text, Center, Box, Flex } from '@chakra-ui/react';
 import useAccountingCharts from 'hooks/useAccountingCharts';
 import useWindowSize from 'hooks/useWindowSize';
 import Head from 'next/head';
@@ -30,16 +30,16 @@ const Accounting = () => {
       <Heading fontSize={{ base: '12px', sm: '26px' }} textAlign="center" my={5}>
         Accounting
       </Heading>
-      <SimpleGrid columns={[1, null, 2]} spacing={5}>
+      <Flex flexDirection="column">
         <Box>
           <Text fontSize="2xl" align="center">
             Expenses & Income
           </Text>
           {expenseIncomeData.length > 0 && (
-            <Center border="1px" borderColor="gray.200" ml={5} boxShadow="xl" borderTopRadius="xl">
+            <Center border="1px" borderColor="gray.200" boxShadow="xl" borderTopRadius="xl">
               <BarChart
-                width={windowSize.width / 2.5}
-                height={windowSize.height / 2.5}
+                width={windowSize.width / 1.5}
+                height={windowSize.height / 1.5}
                 data={expenseIncomeData}
               >
                 <CartesianGrid strokeDasharray="3 3" />
@@ -58,8 +58,8 @@ const Accounting = () => {
             General Ledger
           </Text>
           {ledgerData.length > 0 && (
-            <Center border="1px" borderColor="gray.200" mr={5} boxShadow="xl" borderTopRadius="xl">
-              <PieChart width={windowSize.width / 2.5} height={windowSize.height / 2.5}>
+            <Center border="1px" borderColor="gray.200" boxShadow="xl" borderTopRadius="xl">
+              <PieChart width={windowSize.width / 1.5} height={windowSize.height / 1.5}>
                 <Legend verticalAlign="top" />
                 <Pie data={ledgerData} dataKey="value" fill="#82ca9d" label>
                   {ledgerData.map((_, index) => (
@@ -70,7 +70,7 @@ const Accounting = () => {
             </Center>
           )}
         </Box>
-      </SimpleGrid>
+      </Flex>
     </>
   );
 };

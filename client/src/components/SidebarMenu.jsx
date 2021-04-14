@@ -79,7 +79,7 @@ const SidebarMenu = () => {
             <Flex
               flexDirection="row"
               alignItems="center"
-              color={route.active ? 'green.500' : 'black'}
+              color={route.active ? 'blue.500' : 'black'}
             >
               <Icon as={SidebarIcon} w={8} h={8} />
 

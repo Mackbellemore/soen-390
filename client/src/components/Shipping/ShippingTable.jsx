@@ -12,6 +12,7 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Box,
 } from '@chakra-ui/react';
 import { StyledTableRow, StyledTableHeader, StyledTableCell } from 'components/common/Table.jsx';
 import { TablePagination } from '@material-ui/core';
@@ -87,75 +88,77 @@ const ShippingTable = () => {
       <Search handleSearch={setSearchInput} />
       {data ? (
         <>
-          <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-            <Thead>
-              <Tr>
-                <StyledTableHeader>
-                  <Checkbox
-                    isIndeterminate={selected.length > 0 && selected.length < data.data.length}
-                    isChecked={data.data.length > 0 && selected.length === data.data.length}
-                    onChange={handleSelectAllClick}
-                  >
-                    Order ID
-                  </Checkbox>
-                </StyledTableHeader>
-                <StyledTableHeader>Status</StyledTableHeader>
-                <StyledTableHeader>Company</StyledTableHeader>
-                <StyledTableHeader>Location</StyledTableHeader>
-                <StyledTableHeader>Shipping Date</StyledTableHeader>
-                <StyledTableHeader>Delivery Date</StyledTableHeader>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {searchData(data.data)
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((shipment) => (
-                  <Fragment key={shipment._id}>
-                    <StyledTableRow
-                      id={shipment._id}
-                      onMouseOver={(e) => {
-                        handleHover(e, 'over');
-                      }}
-                      onMouseOut={(e) => {
-                        handleHover(e, 'out');
-                      }}
+          <Box overflowX="auto">
+            <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+              <Thead>
+                <Tr>
+                  <StyledTableHeader>
+                    <Checkbox
+                      isIndeterminate={selected.length > 0 && selected.length < data.data.length}
+                      isChecked={data.data.length > 0 && selected.length === data.data.length}
+                      onChange={handleSelectAllClick}
                     >
-                      <StyledTableCell>
-                        {' '}
-                        <Checkbox
-                          isChecked={isSelected(shipment._id)}
-                          onChange={(event) => handleOnChange(event, shipment._id)}
-                        >
-                          {shipment._id.slice(10)}
-                        </Checkbox>
-                      </StyledTableCell>
-                      <StyledTableCell>
-                        <Menu>
-                          <MenuButton as={Button} rightIcon={<ChevronDownIcon />} mr={3}>
-                            {shipment.status}
-                          </MenuButton>
-                          <MenuList>
-                            {shippingStates.map((status) => (
-                              <MenuItem
-                                key={status}
-                                value={status}
-                                onClick={handleShpmtStateChange}
-                              >
-                                {status}
-                              </MenuItem>
-                            ))}
-                          </MenuList>
-                        </Menu>
-                      </StyledTableCell>
-                      <StyledTableCell>{shipment.company}</StyledTableCell>
-                      <StyledTableCell>{shipment.location}</StyledTableCell>
-                      <StyledTableCell>{formatDate(shipment.shippingDate)}</StyledTableCell>
-                      <StyledTableCell>{formatDate(shipment.deliveryDate)}</StyledTableCell>
-                    </StyledTableRow>
-                  </Fragment>
-                ))}
-            </Tbody>
-          </Table>
+                      Order ID
+                    </Checkbox>
+                  </StyledTableHeader>
+                  <StyledTableHeader>Status</StyledTableHeader>
+                  <StyledTableHeader>Company</StyledTableHeader>
+                  <StyledTableHeader>Location</StyledTableHeader>
+                  <StyledTableHeader>Shipping Date</StyledTableHeader>
+                  <StyledTableHeader>Delivery Date</StyledTableHeader>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {searchData(data.data)
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((shipment) => (
+                    <Fragment key={shipment._id}>
+                      <StyledTableRow
+                        id={shipment._id}
+                        onMouseOver={(e) => {
+                          handleHover(e, 'over');
+                        }}
+                        onMouseOut={(e) => {
+                          handleHover(e, 'out');
+                        }}
+                      >
+                        <StyledTableCell>
+                          {' '}
+                          <Checkbox
+                            isChecked={isSelected(shipment._id)}
+                            onChange={(event) => handleOnChange(event, shipment._id)}
+                          >
+                            {shipment._id.slice(10)}
+                          </Checkbox>
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          <Menu>
+                            <MenuButton as={Button} rightIcon={<ChevronDownIcon />} mr={3}>
+                              {shipment.status}
+                            </MenuButton>
+                            <MenuList>
+                              {shippingStates.map((status) => (
+                                <MenuItem
+                                  key={status}
+                                  value={status}
+                                  onClick={handleShpmtStateChange}
+                                >
+                                  {status}
+                                </MenuItem>
+                              ))}
+                            </MenuList>
+                          </Menu>
+                        </StyledTableCell>
+                        <StyledTableCell>{shipment.company}</StyledTableCell>
+                        <StyledTableCell>{shipment.location}</StyledTableCell>
+                        <StyledTableCell>{formatDate(shipment.shippingDate)}</StyledTableCell>
+                        <StyledTableCell>{formatDate(shipment.deliveryDate)}</StyledTableCell>
+                      </StyledTableRow>
+                    </Fragment>
+                  ))}
+              </Tbody>
+            </Table>
+          </Box>
           <TablePagination
             rowsPerPageOptions={[10, 20]}
             component="div"

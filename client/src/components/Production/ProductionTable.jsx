@@ -1,4 +1,4 @@
-import { Table, Thead, Tbody, Tr, Heading } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Heading, Box } from '@chakra-ui/react';
 import { StyledTableRow, StyledTableCell, StyledTableHeader } from 'components/common/Table.jsx';
 import ProductionModal from 'components/Production/ProductionModal.jsx';
 import { TablePagination } from '@material-ui/core';
@@ -48,41 +48,43 @@ const ProductionTable = () => {
     <>
       <ProductionModal />
       <Search handleSearch={setSearchInput} />
-      <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <Thead>
-          <Tr>
-            <StyledTableHeader>Status</StyledTableHeader>
-            <StyledTableHeader>Component</StyledTableHeader>
-            <StyledTableHeader>Quantity</StyledTableHeader>
-            <StyledTableHeader>Start Date</StyledTableHeader>
-            <StyledTableHeader>End Date</StyledTableHeader>
-            <StyledTableHeader>Assembly Machine</StyledTableHeader>
-            <StyledTableHeader>Note</StyledTableHeader>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {isSuccessProduction &&
-            isSuccessPart &&
-            isSuccessBike &&
-            searchData(dataProduction.data)
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((production) => (
-                <Fragment key={production._id}>
-                  <StyledTableRow>
-                    <StyledTableCell>{production.status}</StyledTableCell>
-                    <StyledTableCell>
-                      {findEntity(production.type, production.componentId)?.name}
-                    </StyledTableCell>
-                    <StyledTableCell>{production.quantity}</StyledTableCell>
-                    <StyledTableCell>{formatDate(production.startDate)}</StyledTableCell>
-                    <StyledTableCell>{formatDate(production.endDate)}</StyledTableCell>
-                    <StyledTableCell>{production.assemblyMachine}</StyledTableCell>
-                    <StyledTableCell>{production.note}</StyledTableCell>
-                  </StyledTableRow>
-                </Fragment>
-              ))}
-        </Tbody>
-      </Table>
+      <Box overflowX="auto">
+        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+          <Thead>
+            <Tr>
+              <StyledTableHeader>Status</StyledTableHeader>
+              <StyledTableHeader>Component</StyledTableHeader>
+              <StyledTableHeader>Quantity</StyledTableHeader>
+              <StyledTableHeader>Start Date</StyledTableHeader>
+              <StyledTableHeader>End Date</StyledTableHeader>
+              <StyledTableHeader>Assembly Machine</StyledTableHeader>
+              <StyledTableHeader>Note</StyledTableHeader>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isSuccessProduction &&
+              isSuccessPart &&
+              isSuccessBike &&
+              searchData(dataProduction.data)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((production) => (
+                  <Fragment key={production._id}>
+                    <StyledTableRow>
+                      <StyledTableCell>{production.status}</StyledTableCell>
+                      <StyledTableCell>
+                        {findEntity(production.type, production.componentId)?.name}
+                      </StyledTableCell>
+                      <StyledTableCell>{production.quantity}</StyledTableCell>
+                      <StyledTableCell>{formatDate(production.startDate)}</StyledTableCell>
+                      <StyledTableCell>{formatDate(production.endDate)}</StyledTableCell>
+                      <StyledTableCell>{production.assemblyMachine}</StyledTableCell>
+                      <StyledTableCell>{production.note}</StyledTableCell>
+                    </StyledTableRow>
+                  </Fragment>
+                ))}
+          </Tbody>
+        </Table>
+      </Box>
       <TablePagination
         rowsPerPageOptions={[10, 20]}
         component="div"

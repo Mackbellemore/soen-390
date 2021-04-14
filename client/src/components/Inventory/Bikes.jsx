@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Table, Thead, Tbody, Tr, Heading } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, Heading, Box } from '@chakra-ui/react';
 import Loader from 'components/common/Loader.jsx';
 import { getBikes } from 'utils/api/bikes.js';
 import { useQuery } from 'react-query';
@@ -32,38 +32,40 @@ const Bikes = () => {
   }
   return (
     <>
-      <Search handleSearch={setSearchInput} />
-      <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <Thead>
-          <Tr>
-            <StyledTableHeader>Name</StyledTableHeader>
-            <StyledTableHeader>Description</StyledTableHeader>
-            <StyledTableHeader>Weight Amount</StyledTableHeader>
-            <StyledTableHeader>Weight Type</StyledTableHeader>
-            <StyledTableHeader>Selling Price</StyledTableHeader>
-            <StyledTableHeader>Cost Price</StyledTableHeader>
-            <StyledTableHeader>Color</StyledTableHeader>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {isSuccess &&
-            searchData(data.data)
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((bike) => (
-                <Fragment key={bike._id}>
-                  <StyledTableRow>
-                    <StyledTableCell>{bike.name}</StyledTableCell>
-                    <StyledTableCell>{bike.description}</StyledTableCell>
-                    <StyledTableCell>{bike.weightAmount}</StyledTableCell>
-                    <StyledTableCell>{bike.weightType}</StyledTableCell>
-                    <StyledTableCell>{bike.sellingPrice}</StyledTableCell>
-                    <StyledTableCell>{bike.costPrice}</StyledTableCell>
-                    <StyledTableCell>{bike.color}</StyledTableCell>
-                  </StyledTableRow>
-                </Fragment>
-              ))}
-        </Tbody>
-      </Table>
+      <Box overflowX="auto">
+        <Search handleSearch={setSearchInput} />
+        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+          <Thead>
+            <Tr>
+              <StyledTableHeader>Name</StyledTableHeader>
+              <StyledTableHeader>Description</StyledTableHeader>
+              <StyledTableHeader>Weight Amount</StyledTableHeader>
+              <StyledTableHeader>Weight Type</StyledTableHeader>
+              <StyledTableHeader>Selling Price</StyledTableHeader>
+              <StyledTableHeader>Cost Price</StyledTableHeader>
+              <StyledTableHeader>Color</StyledTableHeader>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isSuccess &&
+              searchData(data.data)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((bike) => (
+                  <Fragment key={bike._id}>
+                    <StyledTableRow>
+                      <StyledTableCell>{bike.name}</StyledTableCell>
+                      <StyledTableCell>{bike.description}</StyledTableCell>
+                      <StyledTableCell>{bike.weightAmount}</StyledTableCell>
+                      <StyledTableCell>{bike.weightType}</StyledTableCell>
+                      <StyledTableCell>{bike.sellingPrice}</StyledTableCell>
+                      <StyledTableCell>{bike.costPrice}</StyledTableCell>
+                      <StyledTableCell>{bike.color}</StyledTableCell>
+                    </StyledTableRow>
+                  </Fragment>
+                ))}
+          </Tbody>
+        </Table>
+      </Box>
       <TablePagination
         rowsPerPageOptions={[10, 20]}
         component="div"

@@ -34,40 +34,42 @@ const SalesTable = () => {
   }
 
   return (
-    <Box overflowX="auto">
+    <>
       <SalesModal />
       <Search handleSearch={setSearchInput} />
-      <TableContainer component={Paper}>
-        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-          <Thead>
-            <Tr>
-              <StyledTableHeader>Product Name</StyledTableHeader>
-              <StyledTableHeader>Customer</StyledTableHeader>
-              <StyledTableHeader>Quantity</StyledTableHeader>
-              <StyledTableHeader>Total</StyledTableHeader>
-              <StyledTableHeader>Status</StyledTableHeader>
-              <StyledTableHeader />
-            </Tr>
-          </Thead>
-          <Tbody>
-            {isSuccess &&
-              searchData(data.data)
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((sale) => <SaleRow key={sale._id} sale={sale} />)}
-          </Tbody>
-        </Table>
-        <TablePagination
-          rowsPerPageOptions={[10, 20]}
-          component="div"
-          count={data.data.length}
-          page={page}
-          onChangePage={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-        <ExportFiles section="sales" data={data.data} />
-      </TableContainer>
-    </Box>
+      <Box overflowX="auto">
+        <TableContainer component={Paper}>
+          <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+            <Thead>
+              <Tr>
+                <StyledTableHeader>Product Name</StyledTableHeader>
+                <StyledTableHeader>Customer</StyledTableHeader>
+                <StyledTableHeader>Quantity</StyledTableHeader>
+                <StyledTableHeader>Total</StyledTableHeader>
+                <StyledTableHeader>Status</StyledTableHeader>
+                <StyledTableHeader />
+              </Tr>
+            </Thead>
+            <Tbody>
+              {isSuccess &&
+                searchData(data.data)
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((sale) => <SaleRow key={sale._id} sale={sale} />)}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Box>
+      <TablePagination
+        rowsPerPageOptions={[10, 20]}
+        component="div"
+        count={data.data.length}
+        page={page}
+        onChangePage={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+      <ExportFiles section="sales" data={data.data} />
+    </>
   );
 };
 

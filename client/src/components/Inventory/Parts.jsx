@@ -1,4 +1,4 @@
-import { Heading, Table, Tbody, Thead, Tr } from '@chakra-ui/react';
+import { Heading, Table, Tbody, Thead, Tr, Box } from '@chakra-ui/react';
 import { TablePagination } from '@material-ui/core';
 import ExportFiles from 'components/common/ExportFiles.jsx';
 import { NoResultImage } from 'components/common/Image.jsx';
@@ -34,39 +34,41 @@ const Parts = () => {
   return (
     <>
       <Search handleSearch={setSearchInput} />
-      <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <Thead>
-          <Tr>
-            <StyledTableHeader>Name</StyledTableHeader>
-            <StyledTableHeader>Description</StyledTableHeader>
-            <StyledTableHeader>Quality</StyledTableHeader>
-            <StyledTableHeader>Type</StyledTableHeader>
-            <StyledTableHeader>Color</StyledTableHeader>
-            <StyledTableHeader>Finish</StyledTableHeader>
-            <StyledTableHeader>Grade</StyledTableHeader>
-            <StyledTableHeader>Detail</StyledTableHeader>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {isSuccess &&
-            searchData(data.data)
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((part) => (
-                <Fragment key={part._id}>
-                  <StyledTableRow>
-                    <StyledTableCell>{part.name}</StyledTableCell>
-                    <StyledTableCell>{part.description}</StyledTableCell>
-                    <StyledTableCell>{part.quality}</StyledTableCell>
-                    <StyledTableCell>{part.type}</StyledTableCell>
-                    <StyledTableCell>{part.color}</StyledTableCell>
-                    <StyledTableCell>{part.finish}</StyledTableCell>
-                    <StyledTableCell>{part.grade}</StyledTableCell>
-                    <StyledTableCell>{part.detail}</StyledTableCell>
-                  </StyledTableRow>
-                </Fragment>
-              ))}
-        </Tbody>
-      </Table>
+      <Box overflowX="auto">
+        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+          <Thead>
+            <Tr>
+              <StyledTableHeader>Name</StyledTableHeader>
+              <StyledTableHeader>Description</StyledTableHeader>
+              <StyledTableHeader>Quality</StyledTableHeader>
+              <StyledTableHeader>Type</StyledTableHeader>
+              <StyledTableHeader>Color</StyledTableHeader>
+              <StyledTableHeader>Finish</StyledTableHeader>
+              <StyledTableHeader>Grade</StyledTableHeader>
+              <StyledTableHeader>Detail</StyledTableHeader>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isSuccess &&
+              searchData(data.data)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((part) => (
+                  <Fragment key={part._id}>
+                    <StyledTableRow>
+                      <StyledTableCell>{part.name}</StyledTableCell>
+                      <StyledTableCell>{part.description}</StyledTableCell>
+                      <StyledTableCell>{part.quality}</StyledTableCell>
+                      <StyledTableCell>{part.type}</StyledTableCell>
+                      <StyledTableCell>{part.color}</StyledTableCell>
+                      <StyledTableCell>{part.finish}</StyledTableCell>
+                      <StyledTableCell>{part.grade}</StyledTableCell>
+                      <StyledTableCell>{part.detail}</StyledTableCell>
+                    </StyledTableRow>
+                  </Fragment>
+                ))}
+          </Tbody>
+        </Table>
+      </Box>
       <TablePagination
         rowsPerPageOptions={[10, 20]}
         component="div"
