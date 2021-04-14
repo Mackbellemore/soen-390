@@ -97,7 +97,7 @@ export class UserService {
     });
   }
 
-  public async resetPassword(body: IResetPassword): Promise<string> {
+  public async resetPassword(body: IResetPassword): Promise<void> {
     let email;
     if (!(body.token && body.pass)) {
       throw new BadRequestError('Token and/or password missing in body');
@@ -119,22 +119,21 @@ export class UserService {
       email = decoded.email;
     });
 
-    if (email) {
-      if (requestMap.get(email) !== token) throw new NotFoundError('Bad Token Request');
+    if (!email) throw new NotFoundError('Bad Token Request');
 
-      if (!validator.isStrongPassword(pass)) {
-        throw new BadRequestError(
-          'Password must contain a capital, a lower case, a number and a symbol.'
-        );
-      }
+    if (requestMap.get(email) !== token) throw new NotFoundError('Bad Token Request');
 
-      const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
-      const hash = await bcrypt.hash(pass, salt);
-      const newPass = hash;
+    if (!validator.isStrongPassword(pass)) {
+      throw new BadRequestError(
+        'Password must contain a capital, a lower case, a number and a symbol.'
+      );
+    }
 
-      await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
-      requestMap.delete(email);
-      return email;
-    } else throw new NotFoundError('Bad Token Request');
+    const salt = await bcrypt.genSalt(this.config.get<number>('salt'));
+    const hash = await bcrypt.hash(pass, salt);
+    const newPass = hash;
+
+    await this.userRepo.updateByEmail(email, { password: newPass } as IUser);
+    requestMap.delete(email);
   }
 }
