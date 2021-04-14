@@ -11,6 +11,7 @@ import { generateToken } from '../middlewares/authentication';
 import { SystemService } from './../services/SystemService';
 import { SentMessageInfo } from 'nodemailer';
 import jwt from 'jsonwebtoken';
+import { Request } from 'express';
 
 const requestMap = new Map();
 
@@ -74,7 +75,7 @@ export class UserService {
     return UserEntity.buildUser(updatedUser);
   }
 
-  public async forgotPassword(url: string, body: IUser): Promise<string> {
+  public async forgotPassword(body: IUser, url: string): Promise<string> {
     const email = body.email;
     const user: IUserEntity = UserEntity.buildUser(await this.userRepo.findByEmail(body));
     const accessToken = generateToken(user);
@@ -88,10 +89,12 @@ export class UserService {
     return info;
   }
 
-  public async resetPassword(token: string, pass: string): Promise<string> {
+  public async resetPassword(req: Request): Promise<string> {
     let email = '';
+    const token = req.body.token;
+    const pass = req.body.pass;
 
-    jwt.verify(token, this.config.get<string>('jwt.secret'), function (
+    jwt.verify(token, config.get<string>('jwt.secret'), function (
       err: jwt.JsonWebTokenError | jwt.NotBeforeError | jwt.TokenExpiredError | null,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       decoded: any | IUserEntity
