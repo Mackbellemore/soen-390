@@ -5,6 +5,7 @@ import { useQuery } from 'react-query';
 import { getParts, getPartMaterialList } from 'utils/api/parts';
 import { getMachines } from 'utils/api/machines';
 import useProductionTable from './useProductionTable.jsx';
+import { createScheduling } from 'utils/api/schedulings.js';
 
 const useProductionModal = () => {
   const { isSuccess: isSuccessPart, data: dataPart } = useQuery('parts', getParts);
@@ -173,6 +174,18 @@ const useProductionModal = () => {
           note: noteRef.current.value,
         });
       }
+      // update scheduling page
+      await createScheduling({
+        partType: nameRef.current.value,
+        quantity: quantityRef.current.value,
+        // 1-to-1 price of working this machine to the quantity
+        cost: quantityRef.current.value,
+        startTime: startDate,
+        endTime: endDate,
+        machineName: assemblyMachineRef.current.value,
+        frequency: 'Daily',
+      });
+
       toast({
         title: 'Production placed',
         description: 'Production successfully placed',
