@@ -28,7 +28,7 @@ const Planning = () => {
             Expected Production
           </Text>
           {productionData.length > 0 && (
-            <Center border="1px" borderColor="gray.200" ml={5} boxShadow="xl" borderTopRadius="xl">
+            <Center border="1px" borderColor="gray.200" boxShadow="xl" borderTopRadius="xl">
               <BarChart
                 width={windowSize.width / 1.5}
                 height={windowSize.height / 1.5}
@@ -51,7 +51,7 @@ const Planning = () => {
             Expected Profit & Loss
           </Text>
           {plData.length > 0 && (
-            <Center border="1px" borderColor="gray.200" ml={5} boxShadow="xl" borderTopRadius="xl">
+            <Center border="1px" borderColor="gray.200" boxShadow="xl" borderTopRadius="xl">
               <BarChart
                 width={windowSize.width / 1.5}
                 height={windowSize.height / 1.5}
