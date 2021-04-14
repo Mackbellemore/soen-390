@@ -83,7 +83,7 @@ export class UserService {
     try {
       potentialUser = await this.userRepo.findByEmail({ email } as IUser);
     } catch (err) {
-      // User doesn't exist in database, the skip rest of the function
+      // User doesn't exist in database, then skip rest of the function
       return;
     }
     const user: IUserEntity = UserEntity.buildUser(potentialUser);
