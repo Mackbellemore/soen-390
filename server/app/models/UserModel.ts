@@ -15,6 +15,16 @@ export interface IEmail {
   emailBody: string;
 }
 
+export interface IForgotPassword {
+  email: string;
+  url: string;
+}
+
+export interface IResetPassword {
+  pass: string;
+  token: string;
+}
+
 export const UserSchema: Schema = new Schema({
   email: {
     type: Schema.Types.String,
