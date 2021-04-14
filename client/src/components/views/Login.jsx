@@ -5,7 +5,7 @@ import { GrLock, GrMailOption } from 'react-icons/gr';
 import { useHistory, Redirect } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userLogin } from 'utils/api/users.js';
-import { Heading, Text } from '../common/Typography.jsx';
+import { Heading } from '../common/Typography.jsx';
 import RegisterUserModal from 'components/Login/RegisterUserModal.jsx';
 import ForgotPasswordModal from 'components/Login/ForgotPasswordModal.jsx';
 import { FormButton } from '../common/Button.jsx';
@@ -122,9 +122,6 @@ const Login = ({ location: { state } }) => {
                 width="90%"
                 mt={5}
               />
-              <Text mt={4} fontSize="12px">
-                New User?
-              </Text>
               <RegisterUserModal />
             </Container>
           </BackgroundImageContainer>

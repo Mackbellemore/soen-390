@@ -41,7 +41,7 @@ const RegisterUserModal = () => {
 
   return (
     <>
-      <FormButton colorScheme="green" onClick={onOpen}>
+      <FormButton colorScheme="green" onClick={onOpen} mt={8}>
         Request an account
       </FormButton>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
