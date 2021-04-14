@@ -1,4 +1,4 @@
-import { Table, Thead, Tbody, Tr, useToast, Heading } from '@chakra-ui/react';
+import { Table, Thead, Tbody, Tr, useToast, Heading, Box } from '@chakra-ui/react';
 import React, { Fragment, useState } from 'react';
 import { getUsers, updateUser, deleteUser } from 'utils/api/users.js';
 import { sendEmail } from 'utils/api/system.js';
@@ -104,50 +104,52 @@ const AdminPage = () => {
 
   return (
     <>
-      <AdminTabTitle />
       <Search handleSearch={setSearchInput} />
-      <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <Thead>
-          <Tr>
-            <StyledTableHeader>Username</StyledTableHeader>
-            <StyledTableHeader>E-mail</StyledTableHeader>
-            <StyledTableHeader>Role</StyledTableHeader>
-            <StyledTableHeader />
-          </Tr>
-        </Thead>
-        <Tbody>
-          {isSuccess &&
-            searchData(data.data)
-              .filter((user) => !user.approved)
-              .map((user) => (
-                <Fragment key={user.username}>
-                  <Tr>
-                    <StyledTableCell>{user.username}</StyledTableCell>
-                    <StyledTableCell>{user.email}</StyledTableCell>
-                    <StyledTableCell>{user.role}</StyledTableCell>
-                    <StyledTableCell>
-                      <TableButton
-                        isLoading={isSubmitting}
-                        margin={1}
-                        colorScheme="green"
-                        onClick={() => handleApprove(user.username, user.email)}
-                      >
-                        Approve
-                      </TableButton>
-                      <TableButton
-                        isLoading={isSubmitting}
-                        margin={1}
-                        colorScheme="red"
-                        onClick={() => handleDeny(user.email)}
-                      >
-                        Deny
-                      </TableButton>
-                    </StyledTableCell>
-                  </Tr>
-                </Fragment>
-              ))}
-        </Tbody>
-      </Table>
+      <Box overflowX="auto">
+        <AdminTabTitle />
+        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+          <Thead>
+            <Tr>
+              <StyledTableHeader>Username</StyledTableHeader>
+              <StyledTableHeader>E-mail</StyledTableHeader>
+              <StyledTableHeader>Role</StyledTableHeader>
+              <StyledTableHeader />
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isSuccess &&
+              searchData(data.data)
+                .filter((user) => !user.approved)
+                .map((user) => (
+                  <Fragment key={user.username}>
+                    <Tr>
+                      <StyledTableCell>{user.username}</StyledTableCell>
+                      <StyledTableCell>{user.email}</StyledTableCell>
+                      <StyledTableCell>{user.role}</StyledTableCell>
+                      <StyledTableCell>
+                        <TableButton
+                          isLoading={isSubmitting}
+                          margin={1}
+                          colorScheme="green"
+                          onClick={() => handleApprove(user.username, user.email)}
+                        >
+                          Approve
+                        </TableButton>
+                        <TableButton
+                          isLoading={isSubmitting}
+                          margin={1}
+                          colorScheme="red"
+                          onClick={() => handleDeny(user.email)}
+                        >
+                          Deny
+                        </TableButton>
+                      </StyledTableCell>
+                    </Tr>
+                  </Fragment>
+                ))}
+          </Tbody>
+        </Table>
+      </Box>
     </>
   );
 };

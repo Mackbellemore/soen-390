@@ -43,45 +43,46 @@ const Bikes = () => {
   }
 
   return (
-    <Box overflowX="auto">
+    <>
       <Search handleSearch={setSearchInput} />
-      <TableContainer component={Paper}>
-        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-          <Thead>
-            <Tr>
-              <StyledTableHeader>Bike Name</StyledTableHeader>
-              <StyledTableHeader>Number of Defects </StyledTableHeader>
-              <StyledTableHeader>Details </StyledTableHeader>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {isSuccess &&
-              searchData(data.data)
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((bikeDefect) => (
-                  <StyledTableRow key={bikeDefect.bike}>
-                    <StyledTableCell>{bikeDefect.bike}</StyledTableCell>
-                    <StyledTableCell>{bikeDefect.defects.length}</StyledTableCell>
-                    <StyledTableCell>
-                      <DefectsTable bike={bikeDefect.bike} defects={bikeDefect.defects} />
-                    </StyledTableCell>
-                  </StyledTableRow>
-                ))}
-          </Tbody>
-        </Table>
-
-        <TablePagination
-          rowsPerPageOptions={[10, 20]}
-          component="div"
-          count={data.data.length}
-          page={page}
-          onChangePage={handleChangePage}
-          rowsPerPage={rowsPerPage}
-          onChangeRowsPerPage={handleChangeRowsPerPage}
-        />
-        <ExportFiles section="bikes_defects" data={exportData} />
-      </TableContainer>
-    </Box>
+      <Box overflowX="auto">
+        <TableContainer component={Paper}>
+          <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+            <Thead>
+              <Tr>
+                <StyledTableHeader>Bike Name</StyledTableHeader>
+                <StyledTableHeader>Number of Defects </StyledTableHeader>
+                <StyledTableHeader>Details </StyledTableHeader>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {isSuccess &&
+                searchData(data.data)
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((bikeDefect) => (
+                    <StyledTableRow key={bikeDefect.bike}>
+                      <StyledTableCell>{bikeDefect.bike}</StyledTableCell>
+                      <StyledTableCell>{bikeDefect.defects.length}</StyledTableCell>
+                      <StyledTableCell>
+                        <DefectsTable bike={bikeDefect.bike} defects={bikeDefect.defects} />
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      </Box>
+      <TablePagination
+        rowsPerPageOptions={[10, 20]}
+        component="div"
+        count={data.data.length}
+        page={page}
+        onChangePage={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onChangeRowsPerPage={handleChangeRowsPerPage}
+      />
+      <ExportFiles section="bikes_defects" data={exportData} />
+    </>
   );
 };
 

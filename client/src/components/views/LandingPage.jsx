@@ -8,7 +8,7 @@ import { Flex } from '@chakra-ui/react';
 const LandingPage = () => {
   return (
     <Flex bgColor="#EDF2F7" direction="column" justifyContent="space-between" height="90vh">
-      <Carousel autoplay>
+      <Carousel autoplay arrows>
         {carouselContent.map((item) => {
           return <CarouselPage key={item.title} title={item.title} imgSrc={item.imgName} />;
         })}

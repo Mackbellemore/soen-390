@@ -1,4 +1,4 @@
-import { Heading, Table, Tbody, Thead, Tr } from '@chakra-ui/react';
+import { Heading, Table, Tbody, Thead, Tr, Box } from '@chakra-ui/react';
 import { TablePagination } from '@material-ui/core';
 import { NoResultImage } from 'components/common/Image.jsx';
 import Loader from 'components/common/Loader.jsx';
@@ -52,41 +52,43 @@ const Orders = () => {
       <OrdersHeader />
       <FormModal />
       <Search handleSearch={setSearchInput} />
-      <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
-        <Thead>
-          <Tr>
-            <StyledTableHeader>Material</StyledTableHeader>
-            <StyledTableHeader>Quantity</StyledTableHeader>
-            <StyledTableHeader>Cost</StyledTableHeader>
-            <StyledTableHeader>Order Date</StyledTableHeader>
-            <StyledTableHeader>Manufacturer</StyledTableHeader>
-            <StyledTableHeader>Location</StyledTableHeader>
-            <StyledTableHeader>Delivery Date</StyledTableHeader>
-            <StyledTableHeader>Status</StyledTableHeader>
-            <StyledTableHeader>Note</StyledTableHeader>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {isSuccess &&
-            searchData(data.data)
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((order) => (
-                <Fragment key={order._id}>
-                  <StyledTableRow>
-                    <StyledTableCell>{order.materialType}</StyledTableCell>
-                    <StyledTableCell>{order.quantity}</StyledTableCell>
-                    <StyledTableCell>{order.cost}</StyledTableCell>
-                    <StyledTableCell>{formatDate(order.orderDate)}</StyledTableCell>
-                    <StyledTableCell>{order.manufacturerName}</StyledTableCell>
-                    <StyledTableCell>{order.vendorLocation}</StyledTableCell>
-                    <StyledTableCell>{formatDate(order.deliveryDate)}</StyledTableCell>
-                    <StyledTableCell>{order.status}</StyledTableCell>
-                    <StyledTableCell>{order.note}</StyledTableCell>
-                  </StyledTableRow>
-                </Fragment>
-              ))}
-        </Tbody>
-      </Table>
+      <Box overflowX="auto">
+        <Table minWidth="unset" width="100%" variant="striped" colorScheme="light">
+          <Thead>
+            <Tr>
+              <StyledTableHeader>Material</StyledTableHeader>
+              <StyledTableHeader>Quantity</StyledTableHeader>
+              <StyledTableHeader>Cost</StyledTableHeader>
+              <StyledTableHeader>Order Date</StyledTableHeader>
+              <StyledTableHeader>Manufacturer</StyledTableHeader>
+              <StyledTableHeader>Location</StyledTableHeader>
+              <StyledTableHeader>Delivery Date</StyledTableHeader>
+              <StyledTableHeader>Status</StyledTableHeader>
+              <StyledTableHeader>Note</StyledTableHeader>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {isSuccess &&
+              searchData(data.data)
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((order) => (
+                  <Fragment key={order._id}>
+                    <StyledTableRow>
+                      <StyledTableCell>{order.materialType}</StyledTableCell>
+                      <StyledTableCell>{order.quantity}</StyledTableCell>
+                      <StyledTableCell>{order.cost}</StyledTableCell>
+                      <StyledTableCell>{formatDate(order.orderDate)}</StyledTableCell>
+                      <StyledTableCell>{order.manufacturerName}</StyledTableCell>
+                      <StyledTableCell>{order.vendorLocation}</StyledTableCell>
+                      <StyledTableCell>{formatDate(order.deliveryDate)}</StyledTableCell>
+                      <StyledTableCell>{order.status}</StyledTableCell>
+                      <StyledTableCell>{order.note}</StyledTableCell>
+                    </StyledTableRow>
+                  </Fragment>
+                ))}
+          </Tbody>
+        </Table>
+      </Box>
       <TablePagination
         rowsPerPageOptions={[10, 20]}
         component="div"

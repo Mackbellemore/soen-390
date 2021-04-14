@@ -31,28 +31,44 @@ export const rolesAvailable = ['Admin', 'General', 'Finance', 'Manufacturing'];
 export const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export const carouselContent = [
   {
-    title: 'Monitor and Manage your Inventories',
-    imgName: '/assets/inventory.jpg',
+    title: 'Monitor Sales',
+    imgName: '/assets/sales.png',
   },
   {
-    title: 'Track your Shipments',
-    imgName: '/assets/transport.jpg',
+    title: 'Manage Inventory',
+    imgName: '/assets/inventory.png',
   },
   {
-    title: 'View your Orders',
-    imgName: '/assets/vendor.jpg',
+    title: 'Track Shipments',
+    imgName: '/assets/shipping.png',
   },
   {
-    title: "Analyze and View your Company's Finances",
-    imgName: '/assets/accounting.jpg',
+    title: 'View Orders',
+    imgName: '/assets/vendors.png',
   },
   {
-    title: 'Forecast your Sales',
-    imgName: '/assets/planning.jpg',
+    title: 'Analyze Finances',
+    imgName: '/assets/accounting.png',
   },
   {
-    title: "Manage Customers' Purchases",
-    imgName: '/assets/sales.jpg',
+    title: 'Forecast Sales',
+    imgName: '/assets/planning.png',
+  },
+  {
+    title: 'Log Activity',
+    imgName: '/assets/audit.png',
+  },
+  {
+    title: 'Track Production',
+    imgName: '/assets/production.png',
+  },
+  {
+    title: 'Manage Defects',
+    imgName: '/assets/quality.png',
+  },
+  {
+    title: 'Schedule Machines',
+    imgName: '/assets/scheduling.png',
   },
 ];
 export const salesStatus = ['Fulfilled', 'Placed', 'Cancelled', 'Processing'];
