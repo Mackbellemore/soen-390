@@ -25,19 +25,24 @@ const useForgotPasswordForm = () => {
         email: email,
         url: url,
       });
+      toast({
+        title: 'Request Sent',
+        description: 'The request has been sent to ' + email,
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+        onCloseComplete: onClose,
+      });
     } catch (err) {
-      // User Not Found, but do not tell it to the user.
-      console.error('Fail for the email request');
+      toast({
+        title: 'Request Failed',
+        description: 'Fail has been occured, please try again',
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+        onCloseComplete: onClose,
+      });
     }
-
-    toast({
-      title: 'Request Sent',
-      description: 'The request has been sent to ' + email,
-      status: 'success',
-      duration: 9000,
-      isClosable: true,
-      onCloseComplete: onClose,
-    });
 
     setIsLoading(false);
   };
