@@ -2,12 +2,16 @@ import { useToast } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
 import usePasswordValidation from 'hooks/usePasswordValidation';
 import { userResetPassword } from 'utils/api/users.js';
+import { useHistory, useParams } from 'react-router-dom';
+
 const useResetPasswordForm = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const history = useHistory();
   const resetPasswordRef = useRef('');
   const confirmResetPasswordRef = useRef('');
   const toast = useToast();
   const { isGoodPassword } = usePasswordValidation();
+  const { id } = useParams();
 
   const resetPasswordHandleSubmit = async (e) => {
     e.preventDefault();
@@ -15,7 +19,7 @@ const useResetPasswordForm = () => {
 
     if (resetPasswordRef.current.value !== confirmResetPasswordRef.current.value) {
       toast({
-        title: 'ERROR',
+        title: 'Error',
         description: 'The passwords does not match',
         status: 'error',
         duration: 2000,
@@ -29,7 +33,7 @@ const useResetPasswordForm = () => {
 
     if (!isGoodPassword(pass)) {
       toast({
-        title: 'FAILED',
+        title: 'Failed',
         description:
           'The password need minimum 8 characters one uppercase, one lowercase, one number, one special character',
         status: 'error',
@@ -39,26 +43,24 @@ const useResetPasswordForm = () => {
 
       setIsLoading(false);
     } else {
-      const pass = resetPasswordRef.current.value;
-      const token = window.location.href.split('/').pop();
-
       try {
         await userResetPassword({
-          token,
+          token: id,
           pass,
         });
         toast({
-          title: 'SUCCESS',
+          title: 'Success',
           description: 'The passwords has been reset',
           status: 'success',
           duration: 2000,
           isClosable: true,
         });
         localStorage.setItem('jwt', '');
-      } catch (err) {
+        history.push('/login');
+      } catch {
         toast({
-          title: 'FAILED',
-          description: 'An error has occured, please try to send another request \n ' + err,
+          title: 'Failed',
+          description: 'An error has occurred, please try again',
           status: 'error',
           duration: 2000,
           isClosable: true,

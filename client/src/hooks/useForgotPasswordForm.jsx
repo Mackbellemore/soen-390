@@ -22,25 +22,24 @@ const useForgotPasswordForm = () => {
 
     try {
       await userForgotPassword({
-        email: email,
-        url: url,
+        email,
+        url,
       });
       toast({
-        title: 'Request Sent',
-        description: 'The request has been sent to ' + email,
+        title: 'Email Sent',
+        description: `An email has been sent to ${email}`,
         status: 'success',
         duration: 9000,
         isClosable: true,
         onCloseComplete: onClose,
       });
-    } catch (err) {
+    } catch {
       toast({
-        title: 'Request Failed',
-        description: 'Fail has been occured, please try again',
+        title: 'Oops',
+        description: 'An error has been occurred, please try again',
         status: 'error',
         duration: 9000,
         isClosable: true,
-        onCloseComplete: onClose,
       });
     }
 
