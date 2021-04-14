@@ -180,6 +180,11 @@ export const appRoutes = [
   },
   {
     protected: false,
+    path: '/reset/:id',
+    component: lazy(() => import('components/views/ResetPasswordPage')),
+  },
+  {
+    protected: false,
     path: '/no-access',
     component: lazy(() => import('components/views/NoAccess')),
   },

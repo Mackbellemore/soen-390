@@ -1,5 +1,5 @@
 // api routes that don't need to have the authentication of JWTs
-const NON_AUTH_PATHS: string[] = ['/user/login', '/user/register'];
+const NON_AUTH_PATHS: string[] = ['/user/login', '/user/register', '/user/forgot', '/user/reset'];
 
 type File = {
   fieldname: string;

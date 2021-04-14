@@ -16,6 +16,8 @@ const userService: any = {
   getUsers: Function,
   deleteUser: Function,
   updateUser: Function,
+  forgotPassword: Function,
+  resetPassword: Function,
 };
 
 const mockUser = {
@@ -246,6 +248,7 @@ describe('UserController', () => {
       expect(res.json).to.equal(expectedErrorMsg);
     });
   });
+
   describe('Patch Request', () => {
     it('Should return a 200 with updated user', async () => {
       const mockRequest = {
@@ -284,6 +287,74 @@ describe('UserController', () => {
       expect(res).to.be.an.instanceof(results.JsonResult);
       expect(res.statusCode).to.equal(404);
       expect(res.json).to.deep.equal('Not found error');
+    });
+  });
+
+  describe('forgot password', () => {
+    it('returns empty json body with a 200 status when service layer when email successfully sent', async () => {
+      const mockRequest = {
+        body: { email: 'joe.biden@america.com' },
+      } as Request;
+      const userServiceStub = sandbox.stub(userService, 'forgotPassword').returns({});
+
+      const response = await controller.forgot(mockRequest);
+
+      sinon.assert.calledOnce(userServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.deep.equal({});
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('returns a 400 when service layer throws an error', async () => {
+      const mockRequest = {
+        body: {},
+      } as Request;
+      const userServiceStub = sandbox
+        .stub(userService, 'forgotPassword')
+        .throws(new Error('No email in body'));
+
+      const response = await controller.forgot(mockRequest);
+
+      sinon.assert.calledOnce(userServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.deep.equal('No email in body');
+      expect(response.statusCode).to.equal(400);
+    });
+  });
+
+  describe('reset password', () => {
+    it('returns empty json body with a 200 status when service layer when password successfully changed', async () => {
+      const mockRequest = {
+        body: { pass: 'ultraSecure', token: 'b0gu5t0k3n' },
+      } as Request;
+      const userServiceStub = sandbox.stub(userService, 'resetPassword').returns({});
+
+      const response = await controller.reset(mockRequest);
+
+      sinon.assert.calledOnce(userServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.deep.equal({});
+      expect(response.statusCode).to.equal(200);
+    });
+
+    it('returns a 400 when service layer throws an error', async () => {
+      const mockRequest = {
+        body: {},
+      } as Request;
+      const userServiceStub = sandbox
+        .stub(userService, 'resetPassword')
+        .throws(new Error('No token/pass in body'));
+
+      const response = await controller.reset(mockRequest);
+
+      sinon.assert.calledOnce(userServiceStub);
+
+      expect(response).to.be.an.instanceof(results.JsonResult);
+      expect(response.json).to.deep.equal('No token/pass in body');
+      expect(response.statusCode).to.equal(400);
     });
   });
 });

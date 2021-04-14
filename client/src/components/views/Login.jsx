@@ -1,76 +1,26 @@
-import { Flex, FormLabel, Icon, Input, Box, useToast, Divider } from '@chakra-ui/react';
-import styled from '@emotion/styled';
+import { Flex, useToast, Divider } from '@chakra-ui/react';
 import Head from 'next/head';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { GrLock, GrMailOption } from 'react-icons/gr';
 import { useHistory, Redirect } from 'react-router-dom';
 import { RootStoreContext } from 'stores/stores.jsx';
 import { userLogin } from 'utils/api/users.js';
-import { Heading, Text } from '../common/Typography.jsx';
+import { Heading } from '../common/Typography.jsx';
 import RegisterUserModal from 'components/Login/RegisterUserModal.jsx';
+import ForgotPasswordModal from 'components/Login/ForgotPasswordModal.jsx';
 import { FormButton } from '../common/Button.jsx';
-import { StyledForm } from '../common/Form.jsx';
+import {
+  BackgroundImageContainer,
+  StyledForm,
+  Container,
+  InputContainer,
+  UnstyledInput,
+  InputIcon,
+  StyledFormLabel,
+} from '../common/Form.jsx';
 import useLoggedInUser from 'hooks/useLoggedInUser.jsx';
 import Loader from '../common/Loader.jsx';
 import PropTypes from 'prop-types';
-
-const BackgroundImageContainer = styled(Box)`
-  background-image: url('https://images4.alphacoders.com/940/940722.jpg');
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-`;
-
-const Container = styled(Box)`
-  width: 100%;
-  height: 456px;
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  left: 50%;
-  align-items: center;
-  transform: translate(-50%, -50%);
-  background-color: #fffcfc;
-  padding: 10px;
-  max-width: 560px;
-  background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-`;
-
-const InputContainer = styled(Flex)`
-  flex-direction: row;
-  background-color: white;
-  border: 1px solid #d5d5d5;
-  border-radius: 4px;
-  width: 100%;
-  max-width: 380px;
-  font-family: Montserrat;
-  font-size: 14px;
-`;
-
-const UnstyledInput = styled(Input)`
-  border: none;
-`;
-
-const InputIcon = styled(Icon)`
-  width: 30px;
-  height: 30px;
-  margin: 15px;
-`;
-
-const StyledFormLabel = styled(FormLabel)`
-  padding: 0 1rem;
-  margin-top: 10px;
-  margin-bottom: unset;
-  color: #9c9c9c;
-  font-size: 12px;
-`;
 
 const Login = ({ location: { state } }) => {
   const { userStore } = useContext(RootStoreContext);
@@ -164,16 +114,14 @@ const Login = ({ location: { state } }) => {
                   </FormButton>
                 </Flex>
               </StyledForm>
+              <ForgotPasswordModal />
               <Divider
                 orientation="horizontal"
                 borderColor="#D4D4D4"
                 opacity="1"
                 width="90%"
-                mt={9}
+                mt={5}
               />
-              <Text mt={4} fontSize="12px">
-                New User?
-              </Text>
               <RegisterUserModal />
             </Container>
           </BackgroundImageContainer>

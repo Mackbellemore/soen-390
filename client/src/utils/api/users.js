@@ -14,6 +14,14 @@ const userLogin = async (body) => {
   return makePostRequest(`${baseEndpoint}/login`, body);
 };
 
+const userForgotPassword = async (body) => {
+  return makePostRequest(`${baseEndpoint}/forgot`, body);
+};
+
+const userResetPassword = async (body) => {
+  return makePostRequest(`${baseEndpoint}/reset`, body);
+};
+
 const getUsers = async () => {
   return makeGetRequest(baseEndpoint);
 };
@@ -26,4 +34,13 @@ const updateUser = async (body, username) => {
   return makePatchRequest(`${baseEndpoint}/${username}`, body);
 };
 
-export { userLogin, userRegister, userAuthCheck, getUsers, deleteUser, updateUser };
+export {
+  userLogin,
+  userRegister,
+  userAuthCheck,
+  getUsers,
+  deleteUser,
+  updateUser,
+  userForgotPassword,
+  userResetPassword,
+};

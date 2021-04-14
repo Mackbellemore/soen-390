@@ -63,8 +63,43 @@ export class UserController extends BaseHttpController {
         const accessToken = generateToken(user);
         response.jwt = accessToken;
       }
-
       return this.json(response);
+    } catch (err) {
+      return this.json(err.message, 400);
+    }
+  }
+
+  @Doc('Forgot password')
+  /**
+   * @desc        Send email to existing user
+   * @route       POST /user/forgot
+   * @access      Public
+   * @param req
+   * @returns     User JSON Format + Jwt token
+   */
+  @httpPost('/forgot')
+  public async forgot(req: Request): Promise<results.JsonResult> {
+    try {
+      const promise = await this.userService.forgotPassword(req.body);
+      return this.json(promise, 200);
+    } catch (err) {
+      return this.json(err.message, 400);
+    }
+  }
+
+  @Doc('Reset password')
+  /**
+   * @desc        Reset password with token
+   * @route       POST /user/reset
+   * @access      Public
+   * @param req
+   * @returns     User JSON Format + Jwt token
+   */
+  @httpPost('/reset')
+  public async reset(req: Request): Promise<results.JsonResult> {
+    try {
+      const promise = await this.userService.resetPassword(req.body);
+      return this.json(promise, 200);
     } catch (err) {
       return this.json(err.message, 400);
     }
